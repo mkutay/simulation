@@ -5,9 +5,18 @@
 	// Or use a Dockerfile or Docker Compose file. More info: https://containers.dev/guide/dockerfile
 	"image": "mcr.microsoft.com/devcontainers/java:1-21-bullseye",
 
+	"build": {
+		"dockerfile": "Dockerfile"
+	},
+
 	"features": {
 		"ghcr.io/devcontainers/features/java:1": {},
-		"ghcr.io/devcontainers-extra/features/ant-sdkman:2": {}
+		"ghcr.io/devcontainers-extra/features/ant-sdkman:2": {},
+		"ghcr.io/devcontainers/features/desktop-lite:1": {
+			"password": "vscode",
+			"webPort": "6080",
+			"vncPort": "5901"
+		}
 	}
 
 	// Use 'forwardPorts' to make a list of ports inside the container available locally.
