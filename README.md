@@ -8,6 +8,8 @@ These code were taking from last week's lab sheet, but we'll change them later.
 
 I've also created two different codespaces for us to use, so that it doesn't get mixed up.
 
+To open the GUI, add port 6080 under the "Ports" section and open it in the browser.
+
 ## Core task
 - Your simulation should have at least five different kinds of acting species. At least two of these should be predators (they eat another species), and at least two of them should not be predators (they may eat plants). Plants can either be assumed to always be available (as in the original project), or they can be simulated (see below).
 - At least two predators should compete for the same food source.
