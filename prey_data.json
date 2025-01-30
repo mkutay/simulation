@@ -9,7 +9,8 @@
     "speed": [1, 5],
     "sight": [5, 15],
     "numberOfEntitiesAtStart": 40,
-    "eats": ["Grass"]
+    "eats": ["Grass"],
+    "size": [3, 6]
   },
   {
     "name": "Squirrel",
@@ -21,6 +22,7 @@
     "speed": [1, 5],
     "sight": [5, 15],
     "numberOfEntitiesAtStart": 50,
-    "eats": ["Grass"]
+    "eats": ["Grass"],
+    "size": [3, 6]
   }
 ]

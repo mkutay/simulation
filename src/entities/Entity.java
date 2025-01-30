@@ -16,6 +16,9 @@ public class Entity {
     this.location = location;
   }
 
+  public Location getLocation() { return location; }
+  public String getName() { return name; }
+
   public void incrementAge() {
     age++;
     if (age >= genetics.getMaxAge()) {

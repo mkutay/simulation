@@ -9,6 +9,7 @@
     "speed": [1, 5],
     "sight": [5, 15],
     "numberOfEntitiesAtStart": 20,
-    "eats": ["Rabbit"]
+    "eats": ["Rabbit"],
+    "size": [3, 6]
   }
 ]

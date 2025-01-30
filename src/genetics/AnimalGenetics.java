@@ -7,8 +7,8 @@ public class AnimalGenetics extends Genetics {
   private double sight; // Range at which the entity can see other entities
   private Gender gender;
 
-  public AnimalGenetics(double breedingProbability, int maxLitterSize, int maxAge, int matureAge, double mutationRate, double speed, double sight, Gender gender) {
-    super(maxAge, matureAge, breedingProbability);
+  public AnimalGenetics(double breedingProbability, int maxLitterSize, int maxAge, int matureAge, double mutationRate, double speed, double sight, Gender gender, double size) {
+    super(maxAge, matureAge, breedingProbability, size);
     this.maxLitterSize = maxLitterSize;
     this.mutationRate = mutationRate;
     this.speed = speed;
