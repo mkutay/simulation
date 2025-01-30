@@ -19,7 +19,12 @@ public class AnimalData extends EntityData{
       generateRandomNumberBetween(matureAge[0], matureAge[1]),
       generateRandomNumberBetween(mutationRate[0], mutationRate[1]),
       generateRandomNumberBetween(speed[0], speed[1]),
-      generateRandomNumberBetween(sight[0], sight[1])
+      generateRandomNumberBetween(sight[0], sight[1]),
+      getRandomGender()
     );
+  }
+
+  private Gender getRandomGender() {
+    return Math.random() <= 0.5 ? Gender.MALE : Gender.FEMALE;
   }
 }
