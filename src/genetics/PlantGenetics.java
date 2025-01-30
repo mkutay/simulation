@@ -1,9 +1,7 @@
 package genetics;
 
 public class PlantGenetics extends Genetics {
-  private double spreadRate;
-  
-  public PlantGenetics(double spreadRate) {
-    this.spreadRate = spreadRate;
+  public PlantGenetics(int maxAge, int matureAge, double spreadRate) {
+    super(maxAge, matureAge, spreadRate);
   }
 }

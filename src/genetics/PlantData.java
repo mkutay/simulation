@@ -5,11 +5,11 @@ package genetics;
  * This is used when parsing the JSON file for type of plant.
  */
 public class PlantData extends EntityData {
-  public double[] spreadRate; // Probability of spreading each turn
-
   public PlantGenetics generateRandomGenetics() {
     return new PlantGenetics(
-      generateRandomNumberBetween(spreadRate[0], spreadRate[1])
+      generateRandomNumberBetween(maxAge[0], maxAge[1]),
+      generateRandomNumberBetween(matureAge[0], matureAge[1]),
+      generateRandomNumberBetween(multiplyingRate[0], multiplyingRate[1])
     );
   }
 }

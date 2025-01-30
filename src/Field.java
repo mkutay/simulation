@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.List;
 
 import entities.Plant;
@@ -21,6 +22,10 @@ public class Field {
   public Field(int width, int height) {
     this.width = width;
     this.height = height;
+    preys = new ArrayList<>();
+    predators = new ArrayList<>();
+    plants = new ArrayList<>();
+
     // The file paths are hardcoded for now
     preysInterval = Parser.parseAnimalJson(Parser.getContentsOfFile("/workspaces/junit-testing/prey_data.json"));
     predatorsInterval = Parser.parseAnimalJson(Parser.getContentsOfFile("/workspaces/junit-testing/predator_data.json"));

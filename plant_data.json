@@ -1,7 +1,9 @@
 [
   {
     "name": "Grass",
-    "multiplyProbability": [0.1, 0.3],
+    "multiplyingRate": [0.1, 0.3],
+    "maxAge": [2, 5],
+    "matureAge": [1, 2],
     "numberOfEntitiesAtStart": 100
   }
 ]

@@ -1,13 +1,13 @@
 [
   {
     "name": "Fox",
-    "breedingProbability": [0.1, 0.3],
+    "multiplyingRate": [0.1, 0.3],
     "maxLitterSize": [1, 5],
     "maxAge": [75, 125],
     "matureAge": [10, 20],
     "mutationRate": [0.01, 0.05],
     "speed": [1, 5],
-    "sightRange": [5, 15],
+    "sight": [5, 15],
     "numberOfEntitiesAtStart": 20
   }
 ]
