@@ -1,4 +1,4 @@
-package src;
+package oldsrc;
 
 /**
  * Common elements of foxes and rabbits.
