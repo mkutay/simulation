@@ -9,6 +9,7 @@ public class AnimalData extends EntityData{
   public double[] mutationRate; // Rate at which the entity's genetics can mutate
   public double[] speed; // Speed of the entity
   public double[] sight; // Range at which the entity can see other entities
+  public String[] eats; // List of entities that this entity can eat
 
   public AnimalGenetics generateRandomGenetics() {
     return new AnimalGenetics(

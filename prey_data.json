@@ -8,7 +8,8 @@
     "mutationRate": [0.01, 0.05],
     "speed": [1, 5],
     "sight": [5, 15],
-    "numberOfEntitiesAtStart": 40
+    "numberOfEntitiesAtStart": 40,
+    "eats": ["Grass"]
   },
   {
     "name": "Squirrel",
@@ -19,6 +20,7 @@
     "mutationRate": [0.01, 0.05],
     "speed": [1, 5],
     "sight": [5, 15],
-    "numberOfEntitiesAtStart": 50
+    "numberOfEntitiesAtStart": 50,
+    "eats": ["Grass"]
   }
 ]

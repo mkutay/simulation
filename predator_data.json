@@ -8,6 +8,7 @@
     "mutationRate": [0.01, 0.05],
     "speed": [1, 5],
     "sight": [5, 15],
-    "numberOfEntitiesAtStart": 20
+    "numberOfEntitiesAtStart": 20,
+    "eats": ["Rabbit"]
   }
 ]

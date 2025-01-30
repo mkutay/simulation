@@ -36,7 +36,7 @@ public class Field {
     for (int i = 0; i < preysInterval.length; i++) {
       ArrayList<Prey> preysList = new ArrayList<>();
       for (int j = 0; j < preysInterval[i].numberOfEntitiesAtStart; j++) {
-        preysList.add(new Prey(preysInterval[i].name, preysInterval[i].generateRandomGenetics(), getRandomLocation()));
+        preysList.add(new Prey(preysInterval[i].name, preysInterval[i].generateRandomGenetics(), getRandomLocation(), preysInterval[i].eats));
       }
       preys.put(preysInterval[i].name, preysList);
     }
@@ -44,7 +44,7 @@ public class Field {
     for (int i = 0; i < predatorsInterval.length; i++) {
       ArrayList<Predator> predatorsList = new ArrayList<>();
       for (int j = 0; j < predatorsInterval[i].numberOfEntitiesAtStart; j++) {
-        predatorsList.add(new Predator(predatorsInterval[i].name, predatorsInterval[i].generateRandomGenetics(), getRandomLocation()));
+        predatorsList.add(new Predator(predatorsInterval[i].name, predatorsInterval[i].generateRandomGenetics(), getRandomLocation(), predatorsInterval[i].eats));
       }
       predators.put(predatorsInterval[i].name, predatorsList);
     }
