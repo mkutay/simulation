@@ -4,8 +4,8 @@ import java.nio.file.Paths;
 
 import com.google.gson.Gson;
 
-import genetics.AnimalGeneticsInterval;
-import genetics.PlantGeneticsInterval;
+import genetics.AnimalData;
+import genetics.PlantData;
 
 public class Parser {
   /**
@@ -13,14 +13,14 @@ public class Parser {
    * @param fileName The name of the file to parse
    * @return The GeneticsInterval parsed from the file
    */
-  public static AnimalGeneticsInterval[] parseAnimalJson(String jsonContent) {
+  public static AnimalData[] parseAnimalJson(String jsonContent) {
     Gson g = new Gson();
-    return g.fromJson(jsonContent, AnimalGeneticsInterval[].class);
+    return g.fromJson(jsonContent, AnimalData[].class);
   }
 
-  public static PlantGeneticsInterval[] parsePlantJson(String jsonContent) {
+  public static PlantData[] parsePlantJson(String jsonContent) {
     Gson g = new Gson();
-    return g.fromJson(jsonContent, PlantGeneticsInterval[].class);
+    return g.fromJson(jsonContent, PlantData[].class);
   }
 
   public static String getContentsOfFile(String fileName) {

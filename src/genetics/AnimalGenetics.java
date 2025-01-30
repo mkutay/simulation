@@ -1,6 +1,7 @@
 package genetics;
 
 public class AnimalGenetics extends Genetics {
+  private double breedingProbability; // Probability of breeding each turn
   private int maxLitterSize; // Maximum number of offspring per breeding
   private int maxAge; // Maximum age of the entity
   private double matureAge; // Age at which the entity can start breeding
@@ -9,7 +10,7 @@ public class AnimalGenetics extends Genetics {
   private double sightRange; // Range at which the entity can see other entities
 
   public AnimalGenetics(double breedingProbability, int maxLitterSize, int maxAge, double matureAge, double mutationRate, double speed, double sightRange) {
-    super(breedingProbability);
+    this.breedingProbability = breedingProbability;
     this.maxLitterSize = maxLitterSize;
     this.maxAge = maxAge;
     this.matureAge = matureAge;
