@@ -20,4 +20,5 @@ public class AnimalGenetics extends Genetics {
   public double getMutationRate() { return mutationRate; }
   public double getSpeed() { return speed; }
   public double getSight() { return sight; }
+  public Gender getGender() { return gender; }
 }
