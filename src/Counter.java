@@ -1,3 +1,4 @@
+package src;
 
 /**
  * Provide a counter for a participant in the simulation.

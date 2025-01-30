@@ -1,3 +1,5 @@
+package src;
+
 import java.util.*;
 
 /**
@@ -68,7 +70,7 @@ public class Simulator {
     reportStats();
     for (int n = 1; n <= numSteps && field.isViable(); n++) {
       simulateOneStep();
-      delay(50);         // adjust this to change execution speed
+      delay(15); // adjust this to change execution speed
     }
   }
   

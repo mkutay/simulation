@@ -1,3 +1,4 @@
+package src;
 
 /**
  * Common elements of foxes and rabbits.
@@ -16,7 +17,7 @@ public abstract class Animal {
    * @param location The animal's location.
    */
   public Animal(Location location) {
-    this.alive = true;
+    alive = true;
     this.location = location;
   }
   
