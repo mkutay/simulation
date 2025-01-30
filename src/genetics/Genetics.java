@@ -15,4 +15,5 @@ public class Genetics {
   public int getMaxAge() { return maxAge; }
   public int getMatureAge() { return matureAge; }
   public double getMultiplyingRate() { return multiplyingRate; }
+  public double getSize() { return size; }
 }
