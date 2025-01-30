@@ -13,4 +13,9 @@ public class AnimalGenetics extends Genetics {
     this.speed = speed;
     this.sight = sight;
   }
+
+  public int getMaxLitterSize() { return maxLitterSize; }
+  public double getMutationRate() { return mutationRate; }
+  public double getSpeed() { return speed; }
+  public double getSight() { return sight; }
 }

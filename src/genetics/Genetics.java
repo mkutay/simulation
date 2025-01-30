@@ -9,4 +9,8 @@ public class Genetics {
     this.matureAge = matureAge;
     this.multiplyingRate = multiplyingRate;
   }
+
+  public int getMaxAge() { return maxAge; }
+  public int getMatureAge() { return matureAge; }
+  public double getMultiplyingRate() { return multiplyingRate; }
 }
