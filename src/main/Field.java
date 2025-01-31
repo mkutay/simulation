@@ -1,3 +1,4 @@
+package main;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -11,26 +12,32 @@ import entities.Animal;
 import entities.Predator;
 import entities.Prey;
 import genetics.AnimalData;
+import genetics.Data;
 import genetics.PlantData;
 
 public class Field {
   private int width; // Width of the field
   private int height; // Height of the field
 
+  private Data givenData; // Data of the simulation, given by the "researcher"
+
   private HashMap<String, List<Entity>> preys; // A map of prey species to a list of prey entities
   private HashMap<String, List<Entity>> predators; // A map of predator species to a list of predator entities
   private HashMap<String, List<Entity>> plants; // A map of plant species to a list of plant entities
 
-  private HashMap<String, HashSet<String>> scaredOf; // A map of species to a list of species that they are scared of
-
-  public Field(int width, int height, AnimalData[] preysData, AnimalData[] predatorsData, PlantData[] plantsData) {
+  public Field(int width, int height) {
     this.width = width;
     this.height = height;
     preys = new HashMap<>();
     predators = new HashMap<>();
     plants = new HashMap<>();
+    givenData = new Data();
 
-    scaredOf = new HashMap<>();
+    AnimalData[] preysData = givenData.getPreysData();
+    AnimalData[] predatorsData = givenData.getPredatorsData();
+    PlantData[] plantsData = givenData.getPlantsData();
+
+    HashMap<String, HashSet<String>> scaredOf = new HashMap<>(); // A map of species to a list of species that they are scared of
 
     // Initialise the field with randomly generated predators, according to the given data.
     for (int i = 0; i < predatorsData.length; i++) {
@@ -86,18 +93,27 @@ public class Field {
       && predators.values().stream().anyMatch(list -> list.size() > 0);
   }
 
+  /**
+   * Converts the map of entities of preys to a list of preys.
+   */
   public List<Prey> getPreys() {
     List<Prey> returnList = new ArrayList<>();
     preys.values().forEach(list -> list.forEach(entity -> returnList.add((Prey) entity)));
     return returnList;
   }
 
+  /**
+   * Converts the map of entities of predators to a list of predators.
+   */
   public List<Predator> getPredators() {
     List<Predator> returnList = new ArrayList<>();
     predators.values().forEach(list -> list.forEach(entity -> returnList.add((Predator) entity)));
     return returnList;
   }
 
+  /**
+   * Converts the map of entities of plants to a list of plants.
+   */
   public List<Plant> getPlants() {
     List<Plant> returnList = new ArrayList<>();
     plants.values().forEach(list -> list.forEach(entity -> returnList.add((Plant) entity)));
@@ -114,12 +130,20 @@ public class Field {
     return returnList;
   }
 
+  /**
+   * @param entity The entity that will be referenced as.
+   * @return A list of predators that the given entity can see and wants to run away from.
+   */
   public List<Predator> seeingPredators(Prey entity) {
     List<Predator> returnList = new ArrayList<>();
     Arrays.asList(entity.getScaredOf()).forEach(scaredOf -> seeing(entity, predators.get(scaredOf)).forEach(e -> returnList.add((Predator) e)));
     return returnList;
   }
 
+  /**
+   * @param entity The entity that will be referenced as.
+   * @return A list of plants that the given entity can see and wants to "eat".
+   */
   public List<Plant> seeingPlants(Prey entity) {
     List<Plant> returnList = new ArrayList<>();
     Arrays.asList(entity.getEats()).forEach(eats -> seeing(entity, plants.get(eats)).forEach(e -> returnList.add((Plant) e)));

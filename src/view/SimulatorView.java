@@ -1,3 +1,4 @@
+package view;
 public class SimulatorView {
   public SimulatorView() { }
 

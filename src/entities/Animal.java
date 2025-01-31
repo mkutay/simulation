@@ -19,27 +19,18 @@ public class Animal extends Entity {
    * @param tot The total vector that the animal will use to move.
    */
   public void move(Vector tot) {
+    // If no entity of interest is seen, move randomly
     if (tot.getMagnitude() == 0) {
       tot = Vector.getRandomVector();
       tot.makeMagnitude(this.getMaxSpeed());
-      System.out.println("Random");
     } else {
       tot.makeMagnitude(this.getMaxSpeed());
     }
     location.addVector(tot);
   }
-
-  /**
-   * @return The range of sight that the animal can see.
-   */
-  public double getSight() {
-    AnimalGenetics ag = (AnimalGenetics) genetics;
-    return ag.getSight();
-  }
-
+  
   public String[] getEats() { return eats; }
+  public double getSight() { return ((AnimalGenetics) genetics).getSight(); }
+  public double getMaxSpeed() { return ((AnimalGenetics) genetics).getMaxSpeed(); }
 
-  public double getMaxSpeed() {
-    return ((AnimalGenetics) genetics).getMaxSpeed();
-  }
 }
