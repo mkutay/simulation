@@ -4,12 +4,10 @@ import genetics.AnimalGenetics;
 
 public class Animal extends Entity {
   private String[] eats; // The entitys' names that this animal eats
-  private double speed; // The current speed of the animal
 
   public Animal(String name, AnimalGenetics genetics, Location location, String[] eats) {
     super(name, genetics, location);
     this.eats = eats;
-    speed = 0;
   }
 
   /**
