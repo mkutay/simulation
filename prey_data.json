@@ -8,7 +8,7 @@
     "mutationRate": [0.01, 0.05],
     "maxSpeed": [1, 5],
     "sight": [5, 15],
-    "numberOfEntitiesAtStart": 40,
+    "numberOfEntitiesAtStart": 2,
     "eats": ["Grass"],
     "size": [3, 6]
   },
@@ -21,7 +21,7 @@
     "mutationRate": [0.01, 0.05],
     "maxSpeed": [1, 5],
     "sight": [5, 15],
-    "numberOfEntitiesAtStart": 50,
+    "numberOfEntitiesAtStart": 3,
     "eats": ["Grass"],
     "size": [3, 6]
   }

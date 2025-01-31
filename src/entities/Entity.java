@@ -6,8 +6,8 @@ public class Entity {
   private String name; // Name of the entity
   private int age; // Age of the entity
   private boolean isAlive = true; // Whether the entity is alive or not
-  private Location location; // Location of the entity
-
+  
+  protected Location location; // Location of the entity
   protected Genetics genetics; // Genetics of the entity
 
   public Entity(String name, Genetics genetics, Location location) {
@@ -44,5 +44,9 @@ public class Entity {
    */
   private void setDead() {
     isAlive = false;
+  }
+  
+  public String toString() {
+    return name + " at " + location;
   }
 }

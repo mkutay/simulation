@@ -111,19 +111,19 @@ public class Field {
    */
   public List<Prey> seeingPreys(Predator entity) {
     List<Prey> returnList = new ArrayList<>();
-    Arrays.asList(entity.getEats()).forEach(eat -> seeing(entity, preys.get(eat)).forEach(e -> returnList.add((Prey) e)));
+    Arrays.asList(entity.getEats()).forEach(eats -> seeing(entity, preys.get(eats)).forEach(e -> returnList.add((Prey) e)));
     return returnList;
   }
 
   public List<Predator> seeingPredators(Prey entity) {
     List<Predator> returnList = new ArrayList<>();
-    Arrays.asList(entity.getScaredOf()).forEach(scared -> seeing(entity, preys.get(scared)).forEach(e -> returnList.add((Predator) e)));
+    Arrays.asList(entity.getScaredOf()).forEach(scaredOf -> seeing(entity, predators.get(scaredOf)).forEach(e -> returnList.add((Predator) e)));
     return returnList;
   }
 
   public List<Plant> seeingPlants(Prey entity) {
     List<Plant> returnList = new ArrayList<>();
-    Arrays.asList(entity.getEats()).forEach(eat -> seeing(entity, preys.get(eat)).forEach(e -> returnList.add((Plant) e)));
+    Arrays.asList(entity.getEats()).forEach(eats -> seeing(entity, plants.get(eats)).forEach(e -> returnList.add((Plant) e)));
     return returnList;
   }
   

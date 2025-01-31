@@ -17,4 +17,13 @@ public class Location {
   public double distance(Location loc) {
     return Math.sqrt(Math.pow(loc.x - x, 2) + Math.pow(loc.y - y, 2));
   }
+
+  public void addVector(Vector v) {
+    this.x += v.x;
+    this.y += v.y;
+  }
+
+  public String toString() {
+    return "(" + x + ", " + y + ")";
+  }
 }

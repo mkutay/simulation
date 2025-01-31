@@ -54,4 +54,12 @@ public class Vector {
   public static Vector createFromLocations(Location from, Location to) {
     return new Vector(to.x - from.x, to.y - from.y);
   }
+
+  public static Vector getRandomVector() {
+    return new Vector(Math.random() * 2 - 1, Math.random() * 2 - 1);
+  }
+
+  public String toString() {
+    return "V(" + x + ", " + y + ")";
+  }
 }

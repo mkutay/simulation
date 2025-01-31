@@ -21,7 +21,7 @@ public class Simulator {
   private PlantData[] plantsData; // An array of plant types data
 
   public Simulator() {
-    this(50, 50);
+    this(20, 20);
   }
 
   public Simulator(int width, int height) {
@@ -48,7 +48,15 @@ public class Simulator {
   public void simulateOneStep() {
     step++;
 
+    System.out.println("Step " + step);
+
+    for (Plant plant : field.getPlants()) {
+      System.out.println(plant);
+      plant.incrementAge();
+    }
+    
     for (Prey prey : field.getPreys()) {
+      System.out.println(prey);
       Location preyLocation = prey.getLocation();
       List<Predator> seenPredators = field.seeingPredators(prey);
       List<Plant> seenPlants = field.seeingPlants(prey);
@@ -62,6 +70,7 @@ public class Simulator {
     }
 
     for (Predator predator : field.getPredators()) {
+      System.out.println(predator);
       Location predatorLocation = predator.getLocation();
       List<Prey> seenPreys = field.seeingPreys(predator);
 
