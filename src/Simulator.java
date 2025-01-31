@@ -1,7 +1,9 @@
+import java.util.ArrayList;
 import java.util.List;
 
-import entities.Animal;
+import entities.Location;
 import entities.Prey;
+import entities.Vector;
 import entities.Predator;
 import entities.Plant;
 import genetics.AnimalData;
@@ -47,12 +49,26 @@ public class Simulator {
     step++;
 
     for (Prey prey : field.getPreys()) {
+      Location preyLocation = prey.getLocation();
       List<Predator> seenPredators = field.seeingPredators(prey);
-      List<Plant> seenPlant = field.seeingPlants(prey);
+      List<Plant> seenPlants = field.seeingPlants(prey);
+
+      List<Vector> vectors = new ArrayList<>();
+
+      seenPlants.forEach(seenPlant -> vectors.add(Vector.createFromLocations(preyLocation, seenPlant.getLocation())));
+      seenPredators.forEach(seenPredator -> vectors.add(Vector.createFromLocations(seenPredator.getLocation(), preyLocation)));
+
+      prey.move(Vector.addVectors(vectors));
     }
 
     for (Predator predator : field.getPredators()) {
+      Location predatorLocation = predator.getLocation();
       List<Prey> seenPreys = field.seeingPreys(predator);
+
+      List<Vector> vectors = new ArrayList<>();
+      seenPreys.forEach(seenPrey -> vectors.add(Vector.createFromLocations(predatorLocation, seenPrey.getLocation())));
+
+      predator.move(Vector.addVectors(vectors));
     }
 
     simulatorView.updateView();

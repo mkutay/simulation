@@ -13,6 +13,14 @@ public class Animal extends Entity {
   }
 
   /**
+   * The animal will move according to the total vector that is given.
+   * @param tot The total vector that the animal will use to move.
+   */
+  public void move(Vector tot) {
+    
+  }
+
+  /**
    * @return The range of sight that the animal can see.
    */
   public double getSight() {
