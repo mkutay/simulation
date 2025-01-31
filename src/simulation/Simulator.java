@@ -1,4 +1,4 @@
-package main;
+package simulation;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -39,11 +39,14 @@ public class Simulator {
 
     System.out.println("Step " + step);
 
+    List<Plant> newPlants = new ArrayList<>(); // newly generated plants
     for (Plant plant : field.getPlants()) {
       System.out.println(plant);
+      plant.multiply();
       plant.incrementAge();
     }
     
+    List<Prey> newPreys = new ArrayList<>(); // newly born preys
     for (Prey prey : field.getPreys()) {
       System.out.println(prey);
       Location preyLocation = prey.getLocation();
@@ -55,9 +58,14 @@ public class Simulator {
       seenPlants.forEach(seenPlant -> vectors.add(Vector.createFromLocations(preyLocation, seenPlant.getLocation())));
       seenPredators.forEach(seenPredator -> vectors.add(Vector.createFromLocations(seenPredator.getLocation(), preyLocation)));
 
-      prey.move(Vector.addVectors(vectors));
+      prey.moveWithVector(Vector.addVectors(vectors));
+      prey.incrementAge();
+      prey.breed(field.seeingSameSpecies(prey));
+
+      field.putInBounds(prey);
     }
 
+    List<Predator> newPredators = new ArrayList<>(); // newly born predator
     for (Predator predator : field.getPredators()) {
       System.out.println(predator);
       Location predatorLocation = predator.getLocation();
@@ -66,8 +74,14 @@ public class Simulator {
       List<Vector> vectors = new ArrayList<>();
       seenPreys.forEach(seenPrey -> vectors.add(Vector.createFromLocations(predatorLocation, seenPrey.getLocation())));
 
-      predator.move(Vector.addVectors(vectors));
+      predator.moveWithVector(Vector.addVectors(vectors));
+      predator.incrementAge();
+      predator.breed(field.seeingSameSpecies(predator));
+
+      field.putInBounds(predator);
     }
+
+    field.filterEntities();
 
     simulatorView.updateView();
   }

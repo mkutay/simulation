@@ -20,6 +20,8 @@ public class Entity {
   public Location getLocation() { return location; }
   public String getName() { return name; }
   public double getSize() { return genetics.getSize(); }
+  public boolean isAlive() { return isAlive; }
+  public double getSight() { return 0; }
 
   /**
    * Increment the age of the entity by 1. Used when the simulation progresses by 1 step.

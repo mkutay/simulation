@@ -1,5 +1,7 @@
 package entities;
 
+import java.util.List;
+
 import genetics.AnimalGenetics;
 
 public class Animal extends Entity {
@@ -18,7 +20,7 @@ public class Animal extends Entity {
    * TODO: magnitude of the vector with inverse relationship.
    * @param tot The total vector that the animal will use to move.
    */
-  public void move(Vector tot) {
+  public void moveWithVector(Vector tot) {
     // If no entity of interest is seen, move randomly
     if (tot.getMagnitude() == 0) {
       tot = Vector.getRandomVector();
@@ -33,4 +35,7 @@ public class Animal extends Entity {
   public double getSight() { return ((AnimalGenetics) genetics).getSight(); }
   public double getMaxSpeed() { return ((AnimalGenetics) genetics).getMaxSpeed(); }
 
+  public List<Entity> breed(List<Entity> others) {
+    return null;
+  }
 }

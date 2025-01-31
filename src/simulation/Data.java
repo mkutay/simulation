@@ -1,6 +1,7 @@
-package genetics;
+package simulation;
 
-import main.Parser;
+import genetics.AnimalData;
+import genetics.PlantData;
 
 public class Data {
   public static final String PATH = "/Users/kutay/code/we-get-these-100s"; // Change this to the path of the project -- this is temporary

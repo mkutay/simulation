@@ -1,4 +1,4 @@
-package main;
+package simulation;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -12,7 +12,6 @@ import entities.Animal;
 import entities.Predator;
 import entities.Prey;
 import genetics.AnimalData;
-import genetics.Data;
 import genetics.PlantData;
 
 public class Field {
@@ -86,6 +85,18 @@ public class Field {
   }
 
   /**
+   * Put an entity in-bounds if it is out of bounds (that is the field width and height).
+   * @param entity The entity that will be moved.
+   */
+  public void putInBounds(Entity entity) {
+    Location location = entity.getLocation();
+    if (location.x < 0) location.x = 0;
+    if (location.y < 0) location.y = 0;
+    if (location.x >= width) location.x = width;
+    if (location.y >= height) location.y = height;
+  }
+
+  /**
    * @return Whether the field is viable or not, for to check if the simulation should continue.
    */
   public boolean isViable() {
@@ -149,6 +160,32 @@ public class Field {
     Arrays.asList(entity.getEats()).forEach(eats -> seeing(entity, plants.get(eats)).forEach(e -> returnList.add((Plant) e)));
     return returnList;
   }
+
+  /**
+   * @param entity The entity that will be referenced as.
+   * @return A list of entities that the given entity can see and is the same species. Used for reproduction.
+   */
+  public List<Entity> seeingSameSpecies(Entity ent) {
+    if (ent instanceof Prey) {
+      return seeing(ent, preys.get(ent.getName()));
+    } else if (ent instanceof Predator) {
+      return seeing(ent, plants.get(ent.getName()));
+    } else if (ent instanceof Plant) {
+      return seeing(ent, plants.get(ent.getName()));
+    } else {
+      System.out.println("Entity is not a valid type. SHOULD NOT HAPPEN.");
+      return null;
+    }
+  }
+
+  /**
+   * Filter out the entities that are not alive.
+   */
+  public void filterEntities() {
+    plants.values().forEach(list -> list.removeIf(entity -> !entity.isAlive()));
+    preys.values().forEach(list -> list.removeIf(entity -> !entity.isAlive()));
+    predators.values().forEach(list -> list.removeIf(entity -> !entity.isAlive()));
+  }
   
   /**
    * @return A random location within the field.
@@ -162,8 +199,10 @@ public class Field {
    * @param entities A map of entities to be searched through.
    * @return A list of entities that the given entity can see, searching the given list.
    */
-  private List<Entity> seeing(Animal entity, List<Entity> entities) {
+  private List<Entity> seeing(Entity entity, List<Entity> entities) {
     List<Entity> returnEntities = new ArrayList<>();
+
+    if (entities == null) return returnEntities;
 
     entities.stream()
       .filter(ent -> ent.getLocation().distance(entity.getLocation()) < entity.getSight() + ent.getSize())
