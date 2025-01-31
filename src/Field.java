@@ -72,18 +72,17 @@ public class Field {
   }
 
   /**
-   * @param ent The entity that will be referenced as.
-   * @return A list of entities that the given entity can see.
+   * @param entity The entity that will be referenced as.
+   * @param entities A map of entities to be searched through.
+   * @return A list of entities that the given entity can see, searching the given list.
    */
-  private List<Entity> seeing(Animal ent) {
-    List<Entity> entities = new ArrayList<>();
-    for (List<Predator> preds : predators.values()) {
-      for (Predator pred : preds) {
-        if (ent.getLocation().distance(pred.getLocation()) < ent.getSight()) {
-          entities.add(pred);
-        }
-      }
-    }
-    return entities;
+  private List<Entity> seeing(Animal entity, HashMap<String, List<Entity>> entities) {
+    List<Entity> returnEntities = new ArrayList<>();
+
+    entities.values().forEach(ents -> ents.stream()
+      .filter(ent -> ent.getLocation().distance(entity.getLocation()) < entity.getSight() + ent.getSize())
+      .forEach(returnEntities::add));
+
+    return returnEntities;
   }
 }

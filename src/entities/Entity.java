@@ -19,6 +19,7 @@ public class Entity {
 
   public Location getLocation() { return location; }
   public String getName() { return name; }
+  public double getSize() { return genetics.getSize(); }
 
   /**
    * Increment the age of the entity by 1. Used when the simulation progresses by 1 step.
