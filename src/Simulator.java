@@ -1,13 +1,60 @@
+import java.util.List;
+
+import entities.Animal;
+import entities.Prey;
+import entities.Predator;
+import entities.Plant;
+import genetics.AnimalData;
+import genetics.PlantData;
+
 public class Simulator {
+  public static final String PATH = "/Users/kutay/code/we-get-these-100s"; // Change this to the path of the project -- this is temporary
+  
+  private int step;
   private SimulatorView simulatorView;
   private Field field;
+
+  private AnimalData[] preysData; // An array of prey species data
+  private AnimalData[] predatorsData; // An array of predator species data
+  private PlantData[] plantsData; // An array of plant types data
 
   public Simulator() {
     this(50, 50);
   }
 
   public Simulator(int width, int height) {
-    field = new Field(width, height);
+    step = 0;
+
+    preysData = Parser.parseAnimalJson(Parser.getContentsOfFile(PATH + "/prey_data.json"));
+    predatorsData = Parser.parseAnimalJson(Parser.getContentsOfFile(PATH + "/predator_data.json"));
+    plantsData = Parser.parsePlantJson(Parser.getContentsOfFile(PATH + "/plant_data.json"));
+
+    field = new Field(width, height, preysData, predatorsData, plantsData);
     simulatorView = new SimulatorView();
+  }
+
+  public void runLongSimulation() {
+    simulate(700);
+  }
+
+  public void simulate(int numSteps) {
+    for (int n = 1; n <= numSteps && field.isViable(); n++) {
+      simulateOneStep();
+    }
+  }
+
+  public void simulateOneStep() {
+    step++;
+
+    for (Prey prey : field.getPreys()) {
+      List<Predator> seenPredators = field.seeingPredators(prey);
+      List<Plant> seenPlant = field.seeingPlants(prey);
+    }
+
+    for (Predator predator : field.getPredators()) {
+      List<Prey> seenPreys = field.seeingPreys(predator);
+    }
+
+    simulatorView.updateView();
   }
 }

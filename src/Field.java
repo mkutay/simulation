@@ -1,6 +1,9 @@
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.stream.Collectors;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import entities.Location;
 import entities.Plant;
@@ -12,51 +15,63 @@ import genetics.AnimalData;
 import genetics.PlantData;
 
 public class Field {
-  public static final String PATH = "/Users/kutay/code/we-get-these-100s"; // Change this to the path of the project -- this is temporary
-
   private int width; // Width of the field
   private int height; // Height of the field
 
-  private HashMap<String, List<Prey>> preys; // A map of prey species to a list of prey entities
-  private HashMap<String, List<Predator>> predators; // A map of predator species to a list of predator entities
-  private HashMap<String, List<Plant>> plants; // A map of plant species to a list of plant entities
+  private HashMap<String, List<Entity>> preys; // A map of prey species to a list of prey entities
+  private HashMap<String, List<Entity>> predators; // A map of predator species to a list of predator entities
+  private HashMap<String, List<Entity>> plants; // A map of plant species to a list of plant entities
 
-  private AnimalData[] preysData; // An array of prey species data
-  private AnimalData[] predatorsData; // An array of predator species data
-  private PlantData[] plantsData; // An array of plant types data
+  private HashMap<String, HashSet<String>> scaredOf; // A map of species to a list of species that they are scared of
 
-  public Field(int width, int height) {
+  public Field(int width, int height, AnimalData[] preysData, AnimalData[] predatorsData, PlantData[] plantsData) {
     this.width = width;
     this.height = height;
     preys = new HashMap<>();
     predators = new HashMap<>();
     plants = new HashMap<>();
 
-    preysData = Parser.parseAnimalJson(Parser.getContentsOfFile(PATH + "/prey_data.json"));
-    predatorsData = Parser.parseAnimalJson(Parser.getContentsOfFile(PATH + "/predator_data.json"));
-    plantsData = Parser.parsePlantJson(Parser.getContentsOfFile(PATH + "/plant_data.json"));
-
-    // Initialise the field with randomly generated preys, according to the given data.
-    for (int i = 0; i < preysData.length; i++) {
-      ArrayList<Prey> preysList = new ArrayList<>();
-      for (int j = 0; j < preysData[i].numberOfEntitiesAtStart; j++) {
-        preysList.add(new Prey(preysData[i].name, preysData[i].generateRandomGenetics(), getRandomLocation(), preysData[i].eats));
-      }
-      preys.put(preysData[i].name, preysList);
-    }
+    scaredOf = new HashMap<>();
 
     // Initialise the field with randomly generated predators, according to the given data.
     for (int i = 0; i < predatorsData.length; i++) {
-      ArrayList<Predator> predatorsList = new ArrayList<>();
+      // Add the species that the predator is scared of to the scaredOf map.
+      for (String scared : predatorsData[i].eats) {
+        if (!scaredOf.containsKey(scared)) scaredOf.put(scared, new HashSet<>());
+        scaredOf.get(scared).add(predatorsData[i].name);
+      }
+
+      ArrayList<Entity> predatorsList = new ArrayList<>();
+      
       for (int j = 0; j < predatorsData[i].numberOfEntitiesAtStart; j++) {
         predatorsList.add(new Predator(predatorsData[i].name, predatorsData[i].generateRandomGenetics(), getRandomLocation(), predatorsData[i].eats));
       }
+
       predators.put(predatorsData[i].name, predatorsList);
+    }
+
+    // Initialise the field with randomly generated preys, according to the given data.
+    for (int i = 0; i < preysData.length; i++) {
+      ArrayList<Entity> preysList = new ArrayList<>();
+      String[] scaredOfArray;
+
+      if (scaredOf.containsKey(preysData[i].name)) {
+        scaredOfArray = new String[scaredOf.get(preysData[i].name).size()];
+        scaredOf.get(preysData[i].name).toArray(scaredOfArray);
+      } else {
+        scaredOfArray = new String[0];
+      }
+
+      for (int j = 0; j < preysData[i].numberOfEntitiesAtStart; j++) {
+        preysList.add(new Prey(preysData[i].name, preysData[i].generateRandomGenetics(), getRandomLocation(), preysData[i].eats, scaredOfArray));
+      }
+
+      preys.put(preysData[i].name, preysList);
     }
 
     // Initialise the field with randomly generated plants, according to the given data.
     for (int i = 0; i < plantsData.length; i++) {
-      ArrayList<Plant> plantsList = new ArrayList<>();
+      ArrayList<Entity> plantsList = new ArrayList<>();
       for (int j = 0; j < plantsData[i].numberOfEntitiesAtStart; j++) {
         plantsList.add(new Plant(plantsData[i].name, plantsData[i].generateRandomGenetics(), getRandomLocation()));
       }
@@ -64,6 +79,54 @@ public class Field {
     }
   }
 
+  /**
+   * @return Whether the field is viable or not, for to check if the simulation should continue.
+   */
+  public boolean isViable() {
+    return preys.values().stream().anyMatch(list -> list.size() > 0)
+      && predators.values().stream().anyMatch(list -> list.size() > 0);
+  }
+
+  public List<Prey> getPreys() {
+    List<Prey> returnList = new ArrayList<>();
+    preys.values().forEach(list -> list.forEach(entity -> returnList.add((Prey) entity)));
+    return returnList;
+  }
+
+  public List<Predator> getPredators() {
+    List<Predator> returnList = new ArrayList<>();
+    predators.values().forEach(list -> list.forEach(entity -> returnList.add((Predator) entity)));
+    return returnList;
+  }
+
+  public List<Plant> getPlants() {
+    List<Plant> returnList = new ArrayList<>();
+    plants.values().forEach(list -> list.forEach(entity -> returnList.add((Plant) entity)));
+    return returnList;
+  }
+
+  /**
+   * @param entity The entity that will be referenced as.
+   * @return A list of preys that the given entity can see and wants to "eat".
+   */
+  public List<Prey> seeingPreys(Predator entity) {
+    List<Prey> returnList = new ArrayList<>();
+    Arrays.asList(entity.getEats()).forEach(eat -> seeing(entity, preys.get(eat)).forEach(e -> returnList.add((Prey) e)));
+    return returnList;
+  }
+
+  public List<Predator> seeingPredators(Prey entity) {
+    List<Predator> returnList = new ArrayList<>();
+    Arrays.asList(entity.getScaredOf()).forEach(scared -> seeing(entity, preys.get(scared)).forEach(e -> returnList.add((Predator) e)));
+    return returnList;
+  }
+
+  public List<Plant> seeingPlants(Prey entity) {
+    List<Plant> returnList = new ArrayList<>();
+    Arrays.asList(entity.getEats()).forEach(eat -> seeing(entity, preys.get(eat)).forEach(e -> returnList.add((Plant) e)));
+    return returnList;
+  }
+  
   /**
    * @return A random location within the field.
    */
@@ -76,12 +139,12 @@ public class Field {
    * @param entities A map of entities to be searched through.
    * @return A list of entities that the given entity can see, searching the given list.
    */
-  private List<Entity> seeing(Animal entity, HashMap<String, List<Entity>> entities) {
+  private List<Entity> seeing(Animal entity, List<Entity> entities) {
     List<Entity> returnEntities = new ArrayList<>();
 
-    entities.values().forEach(ents -> ents.stream()
+    entities.stream()
       .filter(ent -> ent.getLocation().distance(entity.getLocation()) < entity.getSight() + ent.getSize())
-      .forEach(returnEntities::add));
+      .forEach(returnEntities::add);
 
     return returnEntities;
   }
