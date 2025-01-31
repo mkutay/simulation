@@ -10,6 +10,8 @@ import genetics.AnimalData;
 import genetics.PlantData;
 
 public class Field {
+  public static final String PATH = "/Users/kutay/code/we-get-these-100s"; // Change this to the path of the project -- this is temporary
+
   private int width;
   private int height;
 
@@ -17,9 +19,9 @@ public class Field {
   private HashMap<String, List<Predator>> predators;
   private HashMap<String, List<Plant>> plants;
 
-  private AnimalData[] preysInterval;
-  private AnimalData[] predatorsInterval;
-  private PlantData[] plantsInterval;
+  private AnimalData[] preysData;
+  private AnimalData[] predatorsData;
+  private PlantData[] plantsData;
 
   public Field(int width, int height) {
     this.width = width;
@@ -29,32 +31,32 @@ public class Field {
     plants = new HashMap<>();
 
     // The file paths are hardcoded for now
-    preysInterval = Parser.parseAnimalJson(Parser.getContentsOfFile("/workspaces/junit-testing/prey_data.json"));
-    predatorsInterval = Parser.parseAnimalJson(Parser.getContentsOfFile("/workspaces/junit-testing/predator_data.json"));
-    plantsInterval = Parser.parsePlantJson(Parser.getContentsOfFile("/workspaces/junit-testing/plant_data.json"));
+    preysData = Parser.parseAnimalJson(Parser.getContentsOfFile(PATH + "/prey_data.json"));
+    predatorsData = Parser.parseAnimalJson(Parser.getContentsOfFile(PATH + "/predator_data.json"));
+    plantsData = Parser.parsePlantJson(Parser.getContentsOfFile(PATH + "/plant_data.json"));
 
-    for (int i = 0; i < preysInterval.length; i++) {
+    for (int i = 0; i < preysData.length; i++) {
       ArrayList<Prey> preysList = new ArrayList<>();
-      for (int j = 0; j < preysInterval[i].numberOfEntitiesAtStart; j++) {
-        preysList.add(new Prey(preysInterval[i].name, preysInterval[i].generateRandomGenetics(), getRandomLocation(), preysInterval[i].eats));
+      for (int j = 0; j < preysData[i].numberOfEntitiesAtStart; j++) {
+        preysList.add(new Prey(preysData[i].name, preysData[i].generateRandomGenetics(), getRandomLocation(), preysData[i].eats));
       }
-      preys.put(preysInterval[i].name, preysList);
+      preys.put(preysData[i].name, preysList);
     }
 
-    for (int i = 0; i < predatorsInterval.length; i++) {
+    for (int i = 0; i < predatorsData.length; i++) {
       ArrayList<Predator> predatorsList = new ArrayList<>();
-      for (int j = 0; j < predatorsInterval[i].numberOfEntitiesAtStart; j++) {
-        predatorsList.add(new Predator(predatorsInterval[i].name, predatorsInterval[i].generateRandomGenetics(), getRandomLocation(), predatorsInterval[i].eats));
+      for (int j = 0; j < predatorsData[i].numberOfEntitiesAtStart; j++) {
+        predatorsList.add(new Predator(predatorsData[i].name, predatorsData[i].generateRandomGenetics(), getRandomLocation(), predatorsData[i].eats));
       }
-      predators.put(predatorsInterval[i].name, predatorsList);
+      predators.put(predatorsData[i].name, predatorsList);
     }
 
-    for (int i = 0; i < plantsInterval.length; i++) {
+    for (int i = 0; i < plantsData.length; i++) {
       ArrayList<Plant> plantsList = new ArrayList<>();
-      for (int j = 0; j < plantsInterval[i].numberOfEntitiesAtStart; j++) {
-        plantsList.add(new Plant(plantsInterval[i].name, plantsInterval[i].generateRandomGenetics(), getRandomLocation()));
+      for (int j = 0; j < plantsData[i].numberOfEntitiesAtStart; j++) {
+        plantsList.add(new Plant(plantsData[i].name, plantsData[i].generateRandomGenetics(), getRandomLocation()));
       }
-      plants.put(plantsInterval[i].name, plantsList);
+      plants.put(plantsData[i].name, plantsList);
     }
   }
 
