@@ -4,11 +4,11 @@ import java.util.List;
 
 import genetics.AnimalGenetics;
 
-public class Animal extends Entity {
-  private String[] eats; // The entitys' names that this animal eats
+public abstract class Animal extends Entity {
+  private final String[] eats; // The entitys' names that this animal eats
 
-  public Animal(String name, AnimalGenetics genetics, Location location, String[] eats) {
-    super(name, genetics, location);
+  public Animal(String name, AnimalGenetics genetics, Vector position, String[] eats) {
+    super(name, genetics, position);
     this.eats = eats;
   }
 
@@ -22,13 +22,9 @@ public class Animal extends Entity {
    */
   public void moveWithVector(Vector tot) {
     // If no entity of interest is seen, move randomly
-    if (tot.getMagnitude() == 0) {
-      tot = Vector.getRandomVector();
-      tot.makeMagnitude(this.getMaxSpeed());
-    } else {
-      tot.makeMagnitude(this.getMaxSpeed());
-    }
-    location.addVector(tot);
+    if (tot.getMagnitude() == 0) { tot = Vector.getRandomVector();}
+    tot = tot.setMagnitude(getMaxSpeed());
+    position = position.add(tot);
   }
   
   public String[] getEats() { return eats; }

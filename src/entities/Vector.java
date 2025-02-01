@@ -10,56 +10,46 @@ public class Vector {
     this.y = y;
   }
 
-  public void add(Vector other) {
-    this.x += other.x;
-    this.y += other.y;
+  public Vector add(Vector other) {
+    return new Vector(this.x + other.x, this.y + other.y);
   }
 
-  public void subtract(Vector other) {
-    this.x -= other.x;
-    this.y -= other.y;
+  public Vector subtract(Vector other) {
+    return new Vector(this.x - other.x, this.y - other.y);
   }
 
-  public void multiply(double scalar) {
-    this.x *= scalar;
-    this.y *= scalar;
+  public Vector multiply(double scalar) {
+    return new Vector(this.x * scalar, this.y * scalar);
   }
 
-  public double getMagnitude() {
-    return Math.sqrt(this.x * this.x + this.y * this.y);
-  }
-
-  public void normalize() {
+  public Vector normalize() {
     double magnitude = this.getMagnitude();
-    this.x /= magnitude;
-    this.y /= magnitude;
+    return new Vector(this.x / magnitude, this.y / magnitude);
   }
 
-  public void rotate180() {
-    this.x = -this.x;
-    this.y = -this.y;
-  }
-
-  public void makeMagnitude(double magnitude) {
-    this.normalize();
-    this.multiply(magnitude);
+  public Vector setMagnitude(double magnitude) {
+    return this.normalize().multiply(magnitude);
   }
 
   public static Vector addVectors(List<Vector> vectors) {
     Vector returnVector = new Vector(0, 0);
-    vectors.forEach(v -> returnVector.add(v));
+    vectors.forEach(returnVector::add);
     return returnVector;
   }
 
-  public static Vector createFromLocations(Location from, Location to) {
-    return new Vector(to.x - from.x, to.y - from.y);
+  public double getMagnitude() {
+    return Math.hypot(x,y);
+  }
+  public double getMagnitudeSquared() {
+    return x*x + y*y;
+  }
+
+  public String toString() {
+    return "(" + x + ", " + y + ")";
   }
 
   public static Vector getRandomVector() {
     return new Vector(Math.random() * 2 - 1, Math.random() * 2 - 1);
   }
 
-  public String toString() {
-    return "V(" + x + ", " + y + ")";
-  }
 }

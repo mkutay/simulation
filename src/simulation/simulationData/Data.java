@@ -1,14 +1,13 @@
-package simulation;
+package simulation.simulationData;
 
-import genetics.AnimalData;
-import genetics.PlantData;
+import simulation.Parser;
 
 public class Data {
-  public static final String PATH = "/Users/kutay/code/we-get-these-100s"; // Change this to the path of the project -- this is temporary
+  public static final String PATH = System.getProperty("user.dir");
 
-  private AnimalData[] preysData; // An array of prey species data
-  private AnimalData[] predatorsData; // An array of predator species data
-  private PlantData[] plantsData; // An array of plant types data
+  private final AnimalData[] preysData; // An array of prey species data
+  private final AnimalData[] predatorsData; // An array of predator species data
+  private final PlantData[] plantsData; // An array of plant types data
 
   public Data() {
     preysData = Parser.parseAnimalJson(Parser.getContentsOfFile(PATH + "/prey_data.json"));

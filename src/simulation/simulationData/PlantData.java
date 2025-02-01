@@ -1,4 +1,6 @@
-package genetics;
+package simulation.simulationData;
+
+import genetics.PlantGenetics;
 
 /**
  * Represents a set of genetic intervals for a plant.

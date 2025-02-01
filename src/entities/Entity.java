@@ -2,22 +2,22 @@ package entities;
 
 import genetics.Genetics;
 
-public class Entity {
-  private String name; // Name of the entity
+public abstract class Entity {
+  private final String name; // Name of the entity
   private int age; // Age of the entity
   private boolean isAlive = true; // Whether the entity is alive or not
   
-  protected Location location; // Location of the entity
+  protected Vector position; // Position of the entity
   protected Genetics genetics; // Genetics of the entity
 
-  public Entity(String name, Genetics genetics, Location location) {
+  public Entity(String name, Genetics genetics, Vector position) {
     age = 0;
     this.name = name;
     this.genetics = genetics;
-    this.location = location;
+    this.position = position;
   }
 
-  public Location getLocation() { return location; }
+  public Vector getPosition() { return position; }
   public String getName() { return name; }
   public double getSize() { return genetics.getSize(); }
   public boolean isAlive() { return isAlive; }
@@ -49,6 +49,6 @@ public class Entity {
   }
   
   public String toString() {
-    return name + " at " + location;
+    return name + " at " + position.toString();
   }
 }

@@ -1,4 +1,4 @@
-package genetics;
+package simulation.simulationData;
 
 public class EntityData {
   public String name;

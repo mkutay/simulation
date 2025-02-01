@@ -1,4 +1,7 @@
-package genetics;
+package simulation.simulationData;
+
+import genetics.AnimalGenetics;
+import genetics.Gender;
 
 /**
  * Represents a set of genetic intervals for an animal.

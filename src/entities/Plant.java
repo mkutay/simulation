@@ -5,7 +5,7 @@ import java.util.List;
 import genetics.PlantGenetics;
 
 public class Plant extends Entity {
-  public Plant(String name, PlantGenetics genetics, Location location) {
+  public Plant(String name, PlantGenetics genetics, Vector location) {
     super(name, genetics, location);
   }
 
