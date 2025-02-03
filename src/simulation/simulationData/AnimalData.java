@@ -14,6 +14,9 @@ public class AnimalData extends EntityData{
   public double[] sight; // Range at which the entity can see other entities
   public String[] eats; // List of entities that this entity can eat
 
+  /**
+   * @return A random set of genetics for an animal based on the data provided.
+   */
   public AnimalGenetics generateRandomGenetics() {
     return new AnimalGenetics(
       generateRandomNumberBetween(multiplyingRate[0], multiplyingRate[1]),
@@ -26,7 +29,8 @@ public class AnimalData extends EntityData{
       getRandomGender(),
       generateRandomNumberBetween(size[0], size[1]),
       eats,
-      name
+      name,
+      colour
     );
   }
 

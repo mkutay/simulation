@@ -8,8 +8,8 @@ public class AnimalGenetics extends Genetics {
   private final Gender gender;
   private final String[] eats; //The names of the entities the animal eats
 
-  public AnimalGenetics(double breedingProbability, int maxLitterSize, int maxAge, int matureAge, double mutationRate, double maxSeed, double sight, Gender gender, int size, String[] eats, String name) {
-    super(maxAge, matureAge, breedingProbability, size, name);
+  public AnimalGenetics(double breedingProbability, int maxLitterSize, int maxAge, int matureAge, double mutationRate, double maxSeed, double sight, Gender gender, int size, String[] eats, String name, int[] colour) {
+    super(maxAge, matureAge, breedingProbability, size, name, colour);
     this.maxLitterSize = maxLitterSize;
     this.mutationRate = mutationRate;
     this.maxSeed = maxSeed;

@@ -10,7 +10,8 @@
     "sight": [5, 15],
     "numberOfEntitiesAtStart": 2,
     "eats": ["Grass"],
-    "size": [3, 6]
+    "size": [3, 6],
+    "colour": [0, 0, 255]
   },
   {
     "name": "Squirrel",
@@ -23,6 +24,7 @@
     "sight": [5, 15],
     "numberOfEntitiesAtStart": 3,
     "eats": ["Grass"],
-    "size": [3, 6]
+    "size": [3, 6],
+    "colour": [0, 0, 200]
   }
 ]

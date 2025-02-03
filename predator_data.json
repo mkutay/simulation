@@ -10,6 +10,7 @@
     "sight": [5, 15],
     "numberOfEntitiesAtStart": 2,
     "eats": ["Rabbit"],
-    "size": [3, 6]
+    "size": [3, 6],
+    "colour": [255, 0, 0]
   }
 ]

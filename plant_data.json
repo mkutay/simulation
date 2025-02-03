@@ -5,6 +5,7 @@
     "maxAge": [2, 5],
     "matureAge": [1, 2],
     "numberOfEntitiesAtStart": 5,
-    "size": [3, 6]
+    "size": [3, 6],
+    "colour": [0, 255, 0]
   }
 ]

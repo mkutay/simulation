@@ -7,13 +7,17 @@ import genetics.PlantGenetics;
  * This is used when parsing the JSON file for type of plant.
  */
 public class PlantData extends EntityData {
+  /**
+   * @return A random set of genetics for a plant based on the data provided.
+   */
   public PlantGenetics generateRandomGenetics() {
     return new PlantGenetics(
       generateRandomNumberBetween(maxAge[0], maxAge[1]),
       generateRandomNumberBetween(matureAge[0], matureAge[1]),
       generateRandomNumberBetween(multiplyingRate[0], multiplyingRate[1]),
       generateRandomNumberBetween(size[0], size[1]),
-      name
+      name,
+      colour
     );
   }
 }

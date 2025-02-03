@@ -1,12 +1,13 @@
 package simulation.simulationData;
 
 public class EntityData {
-  public String name;
+  public String name; // Name of the entity
   public int numberOfEntitiesAtStart; // Number of entities at the start of the simulation
-  public int[] maxAge;
-  public int[] matureAge;
-  public double[] multiplyingRate;
-  public int[] size;
+  public int[] maxAge; // Maximum age of the entity
+  public int[] matureAge; // Age at which the entity can start breeding
+  public double[] multiplyingRate; // Rate at which the entity can multiply
+  public int[] size; // Size of the entity
+  public int[] colour; // RGB colour of the entity
 
   protected double generateRandomNumberBetween(double min, double max) {
     return min + Math.random() * (max - min);
