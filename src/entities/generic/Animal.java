@@ -23,14 +23,14 @@ public abstract class Animal extends Entity {
    */
   public void moveWithVector(Vector tot) {
     // If no entity of interest is seen, move randomly
-    if (tot.getMagnitude() == 0) { tot = Vector.getRandomVector();}
+    if (tot.getMagnitude() == 0) { tot = Vector.getRandomVector(); }
     tot = tot.setMagnitude(getMaxSpeed());
     position = position.add(tot);
   }
 
   /**
-   * TODO optimise when necessary
-   * TODO test this method lmao
+   * TODO: Optimise when necessary
+   * TODO: Test this method -- create a test unit
    * @return Returns all entities in the field in the animals sight radius
    */
   public ArrayList<Entity> searchNearbyEntities(Field field){
@@ -44,7 +44,7 @@ public abstract class Animal extends Entity {
       Vector entityPosition = e.getPosition();
       double distanceSquared = position.subtract(entityPosition).getMagnitudeSquared();
       double sightRadius = genetics.getSight();
-      if (distanceSquared <= sightRadius * sightRadius) { //If can see other entity
+      if (distanceSquared <= sightRadius * sightRadius) { // If can see other entity
         foundEntities.add(e);
       }
     }
@@ -53,7 +53,6 @@ public abstract class Animal extends Entity {
   }
   
   public String[] getEats() { return genetics.getEats(); }
-  public double getSight() { return genetics.getSight(); } //TODO maybe remove this method
   public double getMaxSpeed() { return genetics.getMaxSpeed(); }
 
   public List<Entity> breed(List<Entity> others) {

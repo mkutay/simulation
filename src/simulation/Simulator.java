@@ -28,14 +28,14 @@ public class Simulator {
     }
   }
 
-  //TODO re-implement movement and add breeding system + eating/hunger system
+  // TODO: re-implement movement and add breeding system + eating/hunger system
   public void simulateOneStep() {
     step++;
 
     System.out.println("Step " + step);
 
     for (Plant plant : field.getPlants()) {
-      //plant.update();
+      // plant.update();
       System.out.println(plant);
       plant.multiply();
       plant.incrementAge();
@@ -43,14 +43,14 @@ public class Simulator {
 
     for (Prey prey : field.getPreys()) {
       System.out.println(prey);
-      //prey.update();
+      // prey.update();
       prey.incrementAge();
       field.putInBounds(prey);
     }
 
     for (Predator predator : field.getPredators()) {
       System.out.println(predator);
-      //predator.update();
+      // predator.update();
       predator.incrementAge();
       field.putInBounds(predator);
     }

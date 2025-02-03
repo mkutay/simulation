@@ -10,8 +10,6 @@ public class Plant extends Entity {
     super(genetics, location);
   }
 
-  public double getSight() { return 0; }
-
   public List<Plant> multiply() {
     return null;
   }

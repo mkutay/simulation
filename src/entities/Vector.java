@@ -1,6 +1,10 @@
 package entities;
 import java.util.List;
 
+/**
+ * A class that represents a 2D vector.
+ * Also used for representing positions of entities in the field.
+ */
 public class Vector {
   public double x;
   public double y;
@@ -38,10 +42,10 @@ public class Vector {
   }
 
   public double getMagnitude() {
-    return Math.hypot(x,y);
+    return Math.hypot(x, y);
   }
   public double getMagnitudeSquared() {
-    return x*x + y*y;
+    return x * x + y * y;
   }
 
   public String toString() {
@@ -51,5 +55,4 @@ public class Vector {
   public static Vector getRandomVector() {
     return new Vector(Math.random() * 2 - 1, Math.random() * 2 - 1);
   }
-
 }
