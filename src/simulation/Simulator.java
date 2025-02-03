@@ -3,33 +3,38 @@ package simulation;
 import entities.Prey;
 import entities.Predator;
 import entities.Plant;
+import entities.generic.Entity;
 import simulation.simulationData.Data;
-import view.SimulatorView;
 
+import java.util.ArrayList;
+
+/**
+ * Holds all the simulation information and is used to step through the simulation
+ * Used in Engine
+ */
 public class Simulator {  
   private int step;
-  private final SimulatorView simulatorView;
   private final Field field;
-
-  public Simulator() {
-    this(20, 20);
-  }
 
   public Simulator(int width, int height) {
     step = 0;
     Data simulationData = new Data();
     field = new FieldBuilder(width, height, simulationData).build();
-    simulatorView = new SimulatorView();
   }
 
-  public void simulate(int numSteps) {
-    for (int n = 1; n <= numSteps && field.isViable(); n++) {
-      simulateOneStep();
-    }
+  /**
+   * @return All entities currently alive in the field
+   */
+  public ArrayList<Entity> getEntities(){
+    return field.getEntities();
   }
 
   //TODO re-implement movement and add breeding system + eating/hunger system
-  public void simulateOneStep() {
+
+  /**
+   * Simulates a single step of the simulation
+   */
+  public void step() {
     step++;
 
     System.out.println("Step " + step);
@@ -56,7 +61,5 @@ public class Simulator {
     }
 
     field.removeDeadEntities();
-
-    simulatorView.updateView();
   }
 }

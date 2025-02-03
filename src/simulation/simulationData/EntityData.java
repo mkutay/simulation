@@ -6,7 +6,7 @@ public class EntityData {
   public int[] maxAge;
   public int[] matureAge;
   public double[] multiplyingRate;
-  public double[] size;
+  public int[] size;
 
   protected double generateRandomNumberBetween(double min, double max) {
     return min + Math.random() * (max - min);

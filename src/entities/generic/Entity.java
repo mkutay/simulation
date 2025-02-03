@@ -2,6 +2,7 @@ package entities.generic;
 
 import entities.Vector;
 import genetics.Genetics;
+import graphics.Display;
 
 public abstract class Entity {
   private final String name; // Name of the entity
@@ -19,7 +20,7 @@ public abstract class Entity {
 
   public Vector getPosition() { return position; }
   public String getName() { return name; }
-  public double getSize() { return genetics.getSize(); }
+  public int getSize() { return genetics.getSize(); }
   public boolean isAlive() { return isAlive; }
 
   /**
@@ -50,4 +51,10 @@ public abstract class Entity {
   public String toString() {
     return name + " at " + position.toString();
   }
+
+  /**
+   * Draw the entity to a display
+   * @param display the display to draw to
+   */
+  public abstract void draw(Display display);
 }

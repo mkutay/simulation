@@ -15,6 +15,7 @@ public class Field {
         this.width = fieldBuilder.getWidth();
         this.height = fieldBuilder.getHeight();
 
+        //TODO maybe make field only store a single list of all entities
         preys = fieldBuilder.getPreys();
         predators = fieldBuilder.getPredators();
         plants = fieldBuilder.getPlants();
@@ -66,5 +67,16 @@ public class Field {
      */
     public int getTotalNumEntities() {
         return preys.size() + predators.size() + plants.size();
+    }
+
+    /**
+     * @return All entities currently alive in the field
+     */
+    public ArrayList<Entity> getEntities() {
+        ArrayList<Entity> fieldEntities = new ArrayList<>(getTotalNumEntities());
+        fieldEntities.addAll(getPlants());
+        fieldEntities.addAll(getPreys());
+        fieldEntities.addAll(getPredators());
+        return fieldEntities;
     }
 }

@@ -8,9 +8,10 @@ import genetics.AnimalGenetics;
 import simulation.Field;
 
 public abstract class Animal extends Entity {
-  private AnimalGenetics genetics;
+  protected AnimalGenetics genetics; //Re-cast to AnimalGenetics
   public Animal(AnimalGenetics genetics, Vector position) {
     super(genetics, position);
+    this.genetics = genetics;
   }
 
   /**
@@ -35,10 +36,7 @@ public abstract class Animal extends Entity {
    */
   public ArrayList<Entity> searchNearbyEntities(Field field){
     ArrayList<Entity> foundEntities = new ArrayList<>();
-    ArrayList<Entity> fieldEntities = new ArrayList<>(field.getTotalNumEntities());
-    fieldEntities.addAll(field.getPlants());
-    fieldEntities.addAll(field.getPreys());
-    fieldEntities.addAll(field.getPredators());
+    ArrayList<Entity> fieldEntities = field.getEntities();
 
     for (Entity e : fieldEntities) {
       Vector entityPosition = e.getPosition();

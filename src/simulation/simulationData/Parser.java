@@ -1,12 +1,9 @@
-package simulation;
+package simulation.simulationData;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
 import com.google.gson.Gson;
-
-import simulation.simulationData.AnimalData;
-import simulation.simulationData.PlantData;
 
 /**
  * A class to parse JSON data from files. It can get the contents of a file as a String,

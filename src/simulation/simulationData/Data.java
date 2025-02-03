@@ -1,7 +1,5 @@
 package simulation.simulationData;
 
-import simulation.Parser;
-
 public class Data {
   public static final String PATH = System.getProperty("user.dir");
 

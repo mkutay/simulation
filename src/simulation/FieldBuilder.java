@@ -9,6 +9,7 @@ import java.util.ArrayList;
 
 /**
  * Creates a Field based off of the given simulation Data and field parameters
+ * Spawns in all entities with random initial stats
  */
 public class FieldBuilder {
     private final int width;
@@ -28,6 +29,9 @@ public class FieldBuilder {
         return new Vector(Math.random() * width, Math.random() * height);
     }
 
+    /**
+     * Spawns in all preys, predators and plants for the simulation
+     */
     private void createEntities(Data data) {
         preys = new ArrayList<>();
         predators = new ArrayList<>();
