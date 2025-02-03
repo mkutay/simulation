@@ -1,13 +1,9 @@
 package entities;
+import entities.generic.Animal;
 import genetics.AnimalGenetics;
 
 public class Prey extends Animal {
-  private final String[] scaredOf;
-
-  public Prey(String name, AnimalGenetics genetics, Vector location, String[] eats, String[] scaredOf) {
-    super(name, genetics, location, eats);
-    this.scaredOf = scaredOf;
+  public Prey(AnimalGenetics genetics, Vector location) {
+    super(genetics, location);
   }
-
-  public String[] getScaredOf() { return scaredOf; }
 }

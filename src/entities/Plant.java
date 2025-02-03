@@ -2,11 +2,12 @@ package entities;
 
 import java.util.List;
 
+import entities.generic.Entity;
 import genetics.PlantGenetics;
 
 public class Plant extends Entity {
-  public Plant(String name, PlantGenetics genetics, Vector location) {
-    super(name, genetics, location);
+  public Plant(PlantGenetics genetics, Vector location) {
+    super(genetics, location);
   }
 
   public double getSight() { return 0; }

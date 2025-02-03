@@ -1,18 +1,18 @@
-package entities;
+package entities.generic;
 
+import entities.Vector;
 import genetics.Genetics;
 
 public abstract class Entity {
   private final String name; // Name of the entity
   private int age; // Age of the entity
   private boolean isAlive = true; // Whether the entity is alive or not
-  
   protected Vector position; // Position of the entity
   protected Genetics genetics; // Genetics of the entity
 
-  public Entity(String name, Genetics genetics, Vector position) {
+  public Entity(Genetics genetics, Vector position) {
     age = 0;
-    this.name = name;
+    this.name = genetics.getName();
     this.genetics = genetics;
     this.position = position;
   }
@@ -21,7 +21,6 @@ public abstract class Entity {
   public String getName() { return name; }
   public double getSize() { return genetics.getSize(); }
   public boolean isAlive() { return isAlive; }
-  public double getSight() { return 0; }
 
   /**
    * Increment the age of the entity by 1. Used when the simulation progresses by 1 step.

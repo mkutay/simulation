@@ -24,7 +24,9 @@ public class AnimalData extends EntityData{
       generateRandomNumberBetween(maxSpeed[0], maxSpeed[1]),
       generateRandomNumberBetween(sight[0], sight[1]),
       getRandomGender(),
-      generateRandomNumberBetween(size[0], size[1])
+      generateRandomNumberBetween(size[0], size[1]),
+      eats,
+      name
     );
   }
 
