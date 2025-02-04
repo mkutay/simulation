@@ -14,12 +14,15 @@ public class Predator extends Animal {
   }
 
   /**
-   * Draw the entity to a display
+   * Draw the predator entity to the display as a square
    * @param display the display to draw to
    */
   @Override
   public void draw(Display display) {
-    display.drawCircle((int) position.x, (int) position.y, genetics.getSize(), Color.RED);
+    int size = genetics.getSize()*2;
+    int x = (int) position.x - size/2; //Draw rectangle centered around x,y of predator
+    int y = (int) position.y - size/2;
+    display.drawRectangle(x, y, size, size, genetics.getColour());
   }
 
   /**

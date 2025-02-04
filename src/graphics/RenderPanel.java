@@ -48,6 +48,36 @@ public class RenderPanel extends JPanel {
     }
 
     /**
+     * Draws a filled rectangle
+     * @param x x position of top left
+     * @param y y position of top left
+     * @param width width in px
+     * @param height height in px
+     * @param color colour to render rectangle
+     */
+    public void drawRect(int x, int y, int width, int height, Color color){
+        g2.setColor(color);
+        g2.fillRect(x, y, width, height);
+    }
+
+    /**
+     * Draws a filled equilateral triangle
+     */
+    public void drawEqualTriangle(int centerX, int centerY, int radius, Color color){
+        g2.setColor(color);
+        int[] xPoints = new int[3];
+        int[] yPoints = new int[3];
+
+        for (int i = 0; i < 3; i++) {
+            double angle = Math.PI / 2 + i * 2 * Math.PI / 3;
+            xPoints[i] = (int) (centerX + (radius * Math.cos(angle)));
+            yPoints[i] = (int) (centerY - (radius * Math.sin(angle)));
+        }
+
+        g2.fillPolygon(xPoints, yPoints, 3);
+    }
+
+    /**
      * Clears all drawn elements
      */
     public void clear() {

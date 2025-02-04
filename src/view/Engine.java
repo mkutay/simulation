@@ -14,13 +14,28 @@ public class Engine {
 
     private boolean running = false;
 
-    private final static int FPS = 30;
+    private final int FPS;
 
-    public Engine(int displayWidth, int displayHeight) {
+    /**
+     * Create an engine to run the simulation
+     * @param displayWidth the width of the GUI display
+     * @param displayHeight the height of the GUI display
+     * @param fps fps to run simulation at
+     */
+    public Engine(int displayWidth, int displayHeight, int fps) {
+        FPS = fps;
         simulator = new Simulator(displayWidth, displayHeight);
         display = new Display(displayWidth, displayHeight);
         clock = new Clock(FPS);
     }
+
+    /**
+     * Initialise Engine with FPS set to 60
+     */
+    public Engine(int displayWidth, int displayHeight) {
+        this(displayWidth, displayHeight, 60);
+    }
+
 
     /**
      * Main loop of the simulation

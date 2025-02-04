@@ -13,11 +13,10 @@ import java.util.ArrayList;
  * Used in Engine
  */
 public class Simulator {  
-  private int step;
+  private int step = 0;
   private final Field field;
 
   public Simulator(int width, int height) {
-    step = 0;
     Data simulationData = new Data();
     field = new FieldBuilder(width, height, simulationData).build();
   }

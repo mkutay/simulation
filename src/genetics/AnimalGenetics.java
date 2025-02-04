@@ -1,5 +1,7 @@
 package genetics;
 
+import java.awt.*;
+
 public class AnimalGenetics extends Genetics {
   private final int maxLitterSize; // Maximum number of offspring per breeding
   private final double mutationRate; // Rate at which the entity's genetics can mutate
@@ -9,7 +11,7 @@ public class AnimalGenetics extends Genetics {
   private final String[] eats; //The names of the entities the animal eats
   private final int maxFoodLevel; // Maximum food level of the entity
 
-  public AnimalGenetics(double breedingProbability, int maxLitterSize, int maxAge, int matureAge, double mutationRate, double maxSeed, double sight, Gender gender, int size, String[] eats, String name, int[] colour, int maxFoodLevel) {
+  public AnimalGenetics(double breedingProbability, int maxLitterSize, int maxAge, int matureAge, double mutationRate, double maxSeed, double sight, Gender gender, int size, String[] eats, String name, Color colour, int maxFoodLevel) {
     super(maxAge, matureAge, breedingProbability, size, name, colour);
     this.maxLitterSize = maxLitterSize;
     this.mutationRate = mutationRate;

@@ -3,6 +3,8 @@ package simulation.simulationData;
 import genetics.AnimalGenetics;
 import genetics.Gender;
 
+import java.awt.*;
+
 /**
  * Represents a set of genetic intervals for an animal.
  * This is used when parsing the JSON file for each species of animals.
@@ -19,6 +21,7 @@ public class AnimalData extends EntityData{
    * @return A random set of genetics for an animal based on the data provided.
    */
   public AnimalGenetics generateRandomGenetics() {
+    Color convertedColour = new Color(this.colour[0], this.colour[1], this.colour[2]); //Convert rgb data to java swing Color
     return new AnimalGenetics(
       generateRandomNumberBetween(multiplyingRate[0], multiplyingRate[1]),
       generateRandomNumberBetween(maxLitterSize[0], maxLitterSize[1]),
@@ -31,7 +34,7 @@ public class AnimalData extends EntityData{
       generateRandomNumberBetween(size[0], size[1]),
       eats,
       name,
-      colour,
+      convertedColour,
       generateRandomNumberBetween(maxFoodLevel[0], maxFoodLevel[1])
     );
   }

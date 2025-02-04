@@ -2,7 +2,8 @@ import view.Engine;
 
 public class Main {
     public static void main(String[] args) {
-        Engine engine = new Engine(200, 200);
+        int fps = 0;
+        Engine engine = new Engine(600, 600, fps);
         engine.start();
     }
 }

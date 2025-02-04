@@ -17,11 +17,12 @@ public class Plant extends Entity {
   }
 
   /**
-  * Draw the entity to a display
+  * Draw the plant entity to the display as a triangle
   * @param display the display to draw to
   */
   @Override
   public void draw(Display display) {
-    display.drawCircle((int) position.x, (int) position.y, genetics.getSize(), Color.GREEN);
+    //display.drawCircle((int) position.x, (int) position.y, genetics.getSize(), genetics.getColour());
+    display.drawEqualTriangle((int) position.x, (int) position.y, genetics.getSize(), genetics.getColour());
   }
 }

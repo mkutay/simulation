@@ -42,6 +42,14 @@ public class Display{
         renderPanel.drawCircle(x, y, radius, color);
     }
 
+    public void drawRectangle(int x, int y, int width, int height, Color color){
+        renderPanel.drawRect(x, y, width, height, color);
+    }
+
+    public void drawEqualTriangle(int centerX, int centerY, int radius, Color color){
+        renderPanel.drawEqualTriangle(centerX, centerY, radius, color);
+    }
+
     public void clear(){
         renderPanel.clear();
     }
