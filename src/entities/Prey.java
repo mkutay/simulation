@@ -6,6 +6,7 @@ import graphics.Display;
 import simulation.Field;
 import util.Vector;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Prey extends Animal {
@@ -29,12 +30,23 @@ public class Prey extends Animal {
   /**
    * Update the entity in the field -- make all the actions it can.
    * Move, eat, multiply
+   * TODO split update parts into seperate methods when needed
    */
   public void update(Field field, double deltaTime) {
     super.update(field, deltaTime);
-    List<Entity> nearbyEntities = searchNearbyEntities(field.getEntities());
+    ArrayList<Entity> nearbyEntities = searchNearbyEntities(field.getEntities());
 
-    List<Animal> newlyBornEntities = breed(getSameSpecies(nearbyEntities));
+    for (Entity entity : nearbyEntities) {
+      if (entity instanceof Plant plant) {
+        if (plant.isAlive() && canEat(plant)) { //The plant may be dead in the current step, must check if dead first
+          if (isColliding(plant)) {
+            plant.setDead(); //nom nom nom
+          }
+        }
+      }
+    }
+
+    //List<Animal> newlyBornEntities = breed(getSameSpecies(nearbyEntities));
     // TODO: add newlyBornEntities to the field
 
     // TODO: move the entity

@@ -15,7 +15,7 @@ import java.util.ArrayList;
 public class Simulator {  
   private int step = 0;
   private final Field field;
-  private final static double FIXED_DELTA_TIME = 1; //Effectively controls simulation speed
+  private final static double FIXED_DELTA_TIME = 0.5; //Effectively controls simulation speed
 
   public Simulator(int width, int height) {
     Data simulationData = new Data();

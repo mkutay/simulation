@@ -6,7 +6,7 @@ import graphics.Display;
 import simulation.Field;
 import util.Vector;
 
-import java.util.List;
+import java.util.ArrayList;
 
 public class Predator extends Animal {
   public Predator(AnimalGenetics genetics, Vector location) {
@@ -31,17 +31,26 @@ public class Predator extends Animal {
   /**
    * Update the entity in the field -- make all the actions it can.
    * Move, eat, multiply
+   * TODO split update parts into seperate methods when needed
    */
   @Override
   public void update(Field field, double deltaTime) {
     super.update(field, deltaTime);
 
-    List<Entity> nearbyEntities = searchNearbyEntities(field.getEntities());
+    ArrayList<Entity> nearbyEntities = searchNearbyEntities(field.getEntities());
 
-    List<Animal> newlyBornEntities = breed(getSameSpecies(nearbyEntities));
+    for (Entity entity : nearbyEntities) {
+      if (entity instanceof Prey prey) {
+        if (prey.isAlive() && canEat(prey)) { //The prey may be dead in the current step, must check if dead first
+          if (isColliding(prey)) {
+            prey.setDead(); //nom nom nom
+          }
+        }
+      }
+    }
+
+    //List<Animal> newlyBornEntities = breed(getSameSpecies(nearbyEntities));
     // TODO: add newlyBornEntities to the field
-
-    // TODO: move the entity
 
     // TODO: get all the entities that the this entity want to eat and can eat (colliding)
     // TODO: remove the entities from the field after running the following

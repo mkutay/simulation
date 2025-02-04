@@ -4,7 +4,7 @@
     "multiplyingRate": [0.1, 0.3],
     "maxAge": [2, 5],
     "matureAge": [1, 2],
-    "numberOfEntitiesAtStart": 5,
+    "numberOfEntitiesAtStart": 100,
     "size": [3, 6],
     "colour": [0, 255, 0]
   }

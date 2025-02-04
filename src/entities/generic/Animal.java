@@ -1,6 +1,7 @@
 package entities.generic;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import util.Utility;
@@ -24,7 +25,6 @@ public abstract class Animal extends Entity {
    * TODO replace with boids-like simulation for cool herd movement? May be different for predators/prey
    * Simulates a simple wandering movement
    * Moves in the currently facing direction, while changing the facing direction randomly by a small amount
-   *
    */
   private void wander(Field field, double deltaTime){
     direction += (Math.random()-0.5) * Math.PI * 0.1;
@@ -42,6 +42,10 @@ public abstract class Animal extends Entity {
   @Override
   public void update(Field field, double deltaTime) {
     wander(field, deltaTime);
+  }
+
+  public boolean canEat(Entity entity){
+    return Arrays.asList(genetics.getEats()).contains(entity.getName());
   }
 
   /**

@@ -45,7 +45,7 @@ public abstract class Entity {
   /**
    * Set the entity as dead.
    */
-  protected void setDead() {
+  public void setDead() {
     isAlive = false;
   }
   
@@ -62,5 +62,16 @@ public abstract class Entity {
 
   public void update(Field field, double deltaTime){
     //incrementAge();
+  }
+
+  /**
+   * @param entity the entity to check collision with
+   * @return true if the entities are colliding (uses circle hit box)
+   */
+  public boolean isColliding(Entity entity) {
+    Vector offset = position.subtract(entity.position);
+    double distanceSquared = offset.getMagnitudeSquared();
+    return distanceSquared <= Math.pow((entity.getSize() + getSize()), 2);
+    //this is mathematically the same as (distance <= (e.size + size)), but no sqrt call (in distance) for optimisation
   }
 }
