@@ -55,6 +55,7 @@ public abstract class Entity {
   /**
    * Draw the entity to a display
    * @param display the display to draw to
+   * @param scaleFactor the field scale factor for the position and size (for scaling screen size and simulation size)
    */
-  public abstract void draw(Display display);
+  public abstract void draw(Display display, double scaleFactor);
 }

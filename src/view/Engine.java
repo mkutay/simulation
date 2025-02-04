@@ -15,6 +15,13 @@ public class Engine {
     private boolean running = false;
 
     private final int FPS;
+    private final double fieldScaleFactor; //Scales the field size up/down, so field size doesn't have to be screen size
+    /*
+    0 < scaleFactor < 1 => field is zoomed in
+    scaleFactor = 1 => field is screen size (1 field unit = 1px)
+    scale factor > 1 => field is zoomed out
+    e.g. fieldScaleFactor = 0.5 -> field size is 1/2 screen size (and so is entity render size)
+     */
 
     /**
      * Create an engine to run the simulation
@@ -22,9 +29,13 @@ public class Engine {
      * @param displayHeight the height of the GUI display
      * @param fps fps to run simulation at
      */
-    public Engine(int displayWidth, int displayHeight, int fps) {
+    public Engine(int displayWidth, int displayHeight, int fps, double fieldScaleFactor) {
         FPS = fps;
-        simulator = new Simulator(displayWidth, displayHeight);
+        this.fieldScaleFactor = fieldScaleFactor;
+        int fieldWidth = (int) (displayWidth * fieldScaleFactor);
+        int fieldHeight = (int) (displayHeight * fieldScaleFactor);
+
+        simulator = new Simulator(fieldWidth, fieldHeight);
         display = new Display(displayWidth, displayHeight);
         clock = new Clock(FPS);
     }
@@ -32,8 +43,8 @@ public class Engine {
     /**
      * Initialise Engine with FPS set to 60
      */
-    public Engine(int displayWidth, int displayHeight) {
-        this(displayWidth, displayHeight, 60);
+    public Engine(int displayWidth, int displayHeight, double fieldScaleFactor) {
+        this(displayWidth, displayHeight, 60, fieldScaleFactor);
     }
 
 
@@ -46,7 +57,7 @@ public class Engine {
             display.clear();
 
             for (Entity entity : simulator.getEntities()) {
-                entity.draw(display);
+                entity.draw(display, fieldScaleFactor);
             }
 
             display.update();

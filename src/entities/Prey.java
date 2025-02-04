@@ -15,11 +15,15 @@ public class Prey extends Animal {
 
   /**
    * Draw the prey entity to the display as a circle
-   * @param display the display to draw to
+   * @param display the display to draw to#
+   * @param scaleFactor the field scale factor for the position and size (for scaling screen size and simulation size)
    */
   @Override
-  public void draw(Display display) {
-    display.drawCircle((int) position.x, (int) position.y, genetics.getSize(), genetics.getColour());
+  public void draw(Display display, double scaleFactor) {
+    int size = (int) (genetics.getSize() / scaleFactor);
+    int x = (int) (position.x / scaleFactor);
+    int y = (int) (position.y / scaleFactor);
+    display.drawCircle(x, y, size, genetics.getColour());
   }
 
   /**

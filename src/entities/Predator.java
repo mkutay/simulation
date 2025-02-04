@@ -16,13 +16,15 @@ public class Predator extends Animal {
   /**
    * Draw the predator entity to the display as a square
    * @param display the display to draw to
+   * @param scaleFactor the field scale factor for the position and size (for scaling screen size and simulation size)
    */
   @Override
-  public void draw(Display display) {
-    int size = genetics.getSize()*2;
-    int x = (int) position.x - size/2; //Draw rectangle centered around x,y of predator
-    int y = (int) position.y - size/2;
-    display.drawRectangle(x, y, size, size, genetics.getColour());
+  public void draw(Display display, double scaleFactor) {
+    int size = (int) (genetics.getSize() / scaleFactor);
+    int x = (int) ((position.x - size) / scaleFactor);  //Draw rectangle centered around x,y of predator
+    int y = (int) ((position.y - size) / scaleFactor);
+
+    display.drawRectangle(x, y, size*2, size*2, genetics.getColour());
   }
 
   /**

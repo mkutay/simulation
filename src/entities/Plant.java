@@ -18,11 +18,14 @@ public class Plant extends Entity {
 
   /**
   * Draw the plant entity to the display as a triangle
-  * @param display the display to draw to
+  * @param display the display to draw to*
+  * @param scaleFactor the field scale factor for the position and size (for scaling screen size and simulation size)
   */
   @Override
-  public void draw(Display display) {
-    //display.drawCircle((int) position.x, (int) position.y, genetics.getSize(), genetics.getColour());
-    display.drawEqualTriangle((int) position.x, (int) position.y, genetics.getSize(), genetics.getColour());
+  public void draw(Display display, double scaleFactor) {
+    int size = (int) (genetics.getSize() / scaleFactor);
+    int x = (int) (position.x / scaleFactor);
+    int y = (int) (position.y / scaleFactor);
+    display.drawEqualTriangle(x, y, size, genetics.getColour());
   }
 }
