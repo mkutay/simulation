@@ -1,13 +1,12 @@
 package entities;
 
-import java.awt.Color;
-import java.util.ArrayList;
 import java.util.List;
 
 import entities.generic.Entity;
 import genetics.PlantGenetics;
 import graphics.Display;
 import simulation.Field;
+import util.Vector;
 
 public class Plant extends Entity {
   public Plant(PlantGenetics genetics, Vector position) {
@@ -32,7 +31,7 @@ public class Plant extends Entity {
   }
 
   @Override
-  public void update(ArrayList<Entity> entities, double deltaTime) {
+  public void update(Field field, double deltaTime) {
 
   }
 }

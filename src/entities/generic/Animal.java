@@ -3,7 +3,8 @@ package entities.generic;
 import java.util.ArrayList;
 import java.util.List;
 
-import entities.Vector;
+import util.Utility;
+import util.Vector;
 import genetics.AnimalGenetics;
 import simulation.Field;
 
@@ -23,17 +24,24 @@ public abstract class Animal extends Entity {
    * TODO replace with boids-like simulation for cool herd movement? May be different for predators/prey
    * Simulates a simple wandering movement
    * Moves in the currently facing direction, while changing the facing direction randomly by a small amount
+   *
    */
-  private void wander(double deltaTime){
+  private void wander(Field field, double deltaTime){
     direction += (Math.random()-0.5) * Math.PI * 0.1;
+
+    if (field.isOutOfBounds(position, getSize())){ //If out of bounds
+      Vector centerOffset = field.getSize().multiply(0.5).subtract(position);
+      direction = centerOffset.getAngle() + (Math.random()-0.5) * Math.PI; //Point to center + random offset
+    }
+
     double speed = genetics.getMaxSpeed() * 0.75 * deltaTime; // Moves at 75% of max speed when wandering
     Vector movement = new Vector(Math.cos(direction) * speed, Math.sin(direction) * speed);
     position = position.add(movement);
   }
 
   @Override
-  public void update(ArrayList<Entity> entities, double deltaTime) {
-    wander(deltaTime);
+  public void update(Field field, double deltaTime) {
+    wander(field, deltaTime);
   }
 
   /**

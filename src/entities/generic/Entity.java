@@ -1,11 +1,9 @@
 package entities.generic;
 
-import entities.Vector;
+import util.Vector;
 import genetics.Genetics;
 import graphics.Display;
 import simulation.Field;
-
-import java.util.ArrayList;
 
 public abstract class Entity {
   private final String name; // Name of the entity
@@ -62,5 +60,7 @@ public abstract class Entity {
    */
   public abstract void draw(Display display, double scaleFactor);
 
-  public abstract void update(ArrayList<Entity> entities, double deltaTime);
+  public void update(Field field, double deltaTime){
+    //incrementAge();
+  }
 }

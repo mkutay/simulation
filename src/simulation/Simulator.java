@@ -15,7 +15,7 @@ import java.util.ArrayList;
 public class Simulator {  
   private int step = 0;
   private final Field field;
-  private final static double FIXED_DELTA_TIME = 0.1; //Effectively controls simulation speed
+  private final static double FIXED_DELTA_TIME = 1; //Effectively controls simulation speed
 
   public Simulator(int width, int height) {
     Data simulationData = new Data();
@@ -41,30 +41,9 @@ public class Simulator {
 
     ArrayList<Entity> entities = getEntities();
     for (Entity e : entities) {
-      e.update(entities, FIXED_DELTA_TIME);
+      e.update(field, FIXED_DELTA_TIME);
       field.putInBounds(e);
     }
-
-//    for (Plant plant : field.getPlants()) {
-//      // plant.update();
-//      System.out.println(plant);
-//      plant.multiply();
-//      plant.incrementAge();
-//    }
-//
-//    for (Prey prey : field.getPreys()) {
-//      System.out.println(prey);
-//      prey.update(field);
-//      prey.incrementAge();
-//      field.putInBounds(prey);
-//    }
-//
-//    for (Predator predator : field.getPredators()) {
-//      System.out.println(predator);
-//      predator.update(field);
-//      predator.incrementAge();
-//      field.putInBounds(predator);
-//    }
 
     field.removeDeadEntities();
   }

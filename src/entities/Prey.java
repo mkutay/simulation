@@ -4,9 +4,8 @@ import entities.generic.Entity;
 import genetics.AnimalGenetics;
 import graphics.Display;
 import simulation.Field;
+import util.Vector;
 
-import java.awt.*;
-import java.util.ArrayList;
 import java.util.List;
 
 public class Prey extends Animal {
@@ -31,9 +30,9 @@ public class Prey extends Animal {
    * Update the entity in the field -- make all the actions it can.
    * Move, eat, multiply
    */
-  public void update(ArrayList<Entity> entities, double deltaTime) {
-    super.update(entities, deltaTime);
-    List<Entity> nearbyEntities = searchNearbyEntities(entities);
+  public void update(Field field, double deltaTime) {
+    super.update(field, deltaTime);
+    List<Entity> nearbyEntities = searchNearbyEntities(field.getEntities());
 
     List<Animal> newlyBornEntities = breed(getSameSpecies(nearbyEntities));
     // TODO: add newlyBornEntities to the field

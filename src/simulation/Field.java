@@ -1,7 +1,8 @@
 package simulation;
 import java.util.ArrayList;
-import entities.*;
+
 import entities.generic.Entity;
+import util.Vector;
 
 public class Field {
     private final int width; // Width of the field
@@ -27,6 +28,14 @@ public class Field {
         if (entityPos.y >= height) entityPos.y = height;
     }
 
+    /**
+     * @param pos A coordinate vector
+     * @param padding internal padding for the border
+     * @return true if the coordinate is in the field, false otherwise
+     */
+    public boolean isOutOfBounds(Vector pos, double padding) {
+        return (pos.x < padding) || (pos.y < padding) || (pos.x >= width - padding) || (pos.y >= height - padding);
+    }
 
     /**
     * Filter out the entities that are not alive.
@@ -47,5 +56,9 @@ public class Field {
      */
     public ArrayList<Entity> getEntities() {
         return entities;
+    }
+
+    public Vector getSize(){
+        return new Vector(width, height);
     }
 }

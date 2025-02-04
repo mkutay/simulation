@@ -1,4 +1,4 @@
-package entities;
+package util;
 import java.util.List;
 
 /**
@@ -54,5 +54,9 @@ public class Vector {
 
   public static Vector getRandomVector() {
     return new Vector(Math.random() * 2 - 1, Math.random() * 2 - 1);
+  }
+
+  public double getAngle() {
+    return Math.atan2(y, x);
   }
 }
