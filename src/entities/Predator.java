@@ -22,10 +22,11 @@ public class Predator extends Animal {
   @Override
   public void draw(Display display, double scaleFactor) {
     int size = (int) (genetics.getSize() / scaleFactor);
-    int x = (int) ((position.x - size) / scaleFactor);  //Draw rectangle centered around x,y of predator
-    int y = (int) ((position.y - size) / scaleFactor);
+    int x = (int) ((position.x - (double) size / 2) / scaleFactor);  //Draw rectangle centered around x,y of predator
+    int y = (int) ((position.y - (double) size / 2) / scaleFactor);
 
     display.drawRectangle(x, y, size*2, size*2, genetics.getColour());
+    //display.drawCircle((int) (position.x / scaleFactor), (int) (position.y / scaleFactor), size, Color.ORANGE); //debug
   }
 
   /**
@@ -33,7 +34,8 @@ public class Predator extends Animal {
    * Move, eat, multiply
    */
   @Override
-  public void update(ArrayList<Entity> entities) {
+  public void update(ArrayList<Entity> entities, double deltaTime) {
+    super.update(entities, deltaTime);
     List<Entity> nearbyEntities = searchNearbyEntities(entities);
 
     List<Animal> newlyBornEntities = breed(getSameSpecies(nearbyEntities));
@@ -43,7 +45,7 @@ public class Predator extends Animal {
 
     // TODO: get all the entities that the this entity want to eat and can eat (colliding)
     // TODO: remove the entities from the field after running the following
-    eat(null);
-    checkFoodLevel();
+    //eat(null);
+    //checkFoodLevel();
   }
 }

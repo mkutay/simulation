@@ -10,26 +10,30 @@ import simulation.Field;
 public abstract class Animal extends Entity {
   protected AnimalGenetics genetics; // Re-cast to AnimalGenetics
   protected int foodLevel;
+  private double direction; //Currently facing direction for movement (Used to keep random movement natural looking)
 
   public Animal(AnimalGenetics genetics, Vector position) {
     super(genetics, position);
     this.genetics = genetics;
     this.foodLevel = genetics.getMaxFoodLevel();
+    this.direction = Math.random() * Math.PI * 2;
   }
 
   /**
-   * The animal will move according to the total vector that is given.
-   * Only the direction of the vector is considered, not the magnitude.
-   * And, the animal will move according to its maximum speed. 
-   * TODO: Might change this so that the animal moves according to the
-   * TODO: magnitude of the vector with inverse relationship.
-   * @param tot The total vector that the animal will use to move.
+   * TODO replace with boids-like simulation for cool herd movement? May be different for predators/prey
+   * Simulates a simple wandering movement
+   * Moves in the currently facing direction, while changing the facing direction randomly by a small amount
    */
-  public void moveWithVector(Vector tot) {
-    // If no entity of interest is seen, move randomly
-    if (tot.getMagnitude() == 0) { tot = Vector.getRandomVector(); }
-    tot = tot.setMagnitude(getMaxSpeed());
-    position = position.add(tot);
+  private void wander(double deltaTime){
+    direction += (Math.random()-0.5) * Math.PI * 0.1;
+    double speed = genetics.getMaxSpeed() * 0.75 * deltaTime; // Moves at 75% of max speed when wandering
+    Vector movement = new Vector(Math.cos(direction) * speed, Math.sin(direction) * speed);
+    position = position.add(movement);
+  }
+
+  @Override
+  public void update(ArrayList<Entity> entities, double deltaTime) {
+    wander(deltaTime);
   }
 
   /**

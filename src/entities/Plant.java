@@ -32,7 +32,7 @@ public class Plant extends Entity {
   }
 
   @Override
-  public void update(ArrayList<Entity> entities) {
+  public void update(ArrayList<Entity> entities, double deltaTime) {
 
   }
 }

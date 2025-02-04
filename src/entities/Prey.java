@@ -31,7 +31,8 @@ public class Prey extends Animal {
    * Update the entity in the field -- make all the actions it can.
    * Move, eat, multiply
    */
-  public void update(ArrayList<Entity> entities) {
+  public void update(ArrayList<Entity> entities, double deltaTime) {
+    super.update(entities, deltaTime);
     List<Entity> nearbyEntities = searchNearbyEntities(entities);
 
     List<Animal> newlyBornEntities = breed(getSameSpecies(nearbyEntities));
@@ -41,7 +42,7 @@ public class Prey extends Animal {
 
     // TODO: get all the entities that the this entity want to eat and can eat (colliding)
     // TODO: remove the entities from the field after running the following
-    eat(null);
-    checkFoodLevel();
+    //eat(null);
+    //checkFoodLevel();
   }
 }

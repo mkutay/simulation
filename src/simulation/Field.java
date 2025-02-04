@@ -7,18 +7,12 @@ public class Field {
     private final int width; // Width of the field
     private final int height; // Height of the field
 
-    private final ArrayList<Prey> preys;
-    private final ArrayList<Predator> predators;
-    private final ArrayList<Plant> plants;
+    private final ArrayList<Entity> entities;
 
     public Field(FieldBuilder fieldBuilder) {
         this.width = fieldBuilder.getWidth();
         this.height = fieldBuilder.getHeight();
-
-        //TODO maybe make field only store a single list of all entities
-        preys = fieldBuilder.getPreys();
-        predators = fieldBuilder.getPredators();
-        plants = fieldBuilder.getPlants();
+        entities = fieldBuilder.getEntities();
     }
 
     /**
@@ -33,50 +27,25 @@ public class Field {
         if (entityPos.y >= height) entityPos.y = height;
     }
 
-    /**
-    * TODO: may not be necessary
-    * @return Whether the field is viable or not, for to check if the simulation should continue.
-    */
-    public boolean isViable() {
-        return !preys.isEmpty() && !predators.isEmpty();
-    }
-
-    public ArrayList<Prey> getPreys() {
-        return preys;
-    }
-
-    public ArrayList<Predator> getPredators() {
-        return predators;
-    }
-
-    public ArrayList<Plant> getPlants() {
-        return plants;
-    }
 
     /**
     * Filter out the entities that are not alive.
     */
     public void removeDeadEntities() {
-        plants.removeIf(plant -> !plant.isAlive());
-        preys.removeIf(predator -> !predator.isAlive());
-        predators.removeIf(predator -> !predator.isAlive());
+        entities.removeIf(e -> !e.isAlive());
     }
 
     /**
      * @return the number of entities in the field
      */
     public int getTotalNumEntities() {
-        return preys.size() + predators.size() + plants.size();
+        return entities.size();
     }
 
     /**
      * @return All entities currently alive in the field
      */
     public ArrayList<Entity> getEntities() {
-        ArrayList<Entity> fieldEntities = new ArrayList<>(getTotalNumEntities());
-        fieldEntities.addAll(getPlants());
-        fieldEntities.addAll(getPreys());
-        fieldEntities.addAll(getPredators());
-        return fieldEntities;
+        return entities;
     }
 }

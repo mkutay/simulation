@@ -52,8 +52,9 @@ public class Engine {
      */
     private void run(){
         while (running){
-            simulator.step();
             display.clear();
+
+            simulator.step();
 
             for (Entity entity : simulator.getEntities()) {
                 entity.draw(display, fieldScaleFactor);

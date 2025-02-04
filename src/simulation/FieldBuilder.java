@@ -1,6 +1,7 @@
 package simulation;
 
 import entities.*;
+import entities.generic.Entity;
 import simulation.simulationData.AnimalData;
 import simulation.simulationData.Data;
 import simulation.simulationData.PlantData;
@@ -15,9 +16,7 @@ public class FieldBuilder {
     private final int width;
     private final int height;
 
-    private ArrayList<Prey> preys; // A map of prey species to a list of prey entities
-    private ArrayList<Predator> predators; // A map of predator species to a list of predator entities
-    private ArrayList<Plant> plants; // A map of plant species to a list of plant entities
+    private ArrayList<Entity> entities;
 
     public FieldBuilder(int width, int height, Data data) {
         this.width = width;
@@ -33,9 +32,7 @@ public class FieldBuilder {
      * Spawns in all preys, predators and plants for the simulation
      */
     private void createEntities(Data data) {
-        preys = new ArrayList<>();
-        predators = new ArrayList<>();
-        plants = new ArrayList<>();
+        entities = new ArrayList<>();
 
         AnimalData[] preysData = data.getPreysData();
         AnimalData[] predatorsData = data.getPredatorsData();
@@ -43,34 +40,27 @@ public class FieldBuilder {
 
         for (AnimalData predatorData : predatorsData){
             for (int i = 0; i < predatorData.numberOfEntitiesAtStart; i++) {
-                predators.add(new Predator(predatorData.generateRandomGenetics(), getRandomPosition()));
+                Predator predator = new Predator(predatorData.generateRandomGenetics(), getRandomPosition());
+                entities.add(predator);
             }
         }
 
         for (AnimalData preyData : preysData){
             for (int i = 0; i < preyData.numberOfEntitiesAtStart; i++) {
-                preys.add(new Prey(preyData.generateRandomGenetics(), getRandomPosition()));
+                Prey prey = new Prey(preyData.generateRandomGenetics(), getRandomPosition());
+                entities.add(prey);
             }
         }
 
         for (PlantData plantData : plantsData){
             for (int i = 0; i < plantData.numberOfEntitiesAtStart; i++) {
-                plants.add(new Plant(plantData.generateRandomGenetics(), getRandomPosition()));
+                Plant plant = new Plant(plantData.generateRandomGenetics(), getRandomPosition());
+                entities.add(plant);
             }
         }
     }
 
-    public ArrayList<Prey> getPreys() {
-        return preys;
-    }
-
-    public ArrayList<Predator> getPredators() {
-        return predators;
-    }
-
-    public ArrayList<Plant> getPlants() {
-        return plants;
-    }
+    public ArrayList<Entity> getEntities(){ return entities;}
 
     public int getWidth() {
         return width;

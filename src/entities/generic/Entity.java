@@ -62,5 +62,5 @@ public abstract class Entity {
    */
   public abstract void draw(Display display, double scaleFactor);
 
-  public abstract void update(ArrayList<Entity> entities);
+  public abstract void update(ArrayList<Entity> entities, double deltaTime);
 }
