@@ -54,7 +54,12 @@ public abstract class Animal extends Entity {
     return foundEntities;
   }
 
+  /*
+   * Checks the food level of the animal and sets it to dead if it is less than or equal to 0
+   * Also updates the food level of the animal, as it decreases in each step
+   */
   protected void checkFoodLevel() {
+    foodLevel -= 2;
     if (foodLevel <= 0) {
       setDead();
     }
