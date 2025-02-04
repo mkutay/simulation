@@ -37,5 +37,6 @@ public class Predator extends Animal {
     // TODO: get all the entities that the this entity want to eat and can eat (colliding)
     // TODO: remove the entities from the field after running the following
     eat(null);
+    checkFoodLevel();
   }
 }
