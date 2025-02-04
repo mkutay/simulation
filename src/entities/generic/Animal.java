@@ -37,11 +37,10 @@ public abstract class Animal extends Entity {
    * TODO: Test this method -- create a test unit
    * @return Returns all entities in the field in the animals sight radius
    */
-  public ArrayList<Entity> searchNearbyEntities(Field field) {
+  public ArrayList<Entity> searchNearbyEntities(ArrayList<Entity> entities) {
     ArrayList<Entity> foundEntities = new ArrayList<>();
-    ArrayList<Entity> fieldEntities = field.getEntities();
 
-    for (Entity e : fieldEntities) {
+      for (Entity e : entities) {
       Vector entityPosition = e.getPosition();
       double distanceSquared = position.subtract(entityPosition).getMagnitudeSquared();
       double sightRadius = genetics.getSight();
@@ -71,8 +70,6 @@ public abstract class Animal extends Entity {
   public List<Animal> breed(List<Animal> others) {
     return new ArrayList<>();
   }
-
-  public abstract void update(Field field);
 
   /**
    * @param entities The entities that will be searched through

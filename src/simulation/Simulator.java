@@ -36,28 +36,33 @@ public class Simulator {
   public void step() {
     step++;
 
-    System.out.println("Step " + step);
+    //System.out.println("Step " + step);
 
-    for (Plant plant : field.getPlants()) {
-      // plant.update();
-      System.out.println(plant);
-      plant.multiply();
-      plant.incrementAge();
+    ArrayList<Entity> entities = getEntities();
+    for (Entity e : entities) {
+      e.update(entities);
     }
 
-    for (Prey prey : field.getPreys()) {
-      System.out.println(prey);
-      prey.update(field);
-      prey.incrementAge();
-      field.putInBounds(prey);
-    }
-
-    for (Predator predator : field.getPredators()) {
-      System.out.println(predator);
-      predator.update(field);
-      predator.incrementAge();
-      field.putInBounds(predator);
-    }
+//    for (Plant plant : field.getPlants()) {
+//      // plant.update();
+//      System.out.println(plant);
+//      plant.multiply();
+//      plant.incrementAge();
+//    }
+//
+//    for (Prey prey : field.getPreys()) {
+//      System.out.println(prey);
+//      prey.update(field);
+//      prey.incrementAge();
+//      field.putInBounds(prey);
+//    }
+//
+//    for (Predator predator : field.getPredators()) {
+//      System.out.println(predator);
+//      predator.update(field);
+//      predator.incrementAge();
+//      field.putInBounds(predator);
+//    }
 
     field.removeDeadEntities();
   }

@@ -1,11 +1,13 @@
 package entities;
 
 import java.awt.Color;
+import java.util.ArrayList;
 import java.util.List;
 
 import entities.generic.Entity;
 import genetics.PlantGenetics;
 import graphics.Display;
+import simulation.Field;
 
 public class Plant extends Entity {
   public Plant(PlantGenetics genetics, Vector position) {
@@ -27,5 +29,10 @@ public class Plant extends Entity {
     int x = (int) (position.x / scaleFactor);
     int y = (int) (position.y / scaleFactor);
     display.drawEqualTriangle(x, y, size, genetics.getColour());
+  }
+
+  @Override
+  public void update(ArrayList<Entity> entities) {
+
   }
 }

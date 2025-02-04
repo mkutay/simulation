@@ -20,7 +20,6 @@ public class Engine {
     0 < scaleFactor < 1 => field is zoomed in
     scaleFactor = 1 => field is screen size (1 field unit = 1px)
     scale factor > 1 => field is zoomed out
-    e.g. fieldScaleFactor = 0.5 -> field size is 1/2 screen size (and so is entity render size)
      */
 
     /**

@@ -3,6 +3,9 @@ package entities.generic;
 import entities.Vector;
 import genetics.Genetics;
 import graphics.Display;
+import simulation.Field;
+
+import java.util.ArrayList;
 
 public abstract class Entity {
   private final String name; // Name of the entity
@@ -58,4 +61,6 @@ public abstract class Entity {
    * @param scaleFactor the field scale factor for the position and size (for scaling screen size and simulation size)
    */
   public abstract void draw(Display display, double scaleFactor);
+
+  public abstract void update(ArrayList<Entity> entities);
 }

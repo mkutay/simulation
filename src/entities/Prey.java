@@ -6,6 +6,7 @@ import graphics.Display;
 import simulation.Field;
 
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Prey extends Animal {
@@ -30,8 +31,8 @@ public class Prey extends Animal {
    * Update the entity in the field -- make all the actions it can.
    * Move, eat, multiply
    */
-  public void update(Field field) {
-    List<Entity> nearbyEntities = searchNearbyEntities(field);
+  public void update(ArrayList<Entity> entities) {
+    List<Entity> nearbyEntities = searchNearbyEntities(entities);
 
     List<Animal> newlyBornEntities = breed(getSameSpecies(nearbyEntities));
     // TODO: add newlyBornEntities to the field
