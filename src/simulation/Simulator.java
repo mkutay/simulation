@@ -40,7 +40,7 @@ public class Simulator {
     System.out.println("Step " + step);
 
     for (Plant plant : field.getPlants()) {
-      //plant.update();
+      // plant.update();
       System.out.println(plant);
       plant.multiply();
       plant.incrementAge();
@@ -48,14 +48,14 @@ public class Simulator {
 
     for (Prey prey : field.getPreys()) {
       System.out.println(prey);
-      //prey.update();
+      prey.update(field);
       prey.incrementAge();
       field.putInBounds(prey);
     }
 
     for (Predator predator : field.getPredators()) {
       System.out.println(predator);
-      //predator.update();
+      predator.update(field);
       predator.incrementAge();
       field.putInBounds(predator);
     }

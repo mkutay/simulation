@@ -44,7 +44,7 @@ public abstract class Entity {
   /**
    * Set the entity as dead.
    */
-  private void setDead() {
+  protected void setDead() {
     isAlive = false;
   }
   

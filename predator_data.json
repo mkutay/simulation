@@ -11,6 +11,7 @@
     "numberOfEntitiesAtStart": 2,
     "eats": ["Rabbit"],
     "size": [3, 6],
+    "maxFoodLevel": [50, 100],
     "colour": [255, 0, 0]
   }
 ]

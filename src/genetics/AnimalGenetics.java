@@ -7,8 +7,9 @@ public class AnimalGenetics extends Genetics {
   private final double sight; // Range at which the entity can see other entities
   private final Gender gender;
   private final String[] eats; //The names of the entities the animal eats
+  private final int maxFoodLevel; // Maximum food level of the entity
 
-  public AnimalGenetics(double breedingProbability, int maxLitterSize, int maxAge, int matureAge, double mutationRate, double maxSeed, double sight, Gender gender, int size, String[] eats, String name, int[] colour) {
+  public AnimalGenetics(double breedingProbability, int maxLitterSize, int maxAge, int matureAge, double mutationRate, double maxSeed, double sight, Gender gender, int size, String[] eats, String name, int[] colour, int maxFoodLevel) {
     super(maxAge, matureAge, breedingProbability, size, name, colour);
     this.maxLitterSize = maxLitterSize;
     this.mutationRate = mutationRate;
@@ -16,6 +17,7 @@ public class AnimalGenetics extends Genetics {
     this.sight = sight;
     this.gender = gender;
     this.eats = eats;
+    this.maxFoodLevel = maxFoodLevel;
   }
 
   public int getMaxLitterSize() { return maxLitterSize; }
@@ -24,4 +26,5 @@ public class AnimalGenetics extends Genetics {
   public double getSight() { return sight; }
   public Gender getGender() { return gender; }
   public String[] getEats() { return eats; }
+  public int getMaxFoodLevel() { return maxFoodLevel; }
 }

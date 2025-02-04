@@ -8,10 +8,13 @@ import genetics.AnimalGenetics;
 import simulation.Field;
 
 public abstract class Animal extends Entity {
-  protected AnimalGenetics genetics; //Re-cast to AnimalGenetics
+  protected AnimalGenetics genetics; // Re-cast to AnimalGenetics
+  protected int foodLevel;
+
   public Animal(AnimalGenetics genetics, Vector position) {
     super(genetics, position);
     this.genetics = genetics;
+    this.foodLevel = genetics.getMaxFoodLevel();
   }
 
   /**
@@ -34,7 +37,7 @@ public abstract class Animal extends Entity {
    * TODO: Test this method -- create a test unit
    * @return Returns all entities in the field in the animals sight radius
    */
-  public ArrayList<Entity> searchNearbyEntities(Field field){
+  public ArrayList<Entity> searchNearbyEntities(Field field) {
     ArrayList<Entity> foundEntities = new ArrayList<>();
     ArrayList<Entity> fieldEntities = field.getEntities();
 
@@ -42,18 +45,51 @@ public abstract class Animal extends Entity {
       Vector entityPosition = e.getPosition();
       double distanceSquared = position.subtract(entityPosition).getMagnitudeSquared();
       double sightRadius = genetics.getSight();
-      if (distanceSquared <= sightRadius * sightRadius) { // If can see other entity
+      if (distanceSquared <= sightRadius * sightRadius && e != this) {
+        // If can see other entity and it is not itself
         foundEntities.add(e);
       }
     }
 
     return foundEntities;
   }
+
+  protected void checkFoodLevel() {
+    if (foodLevel <= 0) {
+      setDead();
+    }
+  }
   
   public String[] getEats() { return genetics.getEats(); }
   public double getMaxSpeed() { return genetics.getMaxSpeed(); }
 
-  public List<Entity> breed(List<Entity> others) {
-    return null;
+  public List<Animal> breed(List<Animal> others) {
+    return new ArrayList<>();
+  }
+
+  public abstract void update(Field field);
+
+  /**
+   * @param entities The entities that will be searched through
+   * @return All animals of the same species as this animal
+   */
+  protected List<Animal> getSameSpecies(List<Entity> entities) {
+    List<Animal> sameSpecies = new ArrayList<>();
+    entities.forEach(entity -> {
+      if (entity instanceof Animal && entity.getName().equals(getName())) {
+        sameSpecies.add((Animal) entity);
+      }
+    });
+    return sameSpecies;
+  }
+
+  /**
+   * Eats the entities and increases the food level of the animal
+   * @param entities The entities that will be eaten
+   */
+  protected void eat(List<Entity> entities) {
+    if (entities == null) return;
+    entities.forEach(e -> foodLevel += e.getSize() * 3);
+    foodLevel = Math.min(foodLevel, genetics.getMaxFoodLevel()); // Cap the foodLevel
   }
 }
