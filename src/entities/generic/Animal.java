@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import util.Utility;
 import util.Vector;
 import genetics.AnimalGenetics;
 import simulation.Field;
@@ -12,7 +11,7 @@ import simulation.Field;
 public abstract class Animal extends Entity {
   protected AnimalGenetics genetics; // Re-cast to AnimalGenetics
   protected int foodLevel;
-  private double direction; //Currently facing direction for movement (Used to keep random movement natural looking)
+  private double direction; // Currently facing direction for movement (Used to keep random movement natural looking)
 
   public Animal(AnimalGenetics genetics, Vector position) {
     super(genetics, position);
@@ -22,14 +21,14 @@ public abstract class Animal extends Entity {
   }
 
   /**
-   * TODO replace with boids-like simulation for cool herd movement? May be different for predators/prey
+   * TODO: replace with boids-like simulation for cool herd movement? May be different for predators/prey
    * Simulates a simple wandering movement
    * Moves in the currently facing direction, while changing the facing direction randomly by a small amount
    */
-  private void wander(Field field, double deltaTime){
+  private void wander(Field field, double deltaTime) {
     direction += (Math.random()-0.5) * Math.PI * 0.1;
 
-    if (field.isOutOfBounds(position, getSize())){ //If out of bounds
+    if (field.isOutOfBounds(position, getSize())){ // If out of bounds
       Vector centerOffset = field.getSize().multiply(0.5).subtract(position);
       direction = centerOffset.getAngle() + (Math.random()-0.5) * Math.PI; //Point to center + random offset
     }
@@ -70,8 +69,8 @@ public abstract class Animal extends Entity {
   }
 
   /*
-   * Checks the food level of the animal and sets it to dead if it is less than or equal to 0
-   * Also updates the food level of the animal, as it decreases in each step
+   * Checks the food level of the animal and sets it to dead if it is less than or equal to 0.
+   * Also updates the food level of the animal, as it decreases in each step.
    */
   protected void checkFoodLevel() {
     foodLevel -= 2;
@@ -83,13 +82,18 @@ public abstract class Animal extends Entity {
   public String[] getEats() { return genetics.getEats(); }
   public double getMaxSpeed() { return genetics.getMaxSpeed(); }
 
+  /**
+   * Breeds with other animals of the same species, if they are close enough.
+   * @param others The other animals.
+   * @return The newly born animals.
+   */
   public List<Animal> breed(List<Animal> others) {
-    return new ArrayList<>();
+    return null;
   }
 
   /**
-   * @param entities The entities that will be searched through
-   * @return All animals of the same species as this animal
+   * @param entities The entities that will be searched through.
+   * @return All animals of the same species as this animal.
    */
   protected List<Animal> getSameSpecies(List<Entity> entities) {
     List<Animal> sameSpecies = new ArrayList<>();

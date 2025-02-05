@@ -1,9 +1,9 @@
 package simulation.simulationData;
 
+import java.awt.Color;
+
 import genetics.AnimalGenetics;
 import genetics.Gender;
-
-import java.awt.*;
 
 /**
  * Represents a set of genetic intervals for an animal.
@@ -21,7 +21,8 @@ public class AnimalData extends EntityData{
    * @return A random set of genetics for an animal based on the data provided.
    */
   public AnimalGenetics generateRandomGenetics() {
-    Color convertedColour = new Color(this.colour[0], this.colour[1], this.colour[2]); //Convert rgb data to java swing Color
+    Color convertedColour = new Color(this.colour[0], this.colour[1], this.colour[2]); // Convert RGB data to java.swing.Color
+    
     return new AnimalGenetics(
       generateRandomNumberBetween(multiplyingRate[0], multiplyingRate[1]),
       generateRandomNumberBetween(maxLitterSize[0], maxLitterSize[1]),

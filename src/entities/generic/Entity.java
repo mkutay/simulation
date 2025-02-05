@@ -60,9 +60,7 @@ public abstract class Entity {
    */
   public abstract void draw(Display display, double scaleFactor);
 
-  public void update(Field field, double deltaTime){
-    //incrementAge();
-  }
+  public void update(Field field, double deltaTime) { }
 
   /**
    * @param entity the entity to check collision with
@@ -71,7 +69,7 @@ public abstract class Entity {
   public boolean isColliding(Entity entity) {
     Vector offset = position.subtract(entity.position);
     double distanceSquared = offset.getMagnitudeSquared();
+    // This is mathematically the same as (distance <= (e.size + size)), but no sqrt call (in distance) for optimisation
     return distanceSquared <= Math.pow((entity.getSize() + getSize()), 2);
-    //this is mathematically the same as (distance <= (e.size + size)), but no sqrt call (in distance) for optimisation
   }
 }

@@ -1,6 +1,6 @@
 package genetics;
 
-import java.awt.*;
+import java.awt.Color;
 
 public abstract class Genetics {
   private final String name; // Name of entity, acts as identifying key

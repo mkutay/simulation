@@ -1,12 +1,9 @@
 package simulation;
 
-import entities.Prey;
-import entities.Predator;
-import entities.Plant;
+import java.util.ArrayList;
+
 import entities.generic.Entity;
 import simulation.simulationData.Data;
-
-import java.util.ArrayList;
 
 /**
  * Holds all the simulation information and is used to step through the simulation
@@ -15,7 +12,7 @@ import java.util.ArrayList;
 public class Simulator {  
   private int step = 0;
   private final Field field;
-  private final static double FIXED_DELTA_TIME = 0.5; //Effectively controls simulation speed
+  private final static double FIXED_DELTA_TIME = 0.5; // Effectively controls simulation speed
 
   public Simulator(int width, int height) {
     Data simulationData = new Data();
@@ -23,21 +20,21 @@ public class Simulator {
   }
 
   /**
-   * @return All entities currently alive in the field
+   * @return All entities currently alive in the field.
    */
-  public ArrayList<Entity> getEntities(){
+  public ArrayList<Entity> getEntities() {
     return field.getEntities();
   }
 
-  //TODO re-implement movement and add breeding system + eating/hunger system
+  // TODO re-implement movement and add breeding system + eating/hunger system
 
   /**
-   * Simulates a single step of the simulation
+   * Simulates a single step.
    */
   public void step() {
     step++;
 
-    //System.out.println("Step " + step);
+    // System.out.println("Step " + step);
 
     ArrayList<Entity> entities = getEntities();
     for (Entity e : entities) {

@@ -31,7 +31,5 @@ public class Plant extends Entity {
   }
 
   @Override
-  public void update(Field field, double deltaTime) {
-
-  }
+  public void update(Field field, double deltaTime) { }
 }
