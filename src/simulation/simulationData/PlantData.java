@@ -9,6 +9,7 @@ import genetics.PlantGenetics;
  * This is used when parsing the JSON file for type of plant.
  */
 public class PlantData extends EntityData {
+  private int[] numberOfSeeds; // Number of seeds produced by the plant -- when multiplied
   /**
    * @return A random set of genetics for a plant based on the data provided.
    */
@@ -21,7 +22,8 @@ public class PlantData extends EntityData {
       generateRandomNumberBetween(multiplyingRate[0], multiplyingRate[1]),
       generateRandomNumberBetween(size[0], size[1]),
       name,
-      convertedColour
+      convertedColour,
+      generateRandomNumberBetween(numberOfSeeds[0], numberOfSeeds[1])
     );
   }
 }

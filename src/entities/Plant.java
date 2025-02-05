@@ -9,12 +9,29 @@ import simulation.Field;
 import util.Vector;
 
 public class Plant extends Entity {
+  protected PlantGenetics genetics;
+
   public Plant(PlantGenetics genetics, Vector position) {
     super(genetics, position);
+    this.genetics = genetics;
   }
 
+  /**
+   * Miltiples. The new plants have the same genetics as the parent plant.
+   * TODO: The plants multiply too quickly and too much. Maybe a collision system is needed.
+   * @return A list of new plants if the plant can multiply, null otherwise
+   */
   public List<Plant> multiply() {
-    return null;
+    if (!canMultiply() || Math.random() > genetics.getMultiplyingRate()) return null;
+
+    int seeds = genetics.getNumberOfSeeds();
+    Plant[] newPlants = new Plant[seeds];
+    for (int i = 0; i < seeds; i++) {
+      Vector newPos = new Vector(this.position.x + 6 * (Math.random() * genetics.getSize() - genetics.getSize() / 2),
+        this.position.y + 6 * (Math.random() * genetics.getSize() - genetics.getSize() / 2));
+      newPlants[i] = new Plant(genetics, newPos);
+    }
+    return List.of(newPlants);
   }
 
   /**
@@ -31,5 +48,13 @@ public class Plant extends Entity {
   }
 
   @Override
-  public void update(Field field, double deltaTime) { }
+  public void update(Field field, double deltaTime) {
+    super.update(field, deltaTime);
+    List<Plant> newPlants = multiply();
+    if (newPlants == null) return;
+    for (Plant plant : newPlants) {
+      field.putInBounds(plant, plant.getSize());
+      field.addEntity(plant);
+    }
+  }
 }

@@ -34,12 +34,13 @@ public class Simulator {
   public void step() {
     step++;
 
-    // System.out.println("Step " + step);
+    System.out.println("Step " + step);
 
     ArrayList<Entity> entities = getEntities();
-    for (Entity e : entities) {
+    for (int i = 0; i < entities.size(); i++) {
+      Entity e = entities.get(i);
       e.update(field, FIXED_DELTA_TIME);
-      field.putInBounds(e);
+      field.putInBounds(e, e.getSize());
     }
 
     field.removeDeadEntities();

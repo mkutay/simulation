@@ -28,7 +28,7 @@ public abstract class Animal extends Entity {
   private void wander(Field field, double deltaTime) {
     direction += (Math.random()-0.5) * Math.PI * 0.1;
 
-    if (field.isOutOfBounds(position, getSize())){ // If out of bounds
+    if (field.isOutOfBounds(position, getSize())) { // If out of bounds
       Vector centerOffset = field.getSize().multiply(0.5).subtract(position);
       direction = centerOffset.getAngle() + (Math.random()-0.5) * Math.PI; //Point to center + random offset
     }
@@ -40,6 +40,7 @@ public abstract class Animal extends Entity {
 
   @Override
   public void update(Field field, double deltaTime) {
+    super.update(field, deltaTime);
     wander(field, deltaTime);
   }
 

@@ -60,7 +60,9 @@ public abstract class Entity {
    */
   public abstract void draw(Display display, double scaleFactor);
 
-  public void update(Field field, double deltaTime) { }
+  public void update(Field field, double deltaTime) {
+    incrementAge();
+  }
 
   /**
    * @param entity the entity to check collision with

@@ -21,12 +21,12 @@ public class Field {
   * Put an entity in-bounds if it is out of bounds (that is the field width and height).
   * @param entity The entity that will be moved.
   */
-  public void putInBounds(Entity entity) {
+  public void putInBounds(Entity entity, double padding) {
     Vector entityPos = entity.getPosition();
-    if (entityPos.x < 0) entityPos.x = 0;
-    if (entityPos.y < 0) entityPos.y = 0;
-    if (entityPos.x >= width) entityPos.x = width;
-    if (entityPos.y >= height) entityPos.y = height;
+    if (entityPos.x < padding) entityPos.x = padding;
+    if (entityPos.y < padding) entityPos.y = padding;
+    if (entityPos.x > width - padding) entityPos.x = width - padding;
+    if (entityPos.y > height - padding) entityPos.y = height - padding;
   }
 
   /**
@@ -65,5 +65,13 @@ public class Field {
    */
   public Vector getSize() {
     return new Vector(width, height);
+  }
+
+  /**
+   * Add an entity to the field.
+   * @param entity The entity to add.
+   */
+  public void addEntity(Entity entity) {
+    entities.add(entity);
   }
 }
