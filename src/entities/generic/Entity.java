@@ -1,5 +1,6 @@
 package entities.generic;
 
+import util.Utility;
 import util.Vector;
 import genetics.Genetics;
 import graphics.Display;
@@ -57,14 +58,15 @@ public abstract class Entity {
 
   /**
    * @param entity1 The first entity to check collision with
-   * * @param entity2 The second entity to check collision with
+   * @param entity2 The second entity to check collision with
    * @return True if the entities are colliding (uses circle hit box), false otherwise
    */
   public static boolean isColliding(Entity entity1, Entity entity2) {
+    if (entity1 == null || entity2 == null) return false;
     Vector offset = entity1.position.subtract(entity2.position);
     double distanceSquared = offset.getMagnitudeSquared();
     // This is mathematically the same as (distance <= (e.size + size)), but no sqrt call (in distance) for optimisation
-    return distanceSquared <= Math.pow((entity1.getSize() + entity2.getSize()), 2);
+    return distanceSquared <= Math.pow((entity1.getSize() + entity2.getSize()), 2) + Utility.EPSILON;
   }
 
   public String toString() {
