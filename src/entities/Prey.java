@@ -1,6 +1,6 @@
 package entities;
+
 import java.util.List;
-import java.util.ArrayList;
 
 import entities.generic.*;
 import genetics.AnimalGenetics;
@@ -36,23 +36,7 @@ public class Prey extends Animal {
 
     List<Entity> nearbyEntities = searchNearbyEntities(field.getEntities());
 
-    List<Entity> wantToEat = new ArrayList<>();
-
-    for (Entity entity : nearbyEntities) {
-      if (entity instanceof Plant plant) {
-        // The plant may be dead in the current step, must check if dead first.
-        if (plant.isAlive() && canEat(plant) && isColliding(plant)) {
-          wantToEat.add(plant);
-        }
-      }
-    }
-
-    eat(wantToEat);
-    checkFoodLevel();
-
-    for (Entity plant : wantToEat) {
-      plant.setDead();
-    }
+    eating.performEating(nearbyEntities);
 
     List<Animal> newlyBornEntities = breed(getSameSpecies(nearbyEntities));
     if (newlyBornEntities != null) for (Animal entity : newlyBornEntities) {

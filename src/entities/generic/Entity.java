@@ -56,14 +56,15 @@ public abstract class Entity {
   }
 
   /**
-   * @param entity The entity to check collision with
+   * @param entity1 The first entity to check collision with
+   * * @param entity2 The second entity to check collision with
    * @return True if the entities are colliding (uses circle hit box), false otherwise
    */
-  public boolean isColliding(Entity entity) {
-    Vector offset = position.subtract(entity.position);
+  public static boolean isColliding(Entity entity1, Entity entity2) {
+    Vector offset = entity1.position.subtract(entity2.position);
     double distanceSquared = offset.getMagnitudeSquared();
     // This is mathematically the same as (distance <= (e.size + size)), but no sqrt call (in distance) for optimisation
-    return distanceSquared <= Math.pow((entity.getSize() + getSize()), 2);
+    return distanceSquared <= Math.pow((entity1.getSize() + entity2.getSize()), 2);
   }
 
   public String toString() {

@@ -1,13 +1,12 @@
 package entities;
-import entities.generic.Animal;
-import entities.generic.Entity;
+
+import java.util.List;
+
+import entities.generic.*;
 import genetics.AnimalGenetics;
 import graphics.Display;
 import simulation.Field;
 import util.Vector;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class Predator extends Animal {
   public Predator(AnimalGenetics genetics, Vector location) {
@@ -39,24 +38,8 @@ public class Predator extends Animal {
     super.update(field, deltaTime);
 
     List<Entity> nearbyEntities = searchNearbyEntities(field.getEntities());
-    List<Entity> wantToEat = new ArrayList<>();
-
-    for (Entity entity : nearbyEntities) {
-      if (entity instanceof Prey prey) {
-        // The prey may be dead in the current step, must check if dead first.
-        if (prey.isAlive() && canEat(prey) && isColliding((prey))) {
-          wantToEat.add(prey);
-        }
-      }
-    }
-
-    // Eat all entities in wantToEat and check the food level of the predator.
-    eat(wantToEat);
-    checkFoodLevel();
-
-    for (Entity prey : wantToEat) {
-      prey.setDead();
-    }
+    
+    eating.performEating(nearbyEntities);
 
     List<Animal> newlyBornEntities = breed(getSameSpecies(nearbyEntities));
     if (newlyBornEntities != null) for (Animal entity : newlyBornEntities) {
