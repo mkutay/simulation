@@ -17,5 +17,10 @@ jobs:
       with:
         distribution: 'temurin'
         java-version: '11'
-    - name: Build with Gradle and run tests
-      run: ./gradlew test || gradle test
+    - name: Compile Java code and tests
+      run: |
+        mkdir -p bin
+        find . -name "*.java" > sources.txt
+        javac -cp "lib/*" -d bin @sources.txt
+    - name: Run JUnit tests
+      run: java -jar lib/junit-platform-console-standalone.jar --class-path bin --scan-class-path
