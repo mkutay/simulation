@@ -22,6 +22,8 @@ public class RenderPanel extends JPanel {
 	public RenderPanel(int screenWidth, int screenHeight) {
 		setPreferredSize(new Dimension(screenWidth, screenHeight));
 		surface = new BufferedImage(screenWidth, screenHeight, BufferedImage.TYPE_INT_RGB);
+		setDoubleBuffered(true);
+
 		g2 = (Graphics2D) surface.getGraphics(); // Get graphics context.
 	}
 

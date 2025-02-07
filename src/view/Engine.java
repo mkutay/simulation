@@ -53,7 +53,6 @@ public class Engine {
   private void run() {
     while (running) {
       display.clear();
-
       simulator.step();
 
       for (Entity entity : simulator.getEntities()) {

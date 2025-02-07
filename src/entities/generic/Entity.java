@@ -102,4 +102,8 @@ public abstract class Entity {
   public String getName() { return name; }
   public int getSize() { return genetics.getSize(); }
   public boolean isAlive() { return isAlive; }
+
+  public void setAge(double age) {
+    this.age = age;
+  }
 }

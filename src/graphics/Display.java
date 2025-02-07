@@ -9,15 +9,9 @@ import java.awt.*;
  * draw them to the screen.
  */
 public class Display{
-  private final int screenWidth;
-  private final int screenHeight;
-
   private final RenderPanel renderPanel;
 
   public Display(int screenWidth, int screenHeight) {
-    this.screenWidth = screenWidth;
-    this.screenHeight = screenHeight;
-
     JFrame display = new JFrame("Window");
     renderPanel = new RenderPanel(screenWidth, screenHeight);
 

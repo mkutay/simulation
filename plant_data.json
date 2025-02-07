@@ -1,10 +1,10 @@
 [
   {
     "name": "Grass",
-    "multiplyingRate": [0.025, 0.035],
+    "multiplyingRate": [0.1, 0.5],
     "numberOfSeeds": [2, 5],
-    "maxAge": [80, 90],
-    "matureAge": [65, 80],
+    "maxAge": [150, 250],
+    "matureAge": [100, 150],
     "numberOfEntitiesAtStart": 100,
     "size": [3, 6],
     "colour": [0, 255, 0]

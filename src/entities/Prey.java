@@ -1,7 +1,5 @@
 package entities;
 
-import java.util.List;
-
 import entities.generic.*;
 import genetics.AnimalGenetics;
 import graphics.Display;
@@ -33,15 +31,5 @@ public class Prey extends Animal {
    */
   public void update(Field field, double deltaTime) {
     super.update(field, deltaTime);
-
-    List<Entity> nearbyEntities = searchNearbyEntities(field.getEntities(), genetics.getSight());
-
-    eat(nearbyEntities);
-
-    List<Animal> newlyBornEntities = breed(getSameSpecies(nearbyEntities));
-    if (newlyBornEntities != null) for (Animal entity : newlyBornEntities) {
-      field.putInBounds(entity, entity.getSize());
-      field.addEntity(entity);
-    }
   }
 }

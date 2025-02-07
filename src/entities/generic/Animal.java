@@ -90,6 +90,16 @@ public abstract class Animal extends Entity {
     super.update(field, deltaTime);
     wander(field, deltaTime);
     handleHunger(deltaTime);
+
+    List<Entity> nearbyEntities = searchNearbyEntities(field.getEntities(), genetics.getSight());
+
+    eat(nearbyEntities);
+
+    List<Animal> newlyBornEntities = breed(getSameSpecies(nearbyEntities));
+    if (newlyBornEntities != null) for (Animal entity : newlyBornEntities) {
+      field.putInBounds(entity, entity.getSize());
+      field.safeAddEntity(entity);
+    }
   }
 
   // Getters:
