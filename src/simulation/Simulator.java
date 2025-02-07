@@ -15,8 +15,7 @@ public class Simulator {
   private final static double FIXED_DELTA_TIME = 0.5; // Effectively controls simulation speed
 
   public Simulator(int width, int height) {
-    Data simulationData = new Data();
-    field = new FieldBuilder(width, height, simulationData).build();
+    field = new FieldBuilder(width, height, new Data()).build();
   }
 
   /**

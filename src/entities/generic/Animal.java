@@ -9,6 +9,8 @@ import genetics.AnimalGenetics;
 import simulation.Field;
 
 public abstract class Animal extends Entity {
+  public static final double EPSILON = 1e-4;
+
   protected AnimalGenetics genetics; // Re-cast to AnimalGenetics
   protected int foodLevel;
   private double direction; // Currently facing direction for movement (Used to keep random movement natural looking)
@@ -55,17 +57,17 @@ public abstract class Animal extends Entity {
 
   /**
    * TODO: Optimise when necessary
-   * TODO: Test this method -- create a test unit
    * @return Returns all entities in the field in the animals sight radius, except itself
    */
   public ArrayList<Entity> searchNearbyEntities(ArrayList<Entity> entities) {
     ArrayList<Entity> foundEntities = new ArrayList<>();
+    if (entities == null) return foundEntities;
 
     for (Entity e : entities) {
-      Vector entityPosition = e.getPosition();
-      double distanceSquared = position.subtract(entityPosition).getMagnitudeSquared();
+      double distanceSquared = e.getPosition().subtract(position).getMagnitudeSquared();
       double sightRadius = genetics.getSight();
-      if (distanceSquared <= sightRadius * sightRadius && e != this) {
+      // Epsilon is used for floating point comparison
+      if (distanceSquared - sightRadius * sightRadius <= EPSILON && e != this) {
         // If can see other entity and it is not itself
         foundEntities.add(e);
       }

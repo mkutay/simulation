@@ -44,6 +44,7 @@ public class Vector {
   public double getMagnitude() {
     return Math.hypot(x, y);
   }
+  
   public double getMagnitudeSquared() {
     return x * x + y * y;
   }

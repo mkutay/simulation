@@ -11,6 +11,15 @@ public class Field {
 
   private final ArrayList<Entity> entities;
 
+  /**
+   * For use with the JUnit tests.
+   */
+  public Field(int width, int height) {
+    this.width = width;
+    this.height = height;
+    entities = new ArrayList<>();
+  }
+
   public Field(FieldBuilder fieldBuilder) {
     this.width = fieldBuilder.getWidth();
     this.height = fieldBuilder.getHeight();
