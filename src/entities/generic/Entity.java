@@ -11,7 +11,7 @@ import java.util.List;
 
 public abstract class Entity {
   private final String name; // Name of the entity
-  private int age; // Age of the entity
+  private double age; // Age of the entity
   private boolean isAlive = true; // Whether the entity is alive or not
   protected Vector position; // Position of the entity
   protected Genetics genetics; // Genetics of the entity
@@ -24,11 +24,12 @@ public abstract class Entity {
   }
 
   /**
-   * Increment the age of the entity by 1. Used when the simulation progresses by 1 step.
+   * Increment the age of the entity.
+   * Age increase rate is proportional to delta time
    * If the entity is older than or equal to the maximum age, the entity dies.
    */
-  public void incrementAge() {
-    age++;
+  public void incrementAge(double deltaTime) {
+    age += deltaTime;
     if (age >= genetics.getMaxAge()) {
       setDead();
     }
@@ -56,20 +57,19 @@ public abstract class Entity {
   public abstract void draw(Display display, double scaleFactor);
 
   public void update(Field field, double deltaTime) {
-    incrementAge();
+    incrementAge(deltaTime);
   }
 
   /**
-   * @param entity1 The first entity to check collision with
-   * @param entity2 The second entity to check collision with
-   * @return True if the entities are colliding (uses circle hit box), false otherwise
+   * @param entity The entity to check collision with self
+   * @return True if colliding with entity (uses circle hit box), false otherwise
    */
-  public static boolean isColliding(Entity entity1, Entity entity2) {
-    if (entity1 == null || entity2 == null) return false;
-    Vector offset = entity1.position.subtract(entity2.position);
+  public boolean isColliding(Entity entity) {
+    if (entity == null) return false;
+    Vector offset = position.subtract(entity.position);
     double distanceSquared = offset.getMagnitudeSquared();
     // This is mathematically the same as (distance <= (e.size + size)), but no sqrt call (in distance) for optimisation
-    return distanceSquared <= Math.pow((entity1.getSize() + entity2.getSize()), 2) + Utility.EPSILON;
+    return distanceSquared <= Math.pow((getSize() + entity.getSize()), 2) + Utility.EPSILON;
   }
 
   /**

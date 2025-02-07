@@ -29,14 +29,14 @@ public class Prey extends Animal {
   /**
    * Update the entity in the field -- make all the actions it can.
    * Move, eat, multiply
-   * TODO split update parts into seperate methods when needed
+   * TODO split update parts into separate methods when needed
    */
   public void update(Field field, double deltaTime) {
     super.update(field, deltaTime);
 
     List<Entity> nearbyEntities = searchNearbyEntities(field.getEntities(), genetics.getSight());
 
-    eating.performEating(nearbyEntities);
+    eat(nearbyEntities);
 
     List<Animal> newlyBornEntities = breed(getSameSpecies(nearbyEntities));
     if (newlyBornEntities != null) for (Animal entity : newlyBornEntities) {

@@ -39,7 +39,7 @@ public class Predator extends Animal {
 
     List<Entity> nearbyEntities = searchNearbyEntities(field.getEntities(), genetics.getSight());
     
-    eating.performEating(nearbyEntities);
+    eat(nearbyEntities);
 
     List<Animal> newlyBornEntities = breed(getSameSpecies(nearbyEntities));
     if (newlyBornEntities != null) for (Animal entity : newlyBornEntities) {

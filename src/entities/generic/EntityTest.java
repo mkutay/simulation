@@ -27,17 +27,15 @@ class EntityTest {
     Entity entity2 = new Prey(genetics2, new Vector(50, 50 + entity1.getSize()));
     Entity entity3 = new Prey(genetics3, new Vector(50, 50 + genetics1.getSize() + genetics3.getSize()));
     Entity entity4 = new Prey(genetics4, new Vector(50, 50 + genetics1.getSize() + genetics4.getSize() + 1));
-    assertTrue(Entity.isColliding(entity1, entity2));
-    assertTrue(Entity.isColliding(entity1, entity3));
-    assertFalse(Entity.isColliding(entity1, entity4));
+    assertTrue(entity1.isColliding(entity2));
+    assertTrue(entity1.isColliding(entity3));
+    assertFalse(entity1.isColliding(entity4));
   }
 
   @Test
   void testIsColliding_Null() {
     AnimalGenetics genetics = data.getPreysData()[0].generateRandomGenetics();
     Entity entity = new Prey(genetics, new Vector(50, 50));
-    assertFalse(Entity.isColliding(entity, null));
-    assertFalse(Entity.isColliding(null, entity));
-    assertFalse(Entity.isColliding(null, null));
+    assertFalse(entity.isColliding(null));
   }
 }

@@ -1,6 +1,7 @@
 package entities.generic;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import util.Utility;
@@ -10,15 +11,13 @@ import simulation.Field;
 
 public abstract class Animal extends Entity {
   protected AnimalGenetics genetics; // Re-cast to AnimalGenetics
-  protected int foodLevel;
+  protected double foodLevel;
   private double direction = Math.random() * Math.PI * 2;
 
-  protected final AnimalEating eating;
   public Animal(AnimalGenetics genetics, Vector position) {
     super(genetics, position);
     this.genetics = genetics;
     this.foodLevel = genetics.getMaxFoodLevel();
-    eating = new AnimalEating(this);
   }
 
   /**
@@ -49,6 +48,39 @@ public abstract class Animal extends Entity {
     return sameSpecies;
   }
 
+  public boolean canEat(Entity entity) {
+    return Arrays.asList(getEats()).contains(entity.getName());
+  }
+
+  /**
+   * Attempts to eat any colliding entities
+   * @param nearbyEntities the entities in the sight radius of this animal
+   */
+  public void eat(List<Entity> nearbyEntities) {
+    if (nearbyEntities == null) return;
+    for (Entity entity : nearbyEntities) {
+      // The entity may be dead in the current step, must check if dead first.
+      if (entity.isAlive() && canEat(entity) && isColliding(entity)) {
+        foodLevel += entity.getSize() * 3;
+        entity.setDead();
+      }
+    }
+
+    foodLevel = Math.min(foodLevel, genetics.getMaxFoodLevel()); //Clamp food from exceeding max food of animal
+  }
+
+  /**
+   * Sets animal to die if no food, decrements food level proportion to deltaTime.
+   * TODO food level decrements based on speed.
+   * TODO food level decrements when reproducing
+   */
+  public void handleHunger(double deltaTime) {
+    foodLevel -= genetics.getMaxFoodLevel() * 0.01 * deltaTime;
+    if (foodLevel <= 0) {
+      setDead();
+    }
+  }
+
   public List<Animal> breed(List<Animal> others) {
     return null;
   }
@@ -57,6 +89,7 @@ public abstract class Animal extends Entity {
   public void update(Field field, double deltaTime) {
     super.update(field, deltaTime);
     wander(field, deltaTime);
+    handleHunger(deltaTime);
   }
 
   // Getters:
