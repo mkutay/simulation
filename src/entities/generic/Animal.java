@@ -27,7 +27,8 @@ public abstract class Animal extends Entity {
 
   /**
    * TODO: Optimise when necessary
-   * @return Returns all entities in the field in the animals sight radius, except itself
+   * @param entities The entities that will be searched through.
+   * @return Returns all entities in the field in the animals sight radius, except itself.
    */
   public ArrayList<Entity> searchNearbyEntities(ArrayList<Entity> entities) {
     ArrayList<Entity> foundEntities = new ArrayList<>();
@@ -64,16 +65,6 @@ public abstract class Animal extends Entity {
   public void update(Field field, double deltaTime) {
     super.update(field, deltaTime);
     movement.simpleWander(field, deltaTime);
-  }
-
-  /**
-   * Breeds with other animals of the same species.
-   * Delegates to breeding behavior.
-   * @param others The other animals.
-   * @return The newly born animals.
-   */
-  public List<Animal> breed(List<Animal> others) {
-    return breeding.breed(others);
   }
 
   // Getters:

@@ -38,7 +38,7 @@ public class Prey extends Animal {
 
     eating.performEating(nearbyEntities);
 
-    List<Animal> newlyBornEntities = breed(getSameSpecies(nearbyEntities));
+    List<Animal> newlyBornEntities = breeding.breed(getSameSpecies(nearbyEntities));
     if (newlyBornEntities != null) for (Animal entity : newlyBornEntities) {
       field.putInBounds(entity, entity.getSize());
       field.addEntity(entity);
