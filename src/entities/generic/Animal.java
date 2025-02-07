@@ -26,11 +26,11 @@ public abstract class Animal extends Entity {
    * Moves in the currently facing direction, while changing the facing direction randomly by a small amount
    */
   private void wander(Field field, double deltaTime) {
-    direction += (Math.random()-0.5) * Math.PI * 0.1;
+    direction += (Math.random() - 0.5) * Math.PI * 0.1;
 
     if (field.isOutOfBounds(position, getSize())) { // If out of bounds
       Vector centerOffset = field.getSize().multiply(0.5).subtract(position);
-      direction = centerOffset.getAngle() + (Math.random()-0.5) * Math.PI; //Point to center + random offset
+      direction = centerOffset.getAngle() + (Math.random() - 0.5) * Math.PI; // Point to center + random offset
     }
 
     double speed = genetics.getMaxSpeed() * 0.75 * deltaTime; // Moves at 75% of max speed when wandering
@@ -44,6 +44,11 @@ public abstract class Animal extends Entity {
     wander(field, deltaTime);
   }
 
+  /**
+   * Checks if the animal can eat the entity.
+   * @param entity The entity to check if it can be eaten.
+   * @return True if the entity can be eaten, false otherwise.
+   */
   public boolean canEat(Entity entity){
     return Arrays.asList(genetics.getEats()).contains(entity.getName());
   }
@@ -51,12 +56,12 @@ public abstract class Animal extends Entity {
   /**
    * TODO: Optimise when necessary
    * TODO: Test this method -- create a test unit
-   * @return Returns all entities in the field in the animals sight radius
+   * @return Returns all entities in the field in the animals sight radius, except itself
    */
   public ArrayList<Entity> searchNearbyEntities(ArrayList<Entity> entities) {
     ArrayList<Entity> foundEntities = new ArrayList<>();
 
-      for (Entity e : entities) {
+    for (Entity e : entities) {
       Vector entityPosition = e.getPosition();
       double distanceSquared = position.subtract(entityPosition).getMagnitudeSquared();
       double sightRadius = genetics.getSight();
@@ -69,19 +74,16 @@ public abstract class Animal extends Entity {
     return foundEntities;
   }
 
-  /*
+  /**
    * Checks the food level of the animal and sets it to dead if it is less than or equal to 0.
    * Also updates the food level of the animal, as it decreases in each step.
    */
   protected void checkFoodLevel() {
-    foodLevel -= 2;
+    foodLevel -= 1;
     if (foodLevel <= 0) {
       setDead();
     }
   }
-  
-  public String[] getEats() { return genetics.getEats(); }
-  public double getMaxSpeed() { return genetics.getMaxSpeed(); }
 
   /**
    * Breeds with other animals of the same species, if they are close enough.
@@ -99,8 +101,8 @@ public abstract class Animal extends Entity {
   protected List<Animal> getSameSpecies(List<Entity> entities) {
     List<Animal> sameSpecies = new ArrayList<>();
     entities.forEach(entity -> {
-      if (entity instanceof Animal && entity.getName().equals(getName())) {
-        sameSpecies.add((Animal) entity);
+      if (entity instanceof Animal animal && animal.getName().equals(getName())) {
+        sameSpecies.add(animal);
       }
     });
     return sameSpecies;
@@ -115,4 +117,8 @@ public abstract class Animal extends Entity {
     entities.forEach(e -> foodLevel += e.getSize() * 3);
     foodLevel = Math.min(foodLevel, genetics.getMaxFoodLevel()); // Cap the foodLevel
   }
+
+  // Getters:
+  public String[] getEats() { return genetics.getEats(); }
+  public double getMaxSpeed() { return genetics.getMaxSpeed(); }
 }

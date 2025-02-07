@@ -11,7 +11,7 @@
     "numberOfEntitiesAtStart": 10,
     "eats": ["Grass"],
     "size": [3, 6],
-    "maxFoodLevel": [50, 75],
+    "maxFoodLevel": [70, 75],
     "colour": [0, 255, 255]
   },
   {
@@ -26,7 +26,7 @@
     "numberOfEntitiesAtStart": 5,
     "eats": ["Grass"],
     "size": [3, 6],
-    "maxFoodLevel": [50, 100],
+    "maxFoodLevel": [65, 100],
     "colour": [0, 0, 200]
   }
 ]

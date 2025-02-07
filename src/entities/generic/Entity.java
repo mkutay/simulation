@@ -19,11 +19,6 @@ public abstract class Entity {
     this.position = position;
   }
 
-  public Vector getPosition() { return position; }
-  public String getName() { return name; }
-  public int getSize() { return genetics.getSize(); }
-  public boolean isAlive() { return isAlive; }
-
   /**
    * Increment the age of the entity by 1. Used when the simulation progresses by 1 step.
    * If the entity is older than or equal to the maximum age, the entity dies.
@@ -48,15 +43,11 @@ public abstract class Entity {
   public void setDead() {
     isAlive = false;
   }
-  
-  public String toString() {
-    return name + " at " + position.toString();
-  }
 
   /**
    * Draw the entity to a display
-   * @param display the display to draw to
-   * @param scaleFactor the field scale factor for the position and size (for scaling screen size and simulation size)
+   * @param display The display to draw to
+   * @param scaleFactor The field scale factor for the position and size (for scaling screen size and simulation size)
    */
   public abstract void draw(Display display, double scaleFactor);
 
@@ -65,8 +56,8 @@ public abstract class Entity {
   }
 
   /**
-   * @param entity the entity to check collision with
-   * @return true if the entities are colliding (uses circle hit box)
+   * @param entity The entity to check collision with
+   * @return True if the entities are colliding (uses circle hit box), false otherwise
    */
   public boolean isColliding(Entity entity) {
     Vector offset = position.subtract(entity.position);
@@ -74,4 +65,14 @@ public abstract class Entity {
     // This is mathematically the same as (distance <= (e.size + size)), but no sqrt call (in distance) for optimisation
     return distanceSquared <= Math.pow((entity.getSize() + getSize()), 2);
   }
+
+  public String toString() {
+    return name + " at " + position.toString();
+  }
+
+  // Getters:
+  public Vector getPosition() { return position; }
+  public String getName() { return name; }
+  public int getSize() { return genetics.getSize(); }
+  public boolean isAlive() { return isAlive; }
 }

@@ -1,4 +1,5 @@
 package entities;
+import java.util.List;
 import java.util.ArrayList;
 
 import entities.generic.*;
@@ -32,25 +33,31 @@ public class Prey extends Animal {
    */
   public void update(Field field, double deltaTime) {
     super.update(field, deltaTime);
-    ArrayList<Entity> nearbyEntities = searchNearbyEntities(field.getEntities());
+
+    List<Entity> nearbyEntities = searchNearbyEntities(field.getEntities());
+
+    List<Entity> wantToEat = new ArrayList<>();
 
     for (Entity entity : nearbyEntities) {
       if (entity instanceof Plant plant) {
         // The plant may be dead in the current step, must check if dead first.
         if (plant.isAlive() && canEat(plant) && isColliding(plant)) {
-          plant.setDead(); // Eat the plant.
+          wantToEat.add(plant);
         }
       }
     }
 
-    // List<Animal> newlyBornEntities = breed(getSameSpecies(nearbyEntities));
-    // TODO: add newlyBornEntities to the field
+    eat(wantToEat);
+    checkFoodLevel();
 
-    // TODO: move the entity
+    for (Entity plant : wantToEat) {
+      plant.setDead();
+    }
 
-    // TODO: get all the entities that the this entity want to eat and can eat (colliding)
-    // TODO: remove the entities from the field after running the following
-    // eat(null);
-    // checkFoodLevel();
+    List<Animal> newlyBornEntities = breed(getSameSpecies(nearbyEntities));
+    if (newlyBornEntities != null) for (Animal entity : newlyBornEntities) {
+      field.putInBounds(entity, entity.getSize());
+      field.addEntity(entity);
+    }
   }
 }
