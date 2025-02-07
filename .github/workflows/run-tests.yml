@@ -22,7 +22,5 @@ jobs:
         mkdir -p bin
         find . -name "*.java" > sources.txt
         javac -cp "lib/*" -d bin @sources.txt
-    - name: List lib directory for debugging
-      run: ls -la lib
     - name: Run JUnit tests
-      run: java -jar ./lib/junit-platform-console-standalone.jar --class-path bin --scan-class-path
+      run: java -jar ./lib/junit-platform-console-standalone-1.11.4.jar --class-path bin --scan-class-path
