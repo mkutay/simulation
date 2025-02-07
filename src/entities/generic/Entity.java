@@ -6,6 +6,9 @@ import genetics.Genetics;
 import graphics.Display;
 import simulation.Field;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public abstract class Entity {
   private final String name; // Name of the entity
   private int age; // Age of the entity
@@ -68,6 +71,27 @@ public abstract class Entity {
     // This is mathematically the same as (distance <= (e.size + size)), but no sqrt call (in distance) for optimisation
     return distanceSquared <= Math.pow((entity1.getSize() + entity2.getSize()), 2) + Utility.EPSILON;
   }
+
+  /**
+   * TODO: Optimise when necessary
+   * @param entities The entities that will be searched through.
+   * @return Returns all entities in the field in the animals sight radius, except itself.
+   */
+  public ArrayList<Entity> searchNearbyEntities(List<Entity> entities, double searchRadius) {
+    ArrayList<Entity> foundEntities = new ArrayList<>();
+    if (entities == null) return foundEntities;
+
+    for (Entity e : entities) {
+      double distanceSquared = e.getPosition().subtract(position).getMagnitudeSquared();
+      // Epsilon is used for floating point comparison
+      if (distanceSquared - searchRadius * searchRadius <= Utility.EPSILON && e != this) {
+        foundEntities.add(e); // If can see other entity and it is not itself
+      }
+    }
+
+    return foundEntities;
+  }
+
 
   public String toString() {
     return name + " at " + position.toString();

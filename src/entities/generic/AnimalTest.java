@@ -32,7 +32,7 @@ class AnimalTest {
     entities.add(entity1);
     entities.add(entity2);
 
-    ArrayList<Entity> foundEntities = animal.searchNearbyEntities(entities);
+    ArrayList<Entity> foundEntities = animal.searchNearbyEntities(entities, animal.genetics.getSight());
 
     assertEquals(1, foundEntities.size());
     assertTrue(foundEntities.contains(entity1));
@@ -42,7 +42,7 @@ class AnimalTest {
   @Test
   void testSearchNearbyEntities_EmptyList() {
     ArrayList<Entity> entities = new ArrayList<>();
-    ArrayList<Entity> foundEntities = animal.searchNearbyEntities(entities);
+    ArrayList<Entity> foundEntities = animal.searchNearbyEntities(entities, animal.genetics.getSight());
 
     assertTrue(foundEntities.isEmpty());
   }
@@ -52,7 +52,7 @@ class AnimalTest {
     ArrayList<Entity> entities = new ArrayList<>();
     entities.add(animal);
 
-    ArrayList<Entity> foundEntities = animal.searchNearbyEntities(entities);
+    ArrayList<Entity> foundEntities = animal.searchNearbyEntities(entities, animal.genetics.getSight());
 
     assertTrue(foundEntities.isEmpty());
   }
@@ -61,7 +61,7 @@ class AnimalTest {
   void testSearchNearbyEntities_Null() {
     ArrayList<Entity> entities = null;
 
-    ArrayList<Entity> foundEntities = animal.searchNearbyEntities(entities);
+    ArrayList<Entity> foundEntities = animal.searchNearbyEntities(entities, animal.genetics.getSight());
 
     assertTrue(foundEntities.isEmpty());
   }

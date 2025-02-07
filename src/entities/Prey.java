@@ -34,11 +34,11 @@ public class Prey extends Animal {
   public void update(Field field, double deltaTime) {
     super.update(field, deltaTime);
 
-    List<Entity> nearbyEntities = searchNearbyEntities(field.getEntities());
+    List<Entity> nearbyEntities = searchNearbyEntities(field.getEntities(), genetics.getSight());
 
     eating.performEating(nearbyEntities);
 
-    List<Animal> newlyBornEntities = breeding.breed(getSameSpecies(nearbyEntities));
+    List<Animal> newlyBornEntities = breed(getSameSpecies(nearbyEntities));
     if (newlyBornEntities != null) for (Animal entity : newlyBornEntities) {
       field.putInBounds(entity, entity.getSize());
       field.addEntity(entity);
