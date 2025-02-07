@@ -12,7 +12,9 @@ import simulation.simulationData.Data;
 public class Simulator {  
   private int step = 0;
   private final Field field;
-  private final static double FIXED_DELTA_TIME = 0.5; // Effectively controls simulation speed
+  private final static double FIXED_DELTA_TIME = 0.5;
+  // Delta time controls simulation speed, affects things like speed of entities, rate of aging, food consumption etc.
+  // not very accurate, just used to fine tune the simulation feel
 
   public Simulator(int width, int height) {
     field = new FieldBuilder(width, height, new Data()).build();
