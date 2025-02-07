@@ -23,4 +23,4 @@ jobs:
         find . -name "*.java" > sources.txt
         javac -cp "lib/*" -d bin @sources.txt
     - name: Run JUnit tests
-      run: java -jar ./lib/junit-platform-console-standalone-1.11.4.jar --class-path bin --scan-class-path
+      run: java -cp "bin:lib/*" org.junit.platform.console.ConsoleLauncher --scan-class-path
