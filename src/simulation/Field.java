@@ -2,6 +2,7 @@ package simulation;
 
 import java.util.ArrayList;
 
+import entities.Plant;
 import util.Vector;
 import entities.generic.Entity;
 
@@ -10,6 +11,7 @@ public class Field {
   private final int height; // Height of the field
 
   private final ArrayList<Entity> entities;
+  private final ArrayList<Entity> entitiesToSpawn = new ArrayList<>();
 
   /**
    * For use with the JUnit tests.
@@ -55,14 +57,6 @@ public class Field {
   }
 
   /**
-   * TODO: Is really needed?
-   * @return The number of entities in the field
-   */
-  public int getTotalNumEntities() {
-    return entities.size();
-  }
-
-  /**
    * @return All entities currently alive in the field.
    */
   public ArrayList<Entity> getEntities() {
@@ -77,10 +71,29 @@ public class Field {
   }
 
   /**
-   * Add an entity to the field.
+   * Add an entity to the field. TODO remove
    * @param entity The entity to add.
    */
   public void addEntity(Entity entity) {
     entities.add(entity);
+  }
+
+  /**
+   * Adds an entity to the field.
+   * Adds to a buffer list, which is used to spawn entities in the field at the end of each simulation step
+   * Prevents concurrency errors
+   * @param entity The entity to add.
+   */
+  public void safeAddEntity(Entity entity) {
+    entitiesToSpawn.add(entity);
+  }
+
+  /**
+   * Adds all entities in entitiesToSpawn to the entities list
+   * Used to safely add entities to the simulation
+   */
+  public void spawnNewEntities() {
+    entities.addAll(entitiesToSpawn);
+    entitiesToSpawn.clear();
   }
 }

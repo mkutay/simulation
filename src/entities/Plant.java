@@ -17,7 +17,7 @@ public class Plant extends Entity {
   }
 
   /**
-   * Miltiples. The new plants have the same genetics as the parent plant.
+   * Spawns new plants around it. The new plants have the same genetics as the parent plant (may be mutated).
    * TODO: The plants multiply too quickly and too much. Maybe a collision system is needed.
    * @return A list of new plants if the plant can multiply, null otherwise.
    */
@@ -27,9 +27,15 @@ public class Plant extends Entity {
     int seeds = genetics.getNumberOfSeeds();
     Plant[] newPlants = new Plant[seeds];
     for (int i = 0; i < seeds; i++) {
-      Vector newPos = new Vector(this.position.x + 6 * (Math.random() * genetics.getSize() - genetics.getSize() / 2),
-        this.position.y + 6 * (Math.random() * genetics.getSize() - genetics.getSize() / 2));
-      newPlants[i] = new Plant(genetics, newPos);
+      double spawnAngleFromParent = Math.random() * Math.PI * 2;
+      double spawnDistanceFromParent = (Math.random() + 0.1) * genetics.getSize() * 6;
+
+      double seedX = this.position.x + Math.cos(spawnAngleFromParent) * spawnDistanceFromParent;
+      double seedY = this.position.y + Math.sin(spawnAngleFromParent) * spawnDistanceFromParent;
+      //6 * (Math.random() * genetics.getSize() - (double) genetics.getSize() / 2);
+
+      Vector seedPos = new Vector(seedX, seedY);
+      newPlants[i] = new Plant(genetics, seedPos); //TODO proper genetics system for plants (mutation) (generic system needed)
     }
     return List.of(newPlants);
   }
@@ -42,7 +48,7 @@ public class Plant extends Entity {
 
     for (Plant plant : newPlants) {
       field.putInBounds(plant, plant.getSize());
-      field.addEntity(plant);
+      field.safeAddEntity(plant);
     }
   }
 
