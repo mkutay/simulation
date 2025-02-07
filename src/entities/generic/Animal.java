@@ -4,13 +4,12 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import util.Utility;
 import util.Vector;
 import genetics.AnimalGenetics;
 import simulation.Field;
 
 public abstract class Animal extends Entity {
-  public static final double EPSILON = 1e-4;
-
   protected AnimalGenetics genetics; // Re-cast to AnimalGenetics
   protected int foodLevel;
   private double direction; // Currently facing direction for movement (Used to keep random movement natural looking)
@@ -67,7 +66,7 @@ public abstract class Animal extends Entity {
       double distanceSquared = e.getPosition().subtract(position).getMagnitudeSquared();
       double sightRadius = genetics.getSight();
       // Epsilon is used for floating point comparison
-      if (distanceSquared - sightRadius * sightRadius <= EPSILON && e != this) {
+      if (distanceSquared - sightRadius * sightRadius <= Utility.EPSILON && e != this) {
         // If can see other entity and it is not itself
         foundEntities.add(e);
       }
