@@ -22,6 +22,7 @@ public class Display{
     display.pack(); // Force correct sizing
 
     display.setVisible(true);
+    display.createBufferStrategy(2);
   }
 
   public void update() {
@@ -42,9 +43,5 @@ public class Display{
 
   public void drawEqualTriangle(int centerX, int centerY, int radius, Color color) {
     renderPanel.drawEqualTriangle(centerX, centerY, radius, color);
-  }
-
-  public void clear() {
-    renderPanel.clear();
   }
 }

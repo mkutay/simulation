@@ -22,7 +22,6 @@ public class RenderPanel extends JPanel {
 	public RenderPanel(int screenWidth, int screenHeight) {
 		setPreferredSize(new Dimension(screenWidth, screenHeight));
 		surface = new BufferedImage(screenWidth, screenHeight, BufferedImage.TYPE_INT_RGB);
-		setDoubleBuffered(true);
 
 		g2 = (Graphics2D) surface.getGraphics(); // Get graphics context.
 	}
@@ -77,20 +76,11 @@ public class RenderPanel extends JPanel {
 
 		g2.fillPolygon(xPoints, yPoints, 3);
 	}
-
-	/**
-	 * Clears all drawn elements
-	 */
-	public void clear() {
-		g2.clearRect(0, 0, getWidth(), getHeight());
-	}
-
 	/**
 	 * Called with every draw call, draws everything stored on the bufferedImage to the display.
 	 */
 	@Override
 	public void paintComponent(Graphics g) {
-		super.paintComponent(g);
 		g.drawImage(surface, 0, 0, null);
 	}
 }

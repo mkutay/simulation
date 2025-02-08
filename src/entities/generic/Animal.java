@@ -22,16 +22,54 @@ public abstract class Animal extends Entity {
 
   /**
    * Move the entity around randomly, bouncing off of the edges
+   * TODO revamp
    */
   public void wander(Field field, double deltaTime) {
     direction += (Math.random() - 0.5) * Math.PI * 0.1;
-    if (field.isOutOfBounds(getPosition(), getSize())) {
-      Vector centerOffset = field.getSize().multiply(0.5).subtract(getPosition());
+    if (field.isOutOfBounds(position, getSize())) {
+      Vector centerOffset = field.getSize().multiply(0.5).subtract(position);
       direction = centerOffset.getAngle() + (Math.random() - 0.5) * Math.PI;
     }
-    double speed = getMaxSpeed() * 0.75 * deltaTime; //75% movespeed when wandering
+    double speed = getMaxSpeed() * 0.6 * deltaTime; //60% move speed when wandering
     Vector movement = new Vector(Math.cos(direction) * speed, Math.sin(direction) * speed);
-    position = getPosition().add(movement);
+    position = position.add(movement);
+  }
+
+  /**
+   * Moves in the direction of another entity
+   * @param entity the entity to move to
+   * @param deltaTime delta time
+   */
+  public void moveToEntity(Entity entity, double deltaTime) {
+    double speed = getMaxSpeed() * deltaTime;
+    double direction = entity.position.subtract(position).getAngle();
+    Vector movement = new Vector(Math.cos(direction) * speed, Math.sin(direction) * speed);
+    position = position.add(movement);
+  }
+
+  /**
+   * Search a list of nearby entities and move to the nearest food entity
+   * @param entities the list of nearby entities to search
+   * @param deltaTime the deltatime of the simulation
+   * @return True if succesfully found a food entity to move to, false otherwise.
+   */
+  public boolean moveToNearestFood(List<Entity> entities, double deltaTime) {
+    Entity nearestEntity = null;
+    double closestDistance = Double.MAX_VALUE;
+    for (Entity entity : entities) {
+      if (canEat(entity) && entity.isAlive()) {
+        double distance = entity.position.subtract(position).getMagnitudeSquared();
+        if (distance < closestDistance) {
+          nearestEntity = entity;
+        }
+      }
+    }
+
+    if (nearestEntity != null) {
+      moveToEntity(nearestEntity, deltaTime);
+      return true;
+    }
+    return false;
   }
 
   /**
@@ -88,10 +126,12 @@ public abstract class Animal extends Entity {
   @Override
   public void update(Field field, double deltaTime) {
     super.update(field, deltaTime);
-    wander(field, deltaTime);
+    List<Entity> nearbyEntities = searchNearbyEntities(field.getEntities(), genetics.getSight());
+
+    boolean movingToFood = moveToNearestFood(nearbyEntities, deltaTime);
+    if (!movingToFood) {wander(field, deltaTime);}
     handleHunger(deltaTime);
 
-    List<Entity> nearbyEntities = searchNearbyEntities(field.getEntities(), genetics.getSight());
 
     eat(nearbyEntities);
 

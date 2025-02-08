@@ -24,7 +24,7 @@ public class Plant extends Entity {
             .filter(entity -> entity instanceof Plant)
             .toList(); // Creates an immutable filtered list
 
-    return searchNearbyEntities(entities, genetics.getSize() * 3).size();
+    return searchNearbyEntities(entities, genetics.getSize() * 2).size();
   }
 
   /**
@@ -54,7 +54,7 @@ public class Plant extends Entity {
   public void update(Field field, double deltaTime) {
     super.update(field, deltaTime);
 
-    if (countNearbyPlants(field) > 2){ //Overcrowding
+    if (countNearbyPlants(field) > 1){ //Overcrowding
       setDead();
     }
 
@@ -77,6 +77,7 @@ public class Plant extends Entity {
     int size = (int) (genetics.getSize() / scaleFactor);
     int x = (int) (position.x / scaleFactor);
     int y = (int) (position.y / scaleFactor);
+    //display.drawCircle(x, y, size, genetics.getColour());
     display.drawEqualTriangle(x, y, size, genetics.getColour());
   }
 }

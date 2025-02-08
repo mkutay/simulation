@@ -6,6 +6,8 @@ import graphics.Display;
 import simulation.Field;
 import util.Vector;
 
+import java.awt.*;
+
 public class Prey extends Animal {
   public Prey(AnimalGenetics genetics, Vector location) {
     super(genetics, location);
@@ -21,6 +23,7 @@ public class Prey extends Animal {
     int size = (int) (genetics.getSize() / scaleFactor);
     int x = (int) (position.x / scaleFactor);
     int y = (int) (position.y / scaleFactor);
+    //display.drawCircle(x, y, (int) genetics.getSight(), Color.orange);
     display.drawCircle(x, y, size, genetics.getColour());
   }
 

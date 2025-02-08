@@ -22,10 +22,11 @@ public class Clock {
     lastTick = System.nanoTime();
   }
 
-  public double getFps() { return fps; }
+  public double getCurrentFps(){
+    return fps/getDeltaTime();
+  } //useful for debug/performance testing
 
-  // TODO: Might be unnecessary, also what exactly does "dealtTime" do?
-  public double getDeltaTime() {
-    return deltaTime * fps / 1_000_000_000;
+  public double getDeltaTime(){
+    return deltaTime * fps/1_000_000_000;
   }
 }

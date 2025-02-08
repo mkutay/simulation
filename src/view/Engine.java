@@ -4,6 +4,8 @@ import entities.generic.Entity;
 import graphics.Display;
 import simulation.Simulator;
 
+import java.awt.*;
+
 /**
  * Combines the Simulator and Display to visualise the simulation.
  */
@@ -52,7 +54,7 @@ public class Engine {
    */
   private void run() {
     while (running) {
-      display.clear();
+      display.fill(Color.BLACK);
       simulator.step();
 
       for (Entity entity : simulator.getEntities()) {
