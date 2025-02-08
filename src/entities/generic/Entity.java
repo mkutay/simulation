@@ -77,8 +77,8 @@ public abstract class Entity {
    * @param entities The entities that will be searched through.
    * @return Returns all entities in the field in the animals sight radius, except itself.
    */
-  public ArrayList<Entity> searchNearbyEntities(List<Entity> entities, double searchRadius) {
-    ArrayList<Entity> foundEntities = new ArrayList<>();
+  public List<Entity> searchNearbyEntities(List<Entity> entities, double searchRadius) {
+    List<Entity> foundEntities = new ArrayList<>();
     if (entities == null) return foundEntities;
 
     for (Entity e : entities) {

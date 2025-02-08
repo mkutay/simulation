@@ -5,6 +5,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import entities.*;
 import simulation.simulationData.*;
@@ -25,14 +26,14 @@ class AnimalTest {
 
   @Test
   void testSearchNearbyEntities() {
-    ArrayList<Entity> entities = new ArrayList<>();
+    List<Entity> entities = new ArrayList<>();
     Entity entity1 = new Prey(data.getPreysData()[0].generateRandomGenetics(), new Vector(50, 50 + genetics.getSight()));
     Entity entity2 = new Prey(data.getPreysData()[0].generateRandomGenetics(), new Vector(50, 50 + genetics.getSight() + 1));
 
     entities.add(entity1);
     entities.add(entity2);
 
-    ArrayList<Entity> foundEntities = animal.searchNearbyEntities(entities, animal.genetics.getSight());
+    List<Entity> foundEntities = animal.searchNearbyEntities(entities, animal.genetics.getSight());
 
     assertEquals(1, foundEntities.size());
     assertTrue(foundEntities.contains(entity1));
@@ -41,27 +42,27 @@ class AnimalTest {
 
   @Test
   void testSearchNearbyEntities_EmptyList() {
-    ArrayList<Entity> entities = new ArrayList<>();
-    ArrayList<Entity> foundEntities = animal.searchNearbyEntities(entities, animal.genetics.getSight());
+    List<Entity> entities = new ArrayList<>();
+    List<Entity> foundEntities = animal.searchNearbyEntities(entities, animal.genetics.getSight());
 
     assertTrue(foundEntities.isEmpty());
   }
 
   @Test
   void testSearchNearbyEntities_OnlyItself() {
-    ArrayList<Entity> entities = new ArrayList<>();
+    List<Entity> entities = new ArrayList<>();
     entities.add(animal);
 
-    ArrayList<Entity> foundEntities = animal.searchNearbyEntities(entities, animal.genetics.getSight());
+    List<Entity> foundEntities = animal.searchNearbyEntities(entities, animal.genetics.getSight());
 
     assertTrue(foundEntities.isEmpty());
   }
 
   @Test
   void testSearchNearbyEntities_Null() {
-    ArrayList<Entity> entities = null;
+    List<Entity> entities = null;
 
-    ArrayList<Entity> foundEntities = animal.searchNearbyEntities(entities, animal.genetics.getSight());
+    List<Entity> foundEntities = animal.searchNearbyEntities(entities, animal.genetics.getSight());
 
     assertTrue(foundEntities.isEmpty());
   }
