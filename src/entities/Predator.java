@@ -19,7 +19,7 @@ public class Predator extends Animal {
   @Override
   public void draw(Display display, double scaleFactor) {
     int size = (int) (genetics.getSize() / scaleFactor);
-    int x = (int) ((position.x - (double) size / 2) / scaleFactor);  //Draw rectangle centered around x,y of predator
+    int x = (int) ((position.x - (double) size / 2) / scaleFactor);  // Draw rectangle centered around x, y of predator.
     int y = (int) ((position.y - (double) size / 2) / scaleFactor);
 
     display.drawRectangle(x, y, size * 2, size * 2, genetics.getColour());
@@ -28,8 +28,7 @@ public class Predator extends Animal {
 
   /**
    * Update the entity in the field -- make all the actions it can.
-   * Move, eat, multiply
-   * TODO: split update parts into seperate methods when needed
+   * Move, eat, multiply.
    */
   @Override
   public void update(Field field, double deltaTime) {

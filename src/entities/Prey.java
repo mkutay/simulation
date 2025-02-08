@@ -6,8 +6,6 @@ import graphics.Display;
 import simulation.Field;
 import util.Vector;
 
-import java.awt.*;
-
 public class Prey extends Animal {
   public Prey(AnimalGenetics genetics, Vector location) {
     super(genetics, location);
@@ -29,8 +27,7 @@ public class Prey extends Animal {
 
   /**
    * Update the entity in the field -- make all the actions it can.
-   * Move, eat, multiply
-   * TODO split update parts into separate methods when needed
+   * Move, eat, multiply.
    */
   public void update(Field field, double deltaTime) {
     super.update(field, deltaTime);

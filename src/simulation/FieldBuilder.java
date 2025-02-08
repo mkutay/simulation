@@ -4,6 +4,7 @@ import entities.*;
 import entities.generic.Entity;
 import simulation.simulationData.AnimalData;
 import simulation.simulationData.Data;
+import simulation.simulationData.EntityData;
 import simulation.simulationData.PlantData;
 import util.Vector;
 

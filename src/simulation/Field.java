@@ -2,7 +2,6 @@ package simulation;
 
 import java.util.ArrayList;
 
-import entities.Plant;
 import util.Vector;
 import entities.generic.Entity;
 
@@ -11,7 +10,7 @@ public class Field {
   private final int height; // Height of the field
 
   private final ArrayList<Entity> entities;
-  private final ArrayList<Entity> entitiesToSpawn = new ArrayList<>();
+  private final ArrayList<Entity> entitiesToSpawn = new ArrayList<>(); // Buffer list for entities to spawn
 
   /**
    * For use with the JUnit tests.
@@ -31,6 +30,7 @@ public class Field {
   /**
   * Put an entity in-bounds if it is out of bounds (that is the field width and height).
   * @param entity The entity that will be moved.
+  * @param padding Padding for the size of the entity.
   */
   public void putInBounds(Entity entity, double padding) {
     Vector entityPos = entity.getPosition();
@@ -71,20 +71,12 @@ public class Field {
   }
 
   /**
-   * Add an entity to the field. TODO remove
-   * @param entity The entity to add.
-   */
-  public void addEntity(Entity entity) {
-    entities.add(entity);
-  }
-
-  /**
    * Adds an entity to the field.
    * Adds to a buffer list, which is used to spawn entities in the field at the end of each simulation step
    * Prevents concurrency errors
    * @param entity The entity to add.
    */
-  public void safeAddEntity(Entity entity) {
+  public void addEntity(Entity entity) {
     entitiesToSpawn.add(entity);
   }
 

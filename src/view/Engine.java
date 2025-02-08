@@ -48,7 +48,6 @@ public class Engine {
     this(displayWidth, displayHeight, 60, fieldScaleFactor);
   }
 
-
   /**
    * Main loop of the simulation
    */

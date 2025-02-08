@@ -73,7 +73,7 @@ public abstract class Entity {
   }
 
   /**
-   * TODO: Optimise when necessary
+   * TODO: Optimise when necessary.
    * @param entities The entities that will be searched through.
    * @return Returns all entities in the field in the animals sight radius, except itself.
    */
@@ -83,16 +83,19 @@ public abstract class Entity {
 
     for (Entity e : entities) {
       double distanceSquared = e.getPosition().subtract(position).getMagnitudeSquared();
-      // Epsilon is used for floating point comparison
+      // Epsilon is used for floating point comparison.
       if (distanceSquared - searchRadius * searchRadius <= Utility.EPSILON && e != this) {
-        foundEntities.add(e); // If can see other entity and it is not itself
+        foundEntities.add(e); // If can see other entity and it is not itself.
       }
     }
 
     return foundEntities;
   }
 
-
+  public void setAge(double age) {
+    this.age = age;
+  }
+    
   public String toString() {
     return name + " at " + position.toString();
   }
@@ -102,8 +105,4 @@ public abstract class Entity {
   public String getName() { return name; }
   public int getSize() { return genetics.getSize(); }
   public boolean isAlive() { return isAlive; }
-
-  public void setAge(double age) {
-    this.age = age;
-  }
 }

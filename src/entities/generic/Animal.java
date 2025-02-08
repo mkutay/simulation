@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import util.Utility;
 import util.Vector;
 import genetics.AnimalGenetics;
 import simulation.Field;
@@ -21,8 +20,8 @@ public abstract class Animal extends Entity {
   }
 
   /**
-   * Move the entity around randomly, bouncing off of the edges
-   * TODO revamp
+   * Move the entity around randomly, bouncing off of the edges.
+   * TODO: Revamp.
    */
   public void wander(Field field, double deltaTime) {
     direction += (Math.random() - 0.5) * Math.PI * 0.1;
@@ -30,15 +29,16 @@ public abstract class Animal extends Entity {
       Vector centerOffset = field.getSize().multiply(0.5).subtract(position);
       direction = centerOffset.getAngle() + (Math.random() - 0.5) * Math.PI;
     }
-    double speed = getMaxSpeed() * 0.6 * deltaTime; //60% move speed when wandering
+    
+    double speed = getMaxSpeed() * 0.6 * deltaTime; // 60% move speed when wandering
     Vector movement = new Vector(Math.cos(direction) * speed, Math.sin(direction) * speed);
     position = position.add(movement);
   }
 
   /**
-   * Moves in the direction of another entity
-   * @param entity the entity to move to
-   * @param deltaTime delta time
+   * Moves in the direction of another entity.
+   * @param entity The entity to move to.
+   * @param deltaTime Delta time.
    */
   public void moveToEntity(Entity entity, double deltaTime) {
     double speed = getMaxSpeed() * deltaTime;
@@ -48,9 +48,9 @@ public abstract class Animal extends Entity {
   }
 
   /**
-   * Search a list of nearby entities and move to the nearest food entity
-   * @param entities the list of nearby entities to search
-   * @param deltaTime the deltatime of the simulation
+   * Search a list of nearby entities and move to the nearest food entity.
+   * @param entities The list of nearby entities to search.
+   * @param deltaTime The deltatime of the simulation.
    * @return True if succesfully found a food entity to move to, false otherwise.
    */
   public boolean moveToNearestFood(List<Entity> entities, double deltaTime) {
@@ -65,14 +65,14 @@ public abstract class Animal extends Entity {
       }
     }
 
-    if (nearestEntity != null) {
-      moveToEntity(nearestEntity, deltaTime);
-      return true;
-    }
-    return false;
+    if (nearestEntity == null) return false;
+    
+    moveToEntity(nearestEntity, deltaTime);
+    return true;
   }
 
   /**
+   * Used for breeding.
    * @param entities The entities that will be searched through.
    * @return All animals of the same species as this animal.
    */
@@ -86,16 +86,22 @@ public abstract class Animal extends Entity {
     return sameSpecies;
   }
 
+  /**
+   * Checks the "genetics.eats" of this animal.
+   * @param entity The entity to check if this animal can eat.
+   * @return True if this animal can eat the entity, false otherwise.
+   */
   public boolean canEat(Entity entity) {
     return Arrays.asList(getEats()).contains(entity.getName());
   }
 
   /**
-   * Attempts to eat any colliding entities
-   * @param nearbyEntities the entities in the sight radius of this animal
+   * Attempts to eat any colliding entities.
+   * @param nearbyEntities The entities in the sight radius of this animal.
    */
   public void eat(List<Entity> nearbyEntities) {
     if (nearbyEntities == null) return;
+
     for (Entity entity : nearbyEntities) {
       // The entity may be dead in the current step, must check if dead first.
       if (entity.isAlive() && canEat(entity) && isColliding(entity)) {
@@ -104,13 +110,13 @@ public abstract class Animal extends Entity {
       }
     }
 
-    foodLevel = Math.min(foodLevel, genetics.getMaxFoodLevel()); //Clamp food from exceeding max food of animal
+    foodLevel = Math.min(foodLevel, genetics.getMaxFoodLevel()); // Clamp food from exceeding max food of animal.
   }
 
   /**
-   * Sets animal to die if no food, decrements food level proportion to deltaTime.
-   * TODO food level decrements based on speed.
-   * TODO food level decrements when reproducing
+   * Sets animal as dead if no food, decrements food level proportion to deltaTime.
+   * TODO: Food level decrements based on speed.
+   * TODO: Food level decrements when reproducing.
    */
   public void handleHunger(double deltaTime) {
     foodLevel -= genetics.getMaxFoodLevel() * 0.01 * deltaTime;
@@ -129,16 +135,15 @@ public abstract class Animal extends Entity {
     List<Entity> nearbyEntities = searchNearbyEntities(field.getEntities(), genetics.getSight());
 
     boolean movingToFood = moveToNearestFood(nearbyEntities, deltaTime);
-    if (!movingToFood) {wander(field, deltaTime);}
-    handleHunger(deltaTime);
-
+    if (!movingToFood) wander(field, deltaTime);
 
     eat(nearbyEntities);
+    handleHunger(deltaTime);
 
     List<Animal> newlyBornEntities = breed(getSameSpecies(nearbyEntities));
     if (newlyBornEntities != null) for (Animal entity : newlyBornEntities) {
       field.putInBounds(entity, entity.getSize());
-      field.safeAddEntity(entity);
+      field.addEntity(entity);
     }
   }
 
