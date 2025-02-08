@@ -9,14 +9,18 @@ public abstract class Genetics {
   private final double multiplyingRate; // Rate at which the entity multiplies -- breads (animal) or spreads (plant)
   private final int size; // Size of the entity (the radius of the circle representing the entity)
   private final Color colour; // RGB colour of the entity
+  private final int overcrowdingThreshold; // Number of entities at which the entity will die
+  private final double overcrowdingRadius; // Radius inside of which the threshold is checked
 
-  public Genetics(int maxAge, int matureAge, double multiplyingRate, int size, String name, Color colour) {
+  public Genetics(int maxAge, int matureAge, double multiplyingRate, int size, String name, Color colour, int overcrowdingThreshold, double overcrowdingRadius) {
     this.maxAge = maxAge;
     this.matureAge = matureAge;
     this.multiplyingRate = multiplyingRate;
     this.size = size;
     this.name = name;
     this.colour = colour;
+    this.overcrowdingThreshold = overcrowdingThreshold;
+    this.overcrowdingRadius = overcrowdingRadius;
   }
 
   // Getters:
@@ -26,4 +30,6 @@ public abstract class Genetics {
   public double getMultiplyingRate() { return multiplyingRate; }
   public int getSize() { return size; }
   public Color getColour() { return colour; }
+  public int getOvercrowdingThreshold() { return overcrowdingThreshold; }
+  public double getOvercrowdingRadius() { return overcrowdingRadius; }
 }

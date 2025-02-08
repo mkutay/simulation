@@ -12,7 +12,9 @@
     "eats": ["Grass"],
     "size": [3, 6],
     "maxFoodLevel": [70, 75],
-    "colour": [0, 255, 255]
+    "colour": [0, 255, 255],
+    "overcrowdingThreshold": [2, 3],
+    "overcrowdingRadius": [6, 12]
   },
   {
     "name": "Squirrel",
@@ -27,6 +29,8 @@
     "eats": ["Grass"],
     "size": [3, 6],
     "maxFoodLevel": [65, 100],
-    "colour": [0, 0, 200]
+    "colour": [0, 0, 200],
+    "overcrowdingThreshold": [2, 3],
+    "overcrowdingRadius": [6, 12]
   }
 ]

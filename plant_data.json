@@ -8,6 +8,8 @@
     "numberOfEntitiesAtStart": 100,
     "size": [3, 6],
     "colour": [0, 255, 0],
-    "maxSeedSpawnDistance": [3, 5]
+    "maxSeedSpawnDistance": [3, 5],
+    "overcrowdingThreshold": [2, 3],
+    "overcrowdingRadius": [6, 12]
   }
 ]

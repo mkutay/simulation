@@ -12,6 +12,8 @@
     "eats": ["Rabbit"],
     "size": [3, 6],
     "maxFoodLevel": [75, 100],
-    "colour": [255, 0, 0]
+    "colour": [255, 0, 0],
+    "overcrowdingThreshold": [2, 3],
+    "overcrowdingRadius": [6, 12]
   }
 ]

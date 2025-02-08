@@ -11,8 +11,8 @@ public class AnimalGenetics extends Genetics {
   private final String[] eats; //The names of the entities the animal eats
   private final double maxFoodLevel; // Maximum food level of the entity
 
-  public AnimalGenetics(double breedingProbability, int maxLitterSize, int maxAge, int matureAge, double mutationRate, double maxSeed, double sight, Gender gender, int size, String[] eats, String name, Color colour, double maxFoodLevel) {
-    super(maxAge, matureAge, breedingProbability, size, name, colour);
+  public AnimalGenetics(double breedingProbability, int maxLitterSize, int maxAge, int matureAge, double mutationRate, double maxSeed, double sight, Gender gender, int size, String[] eats, String name, Color colour, double maxFoodLevel, int overcrowdingThreshold, double overcrowdingRadius) {
+    super(maxAge, matureAge, breedingProbability, size, name, colour, overcrowdingThreshold, overcrowdingRadius);
     this.maxLitterSize = maxLitterSize;
     this.mutationRate = mutationRate;
     this.maxSeed = maxSeed;

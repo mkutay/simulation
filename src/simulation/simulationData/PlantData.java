@@ -26,7 +26,9 @@ public class PlantData extends EntityData {
       name,
       convertedColour,
       generateRandomNumberBetween(numberOfSeeds[0], numberOfSeeds[1]),
-      generateRandomNumberBetween(maxSeedSpawnDistance[0], maxSeedSpawnDistance[1])
+      generateRandomNumberBetween(maxSeedSpawnDistance[0], maxSeedSpawnDistance[1]),
+      generateRandomNumberBetween(overcrowdingThreshold[0], overcrowdingThreshold[1]),
+      generateRandomNumberBetween(overcrowdingRadius[0], overcrowdingRadius[1])
     );
   }
 }

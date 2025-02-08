@@ -93,10 +93,14 @@ public abstract class Entity {
     return foundEntities;
   }
 
-  private void handleOvercrowding(Field field) {
-    List<Entity> entities = searchNearbyEntities(field.getEntities(), genetics.getSize() * 2);
+  /**
+   * Handles overcrowding of entities of the same species.
+   * If there are more than 2 entities of the same species in the vicinity, the entity dies.
+   */
+  public void handleOvercrowding(Field field) {
+    List<Entity> entities = searchNearbyEntities(field.getEntities(), genetics.getOvercrowdingRadius());
     List<Entity> sameSpecies = getSameSpecies(entities);
-    if (sameSpecies.size() > 2) {
+    if (sameSpecies.size() >= genetics.getOvercrowdingThreshold()) {
       setDead();
     }
   }
