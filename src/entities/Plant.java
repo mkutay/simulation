@@ -17,17 +17,6 @@ public class Plant extends Entity {
   }
 
   /**
-   * @return The number of plants in proximity to the current plant.
-   */
-  private int countNearbyPlants(Field field) {
-    List<Entity> entities = field.getEntities().stream()
-      .filter(entity -> entity instanceof Plant)
-      .toList(); // Creates an immutable filtered list
-
-    return searchNearbyEntities(entities, genetics.getSize() * 2).size();
-  }
-
-  /**
    * Spawns new plants around it. The new plants have the same genetics as the parent plant (may be mutated).
    * @return A list of new plants if the plant can multiply, null otherwise.
    */
@@ -38,13 +27,13 @@ public class Plant extends Entity {
     Plant[] newPlants = new Plant[seeds];
     for (int i = 0; i < seeds; i++) {
       double spawnAngleFromParent = Math.random() * Math.PI * 2;
-      double spawnDistanceFromParent = (Math.random()) * genetics.getSize() * 6 + genetics.getSize(); // TODO: maybe add spawn distance as a genetic parameter
+      double spawnDistanceFromParent = Math.random() * genetics.getSize() * genetics.getMaxSeedSpawnDistance() + genetics.getSize();
 
       double seedX = this.position.x + Math.cos(spawnAngleFromParent) * spawnDistanceFromParent;
       double seedY = this.position.y + Math.sin(spawnAngleFromParent) * spawnDistanceFromParent;
 
       Vector seedPos = new Vector(seedX, seedY);
-      newPlants[i] = new Plant(genetics, seedPos); // TODO: proper genetics system for plants (mutation) (generic system needed).
+      newPlants[i] = new Plant(genetics, seedPos); // TODO: Proper genetics system for plants (mutation) (generic system needed).
     }
     return List.of(newPlants);
   }
@@ -52,10 +41,6 @@ public class Plant extends Entity {
   @Override
   public void update(Field field, double deltaTime) {
     super.update(field, deltaTime);
-
-    if (countNearbyPlants(field) > 1){ // Overcrowding -- to limit the number of plants in a small area
-      setDead();
-    }
 
     List<Plant> newPlants = multiply();
     if (newPlants == null) return;
@@ -76,7 +61,7 @@ public class Plant extends Entity {
     int size = (int) (genetics.getSize() / scaleFactor);
     int x = (int) (position.x / scaleFactor);
     int y = (int) (position.y / scaleFactor);
-    //display.drawCircle(x, y, size, genetics.getColour());
+    // display.drawCircle(x, y, size, genetics.getColour());
     display.drawEqualTriangle(x, y, size, genetics.getColour());
   }
 }

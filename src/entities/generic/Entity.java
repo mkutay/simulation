@@ -58,6 +58,7 @@ public abstract class Entity {
 
   public void update(Field field, double deltaTime) {
     incrementAge(deltaTime);
+    handleOvercrowding(field);
   }
 
   /**
@@ -90,6 +91,29 @@ public abstract class Entity {
     }
 
     return foundEntities;
+  }
+
+  private void handleOvercrowding(Field field) {
+    List<Entity> entities = searchNearbyEntities(field.getEntities(), genetics.getSize() * 2);
+    List<Entity> sameSpecies = getSameSpecies(entities);
+    if (sameSpecies.size() > 2) {
+      setDead();
+    }
+  }
+
+  /**
+   * Used for breeding and overcrowding.
+   * @param entities The entities that will be searched through.
+   * @return All entities of the same species as this entity.
+   */
+  protected List<Entity> getSameSpecies(List<Entity> entities) {
+    List<Entity> sameSpecies = new ArrayList<>();
+    entities.forEach(entity -> {
+      if (entity.getName().equals(getName())) {
+        sameSpecies.add(entity);
+      }
+    });
+    return sameSpecies;
   }
 
   public void setAge(double age) {

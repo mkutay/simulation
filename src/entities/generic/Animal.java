@@ -72,21 +72,6 @@ public abstract class Animal extends Entity {
   }
 
   /**
-   * Used for breeding.
-   * @param entities The entities that will be searched through.
-   * @return All animals of the same species as this animal.
-   */
-  protected List<Animal> getSameSpecies(List<Entity> entities) {
-    List<Animal> sameSpecies = new ArrayList<>();
-    entities.forEach(entity -> {
-      if (entity instanceof Animal animal && animal.getName().equals(getName())) {
-        sameSpecies.add(animal);
-      }
-    });
-    return sameSpecies;
-  }
-
-  /**
    * Checks the "genetics.eats" of this animal.
    * @param entity The entity to check if this animal can eat.
    * @return True if this animal can eat the entity, false otherwise.
@@ -125,7 +110,7 @@ public abstract class Animal extends Entity {
     }
   }
 
-  public List<Animal> breed(List<Animal> others) {
+  public List<Animal> breed(List<Entity> others) {
     return null;
   }
 
