@@ -22,11 +22,11 @@ public class Clock {
     lastTick = System.nanoTime();
   }
 
-  public double getCurrentFps(){
-    return fps/getDeltaTime();
-  } //useful for debug/performance testing
+  public double getCurrentFps() {
+    return fps / getDeltaTime();
+  } // useful for debug / performance testing
 
-  public double getDeltaTime(){
-    return deltaTime * fps/1_000_000_000;
+  public double getDeltaTime() {
+    return deltaTime * fps / 1_000_000_000;
   }
 }

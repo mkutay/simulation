@@ -10,6 +10,7 @@ public class EntityData {
   public int[] colour; // RGB colour of the entity
   public int[] overcrowdingThreshold; // Number of entities at which the entity will die
   public double[] overcrowdingRadius; // Radius inside of which the threshold is checked
+  public double[] maxOffspringSpawnDistance; // Maximum distance offspring can spawn from the parent entity
 
   protected double generateRandomNumberBetween(double min, double max) {
     return min + Math.random() * (max - min);

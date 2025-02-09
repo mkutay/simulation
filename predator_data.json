@@ -1,19 +1,20 @@
 [
   {
     "name": "Fox",
-    "multiplyingRate": [0.1, 0.3],
+    "multiplyingRate": [0.1, 0.25],
     "maxLitterSize": [1, 5],
     "maxAge": [75, 125],
     "matureAge": [10, 20],
     "mutationRate": [0.01, 0.05],
-    "maxSpeed": [1, 5],
+    "maxSpeed": [3, 5],
     "sight": [10, 50],
-    "numberOfEntitiesAtStart": 4,
+    "numberOfEntitiesAtStart": 15,
     "eats": ["Rabbit"],
     "size": [3, 6],
     "maxFoodLevel": [75, 100],
     "colour": [255, 0, 0],
-    "overcrowdingThreshold": [2, 3],
-    "overcrowdingRadius": [6, 12]
+    "overcrowdingThreshold": [5, 7],
+    "overcrowdingRadius": [6, 12],
+    "maxOffspringSpawnDistance": [3, 5]
   }
 ]

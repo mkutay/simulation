@@ -11,8 +11,9 @@ public abstract class Genetics {
   private final Color colour; // RGB colour of the entity
   private final int overcrowdingThreshold; // Number of entities at which the entity will die
   private final double overcrowdingRadius; // Radius inside of which the threshold is checked
+  private final double maxOffspringSpawnDistance; // Maximum distance from the parent entity that the offspring can spawn
 
-  public Genetics(int maxAge, int matureAge, double multiplyingRate, int size, String name, Color colour, int overcrowdingThreshold, double overcrowdingRadius) {
+  public Genetics(int maxAge, int matureAge, double multiplyingRate, int size, String name, Color colour, int overcrowdingThreshold, double overcrowdingRadius, double maxOffspringSpawnDistance) {
     this.maxAge = maxAge;
     this.matureAge = matureAge;
     this.multiplyingRate = multiplyingRate;
@@ -21,6 +22,7 @@ public abstract class Genetics {
     this.colour = colour;
     this.overcrowdingThreshold = overcrowdingThreshold;
     this.overcrowdingRadius = overcrowdingRadius;
+    this.maxOffspringSpawnDistance = maxOffspringSpawnDistance;
   }
 
   // Getters:
@@ -32,4 +34,5 @@ public abstract class Genetics {
   public Color getColour() { return colour; }
   public int getOvercrowdingThreshold() { return overcrowdingThreshold; }
   public double getOvercrowdingRadius() { return overcrowdingRadius; }
+  public double getMaxOffspringSpawnDistance() { return maxOffspringSpawnDistance; }
 }

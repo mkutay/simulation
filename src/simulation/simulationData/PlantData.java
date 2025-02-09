@@ -10,7 +10,6 @@ import genetics.PlantGenetics;
  */
 public class PlantData extends EntityData {
   private int[] numberOfSeeds; // Number of seeds produced by the plant -- when multiplied
-  private double[] maxSeedSpawnDistance; // Maximum distance from the parent plant to spawn a seed
 
   /**
    * @return A random set of genetics for a plant based on the data provided.
@@ -26,7 +25,7 @@ public class PlantData extends EntityData {
       name,
       convertedColour,
       generateRandomNumberBetween(numberOfSeeds[0], numberOfSeeds[1]),
-      generateRandomNumberBetween(maxSeedSpawnDistance[0], maxSeedSpawnDistance[1]),
+      generateRandomNumberBetween(maxOffspringSpawnDistance[0], maxOffspringSpawnDistance[1]),
       generateRandomNumberBetween(overcrowdingThreshold[0], overcrowdingThreshold[1]),
       generateRandomNumberBetween(overcrowdingRadius[0], overcrowdingRadius[1])
     );

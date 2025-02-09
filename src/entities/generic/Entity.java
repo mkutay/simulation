@@ -57,6 +57,7 @@ public abstract class Entity {
   public abstract void draw(Display display, double scaleFactor);
 
   public void update(Field field, double deltaTime) {
+    if (!isAlive) return;
     incrementAge(deltaTime);
     handleOvercrowding(field);
   }
@@ -99,7 +100,7 @@ public abstract class Entity {
    */
   public void handleOvercrowding(Field field) {
     List<Entity> entities = searchNearbyEntities(field.getEntities(), genetics.getOvercrowdingRadius());
-    List<Entity> sameSpecies = getSameSpecies(entities);
+    List<Entity> sameSpecies = getSameSpecies(entities).stream().filter(entity -> entity.isAlive()).toList();
     if (sameSpecies.size() >= genetics.getOvercrowdingThreshold()) {
       setDead();
     }

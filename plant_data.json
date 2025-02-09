@@ -1,15 +1,15 @@
 [
   {
     "name": "Grass",
-    "multiplyingRate": [0.1, 0.5],
-    "numberOfSeeds": [2, 5],
+    "multiplyingRate": [0.3, 0.5],
+    "numberOfSeeds": [5, 7],
     "maxAge": [150, 250],
-    "matureAge": [100, 150],
+    "matureAge": [80, 150],
     "numberOfEntitiesAtStart": 100,
     "size": [3, 6],
     "colour": [0, 255, 0],
-    "maxSeedSpawnDistance": [3, 5],
-    "overcrowdingThreshold": [2, 3],
+    "maxOffspringSpawnDistance": [9, 15],
+    "overcrowdingThreshold": [7, 10],
     "overcrowdingRadius": [6, 12]
   }
 ]

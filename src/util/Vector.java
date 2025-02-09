@@ -60,4 +60,10 @@ public class Vector {
   public double getAngle() {
     return Math.atan2(y, x);
   }
+
+  public Vector getRandomPointInRadius(double radius) {
+    double angle = Math.random() * Math.PI * 2;
+    double distance = Math.random() * radius;
+    return new Vector(x + Math.cos(angle) * distance, y + Math.sin(angle) * distance);
+  }
 }

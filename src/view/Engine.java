@@ -53,14 +53,14 @@ public class Engine {
    */
   private void run() {
     while (running) {
-      display.fill(Color.BLACK);
       simulator.step();
 
+      display.fill(Color.BLACK);
       for (Entity entity : simulator.getEntities()) {
         entity.draw(display, fieldScaleFactor);
       }
-
       display.update();
+      
       clock.tick();
     }
   }

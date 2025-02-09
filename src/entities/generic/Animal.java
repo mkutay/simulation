@@ -65,7 +65,7 @@ public abstract class Animal extends Entity {
     }
 
     if (nearestEntity == null) return false;
-    
+    foodLevel -= getMaxSpeed() * 0.05 * deltaTime; // Decrement the food level more when trying to catch food.
     moveToEntity(nearestEntity, deltaTime);
     return true;
   }
@@ -87,9 +87,8 @@ public abstract class Animal extends Entity {
     if (nearbyEntities == null) return;
 
     for (Entity entity : nearbyEntities) {
-      // The entity may be dead in the current step, must check if dead first.
       if (entity.isAlive() && canEat(entity) && isColliding(entity)) {
-        foodLevel += entity.getSize() * 3;
+        foodLevel += entity.getSize() * 2;
         entity.setDead();
       }
     }
@@ -103,32 +102,42 @@ public abstract class Animal extends Entity {
    * TODO: Food level decrements when reproducing.
    */
   public void handleHunger(double deltaTime) {
-    foodLevel -= genetics.getMaxFoodLevel() * 0.01 * deltaTime;
+    foodLevel -= genetics.getMaxFoodLevel() * 0.02 * deltaTime;
     if (foodLevel <= 0) {
       setDead();
     }
   }
 
-  public List<Animal> breed(List<Entity> others) {
-    return null;
-  }
-
   @Override
   public void update(Field field, double deltaTime) {
     super.update(field, deltaTime);
+    if (!isAlive()) return;
     List<Entity> nearbyEntities = searchNearbyEntities(field.getEntities(), genetics.getSight());
-
-    boolean movingToFood = moveToNearestFood(nearbyEntities, deltaTime);
-    if (!movingToFood) wander(field, deltaTime);
 
     eat(nearbyEntities);
     handleHunger(deltaTime);
 
-    List<Animal> newlyBornEntities = breed(getSameSpecies(nearbyEntities));
-    if (newlyBornEntities != null) for (Animal entity : newlyBornEntities) {
-      field.putInBounds(entity, entity.getSize());
-      field.addEntity(entity);
-    }
+    boolean movingToFood = moveToNearestFood(nearbyEntities, deltaTime);
+    if (!movingToFood) wander(field, deltaTime);
+
+  }
+
+  /**
+   * Checks if they have different genders and if the potential mate is alive and can multiply.
+   * @param others The list of entities to search for a mate.
+   * @return A random mate from the list of entities, null if no mate found.
+   */
+  public Animal getRandomMate(List<Entity> others) {
+    List<Entity> entities = getSameSpecies(searchNearbyEntities(others, genetics.getSight() * 0.75)); // TODO: Add breedingRadius to genetics.
+    List<Animal> potentialMates = entities.stream()
+      .filter(entity -> entity instanceof Animal)
+      .map(entity -> (Animal) entity)
+      .filter(animal -> animal.genetics.getGender() != genetics.getGender())
+      .filter(animal -> animal.canMultiply() && animal.isAlive())
+      .toList();
+
+    if (potentialMates.isEmpty()) return null;
+    return potentialMates.get((int) (Math.random() * potentialMates.size()));
   }
 
   // Getters:

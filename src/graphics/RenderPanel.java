@@ -76,6 +76,7 @@ public class RenderPanel extends JPanel {
 
 		g2.fillPolygon(xPoints, yPoints, 3);
 	}
+	
 	/**
 	 * Called with every draw call, draws everything stored on the bufferedImage to the display.
 	 */

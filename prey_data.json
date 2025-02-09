@@ -1,36 +1,38 @@
 [
   {
     "name": "Rabbit",
-    "multiplyingRate": [0.1, 0.3],
-    "maxLitterSize": [1, 5],
+    "multiplyingRate": [0.1, 0.2],
+    "maxLitterSize": [1, 3],
     "maxAge": [75, 125],
     "matureAge": [10, 20],
     "mutationRate": [0.01, 0.05],
-    "maxSpeed": [1, 5],
+    "maxSpeed": [3, 5],
     "sight": [10, 30],
-    "numberOfEntitiesAtStart": 20,
+    "numberOfEntitiesAtStart": 10,
     "eats": ["Grass"],
     "size": [3, 6],
     "maxFoodLevel": [70, 75],
     "colour": [0, 255, 255],
-    "overcrowdingThreshold": [2, 3],
-    "overcrowdingRadius": [6, 12]
+    "overcrowdingThreshold": [4, 7],
+    "overcrowdingRadius": [6, 12],
+    "maxOffspringSpawnDistance": [3, 5]
   },
   {
     "name": "Squirrel",
-    "multiplyingRate": [0.1, 0.3],
-    "maxLitterSize": [1, 5],
+    "multiplyingRate": [0.15, 0.2],
+    "maxLitterSize": [1, 3],
     "maxAge": [75, 125],
     "matureAge": [10, 20],
     "mutationRate": [0.01, 0.05],
-    "maxSpeed": [1, 5],
+    "maxSpeed": [3, 6],
     "sight": [10, 30],
-    "numberOfEntitiesAtStart": 5,
+    "numberOfEntitiesAtStart": 10,
     "eats": ["Grass"],
     "size": [3, 6],
     "maxFoodLevel": [65, 100],
     "colour": [0, 0, 200],
-    "overcrowdingThreshold": [2, 3],
-    "overcrowdingRadius": [6, 12]
+    "overcrowdingThreshold": [5, 7],
+    "overcrowdingRadius": [6, 12],
+    "maxOffspringSpawnDistance": [3, 5]
   }
 ]

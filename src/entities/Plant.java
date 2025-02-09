@@ -22,25 +22,22 @@ public class Plant extends Entity {
    */
   public List<Plant> multiply() {
     if (!canMultiply() || Math.random() > genetics.getMultiplyingRate()) return null;
-
     int seeds = genetics.getNumberOfSeeds();
+
     Plant[] newPlants = new Plant[seeds];
     for (int i = 0; i < seeds; i++) {
-      double spawnAngleFromParent = Math.random() * Math.PI * 2;
-      double spawnDistanceFromParent = Math.random() * genetics.getSize() * genetics.getMaxSeedSpawnDistance() + genetics.getSize();
-
-      double seedX = this.position.x + Math.cos(spawnAngleFromParent) * spawnDistanceFromParent;
-      double seedY = this.position.y + Math.sin(spawnAngleFromParent) * spawnDistanceFromParent;
-
-      Vector seedPos = new Vector(seedX, seedY);
-      newPlants[i] = new Plant(genetics, seedPos); // TODO: Proper genetics system for plants (mutation) (generic system needed).
+      Vector seedPos = position.getRandomPointInRadius(genetics.getMaxOffspringSpawnDistance());
+      newPlants[i] = new Plant(genetics, seedPos);
+      // TODO: Proper genetics system for plants (mutation) (generic system needed).
     }
+
     return List.of(newPlants);
   }
 
   @Override
   public void update(Field field, double deltaTime) {
     super.update(field, deltaTime);
+    if (!isAlive()) return;
 
     List<Plant> newPlants = multiply();
     if (newPlants == null) return;
