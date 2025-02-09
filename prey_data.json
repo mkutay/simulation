@@ -1,9 +1,9 @@
 [
   {
     "name": "Rabbit",
-    "multiplyingRate": [0.1, 0.2],
+    "multiplyingRate": [0.2, 0.4],
     "maxLitterSize": [1, 3],
-    "maxAge": [75, 125],
+    "maxAge": [75, 120],
     "matureAge": [10, 20],
     "mutationRate": [0.01, 0.05],
     "maxSpeed": [3, 5],
@@ -19,9 +19,9 @@
   },
   {
     "name": "Squirrel",
-    "multiplyingRate": [0.15, 0.2],
-    "maxLitterSize": [1, 3],
-    "maxAge": [75, 125],
+    "multiplyingRate": [0.25, 0.4],
+    "maxLitterSize": [2, 3],
+    "maxAge": [75, 115],
     "matureAge": [10, 20],
     "mutationRate": [0.01, 0.05],
     "maxSpeed": [3, 6],

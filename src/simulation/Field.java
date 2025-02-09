@@ -13,7 +13,7 @@ public class Field {
   private final ArrayList<Entity> entitiesToSpawn = new ArrayList<>(); // Buffer list for entities to spawn
 
   /**
-   * For use with the JUnit tests.
+   * Constructor that is used with the JUnit tests.
    */
   public Field(int width, int height) {
     this.width = width;
@@ -46,7 +46,10 @@ public class Field {
    * @return True if the coordinate is in the field (with the padding), false otherwise.
    */
   public boolean isOutOfBounds(Vector pos, double padding) {
-    return (pos.x < padding) || (pos.y < padding) || (pos.x >= width - padding) || (pos.y >= height - padding);
+    return (pos.x < padding)
+      || (pos.y < padding)
+      || (pos.x >= width - padding)
+      || (pos.y >= height - padding);
   }
 
   /**
@@ -72,8 +75,8 @@ public class Field {
 
   /**
    * Adds an entity to the field.
-   * Adds to a buffer list, which is used to spawn entities in the field at the end of each simulation step
-   * Prevents concurrency errors
+   * Adds to a buffer list, which is used to spawn entities in the field at the end of each simulation step.
+   * Prevents concurrency errors.
    * @param entity The entity to add.
    */
   public void addEntity(Entity entity) {
@@ -81,8 +84,8 @@ public class Field {
   }
 
   /**
-   * Adds all entities in entitiesToSpawn to the entities list
-   * Used to safely add entities to the simulation
+   * Adds all entities in entitiesToSpawn to the entities list.
+   * Used to safely add entities to the simulation.
    */
   public void spawnNewEntities() {
     entities.addAll(entitiesToSpawn);

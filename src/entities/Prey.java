@@ -1,6 +1,7 @@
 package entities;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import entities.generic.*;
@@ -24,7 +25,6 @@ public class Prey extends Animal {
     int size = (int) (genetics.getSize() / scaleFactor);
     int x = (int) (position.x / scaleFactor);
     int y = (int) (position.y / scaleFactor);
-    //display.drawCircle(x, y, (int) genetics.getSight(), Color.orange);
     display.drawCircle(x, y, size, genetics.getColour());
   }
 
@@ -34,20 +34,20 @@ public class Prey extends Animal {
    * @return A list of newly born entities.
    */
   public List<Prey> breed(Field field) {
-    if (!canMultiply() || Math.random() > genetics.getMultiplyingRate()) return null;
+    if (!isAlive() || !canMultiply() || Math.random() > genetics.getMultiplyingRate()) return Collections.emptyList();
 
-    Prey mate = (Prey) getRandomMate(field.getEntities());
-    if (mate == null) return null;
-    // Clamp litter size to the minimum of the two animals' max litter size:
+    Entity mateEntity = getRandomMate(field.getEntities());
+    if (!(mateEntity instanceof Prey)) return Collections.emptyList();
+    Prey mate = (Prey) mateEntity;
+
     int litterSize = (int) (Math.random() * Math.min(genetics.getMaxLitterSize(), mate.genetics.getMaxLitterSize())) + 1;
-
-    List<Prey> newlyBornEntities = new ArrayList<>();
+    List<Prey> offspring = new ArrayList<>();
     for (int i = 0; i < litterSize; i++) {
       AnimalGenetics childGenetics = genetics.breed(mate.genetics);
       Vector newPos = position.getRandomPointInRadius(genetics.getMaxOffspringSpawnDistance());
-      newlyBornEntities.add(new Prey(childGenetics, newPos));
+      offspring.add(new Prey(childGenetics, newPos));
     }
-    return newlyBornEntities;
+    return offspring;
   }
 
   /**
@@ -56,17 +56,17 @@ public class Prey extends Animal {
    */
   @Override
   public void update(Field field, double deltaTime) {
-    super.update(field, deltaTime);
     if (!isAlive()) return;
-
-    List<Prey> newlyBornEntities = breed(field);
-    if (newlyBornEntities == null) return;
-
-    for (Prey entity : newlyBornEntities) {
+    
+    List<Prey> newEntities = breed(field);
+    
+    for (Prey entity : newEntities) {
       field.putInBounds(entity, entity.getSize());
       field.addEntity(entity);
     }
+    
+    foodLevel -= newEntities.size() * genetics.getMaxFoodLevel() * 0.1 * deltaTime;
 
-    foodLevel -= newlyBornEntities.size() * genetics.getMaxFoodLevel() * 0.1 * deltaTime;
+    super.update(field, deltaTime);
   }
 }

@@ -60,12 +60,13 @@ public abstract class Animal extends Entity {
         double distance = entity.position.subtract(position).getMagnitudeSquared();
         if (distance < closestDistance) {
           nearestEntity = entity;
+          closestDistance = distance;
         }
       }
     }
 
     if (nearestEntity == null) return false;
-    foodLevel -= getMaxSpeed() * 0.05 * deltaTime; // Decrement the food level more when trying to catch food.
+    foodLevel -= getMaxSpeed() * 0.03 * deltaTime; // Decrement the food level more when trying to catch food.
     moveToEntity(nearestEntity, deltaTime);
     return true;
   }
@@ -88,7 +89,7 @@ public abstract class Animal extends Entity {
 
     for (Entity entity : nearbyEntities) {
       if (entity.isAlive() && canEat(entity) && isColliding(entity)) {
-        foodLevel += entity.getSize() * 2;
+        foodLevel += entity.getSize() * 1.2;
         entity.setDead();
       }
     }
@@ -109,17 +110,21 @@ public abstract class Animal extends Entity {
   }
 
   @Override
-  public void update(Field field, double deltaTime) {
-    super.update(field, deltaTime);
-    if (!isAlive()) return;
-    List<Entity> nearbyEntities = searchNearbyEntities(field.getEntities(), genetics.getSight());
+  protected boolean canMultiply() {
+    return super.canMultiply() && foodLevel >= genetics.getMaxFoodLevel() * 0.2;
+  }
 
+  @Override
+  public void update(Field field, double deltaTime) {
+    List<Entity> nearbyEntities = searchNearbyEntities(field.getEntities(), genetics.getSight());
+    
     eat(nearbyEntities);
     handleHunger(deltaTime);
-
+    
     boolean movingToFood = moveToNearestFood(nearbyEntities, deltaTime);
     if (!movingToFood) wander(field, deltaTime);
 
+    super.update(field, deltaTime);
   }
 
   /**
@@ -128,7 +133,7 @@ public abstract class Animal extends Entity {
    * @return A random mate from the list of entities, null if no mate found.
    */
   public Animal getRandomMate(List<Entity> others) {
-    List<Entity> entities = getSameSpecies(searchNearbyEntities(others, genetics.getSight() * 0.75)); // TODO: Add breedingRadius to genetics.
+    List<Entity> entities = getSameSpecies(searchNearbyEntities(others, genetics.getSight() * 0.5)); // TODO: Add breedingRadius to genetics.
     List<Animal> potentialMates = entities.stream()
       .filter(entity -> entity instanceof Animal)
       .map(entity -> (Animal) entity)
@@ -143,4 +148,5 @@ public abstract class Animal extends Entity {
   // Getters:
   public String[] getEats() { return genetics.getEats(); }
   public double getMaxSpeed() { return genetics.getMaxSpeed(); }
+  public double getFoodLevel() { return foodLevel; }
 }

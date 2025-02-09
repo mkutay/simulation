@@ -25,8 +25,7 @@ public abstract class Entity {
 
   /**
    * Increment the age of the entity.
-   * Age increase rate is proportional to delta time
-   * If the entity is older than or equal to the maximum age, the entity dies.
+   * Age increase rate is proportional to delta time.
    */
   public void incrementAge(double deltaTime) {
     age += deltaTime;
@@ -57,14 +56,13 @@ public abstract class Entity {
   public abstract void draw(Display display, double scaleFactor);
 
   public void update(Field field, double deltaTime) {
-    if (!isAlive) return;
     incrementAge(deltaTime);
     handleOvercrowding(field);
   }
 
   /**
-   * @param entity The entity to check collision with self
-   * @return True if colliding with entity (uses circle hit box), false otherwise
+   * @param entity The entity to check collision with self.
+   * @return True if colliding with entity (uses circle hit box), false otherwise.
    */
   public boolean isColliding(Entity entity) {
     if (entity == null) return false;
@@ -100,7 +98,7 @@ public abstract class Entity {
    */
   public void handleOvercrowding(Field field) {
     List<Entity> entities = searchNearbyEntities(field.getEntities(), genetics.getOvercrowdingRadius());
-    List<Entity> sameSpecies = getSameSpecies(entities).stream().filter(entity -> entity.isAlive()).toList();
+    List<Entity> sameSpecies = getSameSpecies(entities);
     if (sameSpecies.size() >= genetics.getOvercrowdingThreshold()) {
       setDead();
     }
@@ -113,11 +111,11 @@ public abstract class Entity {
    */
   protected List<Entity> getSameSpecies(List<Entity> entities) {
     List<Entity> sameSpecies = new ArrayList<>();
-    entities.forEach(entity -> {
-      if (entity.getName().equals(getName())) {
+    for (Entity entity : entities) {
+      if (entity.isAlive && entity.name.equals(name)) {
         sameSpecies.add(entity);
       }
-    });
+    }
     return sameSpecies;
   }
 

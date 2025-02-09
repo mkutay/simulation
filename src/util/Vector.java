@@ -35,12 +35,6 @@ public class Vector {
     return this.normalize().multiply(magnitude);
   }
 
-  public static Vector addVectors(List<Vector> vectors) {
-    Vector returnVector = new Vector(0, 0);
-    vectors.forEach(returnVector::add);
-    return returnVector;
-  }
-
   public double getMagnitude() {
     return Math.hypot(x, y);
   }
@@ -53,17 +47,23 @@ public class Vector {
     return "(" + x + ", " + y + ")";
   }
 
-  public static Vector getRandomVector() {
-    return new Vector(Math.random() * 2 - 1, Math.random() * 2 - 1);
-  }
-
   public double getAngle() {
     return Math.atan2(y, x);
   }
-
+  
   public Vector getRandomPointInRadius(double radius) {
     double angle = Math.random() * Math.PI * 2;
     double distance = Math.random() * radius;
     return new Vector(x + Math.cos(angle) * distance, y + Math.sin(angle) * distance);
+  }
+
+  public static Vector getRandomVector() {
+    return new Vector(Math.random() * 2 - 1, Math.random() * 2 - 1);
+  }
+
+  public static Vector addVectors(List<Vector> vectors) {
+    Vector returnVector = new Vector(0, 0);
+    vectors.forEach(returnVector::add);
+    return returnVector;
   }
 }

@@ -25,6 +25,9 @@ public class FieldBuilder {
     createEntities(data);
   }
 
+  /**
+   * @return A random position within the field as a Vector.
+   */
   private Vector getRandomPosition() {
     return new Vector(Math.random() * width, Math.random() * height);
   }

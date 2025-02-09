@@ -1,5 +1,6 @@
 package entities;
 
+import java.util.Collections;
 import java.util.List;
 
 import entities.generic.Entity;
@@ -18,10 +19,10 @@ public class Plant extends Entity {
 
   /**
    * Spawns new plants around it. The new plants have the same genetics as the parent plant (may be mutated).
-   * @return A list of new plants if the plant can multiply, null otherwise.
+   * @return A list of new plants if the plant can multiply, empty list otherwise.
    */
   public List<Plant> multiply() {
-    if (!canMultiply() || Math.random() > genetics.getMultiplyingRate()) return null;
+    if (!canMultiply() || Math.random() > genetics.getMultiplyingRate()) return Collections.emptyList();
     int seeds = genetics.getNumberOfSeeds();
 
     Plant[] newPlants = new Plant[seeds];
@@ -36,16 +37,16 @@ public class Plant extends Entity {
 
   @Override
   public void update(Field field, double deltaTime) {
-    super.update(field, deltaTime);
     if (!isAlive()) return;
-
+    
     List<Plant> newPlants = multiply();
-    if (newPlants == null) return;
-
+    
     for (Plant plant : newPlants) {
       field.putInBounds(plant, plant.getSize());
       field.addEntity(plant);
     }
+    
+    super.update(field, deltaTime);
   }
 
   /**
@@ -58,7 +59,6 @@ public class Plant extends Entity {
     int size = (int) (genetics.getSize() / scaleFactor);
     int x = (int) (position.x / scaleFactor);
     int y = (int) (position.y / scaleFactor);
-    // display.drawCircle(x, y, size, genetics.getColour());
     display.drawEqualTriangle(x, y, size, genetics.getColour());
   }
 }

@@ -1,9 +1,9 @@
 [
   {
     "name": "Fox",
-    "multiplyingRate": [0.1, 0.25],
+    "multiplyingRate": [0.2, 0.25],
     "maxLitterSize": [1, 5],
-    "maxAge": [75, 125],
+    "maxAge": [75, 90],
     "matureAge": [10, 20],
     "mutationRate": [0.01, 0.05],
     "maxSpeed": [3, 5],

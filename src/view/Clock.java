@@ -17,14 +17,18 @@ public class Clock {
    * Waits a clock cycle (1 / fps) by waiting in a while loop.
    */
   public void tick() {
-    while (System.nanoTime() < lastTick + (double) 1_000_000_000 / fps) {  }
+    while (System.nanoTime() < lastTick + (double) 1_000_000_000 / fps) { }
     deltaTime = System.nanoTime() - lastTick;
     lastTick = System.nanoTime();
   }
 
+  /**
+   * Useful for debug or performance testing.
+   * @return The current FPS of the simulation.
+   */
   public double getCurrentFps() {
     return fps / getDeltaTime();
-  } // useful for debug / performance testing
+  }
 
   public double getDeltaTime() {
     return deltaTime * fps / 1_000_000_000;
