@@ -38,7 +38,7 @@ public abstract class Entity {
    * @return Whether the entity can multiply or not, according to the mature age.
    */
   protected boolean canMultiply() {
-    return isAlive && age >= genetics.getMatureAge();
+    return isAlive && age >= genetics.getMatureAge() && age < genetics.getMaxAge();
   }
 
   /**

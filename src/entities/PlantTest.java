@@ -98,7 +98,19 @@ class PlantTest {
 
   @Test
   void testMultiply_ReturnsEmptyListWhenBeyondMaxAge() {
-    Plant plant = new Plant(genetics, new Vector(50, 50));
+    PlantGenetics maxSpawnRateGenetics = new PlantGenetics(
+      genetics.getMaxAge(),
+      genetics.getMatureAge(),
+      1.0d,
+      genetics.getSize(),
+      genetics.getName(),
+      genetics.getColour(),
+      genetics.getNumberOfSeeds(),
+      genetics.getMaxOffspringSpawnDistance(),
+      genetics.getOvercrowdingThreshold(),
+      genetics.getOvercrowdingRadius()
+    );
+    Plant plant = new Plant(maxSpawnRateGenetics, new Vector(50, 50));
     plant.setAge(genetics.getMaxAge() + 1);
     List<Plant> offspring = plant.multiply();
     assertTrue(offspring.isEmpty(), "Expected empty list when plant is beyond max age.");
