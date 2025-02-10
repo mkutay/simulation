@@ -1,13 +1,8 @@
 package entities;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
 import entities.generic.*;
 import genetics.AnimalGenetics;
 import graphics.Display;
-import simulation.Field;
 import util.Vector;
 
 public class Predator extends Animal {
@@ -29,45 +24,8 @@ public class Predator extends Animal {
     display.drawRectangle(x, y, size * 2, size * 2, genetics.getColour());
   }
 
-  /**
-   * Breeds with other entities of the same species, if possible.
-   * @param others The list of entities to breed with.
-   * @return A list of newly born entities.
-   */
-  public List<Predator> breed(Field field) {
-    if (!isAlive() || !canMultiply() || Math.random() > genetics.getMultiplyingRate()) return Collections.emptyList();
-
-    Entity mateEntity = getRandomMate(field.getEntities());
-    if (!(mateEntity instanceof Predator)) return Collections.emptyList();
-    Predator mate = (Predator) mateEntity;
-
-    int litterSize = (int) (Math.random() * Math.min(genetics.getMaxLitterSize(), mate.genetics.getMaxLitterSize())) + 1;
-    List<Predator> offspring = new ArrayList<>();
-    for (int i = 0; i < litterSize; i++) {
-      AnimalGenetics childGenetics = genetics.breed(mate.genetics);
-      Vector newPos = position.getRandomPointInRadius(genetics.getMaxOffspringSpawnDistance());
-      offspring.add(new Predator(childGenetics, newPos));
-    }
-    return offspring;
-  }
-
-  /**
-   * Update the entity in the field -- make all the actions it can.
-   * Move, eat, multiply.
-   */
   @Override
-  public void update(Field field, double deltaTime) {
-    if (!isAlive()) return;
-    
-    List<Predator> newEntities = breed(field);
-    
-    for (Predator entity : newEntities) {
-      field.putInBounds(entity, entity.getSize());
-      field.addEntity(entity);
-    }
-    
-    foodLevel -= newEntities.size() * genetics.getMaxFoodLevel() * 0.1 * deltaTime;
-
-    super.update(field, deltaTime);
+  protected Animal createOffspring(AnimalGenetics genetics, Vector position) {
+    return new Predator(genetics, position);
   }
 }

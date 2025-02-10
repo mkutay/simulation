@@ -32,7 +32,7 @@ public class AnimalGenetics extends Genetics {
 
   /**
    * Breed with another animal to create a new animal with genetics in between the two parents.
-   * TODO: THIS IS A CRUDE IMPLEMENTATION -- NEEDS TO BE IMPROVED.
+   * TODO: THIS IS A CRUDE IMPLEMENTATION -- NEEDS TO BE IMPROVED. (yes lol - needs a new class for this)
    * TODO: ADD MUTATION.
    * TODO: Add a way to get the middle of the colour of the parents.
    * @param mate The other animal to breed with.

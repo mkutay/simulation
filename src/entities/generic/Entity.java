@@ -57,7 +57,7 @@ public abstract class Entity {
 
   public void update(Field field, double deltaTime) {
     incrementAge(deltaTime);
-    handleOvercrowding(field);
+    handleOvercrowding(field);//TODO rework or remove
   }
 
   /**
@@ -97,6 +97,7 @@ public abstract class Entity {
    * If there are more than 2 entities of the same species in the vicinity, the entity dies.
    */
   public void handleOvercrowding(Field field) {
+    //TODO remove overcrowding or rework, this has low performance due to searchNearbyEntities call
     List<Entity> entities = searchNearbyEntities(field.getEntities(), genetics.getOvercrowdingRadius());
     List<Entity> sameSpecies = getSameSpecies(entities);
     if (sameSpecies.size() >= genetics.getOvercrowdingThreshold()) {

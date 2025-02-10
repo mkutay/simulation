@@ -2,6 +2,7 @@ package genetics;
 
 import java.awt.Color;
 
+//TODO make record?
 public abstract class Genetics {
   private final String name; // Name of entity, acts as identifying key
   private final int maxAge; // Maximum age of the entity

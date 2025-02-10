@@ -1,6 +1,8 @@
 package entities.generic;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import util.Vector;
@@ -15,7 +17,7 @@ public abstract class Animal extends Entity {
   public Animal(AnimalGenetics genetics, Vector position) {
     super(genetics, position);
     this.genetics = genetics;
-    this.foodLevel = genetics.getMaxFoodLevel();
+    this.foodLevel = genetics.getMaxFoodLevel()/2; //Start at 50% hunger
   }
 
   /**
@@ -72,7 +74,7 @@ public abstract class Animal extends Entity {
   }
 
   /**
-   * Checks the "genetics.eats" of this animal.
+   * Checks if this animal can eat a specified entity
    * @param entity The entity to check if this animal can eat.
    * @return True if this animal can eat the entity, false otherwise.
    */
@@ -116,15 +118,48 @@ public abstract class Animal extends Entity {
 
   @Override
   public void update(Field field, double deltaTime) {
+    if (!isAlive()) return;
+
+    List<Animal> newEntities = breed(field);
+
+    for (Animal entity : newEntities) {
+      field.putInBounds(entity, entity.getSize());
+      field.addEntity(entity);
+    }
+
+    foodLevel -= newEntities.size() * genetics.getMaxFoodLevel() * 0.1 * deltaTime;
+
     List<Entity> nearbyEntities = searchNearbyEntities(field.getEntities(), genetics.getSight());
-    
-    eat(nearbyEntities);
+
+    eat(nearbyEntities); //TODO eat only when hungry
     handleHunger(deltaTime);
-    
+
     boolean movingToFood = moveToNearestFood(nearbyEntities, deltaTime);
     if (!movingToFood) wander(field, deltaTime);
 
     super.update(field, deltaTime);
+  }
+
+  /**
+   * Used to generate an offspring of the animal after breeding
+   * @return a new Animal with the specified genetics and spawn position
+   */
+  protected abstract Animal createOffspring(AnimalGenetics genetics, Vector position);
+
+  protected List<Animal> breed(Field field) {
+    if (!isAlive() || !canMultiply() || Math.random() > genetics.getMultiplyingRate()) return Collections.emptyList();
+
+    Animal mateEntity = getRandomMate(field.getEntities());
+    if (mateEntity == null) return Collections.emptyList(); //If no valid mate entity, end
+
+    int litterSize = (int) (Math.random() * Math.min(genetics.getMaxLitterSize(), mateEntity.genetics.getMaxLitterSize())) + 1;
+    List<Animal> offspring = new ArrayList<>();
+    for (int i = 0; i < litterSize; i++) {
+      AnimalGenetics childGenetics = genetics.breed(mateEntity.genetics);
+      Vector newPos = position.getRandomPointInRadius(genetics.getMaxOffspringSpawnDistance());
+      offspring.add(createOffspring(childGenetics, newPos));
+    }
+    return offspring;
   }
 
   /**
@@ -133,9 +168,11 @@ public abstract class Animal extends Entity {
    * @return A random mate from the list of entities, null if no mate found.
    */
   public Animal getRandomMate(List<Entity> others) {
-    List<Entity> entities = getSameSpecies(searchNearbyEntities(others, genetics.getSight() * 0.5)); // TODO: Add breedingRadius to genetics.
+    //TODO this isnt amazing for performance, later try avoid using searchNearbyEntities more than necessary as it greatly reduces performance
+    List<Entity> entities = getSameSpecies(searchNearbyEntities(others, genetics.getSight() * 0.5));
     List<Animal> potentialMates = entities.stream()
-      .filter(entity -> entity instanceof Animal)
+      .filter(entity -> entity instanceof Animal) //entity is animal
+      .filter(entity -> entity.getName().equals(getName())) //entity is same species as this animal
       .map(entity -> (Animal) entity)
       .filter(animal -> animal.genetics.getGender() != genetics.getGender())
       .filter(animal -> animal.canMultiply() && animal.isAlive())
