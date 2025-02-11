@@ -7,6 +7,9 @@ import genetics.PlantGenetics;
 /**
  * Represents a set of genetic intervals for a plant.
  * This is used when parsing the JSON file for type of plant.
+ * 
+ * @author Anas Ahmed and Mehmet Kutay Bozkurt
+ * @version 1.0
  */
 public class PlantData extends EntityData {
   private int[] numberOfSeeds; // Number of seeds produced by the plant -- when multiplied

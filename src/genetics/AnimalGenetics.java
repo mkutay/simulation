@@ -2,6 +2,14 @@ package genetics;
 
 import java.awt.*;
 
+/**
+ * The genetics of an animal. Contains information about the animal's breeding,
+ * mutation, and other properties. Also allows for breeding with another animal, for 
+ * creating a new animal with genetics in between the two parents.
+ * 
+ * @author Anas Ahmed and Mehmet Kutay Bozkurt
+ * @version 1.0
+ */
 public class AnimalGenetics extends Genetics {
   private final int maxLitterSize; // Maximum number of offspring per breeding
   private final double mutationRate; // Rate at which the entity's genetics can mutate
@@ -11,6 +19,9 @@ public class AnimalGenetics extends Genetics {
   private final String[] eats; // The names of the entities the animal eats
   private final double maxFoodLevel; // Maximum food level of the entity
 
+  /**
+   * Constructor -- Creates a new set of genetics for an animal.
+   */
   public AnimalGenetics(double multiplyingRate, int maxLitterSize, int maxAge, int matureAge, double mutationRate, double maxSeed, double sight, Gender gender, int size, String[] eats, String name, Color colour, double maxFoodLevel, int overcrowdingThreshold, double overcrowdingRadius, double maxOffspringSpawnDistance) {
     super(maxAge, matureAge, multiplyingRate, size, name, colour, overcrowdingThreshold, overcrowdingRadius, maxOffspringSpawnDistance);
     this.maxLitterSize = maxLitterSize;
@@ -22,6 +33,7 @@ public class AnimalGenetics extends Genetics {
     this.maxFoodLevel = maxFoodLevel;
   }
 
+  // Getters:
   public int getMaxLitterSize() { return maxLitterSize; }
   public double getMutationRate() { return mutationRate; }
   public double getMaxSpeed() { return maxSeed; }

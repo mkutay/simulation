@@ -8,6 +8,9 @@ import genetics.Gender;
 /**
  * Represents a set of genetic intervals for an animal.
  * This is used when parsing the JSON file for each species of animals.
+ * 
+ * @author Mehmet Kutay Bozkurt and Anas Ahmed
+ * @version 1.0
  */
 public class AnimalData extends EntityData{
   public int[] maxLitterSize; // Maximum number of offspring per breeding

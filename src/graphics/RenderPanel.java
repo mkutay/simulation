@@ -9,13 +9,16 @@ import javax.swing.JPanel;
  * A modified JPanel to allow easy graphics rendering.
  * All graphics are drawn onto the BufferedImage "surface" through the Graphics2D attribute.
  * Updates are shown when repaint() is called.
+ * 
+ * @author Anas Ahmed and Mehmet Kutay Bozkurt
+ * @version 1.0
  */
 public class RenderPanel extends JPanel {
-	private final Graphics2D g2;
-	private final BufferedImage surface;
+	private final Graphics2D g2; // Graphics context
+	private final BufferedImage surface; // The buffered image to draw to.
 
 	/**
-	 * Create the render panel.
+	 * Constructor -- Create the render panel.
 	 * @param screenWidth the screen width of the display (px).
 	 * @param screenHeight the screen height of the display (px).
 	 */
@@ -27,8 +30,7 @@ public class RenderPanel extends JPanel {
 	}
 
 	/**
-	 * Fills the screen with a single colour
-	 * @param color color to draw to the screen with
+	 * Fills the screen with a single colour.
 	 */
 	public void fill(Color color) {
 		g2.setColor(color);
@@ -36,11 +38,11 @@ public class RenderPanel extends JPanel {
 	}
 
 	/**
-	 * Draws a filled circle
-	 * @param x x position of center
-	 * @param y y position of center
-	 * @param radius radius in px
-	 * @param color colour to render circle
+	 * Draw a filled circle.
+	 * @param x X position of the circle's center.
+	 * @param y Y position of the circle's center.
+	 * @param radius Radius in pixels.
+	 * @param color Colour to render circle.
 	 */
 	public void drawCircle(int x, int y, int radius, Color color) {
 		g2.setColor(color);
@@ -48,11 +50,11 @@ public class RenderPanel extends JPanel {
 	}
 
 	/**
-	 * Draws a filled rectangle.
+	 * Draw a filled rectangle.
 	 * @param x X position of top left.
 	 * @param y Y position of top left.
-	 * @param width Width in px.
-	 * @param height Height in px.
+	 * @param width Width in pixels.
+	 * @param height Height in pixels.
 	 * @param color Colour to render rectangle.
 	 */
 	public void drawRect(int x, int y, int width, int height, Color color) {
@@ -61,7 +63,11 @@ public class RenderPanel extends JPanel {
 	}
 
 	/**
-	 * Draws a filled equilateral triangle.
+	 * Draw a filled equilateral triangle.
+	 * @param centerX X position of the triangle's center.
+	 * @param centerY Y position of the triangle's center.
+	 * @param radius Radius in pixels.
+	 * @param color Colour to render triangle.
 	 */
 	public void drawEqualTriangle(int centerX, int centerY, int radius, Color color) {
 		g2.setColor(color);

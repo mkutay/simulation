@@ -1,24 +1,30 @@
 package simulation;
 
 import entities.*;
+import simulation.simulationData.*;
 import entities.generic.Entity;
-import simulation.simulationData.AnimalData;
-import simulation.simulationData.Data;
-import simulation.simulationData.PlantData;
 import util.Vector;
 
 import java.util.ArrayList;
 
 /**
- * Creates a Field based off of the given simulation Data and field parameters
- * Spawns in all entities with random initial stats
+ * Creates a Field based off of the given simulation Data and field parameters.
+ * Spawns in all entities with random initial stats.
+ * 
+ * @author Anas Ahmed and Mehmet Kutay Bozkurt
+ * @version 1.0
  */
 public class FieldBuilder {
-  private final int width;
-  private final int height;
+  private final int width; // The width of the field.
+  private final int height; // The height of the field.
+  private ArrayList<Entity> entities; // The list of entities.
 
-  private ArrayList<Entity> entities;
-
+  /**
+   * Constructor.
+   * @param width The width of the field.
+   * @param height The height of the field.
+   * @param data The simulation data.
+   */
   public FieldBuilder(int width, int height, Data data) {
     this.width = width;
     this.height = height;
@@ -33,7 +39,8 @@ public class FieldBuilder {
   }
 
   /**
-   * Spawns in all preys, predators and plants for the simulation
+   * Create all preys, predators, and plants for the simulation.
+   * @param data The simulation data.
    */
   private void createEntities(Data data) {
     entities = new ArrayList<>();
@@ -67,6 +74,7 @@ public class FieldBuilder {
     }
   }
 
+  // Getters:
   public Field build() { return new Field(this); }
   public ArrayList<Entity> getEntities() { return entities; }
   public int getWidth() { return width; }

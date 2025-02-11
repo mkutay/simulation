@@ -9,6 +9,12 @@ import simulation.Field;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * An abstract class that holds the properties of an entity.
+ * 
+ * @author Anas Ahmed and Mehmet Kutay Bozkurt
+ * @version 1.0
+ */
 public abstract class Entity {
   private final String name; // Name of the entity
   private double age; // Age of the entity
@@ -16,6 +22,9 @@ public abstract class Entity {
   protected Vector position; // Position of the entity
   protected Genetics genetics; // Genetics of the entity
 
+  /**
+   * Constructor -- Create a new entity with the given genetics and position.
+   */
   public Entity(Genetics genetics, Vector position) {
     age = 0;
     this.name = genetics.getName();
@@ -42,22 +51,18 @@ public abstract class Entity {
   }
 
   /**
-   * Set the entity as dead.
-   */
-  public void setDead() {
-    isAlive = false;
-  }
-
-  /**
    * Draw the entity to a display
    * @param display The display to draw to
    * @param scaleFactor The field scale factor for the position and size (for scaling screen size and simulation size)
    */
   public abstract void draw(Display display, double scaleFactor);
 
+  /**
+   * Update the entity.
+   */
   public void update(Field field, double deltaTime) {
     incrementAge(deltaTime);
-    handleOvercrowding(field);//TODO rework or remove
+    handleOvercrowding(field); // TODO: rework or remove.
   }
 
   /**
@@ -68,6 +73,7 @@ public abstract class Entity {
     if (entity == null) return false;
     Vector offset = position.subtract(entity.position);
     double distanceSquared = offset.getMagnitudeSquared();
+
     // This is mathematically the same as (distance <= (e.size + size)), but no sqrt call (in distance) for optimisation
     return distanceSquared <= Math.pow((getSize() + entity.getSize()), 2) + Utility.EPSILON;
   }
@@ -94,10 +100,10 @@ public abstract class Entity {
 
   /**
    * Handles overcrowding of entities of the same species.
-   * If there are more than 2 entities of the same species in the vicinity, the entity dies.
+   * Looks at the genetics of the species to determine overcrowding.
    */
   public void handleOvercrowding(Field field) {
-    //TODO remove overcrowding or rework, this has low performance due to searchNearbyEntities call
+    // TODO: remove overcrowding or rework, this has low performance due to searchNearbyEntities call
     List<Entity> entities = searchNearbyEntities(field.getEntities(), genetics.getOvercrowdingRadius());
     List<Entity> sameSpecies = getSameSpecies(entities);
     if (sameSpecies.size() >= genetics.getOvercrowdingThreshold()) {
@@ -120,12 +126,34 @@ public abstract class Entity {
     return sameSpecies;
   }
 
+  /**
+   * Set age of the entity.
+   */
   public void setAge(double age) {
     this.age = age;
   }
-    
+
+  /**
+   * Set the entity as dead.
+   */
+  public void setDead() {
+    isAlive = false;
+  }
+
+  /**
+   * @return A string representation of the entity.
+   */
+  @Override
   public String toString() {
     return name + " at " + position.toString();
+  }
+
+  /**
+   * Set position of the entity.
+   */
+  public void setPosition(Vector position) {
+    if (position == null) return;
+    this.position = position;
   }
 
   // Getters:

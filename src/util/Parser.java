@@ -11,13 +11,16 @@ import simulation.simulationData.PlantData;
 
 /**
  * A class to parse JSON data from files. It can get the contents of a file as a String,
- * and parse the contents as AnimalData or PlantData.
+ * and parse the contents as either AnimalData or PlantData.
+ * 
+ * @author Mehmet Kutay Bozkurt and Anas Ahmed
+ * @version 1.0
  */
 public class Parser {
   /**
    * Serialise animal data from JSON content.
    * @param jsonContent The JSON contents.
-   * @return The animal data parsed, serialised as AnimalData.
+   * @return The data parsed, serialised as AnimalData.
    */
   public static AnimalData[] parseAnimalJson(String jsonContent) {
     Gson g = new Gson();

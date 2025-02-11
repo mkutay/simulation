@@ -5,11 +5,17 @@ import java.util.ArrayList;
 import util.Vector;
 import entities.generic.Entity;
 
+/**
+ * The field class is used to store all entities in the simulation.
+ * It is also used to spawn entities at the end of each simulation step.
+ * 
+ * @author Anas Ahmed and Mehmet Kutay Bozkurt
+ * @version 1.0
+ */
 public class Field {
   private final int width; // Width of the field
   private final int height; // Height of the field
-
-  private final ArrayList<Entity> entities;
+  private final ArrayList<Entity> entities; // List of all entities in the field
   private final ArrayList<Entity> entitiesToSpawn = new ArrayList<>(); // Buffer list for entities to spawn
 
   /**
@@ -21,6 +27,10 @@ public class Field {
     entities = new ArrayList<>();
   }
 
+  /**
+   * Constructor with the FieldBuilder that is used in the actual simulation.
+   * @param fieldBuilder The field builder to create the field.
+   */
   public Field(FieldBuilder fieldBuilder) {
     this.width = fieldBuilder.getWidth();
     this.height = fieldBuilder.getHeight();
@@ -34,10 +44,12 @@ public class Field {
   */
   public void putInBounds(Entity entity, double padding) {
     Vector entityPos = entity.getPosition();
-    if (entityPos.x < padding) entityPos.x = padding;
-    if (entityPos.y < padding) entityPos.y = padding;
-    if (entityPos.x > width - padding) entityPos.x = width - padding;
-    if (entityPos.y > height - padding) entityPos.y = height - padding;
+    Vector newVector = null;
+    if (entityPos.x < padding) newVector = new Vector(padding, entityPos.y);
+    if (entityPos.y < padding) newVector = new Vector(entityPos.x, padding);
+    if (entityPos.x > width - padding) newVector = new Vector(width - padding, entityPos.y);
+    if (entityPos.y > height - padding) newVector = new Vector(entityPos.x, height - padding);
+    entity.setPosition(newVector);
   }
 
   /**
@@ -60,7 +72,7 @@ public class Field {
   }
 
   /**
-   * @return All entities currently alive in the field.
+   * @return All entities currently in the field.
    */
   public ArrayList<Entity> getEntities() {
     return entities;
@@ -75,8 +87,8 @@ public class Field {
 
   /**
    * Adds an entity to the field.
-   * Adds to a buffer list, which is used to spawn entities in the field at the end of each simulation step.
-   * Prevents concurrency errors.
+   * @implNote Adds to a buffer list, which is used to spawn entities in the
+   * field at the end of each simulation step. Prevents concurrency errors.
    * @param entity The entity to add.
    */
   public void addEntity(Entity entity) {

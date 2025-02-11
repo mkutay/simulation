@@ -9,15 +9,23 @@ import util.Vector;
 import genetics.AnimalGenetics;
 import simulation.Field;
 
+/**
+ * Abstract class for all animals in the simulation.
+ * Contains methods for moving, eating, breeding, and handling hunger.
+ * 
+ * @author Mehmet Kutay Bozkurt and Mehmet Kutay Bozkurt
+ * @version 1.0
+ */
 public abstract class Animal extends Entity {
   protected AnimalGenetics genetics; // Re-cast to AnimalGenetics
-  protected double foodLevel;
-  private double direction = Math.random() * Math.PI * 2;
+  protected double foodLevel; // The current food level of the animal
+  private double direction; // The direction the animal is moving in
 
   public Animal(AnimalGenetics genetics, Vector position) {
     super(genetics, position);
     this.genetics = genetics;
-    this.foodLevel = genetics.getMaxFoodLevel()/2; //Start at 50% hunger
+    this.foodLevel = genetics.getMaxFoodLevel() / 2; // Start at 50% hunger.
+    this.direction = Math.random() * Math.PI * 2;
   }
 
   /**
@@ -111,11 +119,17 @@ public abstract class Animal extends Entity {
     }
   }
 
+  /**
+   * @return Whether the animal can multiply or not, and also according to the food level.
+   */
   @Override
   protected boolean canMultiply() {
     return super.canMultiply() && foodLevel >= genetics.getMaxFoodLevel() * 0.2;
   }
 
+  /**
+   * Update the animal.
+   */
   @Override
   public void update(Field field, double deltaTime) {
     if (!isAlive()) return;
@@ -146,6 +160,10 @@ public abstract class Animal extends Entity {
    */
   protected abstract Animal createOffspring(AnimalGenetics genetics, Vector position);
 
+  /**
+   * Breeds with a random mate (opposite gender) from the list of entities in sight.
+   * @return A list of offspring from the breeding, empty if no breeding occurred.
+   */
   protected List<Animal> breed(Field field) {
     if (!isAlive() || !canMultiply() || Math.random() > genetics.getMultiplyingRate()) return Collections.emptyList();
 

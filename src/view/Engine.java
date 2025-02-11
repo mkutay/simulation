@@ -8,12 +8,15 @@ import java.awt.*;
 
 /**
  * Combines the Simulator and Display to visualise the simulation.
+ * This is the "engine" that runs the entire simulation.
+ * 
+ * @author Anas Ahmed and Mehmet Kutay Bozkurt
+ * @version 1.0
  */
 public class Engine {
-  private final Display display;
-  private final Simulator simulator;
-  private final Clock clock;
-
+  private final Display display; // The GUI display
+  private final Simulator simulator; // The simulation
+  private final Clock clock; // Clock to keep track of time
   private boolean running = false;
 
   /**
@@ -22,13 +25,14 @@ public class Engine {
    * scale factor > 1 => field is zoomed out
    */
   private final double fieldScaleFactor; // Scales the field size up/down, so field size doesn't have to be screen size
-  private final int fps;
+  private final int fps; // Frames per second
 
   /**
-   * Create an engine to run the simulation.
-   * @param displayWidth the width of the GUI display.
-   * @param displayHeight the height of the GUI display.
-   * @param fps FPS to run simulation at.
+   * Constructor - Create an engine to run the simulation.
+   * @param displayWidth The width of the GUI display.
+   * @param displayHeight The height of the GUI display.
+   * @param fps FPS to run the simulation at.
+   * @param fieldScaleFactor The scale factor of the field.
    */
   public Engine(int displayWidth, int displayHeight, int fps, double fieldScaleFactor) {
     this.fps = fps;
@@ -42,14 +46,17 @@ public class Engine {
   }
 
   /**
-   * Initialise Engine with FPS set to 60
+   * Constructor - Initialise Engine with FPS set to 60
+   * @param displayWidth The width of the GUI display.
+   * @param displayHeight The height of the GUI display.
+   * @param fieldScaleFactor The scale factor of the field.
    */
   public Engine(int displayWidth, int displayHeight, double fieldScaleFactor) {
     this(displayWidth, displayHeight, 60, fieldScaleFactor);
   }
 
   /**
-   * Main loop of the simulation
+   * Main loop of the simulation.
    */
   private void run() {
     while (running) {

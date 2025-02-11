@@ -1,13 +1,20 @@
 package view;
 
 /**
- * Handles delay between simulation steps at correct FPS.
+ * Handles delay between simulation steps at correct frames per second.
+ * 
+ * @author Anas Ahmed and Mehmet Kutay Bozkurt
+ * @version 1.0
  */
 public class Clock {
   private final double fps;
   private double lastTick; // Time in nanoseconds
   private double deltaTime;
 
+  /**
+   * Constructor for the Clock class to handle the delay between simulation steps.
+   * @param fps The frames per second to run the simulation at.
+   */
   public Clock(int fps) {
     this.fps = fps;
     lastTick = System.nanoTime();
@@ -30,6 +37,9 @@ public class Clock {
     return fps / getDeltaTime();
   }
 
+  /**
+   * @return The delta time of the simulation.
+   */
   public double getDeltaTime() {
     return deltaTime * fps / 1_000_000_000;
   }

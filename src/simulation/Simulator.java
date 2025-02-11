@@ -7,11 +7,14 @@ import simulation.simulationData.Data;
 
 /**
  * Holds all the simulation information and is used to step through the simulation.
- * Used in Engine.
+ * Used in Engine. Contains the field of the entities.
+ * 
+ * @author Anas Ahmed and Mehmet Kutay Bozkurt
+ * @version 1.0
  */
-public class Simulator {  
-  private int step = 0;
-  private final Field field;
+public class Simulator {
+  private int step = 0; // The current step of the simulation.
+  private final Field field; // The field of the simulation.
   
   /*
   * Delta time controls simulation speed, affects things like speed of
@@ -20,6 +23,11 @@ public class Simulator {
   */
   private final static double FIXED_DELTA_TIME = 0.2;
 
+  /**
+   * Constructor for the simulator.
+   * @param width The width of the field.
+   * @param height The height of the field.
+   */
   public Simulator(int width, int height) {
     field = new FieldBuilder(width, height, new Data()).build();
   }
@@ -32,7 +40,7 @@ public class Simulator {
   }
 
   /**
-   * Simulates a single step.
+   * Simulate a single step.
    */
   public void step() {
     step++;

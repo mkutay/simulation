@@ -2,7 +2,14 @@ package genetics;
 
 import java.awt.Color;
 
-//TODO make record?
+// TODO: make record?
+/**
+ * An abstract genetics class for entities.
+ * Contains genetic values that are both common to animals and plants.
+ * 
+ * @author Mehmet Kutay Bozkurt and Anas Ahmed
+ * @version 1.0
+ */
 public abstract class Genetics {
   private final String name; // Name of entity, acts as identifying key
   private final int maxAge; // Maximum age of the entity
@@ -14,6 +21,9 @@ public abstract class Genetics {
   private final double overcrowdingRadius; // Radius inside of which the threshold is checked
   private final double maxOffspringSpawnDistance; // Maximum distance from the parent entity that the offspring can spawn
 
+  /**
+   * Constructor.
+   */
   public Genetics(int maxAge, int matureAge, double multiplyingRate, int size, String name, Color colour, int overcrowdingThreshold, double overcrowdingRadius, double maxOffspringSpawnDistance) {
     this.maxAge = maxAge;
     this.matureAge = matureAge;

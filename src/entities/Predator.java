@@ -5,7 +5,16 @@ import genetics.AnimalGenetics;
 import graphics.Display;
 import util.Vector;
 
+/**
+ * A generic predator entity. Predators move around randomly and can reproduce.
+ * 
+ * @author Mehmet Kutay Bozkurt and Mehmet Kutay Bozkurt
+ * @version 1.0
+ */
 public class Predator extends Animal {
+  /**
+   * Constructor -- Create a new predator entity with the given genetics and location.
+   */
   public Predator(AnimalGenetics genetics, Vector location) {
     super(genetics, location);
   }
@@ -24,6 +33,10 @@ public class Predator extends Animal {
     display.drawRectangle(x, y, size * 2, size * 2, genetics.getColour());
   }
 
+  /**
+   * Create a new predator entity with the given genetics and location.
+   * Used for reproduction in the Animal class.
+   */
   @Override
   protected Animal createOffspring(AnimalGenetics genetics, Vector position) {
     return new Predator(genetics, position);

@@ -9,16 +9,26 @@ import graphics.Display;
 import simulation.Field;
 import util.Vector;
 
+/**
+ * A class that holds the properties of a plant entity.
+ * 
+ * @author Anas Ahmed and Mehmet Kutay Bozkurt
+ * @version 1.0
+ */
 public class Plant extends Entity {
-  protected PlantGenetics genetics;
+  protected PlantGenetics genetics; // Re-cast to PlantGenetics.
 
+  /**
+   * Constructor -- Create a new plant entity with the given genetics and position.
+   */
   public Plant(PlantGenetics genetics, Vector position) {
     super(genetics, position);
     this.genetics = genetics;
   }
 
   /**
-   * Spawns new plants around it. The new plants have the same genetics as the parent plant (may be mutated).
+   * Spawn new plants around this plant. The new plants have the same
+   * genetics as the parent plant (may be mutated).
    * @return A list of new plants if the plant can multiply, empty list otherwise.
    */
   public List<Plant> multiply() {
@@ -28,13 +38,16 @@ public class Plant extends Entity {
     Plant[] newPlants = new Plant[seeds];
     for (int i = 0; i < seeds; i++) {
       Vector seedPos = position.getRandomPointInRadius(genetics.getMaxOffspringSpawnDistance());
-      newPlants[i] = new Plant(genetics, seedPos);
+      newPlants[i] = new Plant(genetics.getOffspringGenetics(), seedPos);
       // TODO: Proper genetics system for plants (mutation) (generic system needed).
     }
 
     return List.of(newPlants);
   }
 
+  /**
+   * Update this plant entity.
+   */
   @Override
   public void update(Field field, double deltaTime) {
     if (!isAlive()) return;
