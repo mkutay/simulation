@@ -110,14 +110,15 @@ public abstract class Animal extends Entity {
 
   /**
    * Sets animal as dead if no food, decrements food level proportion to deltaTime.
+   * @param deltaTime Delta time.
+   * @param numberOfOffsprings The number of offsprings the animal had.
    */
-  public void handleHunger(double deltaTime, int numberOfOffspring) {
-    foodLevel -= numberOfOffspring * genetics.getMaxFoodLevel() * 0.01 * deltaTime;
-    foodLevel -= genetics.getMaxFoodLevel() * 0.02 * deltaTime;
+  public void handleHunger(double deltaTime, int numberOfOffsprings) {
+    foodLevel -= numberOfOffsprings * genetics.getMaxFoodLevel() * 0.01 * deltaTime;
 
     // Decrease food level based on distance traveled since last update/tick.
     double distanceTraveled = position.subtract(lastPosition).getMagnitude();
-    foodLevel -= distanceTraveled * deltaTime * genetics.getMaxFoodLevel() * 0.02;
+    foodLevel -= distanceTraveled * deltaTime * genetics.getMaxFoodLevel() * 0.015;
 
     if (foodLevel <= 0) {
       setDead();
@@ -129,7 +130,7 @@ public abstract class Animal extends Entity {
    */
   @Override
   protected boolean canMultiply() {
-    return super.canMultiply() && foodLevel >= genetics.getMaxFoodLevel() * 0.2;
+    return super.canMultiply() && foodLevel >= genetics.getMaxFoodLevel() * 0.4;
   }
 
   /**
@@ -148,16 +149,21 @@ public abstract class Animal extends Entity {
       field.addEntity(entity);
     }
 
-    if (foodLevel <= genetics.getMaxFoodLevel() * 0.5) eat(nearbyEntities);
+    boolean isHungry = foodLevel <= genetics.getMaxFoodLevel() * 0.5;
+
+    if (isHungry) eat(nearbyEntities);
     handleHunger(deltaTime, newEntities.size());
 
     this.lastPosition = this.position;
 
-    boolean movingToFood = moveToNearestFood(nearbyEntities, deltaTime);
-    if (!movingToFood || foodLevel > genetics.getMaxFoodLevel() * 0.5) wander(field, deltaTime);
+    if (isHungry) {
+      boolean movingToFood = moveToNearestFood(nearbyEntities, deltaTime);
+      if (!movingToFood) wander(field, deltaTime);
+    } else {
+      wander(field, deltaTime);
+    }
 
     handleOvercrowding(nearbyEntities);
-
   }
 
   /**
