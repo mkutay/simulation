@@ -27,8 +27,8 @@ public class Predator extends Animal {
   @Override
   public void draw(Display display, double scaleFactor) {
     int size = (int) (genetics.getSize() / scaleFactor);
-    int x = (int) ((position.x - (double) size / 2) / scaleFactor);  // Draw rectangle centered around x, y of predator.
-    int y = (int) ((position.y - (double) size / 2) / scaleFactor);
+    int x = (int) ((position.x() - (double) size / 2) / scaleFactor);  // Draw rectangle centered around x, y of predator.
+    int y = (int) ((position.y() - (double) size / 2) / scaleFactor);
 
     display.drawRectangle(x, y, size * 2, size * 2, genetics.getColour());
   }

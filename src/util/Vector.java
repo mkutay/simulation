@@ -2,43 +2,32 @@ package util;
 import java.util.List;
 
 /**
- * A class that represents a 2D vector.
+ * A record that represents a 2D vector with two double values.
  * Also used for representing positions of entities in the field.
  * 
  * @author Anas Ahmed and Mehmet Kutay Bozkurt
  * @version 1.0
  */
-public class Vector {
-  public final double x;
-  public final double y;
-
-  /**
-   * Constructor -- create new vector.
-   */
-  public Vector(double x, double y) {
-    this.x = x;
-    this.y = y;
-  }
-
+public record Vector(double x, double y) {
   /**
    * Add two vectors together.
    */
   public Vector add(Vector other) {
-    return new Vector(this.x + other.x, this.y + other.y);
+    return new Vector(this.x() + other.x(), this.y() + other.y());
   }
 
   /**
    * Subtract two vectors.
    */
   public Vector subtract(Vector other) {
-    return new Vector(this.x - other.x, this.y - other.y);
+    return new Vector(this.x() - other.x(), this.y() - other.y());
   }
 
   /**
    * Multiply a vector by a scalar.
    */
   public Vector multiply(double scalar) {
-    return new Vector(this.x * scalar, this.y * scalar);
+    return new Vector(this.x() * scalar, this.y() * scalar);
   }
 
   /**
@@ -46,7 +35,7 @@ public class Vector {
    */
   public Vector normalize() {
     double magnitude = this.getMagnitude();
-    return new Vector(this.x / magnitude, this.y / magnitude);
+    return new Vector(this.x() / magnitude, this.y() / magnitude);
   }
 
   /**

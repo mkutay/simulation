@@ -70,8 +70,8 @@ public class Plant extends Entity {
   @Override
   public void draw(Display display, double scaleFactor) {
     int size = (int) (genetics.getSize() / scaleFactor);
-    int x = (int) (position.x / scaleFactor);
-    int y = (int) (position.y / scaleFactor);
+    int x = (int) (position.x() / scaleFactor);
+    int y = (int) (position.y() / scaleFactor);
     display.drawEqualTriangle(x, y, size, genetics.getColour());
   }
 }
