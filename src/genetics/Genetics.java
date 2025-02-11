@@ -2,7 +2,6 @@ package genetics;
 
 import java.awt.Color;
 
-// TODO: make record?
 /**
  * An abstract genetics class for entities.
  * Contains genetic values that are both common to animals and plants.

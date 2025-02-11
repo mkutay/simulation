@@ -62,7 +62,6 @@ public abstract class Entity {
    */
   public void update(Field field, double deltaTime) {
     incrementAge(deltaTime);
-    handleOvercrowding(field); // TODO: rework or remove.
   }
 
   /**
@@ -101,10 +100,13 @@ public abstract class Entity {
   /**
    * Handles overcrowding of entities of the same species.
    * Looks at the genetics of the species to determine overcrowding.
+   * @param nearbyEntities The entities in the sight radius of this entity.
    */
-  public void handleOvercrowding(Field field) {
-    // TODO: remove overcrowding or rework, this has low performance due to searchNearbyEntities call
-    List<Entity> entities = searchNearbyEntities(field.getEntities(), genetics.getOvercrowdingRadius());
+  public void handleOvercrowding(List<Entity> nearbyEntities) {
+    // Since nearbyEntities was already filtered by sight radius, this method
+    // call doesn't affect performance as much.
+    // Additionally, overcrodingRadius should be less than sight radius, so this is needed.
+    List<Entity> entities = searchNearbyEntities(nearbyEntities, genetics.getOvercrowdingRadius());
     List<Entity> sameSpecies = getSameSpecies(entities);
     if (sameSpecies.size() >= genetics.getOvercrowdingThreshold()) {
       setDead();

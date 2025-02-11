@@ -7,7 +7,7 @@
     "matureAge": [10, 20],
     "mutationRate": [0.01, 0.05],
     "maxSpeed": [3, 5],
-    "sight": [10, 50],
+    "sight": [12, 50],
     "numberOfEntitiesAtStart": 15,
     "eats": ["Rabbit"],
     "size": [3, 6],

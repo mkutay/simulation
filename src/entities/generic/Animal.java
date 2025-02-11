@@ -20,12 +20,14 @@ public abstract class Animal extends Entity {
   protected AnimalGenetics genetics; // Re-cast to AnimalGenetics
   protected double foodLevel; // The current food level of the animal
   private double direction; // The direction the animal is moving in
+  private Vector lastPosition; // The last position of the animal -- used to calculate speed.
 
   public Animal(AnimalGenetics genetics, Vector position) {
     super(genetics, position);
     this.genetics = genetics;
     this.foodLevel = genetics.getMaxFoodLevel() / 2; // Start at 50% hunger.
     this.direction = Math.random() * Math.PI * 2;
+    this.lastPosition = position;
   }
 
   /**
@@ -76,7 +78,6 @@ public abstract class Animal extends Entity {
     }
 
     if (nearestEntity == null) return false;
-    foodLevel -= getMaxSpeed() * 0.03 * deltaTime; // Decrement the food level more when trying to catch food.
     moveToEntity(nearestEntity, deltaTime);
     return true;
   }
@@ -109,11 +110,15 @@ public abstract class Animal extends Entity {
 
   /**
    * Sets animal as dead if no food, decrements food level proportion to deltaTime.
-   * TODO: Food level decrements based on speed.
-   * TODO: Food level decrements when reproducing.
    */
-  public void handleHunger(double deltaTime) {
+  public void handleHunger(double deltaTime, int numberOfOffspring) {
+    foodLevel -= numberOfOffspring * genetics.getMaxFoodLevel() * 0.01 * deltaTime;
     foodLevel -= genetics.getMaxFoodLevel() * 0.02 * deltaTime;
+
+    // Decrease food level based on distance traveled since last update/tick.
+    double distanceTraveled = position.subtract(lastPosition).getMagnitude();
+    foodLevel -= distanceTraveled * deltaTime * genetics.getMaxFoodLevel() * 0.02;
+
     if (foodLevel <= 0) {
       setDead();
     }
@@ -133,25 +138,26 @@ public abstract class Animal extends Entity {
   @Override
   public void update(Field field, double deltaTime) {
     if (!isAlive()) return;
+    super.update(field, deltaTime);
 
-    List<Animal> newEntities = breed(field);
+    List<Entity> nearbyEntities = searchNearbyEntities(field.getEntities(), genetics.getSight());
 
+    List<Animal> newEntities = breed(nearbyEntities);
     for (Animal entity : newEntities) {
       field.putInBounds(entity, entity.getSize());
       field.addEntity(entity);
     }
 
-    foodLevel -= newEntities.size() * genetics.getMaxFoodLevel() * 0.1 * deltaTime;
+    if (foodLevel <= genetics.getMaxFoodLevel() * 0.5) eat(nearbyEntities);
+    handleHunger(deltaTime, newEntities.size());
 
-    List<Entity> nearbyEntities = searchNearbyEntities(field.getEntities(), genetics.getSight());
-
-    eat(nearbyEntities); //TODO eat only when hungry
-    handleHunger(deltaTime);
+    this.lastPosition = this.position;
 
     boolean movingToFood = moveToNearestFood(nearbyEntities, deltaTime);
-    if (!movingToFood) wander(field, deltaTime);
+    if (!movingToFood || foodLevel > genetics.getMaxFoodLevel() * 0.5) wander(field, deltaTime);
 
-    super.update(field, deltaTime);
+    handleOvercrowding(nearbyEntities);
+
   }
 
   /**
@@ -162,32 +168,34 @@ public abstract class Animal extends Entity {
 
   /**
    * Breeds with a random mate (opposite gender) from the list of entities in sight.
+   * @param nearbyEntities The list of entities in sight of this animal.
    * @return A list of offspring from the breeding, empty if no breeding occurred.
    */
-  protected List<Animal> breed(Field field) {
-    if (!isAlive() || !canMultiply() || Math.random() > genetics.getMultiplyingRate()) return Collections.emptyList();
+  protected List<Animal> breed(List<Entity> nearbyEntities) {
+    if (!canMultiply() || Math.random() > genetics.getMultiplyingRate()) return Collections.emptyList();
 
-    Animal mateEntity = getRandomMate(field.getEntities());
-    if (mateEntity == null) return Collections.emptyList(); //If no valid mate entity, end
+    Animal mateEntity = getRandomMate(nearbyEntities);
+    if (mateEntity == null) return Collections.emptyList(); // If there is no valid mate entity, finish.
 
     int litterSize = (int) (Math.random() * Math.min(genetics.getMaxLitterSize(), mateEntity.genetics.getMaxLitterSize())) + 1;
-    List<Animal> offspring = new ArrayList<>();
+    List<Animal> offsprings = new ArrayList<>();
     for (int i = 0; i < litterSize; i++) {
       AnimalGenetics childGenetics = genetics.breed(mateEntity.genetics);
       Vector newPos = position.getRandomPointInRadius(genetics.getMaxOffspringSpawnDistance());
-      offspring.add(createOffspring(childGenetics, newPos));
+      offsprings.add(createOffspring(childGenetics, newPos));
     }
-    return offspring;
+    return offsprings;
   }
 
   /**
    * Checks if they have different genders and if the potential mate is alive and can multiply.
-   * @param others The list of entities to search for a mate.
+   * @param nearbyEntities The list of entities to search for a mate from.
    * @return A random mate from the list of entities, null if no mate found.
    */
-  public Animal getRandomMate(List<Entity> others) {
-    //TODO this isnt amazing for performance, later try avoid using searchNearbyEntities more than necessary as it greatly reduces performance
-    List<Entity> entities = getSameSpecies(searchNearbyEntities(others, genetics.getSight() * 0.5));
+  public Animal getRandomMate(List<Entity> nearbyEntities) {
+    // Since nearbyEntities is already filtered by sight, it contains quite a few entities,
+    // which doesn't affect performance as much.
+    List<Entity> entities = getSameSpecies(searchNearbyEntities(nearbyEntities, genetics.getSight() * 0.5));
     List<Animal> potentialMates = entities.stream()
       .filter(entity -> entity instanceof Animal) //entity is animal
       .filter(entity -> entity.getName().equals(getName())) //entity is same species as this animal

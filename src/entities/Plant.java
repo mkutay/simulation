@@ -51,6 +51,7 @@ public class Plant extends Entity {
   @Override
   public void update(Field field, double deltaTime) {
     if (!isAlive()) return;
+    super.update(field, deltaTime);
     
     List<Plant> newPlants = multiply();
     
@@ -58,8 +59,8 @@ public class Plant extends Entity {
       field.putInBounds(plant, plant.getSize());
       field.addEntity(plant);
     }
-    
-    super.update(field, deltaTime);
+
+    handleOvercrowding(field.getEntities());
   }
 
   /**
