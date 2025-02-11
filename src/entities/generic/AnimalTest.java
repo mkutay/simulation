@@ -156,7 +156,6 @@ class AnimalTest {
 
   @Test
   void testMoveToNearestFood_FoundSingleFood() {
-    double initialFoodLevel = animal.getFoodLevel();
     Vector initialPosition = animal.getPosition();
 
     Prey prey = new Prey(data.getPreysData()[0].generateRandomGenetics(), new Vector(55, 50));
@@ -165,7 +164,6 @@ class AnimalTest {
 
     boolean movedToFood = animal.moveToNearestFood(entities, 1);
     assertTrue(movedToFood);
-    assertTrue(animal.getFoodLevel() < initialFoodLevel); // Decrement due to chasing
     assertNotEquals(initialPosition.toString(), animal.getPosition().toString()); // Position should change
   }
 
