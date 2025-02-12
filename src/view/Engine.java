@@ -63,7 +63,10 @@ public class Engine {
       simulator.step();
 
       display.fill(Color.BLACK);
-      for (Entity entity : simulator.getEntities()) {
+
+      //We draw the entities in order of oldest to youngest to prevent annoying overlap
+      for (int i = simulator.getEntities().size() - 1; i >= 0; i--) {
+        Entity entity = simulator.getEntities().get(i);
         entity.draw(display, fieldScaleFactor);
       }
       display.update();

@@ -21,11 +21,16 @@ public abstract class Animal extends Entity {
   protected double foodLevel; // The current food level of the animal
   private double direction; // The direction the animal is moving in
   private Vector lastPosition; // The last position of the animal -- used to calculate speed.
+  private boolean hasEaten = false; // Stores if the animal has eaten at least once or not.
+
+  private final static double GLOBAL_FOOD_VALUE = 0.1; // Controls the value of food
+  private final static double HUNGER_DRAIN = 0.005; // Controls rate of foodLevel depletion over time
+  private final static double BREEDING_HUNGER_COST = 0.5; // Scales how much food is consumed on breeding. 0 for no food cost
 
   public Animal(AnimalGenetics genetics, Vector position) {
     super(genetics, position);
     this.genetics = genetics;
-    this.foodLevel = genetics.getMaxFoodLevel() / 2; // Start at 50% hunger.
+    this.foodLevel = 0.5; //Spawn with 50% food
     this.direction = Math.random() * Math.PI * 2;
     this.lastPosition = position;
   }
@@ -100,37 +105,33 @@ public abstract class Animal extends Entity {
 
     for (Entity entity : nearbyEntities) {
       if (entity.isAlive() && canEat(entity) && isColliding(entity)) {
-        foodLevel += entity.getSize() * 1.2;
+        double entitySizeRatio = (double) entity.getSize() / getSize();
+        foodLevel += entitySizeRatio * GLOBAL_FOOD_VALUE;
+        hasEaten = true; //Mark this animal as having eaten at least once
         entity.setDead();
       }
     }
 
-    foodLevel = Math.min(foodLevel, genetics.getMaxFoodLevel()); // Clamp food from exceeding max food of animal.
+    foodLevel = Math.min(foodLevel, 1); // Clamp food from exceeding max food of animal (1).
   }
 
   /**
    * Sets animal as dead if no food, decrements food level proportion to deltaTime.
    * @param deltaTime Delta time.
-   * @param numberOfOffsprings The number of offsprings the animal had.
+   * @param numberOfOffsprings The number of offsprings the animal had in the current simulation step
    */
   public void handleHunger(double deltaTime, int numberOfOffsprings) {
-    foodLevel -= numberOfOffsprings * genetics.getMaxFoodLevel() * 0.01 * deltaTime;
-
-    // Decrease food level based on distance traveled since last update/tick.
+    // Decrease food level based on current speed
     double distanceTraveled = position.subtract(lastPosition).getMagnitude();
-    foodLevel -= distanceTraveled * deltaTime * genetics.getMaxFoodLevel() * 0.015;
+    double currentSpeed = distanceTraveled / deltaTime;
+    double hungerDrainPerTick = HUNGER_DRAIN * currentSpeed * deltaTime; // * genetics.getSight(); //TODO sight affects hunger drain as balancing system
+
+    foodLevel -= hungerDrainPerTick;
+    foodLevel -= numberOfOffsprings/(numberOfOffsprings + 1/BREEDING_HUNGER_COST);
 
     if (foodLevel <= 0) {
       setDead();
     }
-  }
-
-  /**
-   * @return Whether the animal can multiply or not, and also according to the food level.
-   */
-  @Override
-  protected boolean canMultiply() {
-    return super.canMultiply() && foodLevel >= genetics.getMaxFoodLevel() * 0.4;
   }
 
   /**
@@ -149,10 +150,12 @@ public abstract class Animal extends Entity {
       field.addEntity(entity);
     }
 
-    boolean isHungry = foodLevel <= genetics.getMaxFoodLevel() * 0.5;
+    boolean isHungry = foodLevel <= 0.5;
 
-    if (isHungry) eat(nearbyEntities);
+    if (isHungry){eat(nearbyEntities);}
+
     handleHunger(deltaTime, newEntities.size());
+
 
     this.lastPosition = this.position;
 
@@ -173,6 +176,15 @@ public abstract class Animal extends Entity {
   protected abstract Animal createOffspring(AnimalGenetics genetics, Vector position);
 
   /**
+   * Animals can only breed if they have eaten food once in their life
+   * @return true if this animal can breed/multiply, false otherwise
+   */
+  @Override
+  protected boolean canMultiply() {
+    return super.canMultiply() && hasEaten;
+  }
+
+  /**
    * Breeds with a random mate (opposite gender) from the list of entities in sight.
    * @param nearbyEntities The list of entities in sight of this animal.
    * @return A list of offspring from the breeding, empty if no breeding occurred.
@@ -184,6 +196,7 @@ public abstract class Animal extends Entity {
     if (mateEntity == null) return Collections.emptyList(); // If there is no valid mate entity, finish.
 
     int litterSize = (int) (Math.random() * Math.min(genetics.getMaxLitterSize(), mateEntity.genetics.getMaxLitterSize())) + 1;
+
     List<Animal> offsprings = new ArrayList<>();
     for (int i = 0; i < litterSize; i++) {
       AnimalGenetics childGenetics = genetics.breed(mateEntity.genetics);

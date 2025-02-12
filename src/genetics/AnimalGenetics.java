@@ -1,5 +1,7 @@
 package genetics;
 
+import util.Utility;
+
 import java.awt.*;
 
 /**
@@ -17,12 +19,11 @@ public class AnimalGenetics extends Genetics {
   private final double sight; // Range at which the entity can see other entities
   private final Gender gender;
   private final String[] eats; // The names of the entities the animal eats
-  private final double maxFoodLevel; // Maximum food level of the entity
 
   /**
    * Constructor -- Creates a new set of genetics for an animal.
    */
-  public AnimalGenetics(double multiplyingRate, int maxLitterSize, int maxAge, int matureAge, double mutationRate, double maxSeed, double sight, Gender gender, int size, String[] eats, String name, Color colour, double maxFoodLevel, int overcrowdingThreshold, double overcrowdingRadius, double maxOffspringSpawnDistance) {
+  public AnimalGenetics(double multiplyingRate, int maxLitterSize, int maxAge, int matureAge, double mutationRate, double maxSeed, double sight, Gender gender, int size, String[] eats, String name, Color colour, int overcrowdingThreshold, double overcrowdingRadius, double maxOffspringSpawnDistance) {
     super(maxAge, matureAge, multiplyingRate, size, name, colour, overcrowdingThreshold, overcrowdingRadius, maxOffspringSpawnDistance);
     this.maxLitterSize = maxLitterSize;
     this.mutationRate = mutationRate;
@@ -30,7 +31,6 @@ public class AnimalGenetics extends Genetics {
     this.sight = sight;
     this.gender = gender;
     this.eats = eats;
-    this.maxFoodLevel = maxFoodLevel;
   }
 
   // Getters:
@@ -40,7 +40,6 @@ public class AnimalGenetics extends Genetics {
   public double getSight() { return sight; }
   public Gender getGender() { return gender; }
   public String[] getEats() { return eats; }
-  public double getMaxFoodLevel() { return maxFoodLevel; }
 
   /**
    * Breed with another animal to create a new animal with genetics in between the two parents.
@@ -59,11 +58,10 @@ public class AnimalGenetics extends Genetics {
     double maxSeed = (this.getMaxSpeed() + mate.getMaxSpeed()) / 2;
     double sight = (this.getSight() + mate.getSight()) / 2;
     Gender gender = Math.random() < 0.5 ? this.getGender() : mate.getGender();
-    double maxFoodLevel = (this.getMaxFoodLevel() + mate.getMaxFoodLevel()) / 2;
     int overcrowdingThreshold = (this.getOvercrowdingThreshold() + mate.getOvercrowdingThreshold()) / 2;
     double overcrowdingRadius = (this.getOvercrowdingRadius() + mate.getOvercrowdingRadius()) / 2;
     int size = (this.getSize() + mate.getSize()) / 2;
     double maxOffspringSpawnDistance = (this.getMaxOffspringSpawnDistance() + mate.getMaxOffspringSpawnDistance()) / 2;
-    return new AnimalGenetics(multiplyingRate, maxLitterSize, maxAge, matureAge, mutationRate, maxSeed, sight, gender, size, this.getEats(), this.getName(), this.getColour(), maxFoodLevel, overcrowdingThreshold, overcrowdingRadius, maxOffspringSpawnDistance);
+    return new AnimalGenetics(multiplyingRate, maxLitterSize, maxAge, matureAge, mutationRate, maxSeed, sight, gender, size, this.getEats(), this.getName(), this.getColour(), overcrowdingThreshold, overcrowdingRadius, maxOffspringSpawnDistance);
   }
 }

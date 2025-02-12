@@ -39,7 +39,6 @@ public class AnimalData extends EntityData{
       eats,
       name,
       convertedColour,
-      generateRandomNumberBetween(maxFoodLevel[0], maxFoodLevel[1]),
       generateRandomNumberBetween(overcrowdingThreshold[0], overcrowdingThreshold[1]),
       generateRandomNumberBetween(overcrowdingRadius[0], overcrowdingRadius[1]),
       generateRandomNumberBetween(maxOffspringSpawnDistance[0], maxOffspringSpawnDistance[1])

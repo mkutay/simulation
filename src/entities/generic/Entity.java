@@ -22,6 +22,8 @@ public abstract class Entity {
   protected Vector position; // Position of the entity
   protected Genetics genetics; // Genetics of the entity
 
+  private final static double AGE_RATE = 1; //Controls how fast the creatures age
+
   /**
    * Constructor -- Create a new entity with the given genetics and position.
    */
@@ -37,14 +39,14 @@ public abstract class Entity {
    * Age increase rate is proportional to delta time.
    */
   public void incrementAge(double deltaTime) {
-    age += deltaTime;
+    age += deltaTime * AGE_RATE;
     if (age >= genetics.getMaxAge()) {
       setDead();
     }
   }
 
   /**
-   * @return Whether the entity can multiply or not, according to the mature age.
+   * @return Whether the entity can reproduce or not, according to the mature age.
    */
   protected boolean canMultiply() {
     return isAlive && age >= genetics.getMatureAge() && age < genetics.getMaxAge();
@@ -69,7 +71,7 @@ public abstract class Entity {
    * @return True if colliding with entity (uses circle hit box), false otherwise.
    */
   public boolean isColliding(Entity entity) {
-    if (entity == null) return false;
+    if (entity == null || entity == this) return false;
     Vector offset = position.subtract(entity.position);
     double distanceSquared = offset.getMagnitudeSquared();
 
