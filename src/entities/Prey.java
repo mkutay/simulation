@@ -4,7 +4,6 @@ import entities.generic.*;
 import genetics.AnimalGenetics;
 import graphics.Display;
 import util.Vector;
-
 /**
  * An arbitrary prey entity that moves around randomly and can reproduce.
  * 
@@ -18,7 +17,6 @@ public class Prey extends Animal {
   public Prey(AnimalGenetics genetics, Vector location) {
     super(genetics, location);
   }
-
   /**
    * Draw the prey entity to the display as a circle.
    * @param display The display to draw to.
@@ -26,7 +24,7 @@ public class Prey extends Animal {
    */
   @Override
   public void draw(Display display, double scaleFactor) {
-    int size = (int) (genetics.getSize() / scaleFactor);
+    int size = (int) (getCurrentSize() / scaleFactor);
     int x = (int) (position.x() / scaleFactor);
     int y = (int) (position.y() / scaleFactor);
     display.drawCircle(x, y, size, genetics.getColour());

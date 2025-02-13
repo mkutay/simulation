@@ -107,7 +107,8 @@ public abstract class Entity {
   public void handleOvercrowding(List<Entity> nearbyEntities) {
     // Since nearbyEntities was already filtered by sight radius, this method
     // call doesn't affect performance as much.
-    // Additionally, overcrodingRadius should be less than sight radius, so this is needed.
+    // Additionally, overcrowdingRadius should be less than sight radius, so this is needed.
+    // you have big brain
     List<Entity> entities = searchNearbyEntities(nearbyEntities, genetics.getOvercrowdingRadius());
     List<Entity> sameSpecies = getSameSpecies(entities);
     if (sameSpecies.size() >= genetics.getOvercrowdingThreshold()) {
@@ -160,9 +161,21 @@ public abstract class Entity {
     this.position = position;
   }
 
+  /**
+   * Is 10% of the size at birth, grows to 100% size at mature age.
+   * Minimum size is 2
+   * Purely used for visuals, not for simulation calculations (not used for food values or collision)
+   * @return the current size of the animal based on age
+   */
+  protected double getCurrentSize(){
+    double birthSize = 0.1 * getSize();
+    double size= Utility.lerp(birthSize, getSize(), Math.min(1.0, age / genetics.getMatureAge()));
+    return Math.max(size, 2);
+  }
+
   // Getters:
   public Vector getPosition() { return position; }
   public String getName() { return name; }
-  public int getSize() { return genetics.getSize(); }
+  public int getSize() { return genetics.getSize(); } //This getter is for code simplicity }
   public boolean isAlive() { return isAlive; }
 }

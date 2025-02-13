@@ -5,7 +5,7 @@
     "numberOfSeeds": [5, 7],
     "maxAge": [80, 120],
     "matureAge": [20, 60],
-    "numberOfEntitiesAtStart": 100,
+    "numberOfEntitiesAtStart": 200,
     "size": [3, 6],
     "colour": [0, 255, 0],
     "maxOffspringSpawnDistance": [9, 20],

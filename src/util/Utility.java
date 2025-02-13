@@ -13,6 +13,10 @@ public class Utility {
   public static final double EPSILON = 1e-4; // Epsilon value for floating point comparisons
   private static final Random rand = new Random();
 
+  public static double lerp(double a, double b, double t) {
+    return a + t * (b - a);
+  }
+
   /**
    * Adds a random change in value to a colour
    * @param color the colour to mutate
