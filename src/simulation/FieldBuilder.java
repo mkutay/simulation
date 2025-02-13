@@ -25,10 +25,10 @@ public class FieldBuilder {
    * @param height The height of the field.
    * @param data The simulation data.
    */
-  public FieldBuilder(int width, int height, Data data) {
+  public FieldBuilder(int width, int height) {
     this.width = width;
     this.height = height;
-    createEntities(data);
+    createEntities();
   }
 
   /**
@@ -40,18 +40,17 @@ public class FieldBuilder {
 
   /**
    * Create all preys, predators, and plants for the simulation.
-   * @param data The simulation data.
    */
-  private void createEntities(Data data) {
+  private void createEntities() {
     entities = new ArrayList<>();
 
-    AnimalData[] preysData = data.getPreysData();
-    AnimalData[] predatorsData = data.getPredatorsData();
-    PlantData[] plantsData = data.getPlantsData();
+    AnimalData[] preysData = Data.getPreysData();
+    AnimalData[] predatorsData = Data.getPredatorsData();
+    PlantData[] plantsData = Data.getPlantsData();
 
     for (AnimalData predatorData : predatorsData) {
       for (int i = 0; i < predatorData.numberOfEntitiesAtStart; i++) {
-        Predator predator = new Predator(predatorData.generateRandomGenetics(), getRandomPosition(), data);
+        Predator predator = new Predator(predatorData.generateRandomGenetics(), getRandomPosition());
         predator.setAge(Math.random() * predatorData.matureAge[1]);
         entities.add(predator);
       }
@@ -59,7 +58,7 @@ public class FieldBuilder {
 
     for (AnimalData preyData : preysData) {
       for (int i = 0; i < preyData.numberOfEntitiesAtStart; i++) {
-        Prey prey = new Prey(preyData.generateRandomGenetics(), getRandomPosition(), data);
+        Prey prey = new Prey(preyData.generateRandomGenetics(), getRandomPosition());
         prey.setAge(Math.random() * preyData.matureAge[1]);
         entities.add(prey);
       }
@@ -67,7 +66,7 @@ public class FieldBuilder {
 
     for (PlantData plantData : plantsData) {
       for (int i = 0; i < plantData.numberOfEntitiesAtStart; i++) {
-        Plant plant = new Plant(plantData.generateRandomGenetics(), getRandomPosition(), data);
+        Plant plant = new Plant(plantData.generateRandomGenetics(), getRandomPosition());
         plant.setAge(Math.random() * plantData.matureAge[1]);
         entities.add(plant);
       }

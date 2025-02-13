@@ -27,8 +27,8 @@ public abstract class Animal extends Entity {
   private Vector lastPosition; // The last position of the animal -- used to calculate speed
   private boolean hasEaten = false; // Stores if the animal has eaten at least once or not
 
-  public Animal(AnimalGenetics genetics, Vector position, Data data) {
-    super(genetics, position, data);
+  public Animal(AnimalGenetics genetics, Vector position) {
+    super(genetics, position);
     this.genetics = genetics;
     this.foodLevel = 0.5; // Spawn with 50% food
     this.direction = Math.random() * Math.PI * 2;
@@ -135,7 +135,7 @@ public abstract class Animal extends Entity {
     for (Entity entity : nearbyEntities) {
       if (entity.isAlive() && this.canEat(entity) && this.isColliding(entity)) {
         double entitySizeRatio = (double) entity.getSize() / this.getSize();
-        double foodQuantity = entitySizeRatio * (entity instanceof Animal ? data.getFoodValueForAnimals() : data.getFoodValueForPlants());
+        double foodQuantity = entitySizeRatio * (entity instanceof Animal ? Data.getFoodValueForAnimals() : Data.getFoodValueForPlants());
         foodLevel += foodQuantity;
         this.hasEaten = true; // Mark this animal as having eaten at least once -- used for breeding.
         entity.setDead();
@@ -154,10 +154,10 @@ public abstract class Animal extends Entity {
     // Decrease food level based on current speed
     double distanceTraveled = position.subtract(lastPosition).getMagnitude();
     double currentSpeed = distanceTraveled / deltaTime;
-    double hungerDrainPerTick = data.getAnimalHungerDrain() * currentSpeed * deltaTime; // * genetics.getSight(); // TODO: Sight affects hunger drain as balancing system
+    double hungerDrainPerTick = Data.getAnimalHungerDrain() * currentSpeed * deltaTime; // * genetics.getSight(); // TODO: Sight affects hunger drain as balancing system
 
     foodLevel -= hungerDrainPerTick;
-    foodLevel -= numberOfOffsprings / (numberOfOffsprings + 1 / data.getAnimalBreedingCost()); // Food cost for breeding
+    foodLevel -= numberOfOffsprings / (numberOfOffsprings + 1 / Data.getAnimalBreedingCost()); // Food cost for breeding
 
     if (foodLevel <= 0) setDead();
   }

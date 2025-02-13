@@ -4,6 +4,7 @@ import java.awt.Color;
 
 import genetics.AnimalGenetics;
 import genetics.Gender;
+import util.Utility;
 
 /**
  * Represents a set of genetic intervals for an animal.
@@ -24,6 +25,7 @@ public class AnimalData extends EntityData{
    */
   public AnimalGenetics generateRandomGenetics() {
     Color convertedColour = new Color(this.colour[0], this.colour[1], this.colour[2]); // Convert RGB data to java.swing.Color
+    Color mutatedColour = Utility.mutateColor(convertedColour, 1, 0.1); // Change the colour slightly
     
     return new AnimalGenetics(
       generateRandomNumberBetween(multiplyingRate[0], multiplyingRate[1]),
@@ -37,7 +39,7 @@ public class AnimalData extends EntityData{
       generateRandomNumberBetween(size[0], size[1]),
       eats,
       name,
-      convertedColour,
+      mutatedColour,
       generateRandomNumberBetween(overcrowdingThreshold[0], overcrowdingThreshold[1]),
       generateRandomNumberBetween(overcrowdingRadius[0], overcrowdingRadius[1]),
       generateRandomNumberBetween(maxOffspringSpawnDistance[0], maxOffspringSpawnDistance[1])

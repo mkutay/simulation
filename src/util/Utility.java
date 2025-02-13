@@ -48,4 +48,14 @@ public class Utility {
     int mutation = (int) (value * mutationFactor * (rand.nextDouble() > 0.5 ? 1 : -1));
     return Math.max(0, Math.min(255, value + mutation)); // Clamp between 0 and 255
   }
+
+  public static Color breedColor(Color animal, Color mate) {
+    double r = Math.random();
+    int red = (int) Math.round(r * animal.getRed() + (1 - r) * mate.getRed());
+    r = Math.random();
+    int green = (int) Math.round(r * animal.getGreen() + (1 - r) * mate.getGreen());
+    r = Math.random();
+    int blue = (int) Math.round(r * animal.getBlue() + (1 - r) * mate.getBlue());
+    return new Color(red, green, blue);
+  }
 }

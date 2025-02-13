@@ -3,7 +3,6 @@ package simulation;
 import java.util.ArrayList;
 
 import entities.generic.Entity;
-import simulation.simulationData.Data;
 
 /**
  * Holds all the simulation information and is used to step through the simulation.
@@ -29,7 +28,7 @@ public class Simulator {
    * @param height The height of the field.
    */
   public Simulator(int width, int height) {
-    field = new FieldBuilder(width, height, new Data()).build();
+    field = new FieldBuilder(width, height).build();
   }
 
   /**

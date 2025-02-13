@@ -4,7 +4,6 @@ import entities.generic.*;
 import genetics.AnimalGenetics;
 import graphics.Display;
 import simulation.Field;
-import simulation.simulationData.Data;
 import util.Vector;
 
 import java.util.List;
@@ -19,8 +18,8 @@ public class Predator extends Animal {
   /**
    * Constructor -- Create a new predator entity with the given genetics and location.
    */
-  public Predator(AnimalGenetics genetics, Vector location, Data data) {
-    super(genetics, location, data);
+  public Predator(AnimalGenetics genetics, Vector location) {
+    super(genetics, location);
   }
 
   @Override
@@ -62,6 +61,6 @@ public class Predator extends Animal {
    */
   @Override
   protected Animal createOffspring(AnimalGenetics genetics, Vector position) {
-    return new Predator(genetics, position, this.data);
+    return new Predator(genetics, position);
   }
 }

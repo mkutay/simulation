@@ -1,17 +1,16 @@
 package genetics;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
-import simulation.simulationData.Data;
-import simulation.simulationData.PlantData;
+import simulation.simulationData.*;
 import util.Utility;
 
 /**
  * Responsible for mutating genetics.
  */
 public class Mutator {
-  private static final Data data = new Data();
-
   /**
    * Mutate the given plant genetics.
    * @implNote Creates a new object, instead of mutating the given one.
@@ -20,14 +19,14 @@ public class Mutator {
    */
   public static PlantGenetics mutatePlantGenetics(PlantGenetics genetics) {
     PlantData plantData = Arrays
-      .asList(data.getPlantsData())
+      .asList(Data.getPlantsData())
       .stream()
       .filter(pd -> pd.name.equals(genetics.getName()))
       .findFirst()
       .orElse(null);
 
     double mutationRate = genetics.getMutationRate();
-    double mutationFactor = data.getMutationFactor();
+    double mutationFactor = Data.getMutationFactor();
 
     return new PlantGenetics(
       singleMutate(genetics.getMaxAge(), plantData.maxAge, mutationRate, mutationFactor),
@@ -41,6 +40,42 @@ public class Mutator {
       singleMutate(genetics.getOvercrowdingThreshold(), plantData.overcrowdingThreshold, mutationRate, mutationFactor),
       singleMutate(genetics.getOvercrowdingRadius(), plantData.overcrowdingRadius, mutationRate, mutationFactor),
       singleMutate(genetics.getMutationRate(), plantData.mutationRate, mutationRate, mutationFactor)
+    );
+  }
+
+  public static AnimalGenetics mutateAnimalGenetics(AnimalGenetics genetics) {
+    List<AnimalData> animalDatas = new ArrayList<>();
+    for (AnimalData ad : Data.getPredatorsData()) {
+      animalDatas.add(ad);
+    }
+    for (AnimalData ad : Data.getPreysData()) {
+      animalDatas.add(ad);
+    }
+    AnimalData animalData = animalDatas
+      .stream()
+      .filter(ad -> ad.name.equals(genetics.getName()))
+      .findFirst()
+      .orElse(null);
+
+    double mutationRate = genetics.getMutationRate();
+    double mutationFactor = Data.getMutationFactor();
+
+    return new AnimalGenetics(
+      singleMutate(genetics.getMultiplyingRate(), animalData.multiplyingRate, mutationRate, mutationFactor),
+      singleMutate(genetics.getMaxLitterSize(), animalData.maxLitterSize, mutationRate, mutationFactor),
+      singleMutate(genetics.getMaxAge(), animalData.maxAge, mutationRate, mutationFactor),
+      singleMutate(genetics.getMatureAge(), animalData.matureAge, mutationRate, mutationFactor),
+      singleMutate(genetics.getMutationRate(), animalData.mutationRate, mutationRate, mutationFactor),
+      singleMutate(genetics.getMaxSpeed(), animalData.maxSpeed, mutationRate, mutationFactor),
+      singleMutate(genetics.getSight(), animalData.sight, mutationRate, mutationFactor),
+      genetics.getGender(),
+      singleMutate(genetics.getSize(), animalData.size, mutationRate, mutationFactor),
+      genetics.getEats(),
+      genetics.getName(),
+      Utility.mutateColor(genetics.getColour(), mutationRate, mutationFactor),
+      singleMutate(genetics.getOvercrowdingThreshold(), animalData.overcrowdingThreshold, mutationRate, mutationFactor),
+      singleMutate(genetics.getOvercrowdingRadius(), animalData.overcrowdingRadius, mutationRate, mutationFactor),
+      singleMutate(genetics.getMaxOffspringSpawnDistance(), animalData.maxOffspringSpawnDistance, mutationRate, mutationFactor)
     );
   }
 

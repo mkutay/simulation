@@ -3,6 +3,7 @@ package simulation.simulationData;
 import java.awt.Color;
 
 import genetics.PlantGenetics;
+import util.Utility;
 
 /**
  * Represents a set of genetic intervals for a plant.
@@ -19,6 +20,7 @@ public class PlantData extends EntityData {
    */
   public PlantGenetics generateRandomGenetics() {
     Color convertedColour = new Color(this.colour[0], this.colour[1], this.colour[2]); // Convert rgRGB data to java.swing.Color
+    Color mutatedColour = Utility.mutateColor(convertedColour, 1, Data.getMutationFactor()); // Change the colour slightly
     
     return new PlantGenetics(
       generateRandomNumberBetween(maxAge[0], maxAge[1]),
@@ -26,7 +28,7 @@ public class PlantData extends EntityData {
       generateRandomNumberBetween(multiplyingRate[0], multiplyingRate[1]),
       generateRandomNumberBetween(size[0], size[1]),
       name,
-      convertedColour,
+      mutatedColour,
       generateRandomNumberBetween(numberOfSeeds[0], numberOfSeeds[1]),
       generateRandomNumberBetween(maxOffspringSpawnDistance[0], maxOffspringSpawnDistance[1]),
       generateRandomNumberBetween(overcrowdingThreshold[0], overcrowdingThreshold[1]),
