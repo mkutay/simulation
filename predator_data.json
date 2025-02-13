@@ -6,7 +6,7 @@
     "maxAge": [80, 120],
     "matureAge": [40, 60],
     "mutationRate": [0.01, 0.05],
-    "maxSpeed": [4, 6],
+    "maxSpeed": [4.5, 6],
     "sight": [20, 60],
     "numberOfEntitiesAtStart": 15,
     "eats": ["Rabbit"],
