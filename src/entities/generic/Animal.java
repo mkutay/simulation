@@ -6,6 +6,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.function.Predicate;
 
+import org.junit.validator.PublicClassValidator;
 import util.Vector;
 import genetics.AnimalGenetics;
 import simulation.Field;
@@ -21,9 +22,9 @@ public abstract class Animal extends Entity {
   protected AnimalGenetics genetics; // Re-cast to AnimalGenetics
   protected double foodLevel; // The current food level of the animal
   private double direction; // The direction the animal is moving in
-  private Vector lastPosition; // The last position of the animal -- used to calculate speed.
-  private boolean hasEaten = false; // Stores if the animal has eaten at least once or not.
-  private boolean isMovingToMate = false;
+  private Vector lastPosition; // The last position of the animal -- used to calculate speed
+  private boolean hasEaten = false; // Stores if the animal has eaten at least once or not
+  protected boolean isMovingToMate = false; // Stores if the animal currently attempting to mate
 
   private final static double ANIMAL_FOOD_VALUE = 0.8; // Scales the food value of animals
   private final static double PLANT_FOOD_VALUE = 0.1; // Scales the food value of plants
@@ -55,11 +56,12 @@ public abstract class Animal extends Entity {
   }
 
   /**
-   * Moves in the direction of another entity.
+   * Moves in the direction of another entity. Does nothing on a null entity input
    * @param entity The entity to move to.
    * @param deltaTime Delta time.
    */
   public void moveToEntity(Entity entity, double deltaTime) {
+    if (entity == null){return;} //Do nothing on null entity
     double speed = genetics.getMaxSpeed() * deltaTime;
     double direction = entity.position.subtract(position).getAngle();
     Vector movement = new Vector(Math.cos(direction) * speed, Math.sin(direction) * speed);
@@ -71,7 +73,10 @@ public abstract class Animal extends Entity {
    */
   protected boolean moveToNearestFood(List<Entity> entities, double deltaTime){
     Predicate<Entity> condition = entity -> canEat(entity) && entity.isAlive();
-    return moveToNearest(entities, deltaTime, condition);
+    Entity nearestEntity = moveToNearest(entities, condition);
+
+    moveToEntity(nearestEntity, deltaTime);
+    return nearestEntity != null;
   }
 
   /**
@@ -79,17 +84,20 @@ public abstract class Animal extends Entity {
    */
   protected boolean moveToNearestMate(List<Entity> entities, double deltaTime){
     Predicate<Entity> condition = this::canMateWith;
-    return moveToNearest(entities, deltaTime, condition);
+    Entity nearestEntity = moveToNearest(entities, condition);
+    if (nearestEntity != null) {
+      moveToEntity(nearestEntity, deltaTime);
+      return true;
+    } else return false;
   }
 
   /**
-   * Search a list of nearby entities and move to the nearest entity satisfying the condition
+   * Search a list of nearby entities and move to the nearest entity satisfying the condition, return one found or null
    * @param entities The list of nearby entities to search.
-   * @param deltaTime The deltatime of the simulation.
    * @param condition the condition to determine what entities to move towards
-   * @return True if succesfully found an entity satisfying the condition to move to, false otherwise.
+   * @return the nearest entity satisfying the condition, null if none found
    */
-  protected boolean moveToNearest(List<Entity> entities, double deltaTime, Predicate<Entity> condition) {
+  private Entity moveToNearest(List<Entity> entities, Predicate<Entity> condition) {
     Entity nearestEntity = null;
     double closestDistance = Double.MAX_VALUE;
     for (Entity entity : entities) {
@@ -102,9 +110,7 @@ public abstract class Animal extends Entity {
       }
     }
 
-    if (nearestEntity == null) return false;
-    moveToEntity(nearestEntity, deltaTime);
-    return true;
+    return nearestEntity;
   }
 
   /**
@@ -162,6 +168,7 @@ public abstract class Animal extends Entity {
   public void update(Field field, double deltaTime) {
     if (!isAlive()) return;
     super.update(field, deltaTime);
+    this.lastPosition = this.position;
 
     List<Entity> nearbyEntities = searchNearbyEntities(field.getEntities(), genetics.getSight());
     handleOvercrowding(nearbyEntities);
@@ -173,22 +180,10 @@ public abstract class Animal extends Entity {
     }
 
     handleHunger(deltaTime, newEntities.size());
-    this.lastPosition = this.position;
-
-    boolean isHungry = foodLevel <= 0.5;
-
-    if (isHungry){eat(nearbyEntities);}
-
-    boolean movingToFood = false;
-    if (isHungry && !isMovingToMate) { // If is hungry and not currently attempting to mate
-      movingToFood = moveToNearestFood(nearbyEntities, deltaTime);
-    }
-
-    if (!movingToFood){ //If not moving to food and not hungry, look for mate
-      isMovingToMate = moveToNearestMate(nearbyEntities, deltaTime);
-      if (!isMovingToMate) wander(field, deltaTime); //If cant find mate, wander
-    }
+    updateBehaviour(field, nearbyEntities, deltaTime);
   }
+
+  protected abstract void updateBehaviour(Field field, List<Entity> nearbyEntities, double deltaTime);
 
   /**
    * Used to generate an offspring of the animal after breeding
@@ -260,4 +255,5 @@ public abstract class Animal extends Entity {
 
   //Getter used for test class
   public double getFoodLevel() { return foodLevel; }
+  public String[] getEats() { return genetics.getEats(); }
 }
