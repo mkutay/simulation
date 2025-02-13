@@ -12,6 +12,7 @@ import simulation.Field;
 import simulation.simulationData.*;
 import util.Vector;
 import genetics.AnimalGenetics;
+import genetics.Gender;
 
 class AnimalTest {
   private Animal animal;
@@ -140,32 +141,59 @@ class AnimalTest {
     assertTrue(animal.getPosition().subtract(firstVector).getMagnitude() < animal.getPosition().subtract(secondVector).getMagnitude());
     assertTrue(animal.getPosition().subtract(initialPosition).getMagnitude() > 1);
   }
-
+  
   @Test
-  void testMoveToEntity_NullEntity() {
+  void testMoveToNearestMate_NoMateNearby() {
     Vector initialPosition = animal.getPosition();
-    animal.moveToEntity(null, 1.0);
-    assertEquals(initialPosition, animal.getPosition(), "Position should not change when entity is null.");
+    boolean movedToMate = animal.moveToNearestMate(new ArrayList<>(), 1.0);
+    assertFalse(movedToMate);
+    assertEquals(initialPosition, animal.getPosition());
   }
-
+  
   @Test
-  void testMoveToEntity_SamePosition() {
+  void testMoveToNearestMate_FoundSingleMate() {
+    AnimalGenetics mateGenetics = new AnimalGenetics(
+      genetics.getMultiplyingRate(),
+      genetics.getMaxLitterSize(),
+      genetics.getMaxAge(),
+      genetics.getMatureAge(),
+      genetics.getMutationRate(),
+      genetics.getMaxSpeed(),
+      genetics.getSight(),
+      genetics.getGender() == Gender.MALE ? Gender.FEMALE : Gender.MALE,
+      genetics.getSize(),
+      genetics.getEats(),
+      genetics.getName(),
+      genetics.getColour(),
+      genetics.getOvercrowdingThreshold(),
+      genetics.getOvercrowdingRadius(),
+      genetics.getMaxOffspringSpawnDistance()
+    );
     Vector initialPosition = animal.getPosition();
-    // Create a prey at the same position
-    Prey prey = new Prey(data.getPreysData()[0].generateRandomGenetics(), initialPosition);
-    animal.moveToEntity(prey, 1.0);
-    assertEquals(initialPosition, animal.getPosition(), "Position should remain the same when target is at same location.");
-  }
+    Predator potentialMate = new Predator(mateGenetics, initialPosition.add(new Vector(5, 0)));
 
-  @Test
-  void testMoveToEntity_ValidEntity() {
-    Vector initialPosition = animal.getPosition();
-    // Create a prey at a slightly different position
-    Prey prey = new Prey(data.getPreysData()[0].generateRandomGenetics(), initialPosition.add(new Vector(10, 10)));
-    animal.moveToEntity(prey, 1.0);
-    // The animal should have moved closer to the prey
-    assertNotEquals(initialPosition, animal.getPosition(), "Position should change when moving to a valid entity.");
-    assertTrue(animal.getPosition().subtract(prey.getPosition()).getMagnitude() 
-      < initialPosition.subtract(prey.getPosition()).getMagnitude(), "Animal should be closer to the prey than before.");
+    // Set the age of the animals to be mature
+    animal.setAge(genetics.getMatureAge() + 1);
+    potentialMate.setAge(mateGenetics.getMatureAge() + 1);
+
+    // Give them food, so that they can multiply
+    List<Entity> preys = new ArrayList<>();
+    preys.add(new Prey(data.getPreysData()[0].generateRandomGenetics(), initialPosition));
+    preys.add(new Prey(data.getPreysData()[0].generateRandomGenetics(), initialPosition));
+    animal.eat(preys);
+    preys.removeFirst();
+    preys.removeFirst();
+    preys.add(new Prey(data.getPreysData()[0].generateRandomGenetics(), potentialMate.getPosition()));
+    preys.add(new Prey(data.getPreysData()[0].generateRandomGenetics(), potentialMate.getPosition()));
+    potentialMate.eat(preys);
+
+    List<Entity> nearbyEntities = new ArrayList<>();
+    nearbyEntities.add(potentialMate);
+  
+    boolean movedToMate = animal.moveToNearestMate(nearbyEntities, 1.0);
+    assertTrue(movedToMate);
+    assertNotEquals(animal.getPosition(), initialPosition);
+    assertTrue(animal.getPosition().subtract(potentialMate.getPosition()).getMagnitude()
+      < initialPosition.subtract(potentialMate.getPosition()).getMagnitude());
   }
 }

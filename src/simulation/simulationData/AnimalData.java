@@ -34,7 +34,7 @@ public class AnimalData extends EntityData{
       generateRandomNumberBetween(mutationRate[0], mutationRate[1]),
       generateRandomNumberBetween(maxSpeed[0], maxSpeed[1]),
       generateRandomNumberBetween(sight[0], sight[1]),
-      Math.random() <= 0.5 ? Gender.MALE : Gender.FEMALE, // Random gender
+      getRandomGender(), // Random gender
       generateRandomNumberBetween(size[0], size[1]),
       eats,
       name,
@@ -43,5 +43,9 @@ public class AnimalData extends EntityData{
       generateRandomNumberBetween(overcrowdingRadius[0], overcrowdingRadius[1]),
       generateRandomNumberBetween(maxOffspringSpawnDistance[0], maxOffspringSpawnDistance[1])
     );
+  }
+
+  public Gender getRandomGender() {
+    return Math.random() <= 0.5 ? Gender.MALE : Gender.FEMALE;
   }
 }

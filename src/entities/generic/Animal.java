@@ -21,10 +21,10 @@ import simulation.Field;
 public abstract class Animal extends Entity {
   protected AnimalGenetics genetics; // Re-cast to AnimalGenetics
   protected double foodLevel; // The current food level of the animal
+  protected boolean isMovingToMate = false; // Stores if the animal currently attempting to mate
   private double direction; // The direction the animal is moving in
   private Vector lastPosition; // The last position of the animal -- used to calculate speed
   private boolean hasEaten = false; // Stores if the animal has eaten at least once or not
-  protected boolean isMovingToMate = false; // Stores if the animal currently attempting to mate
 
   // TODO: this maybe shouldn't be here -- yes.
   private final static double ANIMAL_FOOD_VALUE = 0.8; // Scales the food value of animals
@@ -44,7 +44,7 @@ public abstract class Animal extends Entity {
    * Move the entity around randomly, bouncing off of the edges.
    * TODO: Revamp.
    */
-  public void wander(Field field, double deltaTime) {
+  protected void wander(Field field, double deltaTime) {
     direction += (Math.random() - 0.5) * Math.PI * 0.1;
     if (field.isOutOfBounds(position, getSize() * 2)) {
       Vector centerOffset = field.getSize().multiply(0.5).subtract(position);
@@ -61,7 +61,7 @@ public abstract class Animal extends Entity {
    * @param entity The entity to move to.
    * @param deltaTime Delta time.
    */
-  public void moveToEntity(Entity entity, double deltaTime) {
+  private void moveToEntity(Entity entity, double deltaTime) {
     if (entity == null) return; // Do nothing on null entity
 
     double speed = genetics.getMaxSpeed() * deltaTime;
@@ -82,7 +82,6 @@ public abstract class Animal extends Entity {
   protected boolean moveToNearestFood(List<Entity> entities, double deltaTime) {
     Predicate<Entity> condition = entity -> canEat(entity) && entity.isAlive();
     Entity nearestEntity = moveToNearest(entities, condition);
-
     moveToEntity(nearestEntity, deltaTime);
     return nearestEntity != null;
   }
@@ -143,7 +142,7 @@ public abstract class Animal extends Entity {
         double entitySizeRatio = (double) entity.getSize() / this.getSize();
         double foodQuantity = entitySizeRatio * (entity instanceof Animal ? ANIMAL_FOOD_VALUE : PLANT_FOOD_VALUE);
         foodLevel += foodQuantity;
-        hasEaten = true; // Mark this animal as having eaten at least once -- used for breeding.
+        this.hasEaten = true; // Mark this animal as having eaten at least once -- used for breeding.
         entity.setDead();
       }
     }
@@ -212,7 +211,7 @@ public abstract class Animal extends Entity {
    * @param nearbyEntities The list of entities in sight of this animal.
    * @return A list of offspring from the breeding, empty if no breeding occurred.
    */
-  protected List<Animal> breed(List<Entity> nearbyEntities) {
+  private List<Animal> breed(List<Entity> nearbyEntities) {
     if (!canMultiply() || Math.random() > genetics.getMultiplyingRate()) return Collections.emptyList();
 
     Animal mateEntity = getRandomMate(nearbyEntities);
@@ -254,14 +253,12 @@ public abstract class Animal extends Entity {
    */
   private boolean canMateWith(Entity entity) {
     if (entity instanceof Animal animal) {
-      boolean isSameSpecies = animal.getName().equals(getName());
-      boolean isOppositeGender = animal.genetics.getGender() != genetics.getGender();
+      boolean isSameSpecies = animal.getName().equals(this.getName());
+      boolean isOppositeGender = animal.genetics.getGender() != this.genetics.getGender();
       return isOppositeGender
         && isSameSpecies
         && animal.canMultiply()
-        && animal.isAlive()
-        && this.canMultiply()
-        && this.isAlive();
+        && this.canMultiply();
     }
     return false;
   }
