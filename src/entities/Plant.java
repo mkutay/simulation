@@ -7,6 +7,7 @@ import entities.generic.Entity;
 import genetics.PlantGenetics;
 import graphics.Display;
 import simulation.Field;
+import simulation.simulationData.Data;
 import util.Vector;
 
 /**
@@ -21,8 +22,8 @@ public class Plant extends Entity {
   /**
    * Constructor -- Create a new plant entity with the given genetics and position.
    */
-  public Plant(PlantGenetics genetics, Vector position) {
-    super(genetics, position);
+  public Plant(PlantGenetics genetics, Vector position, Data data) {
+    super(genetics, position, data);
     this.genetics = genetics;
   }
 
@@ -38,7 +39,7 @@ public class Plant extends Entity {
     Plant[] newPlants = new Plant[seeds];
     for (int i = 0; i < seeds; i++) {
       Vector seedPos = position.getRandomPointInRadius(genetics.getMaxOffspringSpawnDistance());
-      newPlants[i] = new Plant(genetics.getOffspringGenetics(), seedPos);
+      newPlants[i] = new Plant(genetics.getOffspringGenetics(), seedPos, this.data);
       // TODO: Proper genetics system for plants (mutation) (generic system needed).
     }
 

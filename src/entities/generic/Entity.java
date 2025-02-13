@@ -5,6 +5,7 @@ import util.Vector;
 import genetics.Genetics;
 import graphics.Display;
 import simulation.Field;
+import simulation.simulationData.Data;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,6 +17,7 @@ import java.util.List;
  * @version 1.0
  */
 public abstract class Entity {
+  protected final Data data; // The data of the simulation
   private final String name; // Name of the entity
   private double age; // Age of the entity
   private boolean isAlive = true; // Whether the entity is alive or not
@@ -27,11 +29,12 @@ public abstract class Entity {
   /**
    * Constructor -- Create a new entity with the given genetics and position.
    */
-  public Entity(Genetics genetics, Vector position) {
+  public Entity(Genetics genetics, Vector position, Data data) {
     age = 0;
     this.name = genetics.getName();
     this.genetics = genetics;
     this.position = position;
+    this.data = data;
   }
 
   /**

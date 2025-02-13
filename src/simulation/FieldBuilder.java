@@ -51,7 +51,7 @@ public class FieldBuilder {
 
     for (AnimalData predatorData : predatorsData) {
       for (int i = 0; i < predatorData.numberOfEntitiesAtStart; i++) {
-        Predator predator = new Predator(predatorData.generateRandomGenetics(), getRandomPosition());
+        Predator predator = new Predator(predatorData.generateRandomGenetics(), getRandomPosition(), data);
         predator.setAge(Math.random() * predatorData.matureAge[1]);
         entities.add(predator);
       }
@@ -59,7 +59,7 @@ public class FieldBuilder {
 
     for (AnimalData preyData : preysData) {
       for (int i = 0; i < preyData.numberOfEntitiesAtStart; i++) {
-        Prey prey = new Prey(preyData.generateRandomGenetics(), getRandomPosition());
+        Prey prey = new Prey(preyData.generateRandomGenetics(), getRandomPosition(), data);
         prey.setAge(Math.random() * preyData.matureAge[1]);
         entities.add(prey);
       }
@@ -67,7 +67,7 @@ public class FieldBuilder {
 
     for (PlantData plantData : plantsData) {
       for (int i = 0; i < plantData.numberOfEntitiesAtStart; i++) {
-        Plant plant = new Plant(plantData.generateRandomGenetics(), getRandomPosition());
+        Plant plant = new Plant(plantData.generateRandomGenetics(), getRandomPosition(), data);
         plant.setAge(Math.random() * plantData.matureAge[1]);
         entities.add(plant);
       }

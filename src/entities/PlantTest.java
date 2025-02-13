@@ -37,7 +37,7 @@ class PlantTest {
       genetics.getOvercrowdingThreshold(),
       genetics.getOvercrowdingRadius()
     );
-    Plant plant = new Plant(maxSpawnRateGenetics, new Vector(50, 50));
+    Plant plant = new Plant(maxSpawnRateGenetics, new Vector(50, 50), data);
     plant.setAge(maxSpawnRateGenetics.getMatureAge() + 1);
     List<Plant> offspring = plant.multiply();
     assertFalse(offspring.isEmpty(), "Expected non-empty offspring list when plant can multiply.");
@@ -58,7 +58,7 @@ class PlantTest {
       genetics.getOvercrowdingThreshold(),
       genetics.getOvercrowdingRadius()
     );
-    Plant plant = new Plant(minSpawnRateGenetics, new Vector(50, 50));
+    Plant plant = new Plant(minSpawnRateGenetics, new Vector(50, 50), data);
     plant.setAge(minSpawnRateGenetics.getMatureAge() + 1);
     List<Plant> offspring = plant.multiply();
     assertTrue(offspring.isEmpty(), "Expected empty offspring list when random chance fails.");
@@ -66,7 +66,7 @@ class PlantTest {
 
   @Test
   void testMultiply_ReturnsEmptyListWhenCannotMultiply() {
-    Plant plant = new Plant(genetics, new Vector(50, 50)) {
+    Plant plant = new Plant(genetics, new Vector(50, 50), data) {
       @Override
       protected boolean canMultiply() {
         return false;
@@ -90,7 +90,7 @@ class PlantTest {
       genetics.getOvercrowdingThreshold(),
       genetics.getOvercrowdingRadius()
     );
-    Plant plant = new Plant(zeroSeedGenetics, new Vector(50, 50));
+    Plant plant = new Plant(zeroSeedGenetics, new Vector(50, 50), data);
     plant.setAge(zeroSeedGenetics.getMatureAge() + 1);
     List<Plant> offspring = plant.multiply();
     assertTrue(offspring.isEmpty(), "Expected empty offspring list when number of seeds is zero.");
@@ -110,7 +110,7 @@ class PlantTest {
       genetics.getOvercrowdingThreshold(),
       genetics.getOvercrowdingRadius()
     );
-    Plant plant = new Plant(maxSpawnRateGenetics, new Vector(50, 50));
+    Plant plant = new Plant(maxSpawnRateGenetics, new Vector(50, 50), data);
     plant.setAge(genetics.getMaxAge() + 1);
     List<Plant> offspring = plant.multiply();
     assertTrue(offspring.isEmpty(), "Expected empty list when plant is beyond max age.");
@@ -130,7 +130,7 @@ class PlantTest {
       genetics.getOvercrowdingThreshold(),
       genetics.getOvercrowdingRadius()
     );
-    Plant plant = new Plant(spawnDistGenetics, new Vector(50, 50));
+    Plant plant = new Plant(spawnDistGenetics, new Vector(50, 50), data);
     plant.setAge(spawnDistGenetics.getMatureAge() + 1);
     List<Plant> offspring = plant.multiply();
     assertEquals(3, offspring.size(), "Should create 3 offspring when allowed.");

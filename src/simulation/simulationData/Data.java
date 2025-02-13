@@ -11,21 +11,21 @@ import util.Parser;
 public class Data {
   public static final String PATH = System.getProperty("user.dir"); // The main directory of the project
 
-  private final AnimalData[] preysData; // An array of prey species data
-  private final AnimalData[] predatorsData; // An array of predator species data
-  private final PlantData[] plantsData; // An array of plant types data
+  private final SimulationData simulationData; // The data of the simulation
 
   /**
-   * Constructor -- Parse and create all the data from the JSON files.
+   * Constructor -- Parse and create all the data from the JSON file.
    */
   public Data() {
-    preysData = Parser.parseAnimalJson(Parser.getContentsOfFile(PATH + "/prey_data.json"));
-    predatorsData = Parser.parseAnimalJson(Parser.getContentsOfFile(PATH + "/predator_data.json"));
-    plantsData = Parser.parsePlantJson(Parser.getContentsOfFile(PATH + "/plant_data.json"));
+    simulationData = Parser.parseSimulationData(Parser.getContentsOfFile(PATH + "/simulation_data.json"));
   }
 
   // Getters:
-  public AnimalData[] getPreysData() { return preysData; }
-  public AnimalData[] getPredatorsData() { return predatorsData; }
-  public PlantData[] getPlantsData() { return plantsData; }
+  public AnimalData[] getPreysData() { return simulationData.preysData; }
+  public AnimalData[] getPredatorsData() { return simulationData.predatorsData; }
+  public PlantData[] getPlantsData() { return simulationData.plantsData; }
+  public double getFoodValueForAnimals() { return simulationData.foodValueForAnimals; }
+  public double getFoodValueForPlants() { return simulationData.foodValueForPlants; }
+  public double getAnimalHungerDrain() { return simulationData.animalHungerDrain; }
+  public double getAnimalBreedingCost() { return simulationData.animalBreedingCost; }
 }

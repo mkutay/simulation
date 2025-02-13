@@ -10,6 +10,7 @@ import util.Utility;
 import util.Vector;
 import genetics.AnimalGenetics;
 import simulation.Field;
+import simulation.simulationData.Data;
 
 /**
  * Abstract class for all animals in the simulation.
@@ -26,14 +27,8 @@ public abstract class Animal extends Entity {
   private Vector lastPosition; // The last position of the animal -- used to calculate speed
   private boolean hasEaten = false; // Stores if the animal has eaten at least once or not
 
-  // TODO: this maybe shouldn't be here -- yes.
-  private final static double ANIMAL_FOOD_VALUE = 0.8; // Scales the food value of animals
-  private final static double PLANT_FOOD_VALUE = 0.1; // Scales the food value of plants
-  private final static double HUNGER_DRAIN = 0.008; // Controls rate of foodLevel depletion over time
-  private final static double BREEDING_HUNGER_COST = 0.1; // Scales how much food is consumed on breeding; use 0 for no food cost
-
-  public Animal(AnimalGenetics genetics, Vector position) {
-    super(genetics, position);
+  public Animal(AnimalGenetics genetics, Vector position, Data data) {
+    super(genetics, position, data);
     this.genetics = genetics;
     this.foodLevel = 0.5; // Spawn with 50% food
     this.direction = Math.random() * Math.PI * 2;
@@ -140,7 +135,7 @@ public abstract class Animal extends Entity {
     for (Entity entity : nearbyEntities) {
       if (entity.isAlive() && this.canEat(entity) && this.isColliding(entity)) {
         double entitySizeRatio = (double) entity.getSize() / this.getSize();
-        double foodQuantity = entitySizeRatio * (entity instanceof Animal ? ANIMAL_FOOD_VALUE : PLANT_FOOD_VALUE);
+        double foodQuantity = entitySizeRatio * (entity instanceof Animal ? data.getFoodValueForAnimals() : data.getFoodValueForPlants());
         foodLevel += foodQuantity;
         this.hasEaten = true; // Mark this animal as having eaten at least once -- used for breeding.
         entity.setDead();
@@ -159,10 +154,10 @@ public abstract class Animal extends Entity {
     // Decrease food level based on current speed
     double distanceTraveled = position.subtract(lastPosition).getMagnitude();
     double currentSpeed = distanceTraveled / deltaTime;
-    double hungerDrainPerTick = HUNGER_DRAIN * currentSpeed * deltaTime; // * genetics.getSight(); // TODO: Sight affects hunger drain as balancing system
+    double hungerDrainPerTick = data.getAnimalHungerDrain() * currentSpeed * deltaTime; // * genetics.getSight(); // TODO: Sight affects hunger drain as balancing system
 
     foodLevel -= hungerDrainPerTick;
-    foodLevel -= numberOfOffsprings / (numberOfOffsprings + 1 / BREEDING_HUNGER_COST); // Food cost for breeding
+    foodLevel -= numberOfOffsprings / (numberOfOffsprings + 1 / data.getAnimalBreedingCost()); // Food cost for breeding
 
     if (foodLevel <= 0) setDead();
   }

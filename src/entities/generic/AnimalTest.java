@@ -24,7 +24,7 @@ class AnimalTest {
   void setUp() {
     this.data = new Data();
     this.genetics = data.getPredatorsData()[0].generateRandomGenetics();
-    this.animal = new Predator(genetics, new Vector(50, 50));
+    this.animal = new Predator(genetics, new Vector(50, 50), data);
     this.field = new Field(100, 100);
   }
 
@@ -35,7 +35,7 @@ class AnimalTest {
     // First update, so that the food level is not at max.
     animal.update(field, 1);
     double initialFoodLevel = animal.getFoodLevel();
-    Prey prey = new Prey(data.getPreysData()[0].generateRandomGenetics(), animal.getPosition());
+    Prey prey = new Prey(data.getPreysData()[0].generateRandomGenetics(), animal.getPosition(), data);
     List<Entity> nearbyEntities = new ArrayList<>();
     nearbyEntities.add(prey);
   
@@ -50,7 +50,7 @@ class AnimalTest {
     // First update, so that the food level is not at max.
     animal.update(field, 1);
     double initialFoodLevel = animal.getFoodLevel();
-    Prey prey = new Prey(data.getPreysData()[0].generateRandomGenetics(), animal.getPosition().add(new Vector(genetics.getSize(), 0)));
+    Prey prey = new Prey(data.getPreysData()[0].generateRandomGenetics(), animal.getPosition().add(new Vector(genetics.getSize(), 0)), data);
     List<Entity> nearbyEntities = new ArrayList<>();
     nearbyEntities.add(prey);
   
@@ -62,7 +62,7 @@ class AnimalTest {
   
   @Test
   void testEat_ShouldntEatWhatItCannotEat() {
-    Entity plant = new Plant(data.getPlantsData()[0].generateRandomGenetics(), new Vector(50, 50));
+    Entity plant = new Plant(data.getPlantsData()[0].generateRandomGenetics(), new Vector(50, 50), data);
     List<Entity> nearbyEntities = new ArrayList<>();
     nearbyEntities.add(plant);
   
@@ -73,7 +73,7 @@ class AnimalTest {
   
   @Test
   void testEat_NotColliding() {
-    Prey prey = new Prey(data.getPreysData()[0].generateRandomGenetics(), animal.getPosition().add(new Vector(genetics.getSight() + 1, 0)));
+    Prey prey = new Prey(data.getPreysData()[0].generateRandomGenetics(), animal.getPosition().add(new Vector(genetics.getSight() + 1, 0)), data);
     List<Entity> nearbyEntities = new ArrayList<>();
     nearbyEntities.add(prey);
   
@@ -85,7 +85,7 @@ class AnimalTest {
   @Test
   void testEat_EntityAlreadyDead() {
     double initialFoodLevel = animal.getFoodLevel();
-    Prey prey = new Prey(data.getPreysData()[0].generateRandomGenetics(), animal.getPosition());
+    Prey prey = new Prey(data.getPreysData()[0].generateRandomGenetics(), animal.getPosition(), data);
     prey.setDead();
     List<Entity> nearbyEntities = new ArrayList<>();
     nearbyEntities.add(prey);
@@ -116,7 +116,7 @@ class AnimalTest {
   void testMoveToNearestFood_FoundSingleFood() {
     Vector initialPosition = animal.getPosition();
 
-    Prey prey = new Prey(data.getPreysData()[0].generateRandomGenetics(), new Vector(55, 50));
+    Prey prey = new Prey(data.getPreysData()[0].generateRandomGenetics(), new Vector(55, 50), data);
     List<Entity> entities = new ArrayList<>();
     entities.add(prey);
 
@@ -130,8 +130,8 @@ class AnimalTest {
     Vector initialPosition = animal.getPosition();
     Vector firstVector = new Vector(52, 50);
     Vector secondVector = new Vector(50, 55);
-    Prey nearPrey = new Prey(data.getPreysData()[0].generateRandomGenetics(), firstVector);
-    Prey farPrey = new Prey(data.getPreysData()[0].generateRandomGenetics(), secondVector);
+    Prey nearPrey = new Prey(data.getPreysData()[0].generateRandomGenetics(), firstVector, data);
+    Prey farPrey = new Prey(data.getPreysData()[0].generateRandomGenetics(), secondVector, data);
     List<Entity> entities = new ArrayList<>();
     entities.add(nearPrey);
     entities.add(farPrey);
@@ -170,7 +170,7 @@ class AnimalTest {
       genetics.getMaxOffspringSpawnDistance()
     );
     Vector initialPosition = animal.getPosition();
-    Predator potentialMate = new Predator(mateGenetics, initialPosition.add(new Vector(5, 0)));
+    Predator potentialMate = new Predator(mateGenetics, initialPosition.add(new Vector(5, 0)), data);
 
     // Set the age of the animals to be mature
     animal.setAge(genetics.getMatureAge() + 1);
@@ -178,13 +178,13 @@ class AnimalTest {
 
     // Give them food, so that they can multiply
     List<Entity> preys = new ArrayList<>();
-    preys.add(new Prey(data.getPreysData()[0].generateRandomGenetics(), initialPosition));
-    preys.add(new Prey(data.getPreysData()[0].generateRandomGenetics(), initialPosition));
+    preys.add(new Prey(data.getPreysData()[0].generateRandomGenetics(), initialPosition, data));
+    preys.add(new Prey(data.getPreysData()[0].generateRandomGenetics(), initialPosition, data));
     animal.eat(preys);
     preys.removeFirst();
     preys.removeFirst();
-    preys.add(new Prey(data.getPreysData()[0].generateRandomGenetics(), potentialMate.getPosition()));
-    preys.add(new Prey(data.getPreysData()[0].generateRandomGenetics(), potentialMate.getPosition()));
+    preys.add(new Prey(data.getPreysData()[0].generateRandomGenetics(), potentialMate.getPosition(), data));
+    preys.add(new Prey(data.getPreysData()[0].generateRandomGenetics(), potentialMate.getPosition(), data));
     potentialMate.eat(preys);
 
     List<Entity> nearbyEntities = new ArrayList<>();

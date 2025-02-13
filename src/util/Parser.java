@@ -6,8 +6,7 @@ import java.nio.file.Paths;
 
 import com.google.gson.Gson;
 
-import simulation.simulationData.AnimalData;
-import simulation.simulationData.PlantData;
+import simulation.simulationData.SimulationData;
 
 /**
  * A class to parse JSON data from files. It can get the contents of a file as a String,
@@ -18,23 +17,13 @@ import simulation.simulationData.PlantData;
  */
 public class Parser {
   /**
-   * Serialise animal data from JSON content.
-   * @param jsonContent The JSON contents.
-   * @return The data parsed, serialised as AnimalData.
+   * Serialise simulation data from some JSON content.
+   * @param jsonContent The JSON content.
+   * @return The simulation data parsed, serialised as the SimulationData class.
    */
-  public static AnimalData[] parseAnimalJson(String jsonContent) {
+  public static SimulationData parseSimulationData(String jsonContent) {
     Gson g = new Gson();
-    return g.fromJson(jsonContent, AnimalData[].class);
-  }
-
-  /**
-   * Serialise plant data from JSON content.
-   * @param jsonContent The JSON contents.
-   * @return The plant data parsed, serialised as PlantData.
-   */
-  public static PlantData[] parsePlantJson(String jsonContent) {
-    Gson g = new Gson();
-    return g.fromJson(jsonContent, PlantData[].class);
+    return g.fromJson(jsonContent, SimulationData.class);
   }
 
   /**
