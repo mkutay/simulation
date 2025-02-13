@@ -3,6 +3,7 @@
   "foodValueForPlants": 0.1,
   "animalHungerDrain": 0.008,
   "animalBreedingCost": 0.1,
+  "mutationFactor": 0.1,
   "predatorsData": [
     {
       "name": "Fox",
@@ -61,13 +62,14 @@
   "plantsData": [
     {
       "name": "Grass",
+      "mutationRate": [0.1, 0.12],
       "multiplyingRate": [0.3, 0.5],
       "numberOfSeeds": [5, 7],
       "maxAge": [80, 120],
       "matureAge": [20, 60],
       "numberOfEntitiesAtStart": 200,
       "size": [3, 6],
-      "colour": [0, 255, 0],
+      "colour": [40, 240, 30],
       "maxOffspringSpawnDistance": [9, 20],
       "overcrowdingThreshold": [3, 8],
       "overcrowdingRadius": [6, 12]

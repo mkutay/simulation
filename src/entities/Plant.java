@@ -40,7 +40,6 @@ public class Plant extends Entity {
     for (int i = 0; i < seeds; i++) {
       Vector seedPos = position.getRandomPointInRadius(genetics.getMaxOffspringSpawnDistance());
       newPlants[i] = new Plant(genetics.getOffspringGenetics(), seedPos, this.data);
-      // TODO: Proper genetics system for plants (mutation) (generic system needed).
     }
 
     return List.of(newPlants);

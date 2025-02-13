@@ -14,8 +14,8 @@ public class PlantGenetics extends Genetics {
   /**
    * Constructor -- Creates a new set of genetics for a plant.
    */
-  public PlantGenetics(int maxAge, int matureAge, double multiplyingRate, int size, String name, Color colour, int numberOfSeeds, double maxOffspringSpawnDistance, int overcrowdingThreshold, double overcrowdingRadius) {
-    super(maxAge, matureAge, multiplyingRate, size, name, colour, overcrowdingThreshold, overcrowdingRadius, maxOffspringSpawnDistance);
+  public PlantGenetics(int maxAge, int matureAge, double multiplyingRate, int size, String name, Color colour, int numberOfSeeds, double maxOffspringSpawnDistance, int overcrowdingThreshold, double overcrowdingRadius, double mutationRate) {
+    super(maxAge, matureAge, multiplyingRate, size, name, colour, overcrowdingThreshold, overcrowdingRadius, maxOffspringSpawnDistance, mutationRate);
     this.numberOfSeeds = numberOfSeeds;
   }
 
@@ -25,7 +25,7 @@ public class PlantGenetics extends Genetics {
    * @return The genetics of the offspring.
    */
   public PlantGenetics getOffspringGenetics() {
-    return this;
+    return Mutator.mutatePlantGenetics(this);
   }
 
   // Getters:

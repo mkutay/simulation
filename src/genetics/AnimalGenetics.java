@@ -12,7 +12,6 @@ import java.awt.*;
  */
 public class AnimalGenetics extends Genetics {
   private final int maxLitterSize; // Maximum number of offspring per breeding
-  private final double mutationRate; // Rate at which the entity's genetics can mutate
   private final double maxSeed; // Max speed of the entity
   private final double sight; // Range at which the entity can see other entities
   private final Gender gender; // The gender of the animal
@@ -22,9 +21,8 @@ public class AnimalGenetics extends Genetics {
    * Constructor -- Creates a new set of genetics for an animal.
    */
   public AnimalGenetics(double multiplyingRate, int maxLitterSize, int maxAge, int matureAge, double mutationRate, double maxSeed, double sight, Gender gender, int size, String[] eats, String name, Color colour, int overcrowdingThreshold, double overcrowdingRadius, double maxOffspringSpawnDistance) {
-    super(maxAge, matureAge, multiplyingRate, size, name, colour, overcrowdingThreshold, overcrowdingRadius, maxOffspringSpawnDistance);
+    super(maxAge, matureAge, multiplyingRate, size, name, colour, overcrowdingThreshold, overcrowdingRadius, maxOffspringSpawnDistance, mutationRate);
     this.maxLitterSize = maxLitterSize;
-    this.mutationRate = mutationRate;
     this.maxSeed = maxSeed;
     this.sight = sight;
     this.gender = gender;
@@ -33,7 +31,6 @@ public class AnimalGenetics extends Genetics {
 
   // Getters:
   public int getMaxLitterSize() { return maxLitterSize; }
-  public double getMutationRate() { return mutationRate; }
   public double getMaxSpeed() { return maxSeed; }
   public double getSight() { return sight; }
   public Gender getGender() { return gender; }

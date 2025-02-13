@@ -28,4 +28,5 @@ public class Data {
   public double getFoodValueForPlants() { return simulationData.foodValueForPlants; }
   public double getAnimalHungerDrain() { return simulationData.animalHungerDrain; }
   public double getAnimalBreedingCost() { return simulationData.animalBreedingCost; }
+  public double getMutationFactor() { return simulationData.mutationFactor; }
 }

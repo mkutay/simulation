@@ -19,11 +19,12 @@ public abstract class Genetics {
   private final int overcrowdingThreshold; // Number of entities at which the entity will die
   private final double overcrowdingRadius; // Radius inside of which the threshold is checked
   private final double maxOffspringSpawnDistance; // Maximum distance from the parent entity that the offspring can spawn
+  private final double mutationRate; // Rate at which the entity's genetics can mutate
 
   /**
    * Constructor.
    */
-  public Genetics(int maxAge, int matureAge, double multiplyingRate, int size, String name, Color colour, int overcrowdingThreshold, double overcrowdingRadius, double maxOffspringSpawnDistance) {
+  public Genetics(int maxAge, int matureAge, double multiplyingRate, int size, String name, Color colour, int overcrowdingThreshold, double overcrowdingRadius, double maxOffspringSpawnDistance, double mutationRate) {
     this.maxAge = maxAge;
     this.matureAge = matureAge;
     this.multiplyingRate = multiplyingRate;
@@ -33,6 +34,7 @@ public abstract class Genetics {
     this.overcrowdingThreshold = overcrowdingThreshold;
     this.overcrowdingRadius = overcrowdingRadius;
     this.maxOffspringSpawnDistance = maxOffspringSpawnDistance;
+    this.mutationRate = mutationRate;
   }
 
   // Getters:
@@ -45,4 +47,5 @@ public abstract class Genetics {
   public int getOvercrowdingThreshold() { return overcrowdingThreshold; }
   public double getOvercrowdingRadius() { return overcrowdingRadius; }
   public double getMaxOffspringSpawnDistance() { return maxOffspringSpawnDistance; }
+  public double getMutationRate() { return mutationRate; }
 }

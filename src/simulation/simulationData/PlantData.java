@@ -12,7 +12,7 @@ import genetics.PlantGenetics;
  * @version 1.0
  */
 public class PlantData extends EntityData {
-  private int[] numberOfSeeds; // Number of seeds produced by the plant -- when multiplied
+  public int[] numberOfSeeds; // Number of seeds produced by the plant -- when multiplied
 
   /**
    * @return A random set of genetics for a plant based on the data provided.
@@ -30,7 +30,8 @@ public class PlantData extends EntityData {
       generateRandomNumberBetween(numberOfSeeds[0], numberOfSeeds[1]),
       generateRandomNumberBetween(maxOffspringSpawnDistance[0], maxOffspringSpawnDistance[1]),
       generateRandomNumberBetween(overcrowdingThreshold[0], overcrowdingThreshold[1]),
-      generateRandomNumberBetween(overcrowdingRadius[0], overcrowdingRadius[1])
+      generateRandomNumberBetween(overcrowdingRadius[0], overcrowdingRadius[1]),
+      generateRandomNumberBetween(mutationRate[0], mutationRate[1])
     );
   }
 }

@@ -18,6 +18,7 @@ public abstract class EntityData {
   public int[] overcrowdingThreshold; // Number of entities at which the entity will die
   public double[] overcrowdingRadius; // Radius inside of which the threshold is checked
   public double[] maxOffspringSpawnDistance; // Maximum distance offspring can spawn from the parent entity
+  public double[] mutationRate; // The rate at which the genetics will mutate
 
   /**
    * @return A random number between the given double min and max values.

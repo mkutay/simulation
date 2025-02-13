@@ -23,14 +23,14 @@ public class Utility {
    * @param mutationFactor the amount to mutate the colour
    * @return the mutated colour
    */
-  public static Color mutateColor(Color color, double mutationFactor) {
+  public static Color mutateColor(Color color, double mutationRate, double mutationFactor) {
     if (mutationFactor < 0 || mutationFactor > 1) {
       throw new IllegalArgumentException("mutationFactor must be between 0 and 1");
     }
 
-    int r = mutateChannel(color.getRed(), mutationFactor);
-    int g = mutateChannel(color.getGreen(), mutationFactor);
-    int b = mutateChannel(color.getBlue(), mutationFactor);
+    int r = mutateChannel(color.getRed(), mutationRate, mutationFactor);
+    int g = mutateChannel(color.getGreen(), mutationRate, mutationFactor);
+    int b = mutateChannel(color.getBlue(), mutationRate, mutationFactor);
 
     return new Color(r, g, b);
   }
@@ -41,9 +41,11 @@ public class Utility {
    * @param mutationFactor the amount to mutate the value by
    * @return the mutated value
    */
-  private static int mutateChannel(int value, double mutationFactor) {
-    int range = (int) (mutationFactor * 255); // Max shift allowed
-    int mutation = rand.nextInt(range * 2 + 1) - range; // Shift in both directions
+  private static int mutateChannel(int value, double mutationRate, double mutationFactor) {
+    if (Math.random() >= mutationRate) return value; // No mutation
+    // int range = (int) (mutationFactor * 255); // Max shift allowed
+    // int mutation = rand.nextInt(range * 2 + 1) - range; // Shift in both directions
+    int mutation = (int) (value * mutationFactor * (rand.nextDouble() > 0.5 ? 1 : -1));
     return Math.max(0, Math.min(255, value + mutation)); // Clamp between 0 and 255
   }
 }

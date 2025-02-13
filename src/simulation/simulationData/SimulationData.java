@@ -9,4 +9,6 @@ public class SimulationData {
   public double foodValueForPlants; // Scales the food value of plants
   public double animalHungerDrain; // Controls rate of foodLevel depletion over time
   public double animalBreedingCost; // Scales how much food is consumed on breeding; use 0 for no food cost
+
+  public double mutationFactor; // The ratio that the genetics will mutate by
 }
