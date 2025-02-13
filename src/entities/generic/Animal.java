@@ -6,7 +6,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.function.Predicate;
 
-import org.junit.validator.PublicClassValidator;
 import util.Vector;
 import genetics.AnimalGenetics;
 import simulation.Field;
@@ -26,10 +25,11 @@ public abstract class Animal extends Entity {
   private boolean hasEaten = false; // Stores if the animal has eaten at least once or not
   protected boolean isMovingToMate = false; // Stores if the animal currently attempting to mate
 
+  //TODO this maybe shouldn't be here.
   private final static double ANIMAL_FOOD_VALUE = 0.8; // Scales the food value of animals
   private final static double PLANT_FOOD_VALUE = 0.1; // Scales the food value of plants
-  private final static double HUNGER_DRAIN = 0.005; // Controls rate of foodLevel depletion over time
-  private final static double BREEDING_HUNGER_COST = 0.3; // Scales how much food is consumed on breeding. 0 for no food cost
+  private final static double HUNGER_DRAIN = 0.008; // Controls rate of foodLevel depletion over time
+  private final static double BREEDING_HUNGER_COST = 0.1; // Scales how much food is consumed on breeding. 0 for no food cost
 
   public Animal(AnimalGenetics genetics, Vector position) {
     super(genetics, position);
