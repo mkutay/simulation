@@ -6,6 +6,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.function.Predicate;
 
+import util.Utility;
 import util.Vector;
 import genetics.AnimalGenetics;
 import simulation.Field;
@@ -14,7 +15,7 @@ import simulation.Field;
  * Abstract class for all animals in the simulation.
  * Contains methods for moving, eating, breeding, and handling hunger.
  * 
- * @author Mehmet Kutay Bozkurt and Mehmet Kutay Bozkurt
+ * @author Mehmet Kutay Bozkurt and Anas Ahmed
  * @version 1.0
  */
 public abstract class Animal extends Entity {
@@ -25,16 +26,16 @@ public abstract class Animal extends Entity {
   private boolean hasEaten = false; // Stores if the animal has eaten at least once or not
   protected boolean isMovingToMate = false; // Stores if the animal currently attempting to mate
 
-  //TODO this maybe shouldn't be here.
+  // TODO: this maybe shouldn't be here -- yes.
   private final static double ANIMAL_FOOD_VALUE = 0.8; // Scales the food value of animals
   private final static double PLANT_FOOD_VALUE = 0.1; // Scales the food value of plants
   private final static double HUNGER_DRAIN = 0.008; // Controls rate of foodLevel depletion over time
-  private final static double BREEDING_HUNGER_COST = 0.1; // Scales how much food is consumed on breeding. 0 for no food cost
+  private final static double BREEDING_HUNGER_COST = 0.1; // Scales how much food is consumed on breeding; use 0 for no food cost
 
   public Animal(AnimalGenetics genetics, Vector position) {
     super(genetics, position);
     this.genetics = genetics;
-    this.foodLevel = 0.5; //Spawn with 50% food
+    this.foodLevel = 0.5; // Spawn with 50% food
     this.direction = Math.random() * Math.PI * 2;
     this.lastPosition = position;
   }
@@ -45,7 +46,7 @@ public abstract class Animal extends Entity {
    */
   public void wander(Field field, double deltaTime) {
     direction += (Math.random() - 0.5) * Math.PI * 0.1;
-    if (field.isOutOfBounds(position, getSize()*2)) {
+    if (field.isOutOfBounds(position, getSize() * 2)) {
       Vector centerOffset = field.getSize().multiply(0.5).subtract(position);
       direction = centerOffset.getAngle() + (Math.random() - 0.5) * Math.PI;
     }
@@ -56,22 +57,29 @@ public abstract class Animal extends Entity {
   }
 
   /**
-   * Moves in the direction of another entity. Does nothing on a null entity input
+   * Moves in the direction of another entity. Does nothing on a null entity input.
    * @param entity The entity to move to.
    * @param deltaTime Delta time.
    */
   public void moveToEntity(Entity entity, double deltaTime) {
-    if (entity == null){return;} //Do nothing on null entity
+    if (entity == null) return; // Do nothing on null entity
+
     double speed = genetics.getMaxSpeed() * deltaTime;
-    double direction = entity.position.subtract(position).getAngle();
-    Vector movement = new Vector(Math.cos(direction) * speed, Math.sin(direction) * speed);
+    // TODO: No need for getting the direction: just normalise the vector.
+    // double direction = entity.position.subtract(position).getAngle();
+    // Vector movement = new Vector(Math.cos(direction) * speed, Math.sin(direction) * speed);
+    Vector difference = entity.position.subtract(position);
+    if (difference.getMagnitudeSquared() < Utility.EPSILON) return; // Do nothing if the entity is at the same position
+    Vector movement = difference.normalise().multiply(speed);
     position = position.add(movement);
   }
 
   /**
-   * Moves to the nearest entity that this animal can eat, returns false if there are none nearby
+   * Moves to the nearest entity that this animal can eat, returns false if there are none nearby.
+   * @param entities The list of entities to search for food from.
+   * @param deltaTime The delta time.
    */
-  protected boolean moveToNearestFood(List<Entity> entities, double deltaTime){
+  protected boolean moveToNearestFood(List<Entity> entities, double deltaTime) {
     Predicate<Entity> condition = entity -> canEat(entity) && entity.isAlive();
     Entity nearestEntity = moveToNearest(entities, condition);
 
@@ -80,26 +88,27 @@ public abstract class Animal extends Entity {
   }
 
   /**
-   * Moves to the nearest entity that this animal can breed with, returns false if there are none nearby
+   * Moves to the nearest entity that this animal can breed with, returns false if there are none nearby.
+   * @param entities The list of entities to search for mates from.
+   * @param deltaTime The delta time.
    */
-  protected boolean moveToNearestMate(List<Entity> entities, double deltaTime){
+  protected boolean moveToNearestMate(List<Entity> entities, double deltaTime) {
     Predicate<Entity> condition = this::canMateWith;
     Entity nearestEntity = moveToNearest(entities, condition);
-    if (nearestEntity != null) {
-      moveToEntity(nearestEntity, deltaTime);
-      return true;
-    } else return false;
+    moveToEntity(nearestEntity, deltaTime);
+    return nearestEntity != null;
   }
 
   /**
-   * Search a list of nearby entities and move to the nearest entity satisfying the condition, return one found or null
+   * Search a list of nearby entities and move to the nearest entity satisfying the condition, return one found or null.
    * @param entities The list of nearby entities to search.
-   * @param condition the condition to determine what entities to move towards
-   * @return the nearest entity satisfying the condition, null if none found
+   * @param condition The condition to determine what entities to move towards.
+   * @return The nearest entity satisfying the condition, null if none found.
    */
   private Entity moveToNearest(List<Entity> entities, Predicate<Entity> condition) {
     Entity nearestEntity = null;
     double closestDistance = Double.MAX_VALUE;
+
     for (Entity entity : entities) {
       if (condition.test(entity)) {
         double distance = entity.position.subtract(position).getMagnitudeSquared();
@@ -114,11 +123,11 @@ public abstract class Animal extends Entity {
   }
 
   /**
-   * Checks if this animal can eat a specified entity
+   * Checks if this animal can eat a specified entity.
    * @param entity The entity to check if this animal can eat.
    * @return True if this animal can eat the entity, false otherwise.
    */
-  private boolean canEat(Entity entity) {
+  public boolean canEat(Entity entity) {
     return Arrays.asList(genetics.getEats()).contains(entity.getName());
   }
 
@@ -130,35 +139,33 @@ public abstract class Animal extends Entity {
     if (nearbyEntities == null) return;
 
     for (Entity entity : nearbyEntities) {
-      if (entity.isAlive() && canEat(entity) && isColliding(entity)) {
-        double entitySizeRatio = (double) entity.getSize() / getSize();
-        double foodQuantity = entitySizeRatio  * (entity instanceof Animal ? ANIMAL_FOOD_VALUE : PLANT_FOOD_VALUE);
+      if (entity.isAlive() && this.canEat(entity) && this.isColliding(entity)) {
+        double entitySizeRatio = (double) entity.getSize() / this.getSize();
+        double foodQuantity = entitySizeRatio * (entity instanceof Animal ? ANIMAL_FOOD_VALUE : PLANT_FOOD_VALUE);
         foodLevel += foodQuantity;
-        hasEaten = true; //Mark this animal as having eaten at least once
+        hasEaten = true; // Mark this animal as having eaten at least once -- used for breeding.
         entity.setDead();
       }
     }
 
-    foodLevel = Math.min(foodLevel, 1); // Clamp food from exceeding max food of animal (1).
+    foodLevel = Math.min(foodLevel, 1); // Clamp food from exceeding max food of animal, which is 1.
   }
 
   /**
-   * Sets animal as dead if no food, decrements food level proportion to deltaTime.
+   * Sets animal as dead if it has no food, decrements food level proportion to deltaTime.
+   * @param numberOfOffsprings The number of offsprings the animal had in the current simulation step.
    * @param deltaTime Delta time.
-   * @param numberOfOffsprings The number of offsprings the animal had in the current simulation step
    */
   private void handleHunger(double deltaTime, int numberOfOffsprings) {
     // Decrease food level based on current speed
     double distanceTraveled = position.subtract(lastPosition).getMagnitude();
     double currentSpeed = distanceTraveled / deltaTime;
-    double hungerDrainPerTick = HUNGER_DRAIN * currentSpeed * deltaTime; // * genetics.getSight(); //TODO sight affects hunger drain as balancing system
+    double hungerDrainPerTick = HUNGER_DRAIN * currentSpeed * deltaTime; // * genetics.getSight(); // TODO: Sight affects hunger drain as balancing system
 
     foodLevel -= hungerDrainPerTick;
-    foodLevel -= numberOfOffsprings/(numberOfOffsprings + 1/BREEDING_HUNGER_COST);
+    foodLevel -= numberOfOffsprings / (numberOfOffsprings + 1 / BREEDING_HUNGER_COST); // Food cost for breeding
 
-    if (foodLevel <= 0) {
-      setDead();
-    }
+    if (foodLevel <= 0) setDead();
   }
 
   /**
@@ -243,17 +250,23 @@ public abstract class Animal extends Entity {
   }
 
   /**
-   * @return True if this animal can mate with the specified entity, false otherwise
+   * @return True if this animal can mate with the specified entity, false otherwise.
    */
-  private boolean canMateWith(Entity entity){
+  private boolean canMateWith(Entity entity) {
     if (entity instanceof Animal animal) {
       boolean isSameSpecies = animal.getName().equals(getName());
       boolean isOppositeGender = animal.genetics.getGender() != genetics.getGender();
-      return (isOppositeGender && animal.canMultiply() && animal.isAlive() && canMultiply() && isSameSpecies);
-    } else return false;
+      return isOppositeGender
+        && isSameSpecies
+        && animal.canMultiply()
+        && animal.isAlive()
+        && this.canMultiply()
+        && this.isAlive();
+    }
+    return false;
   }
 
-  //Getter used for test class
+  // Getters:
   public double getFoodLevel() { return foodLevel; }
   public String[] getEats() { return genetics.getEats(); }
 }

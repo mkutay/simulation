@@ -22,7 +22,7 @@ public abstract class Entity {
   protected Vector position; // Position of the entity
   protected Genetics genetics; // Genetics of the entity
 
-  private final static double AGE_RATE = 1; //Controls how fast the creatures age
+  private final static double AGE_RATE = 1; // Controls how fast the creatures age.
 
   /**
    * Constructor -- Create a new entity with the given genetics and position.
@@ -35,40 +35,8 @@ public abstract class Entity {
   }
 
   /**
-   * Increment the age of the entity.
-   * Age increase rate is proportional to delta time.
-   */
-  public void incrementAge(double deltaTime) {
-    age += deltaTime * AGE_RATE;
-    if (age >= genetics.getMaxAge()) {
-      setDead();
-    }
-  }
-
-  /**
-   * @return Whether the entity can reproduce or not, according to the mature age.
-   */
-  protected boolean canMultiply() {
-    return isAlive && age >= genetics.getMatureAge() && age < genetics.getMaxAge();
-  }
-
-  /**
-   * Draw the entity to a display
-   * @param display The display to draw to
-   * @param scaleFactor The field scale factor for the position and size (for scaling screen size and simulation size)
-   */
-  public abstract void draw(Display display, double scaleFactor);
-
-  /**
-   * Update the entity.
-   */
-  public void update(Field field, double deltaTime) {
-    incrementAge(deltaTime);
-  }
-
-  /**
    * @param entity The entity to check collision with self.
-   * @return True if colliding with entity (uses circle hit box), false otherwise.
+   * @return True if colliding with entity (uses circle hit box), false otherwise or if entitiy is this.
    */
   public boolean isColliding(Entity entity) {
     if (entity == null || entity == this) return false;
@@ -108,7 +76,6 @@ public abstract class Entity {
     // Since nearbyEntities was already filtered by sight radius, this method
     // call doesn't affect performance as much.
     // Additionally, overcrowdingRadius should be less than sight radius, so this is needed.
-    // you have big brain
     List<Entity> entities = searchNearbyEntities(nearbyEntities, genetics.getOvercrowdingRadius());
     List<Entity> sameSpecies = getSameSpecies(entities);
     if (sameSpecies.size() >= genetics.getOvercrowdingThreshold()) {
@@ -129,6 +96,49 @@ public abstract class Entity {
       }
     }
     return sameSpecies;
+  }
+
+  /**
+   * Is 10% of the size at birth, grows to 100% size at mature age. Minimum size is two.
+   * Purely used for visuals, not for simulation calculations (food values nor collision).
+   * @return The current visual size of the animal based on age.
+   */
+  protected double getCurrentVisualSize() {
+    double birthSize = 0.1 * getSize();
+    double size = Utility.lerp(birthSize, getSize(), Math.min(1.0, age / genetics.getMatureAge()));
+    return Math.max(size, 2);
+  }
+
+  /**
+   * Increment the age of the entity.
+   * Age increase rate is proportional to delta time.
+   */
+  public void incrementAge(double deltaTime) {
+    age += deltaTime * AGE_RATE;
+    if (age >= genetics.getMaxAge()) {
+      setDead();
+    }
+  }
+
+  /**
+   * @return Whether the entity can reproduce or not, according to the mature age.
+   */
+  protected boolean canMultiply() {
+    return isAlive && age >= genetics.getMatureAge() && age < genetics.getMaxAge();
+  }
+
+  /**
+   * Draw the entity to a display
+   * @param display The display to draw to
+   * @param scaleFactor The field scale factor for the position and size (for scaling screen size and simulation size)
+   */
+  public abstract void draw(Display display, double scaleFactor);
+
+  /**
+   * Update the entity.
+   */
+  public void update(Field field, double deltaTime) {
+    incrementAge(deltaTime);
   }
 
   /**
@@ -159,18 +169,6 @@ public abstract class Entity {
   public void setPosition(Vector position) {
     if (position == null) return;
     this.position = position;
-  }
-
-  /**
-   * Is 10% of the size at birth, grows to 100% size at mature age.
-   * Minimum size is 2
-   * Purely used for visuals, not for simulation calculations (not used for food values or collision)
-   * @return the current size of the animal based on age
-   */
-  protected double getCurrentSize(){
-    double birthSize = 0.1 * getSize();
-    double size= Utility.lerp(birthSize, getSize(), Math.min(1.0, age / genetics.getMatureAge()));
-    return Math.max(size, 2);
   }
 
   // Getters:

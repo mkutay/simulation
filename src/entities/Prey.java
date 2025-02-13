@@ -6,9 +6,7 @@ import graphics.Display;
 import simulation.Field;
 import util.Vector;
 
-import java.util.Arrays;
 import java.util.List;
-import java.util.function.Predicate;
 
 /**
  * An arbitrary prey entity that moves around randomly and can reproduce.
@@ -25,18 +23,18 @@ public class Prey extends Animal {
   }
 
   /**
-   * @return Predator if there is a predator nearby, null otherwise
+   * @return Predator if there is a predator nearby, null otherwise.
    */
-  private Predator searchForPredators(List<Entity> entities){
+  private Predator searchForPredators(List<Entity> entities) {
     Predator nearestEntity = null;
     double closestDistance = Double.MAX_VALUE;
     for (Entity entity : entities) {
-      if (entity instanceof Predator predator) {
-        if (Arrays.asList(predator.getEats()).contains(getName())){ //If this animal is food of the predator
-          double distance = entity.getPosition().subtract(position).getMagnitudeSquared();
-          if (distance < closestDistance) {
-            nearestEntity = predator;
-          }
+      if (entity instanceof Predator predator && predator.canEat(this)) {
+        // If this animal is food of the predator.
+        double distance = entity.getPosition().subtract(position).getMagnitudeSquared();
+        if (distance < closestDistance) {
+          nearestEntity = predator;
+          closestDistance = distance;
         }
       }
     }
@@ -45,30 +43,32 @@ public class Prey extends Animal {
   }
 
   /**
-   * Runs away from the specified entity. Does nothing on null entity
-   * @param entity the entity to run away from
-   * @param deltaTime delta time of simulation
+   * Runs away from the specified entity. Does nothing on null entity.
+   * @param entity The entity to run away from.
+   * @param deltaTime Delta time of simulation.
    */
-  private void flee(Entity entity, double deltaTime){
-    if (entity == null){return;} //Do nothing on null entity
+  private void flee(Entity entity, double deltaTime) {
+    if (entity == null) return;
+
     double speed = genetics.getMaxSpeed() * deltaTime;
-    double direction = position.subtract(entity.getPosition()).getAngle();
-    Vector movement = new Vector(Math.cos(direction) * speed, Math.sin(direction) * speed);
+    // double direction = position.subtract(entity.getPosition()).getAngle();
+    // Vector movement = new Vector(Math.cos(direction) * speed, Math.sin(direction) * speed);
+    Vector movement = position.subtract(entity.getPosition()).normalise().multiply(speed);
     position = position.add(movement);
   }
 
   @Override
   protected void updateBehaviour(Field field, List<Entity> nearbyEntities, double deltaTime) {
     boolean isHungry = foodLevel <= 0.5;
-    boolean isDyingOfHunger = foodLevel <= 0.2; //extreme case for prey to prioritise food over fleeing from predators
+    boolean isDyingOfHunger = foodLevel <= 0.2; // Extreme case for prey to prioritise food over fleeing from predators.
 
-    if (isHungry){eat(nearbyEntities);}
+    if (isHungry) eat(nearbyEntities);
 
-    if (!isDyingOfHunger) { //If not dying of hunger, attempt to flee from predators
+    if (!isDyingOfHunger) { // If not dying of hunger, attempt to flee from predators.
       Predator nearestPredator = searchForPredators(nearbyEntities);
-      if (nearestPredator != null) { //If a predator is found, flee!
-        flee(nearestPredator, deltaTime); //Prioritise fleeing from predators
-        return; //Stop other behaviours from occurring
+      if (nearestPredator != null) { // If a predator is found, flee!
+        flee(nearestPredator, deltaTime); // Prioritise fleeing from predators
+        return; // Stop other behaviours from occurring
       }
     }
 
@@ -77,9 +77,9 @@ public class Prey extends Animal {
       movingToFood = moveToNearestFood(nearbyEntities, deltaTime);
     }
 
-    if (!movingToFood) { //If not moving to food and not hungry, look for mate
+    if (!movingToFood) { // If not moving to food and not hungry, look for mate
       isMovingToMate = moveToNearestMate(nearbyEntities, deltaTime);
-      if (!isMovingToMate) wander(field, deltaTime); //If cant find mate, wander
+      if (!isMovingToMate) wander(field, deltaTime); // If cant find mate, wander.
     }
 
   }
@@ -91,7 +91,7 @@ public class Prey extends Animal {
    */
   @Override
   public void draw(Display display, double scaleFactor) {
-    int size = (int) (getCurrentSize() / scaleFactor);
+    int size = (int) (getCurrentVisualSize() / scaleFactor);
     int x = (int) (position.x() / scaleFactor);
     int y = (int) (position.y() / scaleFactor);
     display.drawCircle(x, y, size, genetics.getColour());

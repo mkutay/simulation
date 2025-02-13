@@ -31,9 +31,9 @@ public record Vector(double x, double y) {
   }
 
   /**
-   * Normalize the vector.
+   * normalise the vector.
    */
-  public Vector normalize() {
+  public Vector normalise() {
     double magnitude = this.getMagnitude();
     return new Vector(this.x() / magnitude, this.y() / magnitude);
   }
@@ -42,7 +42,7 @@ public record Vector(double x, double y) {
    * Set the magnitude of the vector.
    */
   public Vector setMagnitude(double magnitude) {
-    return this.normalize().multiply(magnitude);
+    return this.normalise().multiply(magnitude);
   }
 
   /**

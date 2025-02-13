@@ -1,7 +1,5 @@
 package genetics;
 
-import util.Utility;
-
 import java.awt.*;
 
 /**
@@ -17,7 +15,7 @@ public class AnimalGenetics extends Genetics {
   private final double mutationRate; // Rate at which the entity's genetics can mutate
   private final double maxSeed; // Max speed of the entity
   private final double sight; // Range at which the entity can see other entities
-  private final Gender gender;
+  private final Gender gender; // The gender of the animal
   private final String[] eats; // The names of the entities the animal eats
 
   /**

@@ -3,8 +3,7 @@ package genetics;
 import java.awt.Color;
 
 /**
- * PlantGenetics class.
- * Contains the genetics of a plant entity.
+ * PlantGenetics class. Contains the genetics of a plant entity.
  * 
  * @author Mehmet Kutay Bozkurt and Anas Ahmed
  * @version 1.0

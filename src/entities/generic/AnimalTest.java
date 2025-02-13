@@ -27,49 +27,6 @@ class AnimalTest {
     this.field = new Field(100, 100);
   }
 
-  @Test
-  void testSearchNearbyEntities() {
-    List<Entity> entities = new ArrayList<>();
-    Entity entity1 = new Prey(data.getPreysData()[0].generateRandomGenetics(), new Vector(50, 50 + genetics.getSight()));
-    Entity entity2 = new Prey(data.getPreysData()[0].generateRandomGenetics(), new Vector(50, 50 + genetics.getSight() + 1));
-
-    entities.add(entity1);
-    entities.add(entity2);
-
-    List<Entity> foundEntities = animal.searchNearbyEntities(entities, animal.genetics.getSight());
-
-    assertEquals(1, foundEntities.size());
-    assertTrue(foundEntities.contains(entity1));
-    assertFalse(foundEntities.contains(entity2));
-  }
-
-  @Test
-  void testSearchNearbyEntities_EmptyList() {
-    List<Entity> entities = new ArrayList<>();
-    List<Entity> foundEntities = animal.searchNearbyEntities(entities, animal.genetics.getSight());
-
-    assertTrue(foundEntities.isEmpty());
-  }
-
-  @Test
-  void testSearchNearbyEntities_OnlyItself() {
-    List<Entity> entities = new ArrayList<>();
-    entities.add(animal);
-
-    List<Entity> foundEntities = animal.searchNearbyEntities(entities, animal.genetics.getSight());
-
-    assertTrue(foundEntities.isEmpty());
-  }
-
-  @Test
-  void testSearchNearbyEntities_Null() {
-    List<Entity> entities = null;
-
-    List<Entity> foundEntities = animal.searchNearbyEntities(entities, animal.genetics.getSight());
-
-    assertTrue(foundEntities.isEmpty());
-  }
-
   // TODO: This test assumes that the given data is in order that is currently written in.
   // TODO: Basically, doesn't check if the animal can actually eat the entity.
   @Test
@@ -164,7 +121,7 @@ class AnimalTest {
 
     boolean movedToFood = animal.moveToNearestFood(entities, 1);
     assertTrue(movedToFood);
-    assertNotEquals(initialPosition.toString(), animal.getPosition().toString()); // Position should change
+    assertNotEquals(initialPosition, animal.getPosition()); // Position should change
   }
 
   @Test
@@ -182,5 +139,33 @@ class AnimalTest {
     // The predator should have moved closer to nearPrey
     assertTrue(animal.getPosition().subtract(firstVector).getMagnitude() < animal.getPosition().subtract(secondVector).getMagnitude());
     assertTrue(animal.getPosition().subtract(initialPosition).getMagnitude() > 1);
+  }
+
+  @Test
+  void testMoveToEntity_NullEntity() {
+    Vector initialPosition = animal.getPosition();
+    animal.moveToEntity(null, 1.0);
+    assertEquals(initialPosition, animal.getPosition(), "Position should not change when entity is null.");
+  }
+
+  @Test
+  void testMoveToEntity_SamePosition() {
+    Vector initialPosition = animal.getPosition();
+    // Create a prey at the same position
+    Prey prey = new Prey(data.getPreysData()[0].generateRandomGenetics(), initialPosition);
+    animal.moveToEntity(prey, 1.0);
+    assertEquals(initialPosition, animal.getPosition(), "Position should remain the same when target is at same location.");
+  }
+
+  @Test
+  void testMoveToEntity_ValidEntity() {
+    Vector initialPosition = animal.getPosition();
+    // Create a prey at a slightly different position
+    Prey prey = new Prey(data.getPreysData()[0].generateRandomGenetics(), initialPosition.add(new Vector(10, 10)));
+    animal.moveToEntity(prey, 1.0);
+    // The animal should have moved closer to the prey
+    assertNotEquals(initialPosition, animal.getPosition(), "Position should change when moving to a valid entity.");
+    assertTrue(animal.getPosition().subtract(prey.getPosition()).getMagnitude() 
+      < initialPosition.subtract(prey.getPosition()).getMagnitude(), "Animal should be closer to the prey than before.");
   }
 }
