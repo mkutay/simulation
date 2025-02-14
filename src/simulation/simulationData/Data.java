@@ -12,7 +12,7 @@ public class Data {
   public static final String PATH = System.getProperty("user.dir"); // The main directory of the project
 
   // The data of the simulation
-  private static final SimulationData simulationData = Parser.parseSimulationData(Parser.getContentsOfFile(PATH + "/simulation_data.json"));
+  private static final SimulationData simulationData = Parser.parseSimulationData(Parser.getContentsOfFile(PATH + "/src/simulation_data.json"));
 
   // Getters:
   public static AnimalData[] getPreysData() { return simulationData.preysData; }

@@ -1,0 +1,29 @@
+name: Compile LaTeX Document
+
+on:
+  push:
+    paths:
+      - 'latex/**'
+      - '.github/workflows/compile-tex.yml'
+
+jobs:
+  compile:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v3
+
+      - name: Install TeX Live and latexmk
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y texlive-full latexmk
+
+      - name: Compile LaTeX document
+        working-directory: ./latex
+        run: latexmk -pdf -interaction=nonstopmode main.tex
+
+      - name: Upload PDF artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: compiled-pdf
+          path: ./latex/main.pdf
