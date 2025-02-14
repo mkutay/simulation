@@ -26,10 +26,6 @@ jobs:
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
-          if [ -n "$(git status --porcelain main.pdf)" ]; then
-            git add main.pdf
-            git commit -m "Update compiled PDF from LaTeX source [skip ci]"
-            git push
-          else
-            echo "No changes in PDF file."
-          fi
+          git add main.pdf
+          git commit -m "Update compiled PDF from LaTeX source [skip ci]"
+          git push
