@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Check out repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Install TeX Live and latexmk
         run: |
@@ -23,7 +23,7 @@ jobs:
         run: latexmk -pdf -interaction=nonstopmode main.tex
 
       - name: Upload PDF artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: compiled-pdf
           path: ./latex/main.pdf
