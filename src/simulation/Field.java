@@ -47,8 +47,8 @@ public class Field {
     Vector newVector = null;
     if (entityPos.x() < padding) newVector = new Vector(padding, entityPos.y());
     if (entityPos.y() < padding) newVector = new Vector(entityPos.x(), padding);
-    if (entityPos.x() > width - padding) newVector = new Vector(width - padding, entityPos.y());
-    if (entityPos.y() > height - padding) newVector = new Vector(entityPos.x(), height - padding);
+    if (entityPos.x() > (double) width - padding) newVector = new Vector((double) width - padding, entityPos.y());
+    if (entityPos.y() > (double) height - padding) newVector = new Vector(entityPos.x(), (double) height - padding);
     entity.setPosition(newVector);
   }
 
@@ -58,10 +58,10 @@ public class Field {
    * @return True if the coordinate is in the field (with the padding), false otherwise.
    */
   public boolean isOutOfBounds(Vector pos, double padding) {
-    return (pos.x() < padding)
-      || (pos.y() < padding)
-      || (pos.x() >= width - padding)
-      || (pos.y() >= height - padding);
+    return (pos.x() <= padding)
+      || (pos.y() <= padding)
+      || (pos.x() >= (double) width - padding)
+      || (pos.y() >= (double) height - padding);
   }
 
   /**

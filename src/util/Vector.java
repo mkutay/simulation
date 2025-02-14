@@ -84,6 +84,13 @@ public record Vector(double x, double y) {
   }
 
   /**
+   * Get a new vector from an angle. The vector has magnitude of 1.
+   */
+  public static Vector getVectorFromAngle(double angle) {
+    return new Vector(Math.cos(angle), Math.sin(angle));
+  }
+
+  /**
    * Get a random vector.
    */
   public static Vector getRandomVector() {

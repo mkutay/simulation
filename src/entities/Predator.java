@@ -22,6 +22,12 @@ public class Predator extends Animal {
     super(genetics, location);
   }
 
+  /**
+   * Updates the behaviour of the animal, specifically for movement.
+   * @param field The field the animal is in.
+   * @param nearbyEntities The entities in the sight radius of the animal.
+   * @param deltaTime The delta time.
+   */
   @Override
   protected void updateBehaviour(Field field, List<Entity> nearbyEntities, double deltaTime) {
     boolean isHungry = foodLevel <= 0.5;

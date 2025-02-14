@@ -5,6 +5,7 @@ import util.Vector;
 import genetics.Genetics;
 import graphics.Display;
 import simulation.Field;
+import simulation.simulationData.Data;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,41 +17,39 @@ import java.util.List;
  * @version 1.0
  */
 public abstract class Entity {
-  private final String name; // Name of the entity
-  private double age; // Age of the entity
-  private boolean isAlive = true; // Whether the entity is alive or not
   protected Vector position; // Position of the entity
   protected Genetics genetics; // Genetics of the entity
-
-  private final static double AGE_RATE = 1; // Controls how fast the creatures age.
+  private double age = 0; // Age of the entity
+  private boolean isAlive = true; // Whether the entity is alive or not
 
   /**
    * Constructor -- Create a new entity with the given genetics and position.
    */
   public Entity(Genetics genetics, Vector position) {
-    age = 0;
-    this.name = genetics.getName();
     this.genetics = genetics;
     this.position = position;
   }
 
   /**
+   * Check if the entity is colliding with another entity.
    * @param entity The entity to check collision with self.
    * @return True if colliding with entity (uses circle hit box), false otherwise or if entitiy is this.
    */
   public boolean isColliding(Entity entity) {
     if (entity == null || entity == this) return false;
-    Vector offset = position.subtract(entity.position);
-    double distanceSquared = offset.getMagnitudeSquared();
+    double distanceSquared = this.position.subtract(entity.position).getMagnitudeSquared();
 
-    // This is mathematically the same as (distance <= (e.size + size)), but no sqrt call (in distance) for optimisation
-    return distanceSquared <= Math.pow((getSize() + entity.getSize()), 2) + Utility.EPSILON;
+    // This is mathematically the same as (distance <= (e.size + size)), but no sqrt call for optimisation.
+    int sumOfSizes = this.getSize() + entity.getSize();
+    return distanceSquared <= sumOfSizes * sumOfSizes + Utility.EPSILON;
   }
 
   /**
    * TODO: Optimise when necessary.
+   * Search for entities in the search radius.
    * @param entities The entities that will be searched through.
-   * @return Returns all entities in the field in the animals sight radius, except itself.
+   * @param searchRadius The radius to search for entities.
+   * @return Returns all entities in the field in the radius, except itself.
    */
   public List<Entity> searchNearbyEntities(List<Entity> entities, double searchRadius) {
     List<Entity> foundEntities = new ArrayList<>();
@@ -59,8 +58,8 @@ public abstract class Entity {
     for (Entity e : entities) {
       double distanceSquared = e.getPosition().subtract(position).getMagnitudeSquared();
       // Epsilon is used for floating point comparison.
-      if (distanceSquared - searchRadius * searchRadius <= Utility.EPSILON && e != this) {
-        foundEntities.add(e); // If can see other entity and it is not itself.
+      if (e != this && distanceSquared - searchRadius * searchRadius <= Utility.EPSILON) {
+        foundEntities.add(e);
       }
     }
 
@@ -91,7 +90,7 @@ public abstract class Entity {
   protected List<Entity> getSameSpecies(List<Entity> entities) {
     List<Entity> sameSpecies = new ArrayList<>();
     for (Entity entity : entities) {
-      if (entity.isAlive && entity.name.equals(name)) {
+      if (entity.isAlive && entity.getName().equals(this.getName())) {
         sameSpecies.add(entity);
       }
     }
@@ -112,9 +111,10 @@ public abstract class Entity {
   /**
    * Increment the age of the entity.
    * Age increase rate is proportional to delta time.
+   * @param deltaTime The time passed since the last update.
    */
   public void incrementAge(double deltaTime) {
-    age += deltaTime * AGE_RATE;
+    age += deltaTime * Data.getEntityAgeRate();
     if (age >= genetics.getMaxAge()) {
       setDead();
     }
@@ -128,9 +128,9 @@ public abstract class Entity {
   }
 
   /**
-   * Draw the entity to a display
-   * @param display The display to draw to
-   * @param scaleFactor The field scale factor for the position and size (for scaling screen size and simulation size)
+   * Draw the entity to a display.
+   * @param display The display to draw to.
+   * @param scaleFactor The field scale factor for the position and size (for scaling screen size and simulation size).
    */
   public abstract void draw(Display display, double scaleFactor);
 
@@ -152,7 +152,7 @@ public abstract class Entity {
    * Set the entity as dead.
    */
   public void setDead() {
-    isAlive = false;
+    this.isAlive = false;
   }
 
   /**
@@ -160,20 +160,19 @@ public abstract class Entity {
    */
   @Override
   public String toString() {
-    return name + " at " + position.toString();
+    return this.getName() + " at " + this.position.toString();
   }
 
   /**
    * Set position of the entity.
    */
   public void setPosition(Vector position) {
-    if (position == null) return;
-    this.position = position;
+    if (position != null) this.position = position;
   }
 
   // Getters:
   public Vector getPosition() { return position; }
-  public String getName() { return name; }
+  public String getName() { return genetics.getName(); }
   public int getSize() { return genetics.getSize(); } //This getter is for code simplicity }
   public boolean isAlive() { return isAlive; }
 }

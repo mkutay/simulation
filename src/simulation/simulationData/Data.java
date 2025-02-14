@@ -23,4 +23,6 @@ public class Data {
   public static double getAnimalHungerDrain() { return simulationData.animalHungerDrain; }
   public static double getAnimalBreedingCost() { return simulationData.animalBreedingCost; }
   public static double getMutationFactor() { return simulationData.mutationFactor; }
+  public static double getEntityAgeRate() { return simulationData.entityAgeRate; }
+  public static double getBreedingRadiusFactorToSight() { return simulationData.breedingRadiusFactorToSight; }
 }

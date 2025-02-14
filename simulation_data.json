@@ -1,9 +1,11 @@
 {
   "foodValueForAnimals": 0.8,
   "foodValueForPlants": 0.1,
-  "animalHungerDrain": 0.008,
+  "animalHungerDrain": 0.003,
   "animalBreedingCost": 0.1,
   "mutationFactor": 0.2,
+  "entityAgeRate": 1,
+  "breedingRadiusFactorToSight": 0.5,
   "predatorsData": [
     {
       "name": "Fox",

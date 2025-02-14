@@ -21,12 +21,17 @@ import simulation.simulationData.Data;
  */
 public abstract class Animal extends Entity {
   protected AnimalGenetics genetics; // Re-cast to AnimalGenetics
-  protected double foodLevel; // The current food level of the animal
-  protected boolean isMovingToMate = false; // Stores if the animal currently attempting to mate
-  private double direction; // The direction the animal is moving in
+  protected double foodLevel; // The current food level of the animal (as a ratio between 0 and 1)
+  protected boolean isMovingToMate = false; // Stores if the animal is currently attempting to mate
   private Vector lastPosition; // The last position of the animal -- used to calculate speed
-  private boolean hasEaten = false; // Stores if the animal has eaten at least once or not
+  private double direction; // The direction the animal is moving in (in radians)
+  private boolean hasEaten = false; // Stores if the animal has eaten at least once or not -- used for breeding
 
+  /**
+   * Constructor -- Create a new Animal.
+   * @param genetics The genetics of the animal.
+   * @param position The position of the animal.
+   */
   public Animal(AnimalGenetics genetics, Vector position) {
     super(genetics, position);
     this.genetics = genetics;
@@ -41,13 +46,14 @@ public abstract class Animal extends Entity {
    */
   protected void wander(Field field, double deltaTime) {
     direction += (Math.random() - 0.5) * Math.PI * 0.1;
-    if (field.isOutOfBounds(position, getSize() * 2)) {
+
+    if (field.isOutOfBounds(position, (double) this.getSize())) {
       Vector centerOffset = field.getSize().multiply(0.5).subtract(position);
       direction = centerOffset.getAngle() + (Math.random() - 0.5) * Math.PI;
     }
     
     double speed = genetics.getMaxSpeed() * 0.6 * deltaTime; // 60% move speed when wandering
-    Vector movement = new Vector(Math.cos(direction) * speed, Math.sin(direction) * speed);
+    Vector movement = Vector.getVectorFromAngle(direction).multiply(speed);
     position = position.add(movement);
   }
 
@@ -58,13 +64,11 @@ public abstract class Animal extends Entity {
    */
   private void moveToEntity(Entity entity, double deltaTime) {
     if (entity == null) return; // Do nothing on null entity
-
     double speed = genetics.getMaxSpeed() * deltaTime;
-    // TODO: No need for getting the direction: just normalise the vector.
-    // double direction = entity.position.subtract(position).getAngle();
-    // Vector movement = new Vector(Math.cos(direction) * speed, Math.sin(direction) * speed);
+
     Vector difference = entity.position.subtract(position);
     if (difference.getMagnitudeSquared() < Utility.EPSILON) return; // Do nothing if the entity is at the same position
+
     Vector movement = difference.normalise().multiply(speed);
     position = position.add(movement);
   }
@@ -75,8 +79,8 @@ public abstract class Animal extends Entity {
    * @param deltaTime The delta time.
    */
   protected boolean moveToNearestFood(List<Entity> entities, double deltaTime) {
-    Predicate<Entity> condition = entity -> canEat(entity) && entity.isAlive();
-    Entity nearestEntity = moveToNearest(entities, condition);
+    Predicate<Entity> condition = this::canEat;
+    Entity nearestEntity = getNearestEntity(entities, condition);
     moveToEntity(nearestEntity, deltaTime);
     return nearestEntity != null;
   }
@@ -88,7 +92,7 @@ public abstract class Animal extends Entity {
    */
   protected boolean moveToNearestMate(List<Entity> entities, double deltaTime) {
     Predicate<Entity> condition = this::canMateWith;
-    Entity nearestEntity = moveToNearest(entities, condition);
+    Entity nearestEntity = getNearestEntity(entities, condition);
     moveToEntity(nearestEntity, deltaTime);
     return nearestEntity != null;
   }
@@ -99,7 +103,7 @@ public abstract class Animal extends Entity {
    * @param condition The condition to determine what entities to move towards.
    * @return The nearest entity satisfying the condition, null if none found.
    */
-  private Entity moveToNearest(List<Entity> entities, Predicate<Entity> condition) {
+  protected Entity getNearestEntity(List<Entity> entities, Predicate<Entity> condition) {
     Entity nearestEntity = null;
     double closestDistance = Double.MAX_VALUE;
 
@@ -122,7 +126,7 @@ public abstract class Animal extends Entity {
    * @return True if this animal can eat the entity, false otherwise.
    */
   public boolean canEat(Entity entity) {
-    return Arrays.asList(genetics.getEats()).contains(entity.getName());
+    return Arrays.asList(genetics.getEats()).contains(entity.getName()) && entity.isAlive();
   }
 
   /**
@@ -133,13 +137,14 @@ public abstract class Animal extends Entity {
     if (nearbyEntities == null) return;
 
     for (Entity entity : nearbyEntities) {
-      if (entity.isAlive() && this.canEat(entity) && this.isColliding(entity)) {
-        double entitySizeRatio = (double) entity.getSize() / this.getSize();
-        double foodQuantity = entitySizeRatio * (entity instanceof Animal ? Data.getFoodValueForAnimals() : Data.getFoodValueForPlants());
-        foodLevel += foodQuantity;
-        this.hasEaten = true; // Mark this animal as having eaten at least once -- used for breeding.
-        entity.setDead();
-      }
+      if (!(this.canEat(entity) && this.isColliding(entity))) continue;
+
+      double entitySizeRatio = (double) entity.getSize() / this.getSize();
+      double foodValue = (entity instanceof Animal ? Data.getFoodValueForAnimals() : Data.getFoodValueForPlants());
+      double foodQuantity = entitySizeRatio * foodValue;
+      foodLevel += foodQuantity;
+      this.hasEaten = true; // Mark this animal as having eaten at least once -- used for breeding.
+      entity.setDead();
     }
 
     foodLevel = Math.min(foodLevel, 1); // Clamp food from exceeding max food of animal, which is 1.
@@ -151,10 +156,9 @@ public abstract class Animal extends Entity {
    * @param deltaTime Delta time.
    */
   private void handleHunger(double deltaTime, int numberOfOffsprings) {
-    // Decrease food level based on current speed
+    // Decrease food level based on current distance travelled, which is speed.
     double distanceTraveled = position.subtract(lastPosition).getMagnitude();
-    double currentSpeed = distanceTraveled / deltaTime;
-    double hungerDrainPerTick = Data.getAnimalHungerDrain() * currentSpeed * deltaTime; // * genetics.getSight(); // TODO: Sight affects hunger drain as balancing system
+    double hungerDrainPerTick = Data.getAnimalHungerDrain() * distanceTraveled * deltaTime; // * genetics.getSight(); // TODO: Sight affects hunger drain as balancing system
 
     foodLevel -= hungerDrainPerTick;
     foodLevel -= numberOfOffsprings / (numberOfOffsprings + 1 / Data.getAnimalBreedingCost()); // Food cost for breeding
@@ -169,28 +173,21 @@ public abstract class Animal extends Entity {
   public void update(Field field, double deltaTime) {
     if (!isAlive()) return;
     super.update(field, deltaTime);
-    this.lastPosition = this.position;
-
+    
     List<Entity> nearbyEntities = searchNearbyEntities(field.getEntities(), genetics.getSight());
     handleOvercrowding(nearbyEntities);
-
+    
     List<Animal> newEntities = breed(nearbyEntities);
     for (Animal entity : newEntities) {
       field.putInBounds(entity, entity.getSize());
       field.addEntity(entity);
     }
-
+    
     handleHunger(deltaTime, newEntities.size());
     updateBehaviour(field, nearbyEntities, deltaTime);
+
+    this.lastPosition = this.position;
   }
-
-  protected abstract void updateBehaviour(Field field, List<Entity> nearbyEntities, double deltaTime);
-
-  /**
-   * Used to generate an offspring of the animal after breeding
-   * @return a new Animal with the specified genetics and spawn position
-   */
-  protected abstract Animal createOffspring(AnimalGenetics genetics, Vector position);
 
   /**
    * Animals can only breed if they have eaten food once in their life
@@ -231,16 +228,14 @@ public abstract class Animal extends Entity {
   private Animal getRandomMate(List<Entity> nearbyEntities) {
     // Since nearbyEntities is already filtered by sight, it contains quite a few entities,
     // which doesn't affect performance as much.
-    List<Entity> entities = getSameSpecies(searchNearbyEntities(nearbyEntities, genetics.getSight() * 0.5));
-    List<Animal> potentialMates = entities.stream()
-      .filter(entity -> entity instanceof Animal) //entity is animal
-      .filter(entity -> entity.getName().equals(getName())) //entity is same species as this animal
-      .map(entity -> (Animal) entity)
+    List<Entity> entities = searchNearbyEntities(nearbyEntities, genetics.getSight() * Data.getBreedingRadiusFactorToSight());
+    List<Entity> sameSpecies = getSameSpecies(entities);
+    List<Entity> potentialMates = sameSpecies.stream()
       .filter(this::canMateWith)
       .toList();
 
     if (potentialMates.isEmpty()) return null;
-    return potentialMates.get((int) (Math.random() * potentialMates.size()));
+    return (Animal) potentialMates.get((int) (Math.random() * potentialMates.size()));
   }
 
   /**
@@ -257,6 +252,20 @@ public abstract class Animal extends Entity {
     }
     return false;
   }
+
+  /**
+   * Updates the behaviour of the animal, specifically for movement.
+   * @param field The field the animal is in.
+   * @param nearbyEntities The entities in the sight radius of the animal.
+   * @param deltaTime The delta time.
+   */
+  protected abstract void updateBehaviour(Field field, List<Entity> nearbyEntities, double deltaTime);
+
+  /**
+   * Used to generate an offspring of the animal after breeding.
+   * @return A new Animal with the specified genetics and spawn position.
+   */
+  protected abstract Animal createOffspring(AnimalGenetics genetics, Vector position);
 
   // Getters:
   public double getFoodLevel() { return foodLevel; }
