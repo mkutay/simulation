@@ -30,18 +30,18 @@ public class Predator extends Animal {
    */
   @Override
   protected void updateBehaviour(Field field, List<Entity> nearbyEntities, double deltaTime) {
-    boolean isHungry = foodLevel <= 0.5;
+    boolean isHungry = hungerController.isHungry();
 
-    if (isHungry) eat(nearbyEntities);
+    if (isHungry) hungerController.eat(nearbyEntities);
 
     boolean movingToFood = false;
     if (isHungry && !isMovingToMate) { // If is hungry and not currently attempting to mate.
-      movingToFood = moveToNearestFood(nearbyEntities, deltaTime);
+      movingToFood = movementController.moveToNearestFood(nearbyEntities, deltaTime);
     }
 
     if (!movingToFood) { // If not moving to food and not hungry, look for mate.
-      isMovingToMate = moveToNearestMate(nearbyEntities, deltaTime);
-      if (!isMovingToMate) wander(field, deltaTime); // If can't find mate, wander.
+      isMovingToMate = movementController.moveToNearestMate(nearbyEntities, deltaTime);
+      if (!isMovingToMate) movementController.wander(field, deltaTime); // If can't find mate, wander.
     }
   }
 

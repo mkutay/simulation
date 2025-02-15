@@ -4,7 +4,6 @@ import entities.generic.*;
 import genetics.AnimalGenetics;
 import graphics.Display;
 import simulation.Field;
-import util.Utility;
 import util.Vector;
 
 import java.util.List;
@@ -25,21 +24,6 @@ public class Prey extends Animal {
   }
 
   /**
-   * Runs away from the specified entity. Does nothing on null entity.
-   * @param entity The entity to run away from.
-   * @param deltaTime Delta time of simulation.
-   */
-  private void flee(Entity entity, double deltaTime) {
-    if (entity == null) return;
-    double speed = genetics.getMaxSpeed() * deltaTime;
-    Vector difference = position.subtract(entity.getPosition());
-    if (difference.getMagnitudeSquared() < Utility.EPSILON) return; // Do nothing if the entity is at the same position
-
-    Vector movement = difference.normalise().multiply(speed);
-    position = position.add(movement);
-  }
-
-  /**
    * Updates the behaviour of the animal, specifically for movement.
    * @param field The field the animal is in.
    * @param nearbyEntities The entities in the sight radius of the animal.
@@ -47,30 +31,30 @@ public class Prey extends Animal {
    */
   @Override
   protected void updateBehaviour(Field field, List<Entity> nearbyEntities, double deltaTime) {
-    boolean isHungry = foodLevel <= 0.5;
-    boolean isDyingOfHunger = foodLevel <= 0.2; // Extreme case for prey to prioritise food over fleeing from predators.
+    boolean isHungry = hungerController.isHungry();
+    boolean isDyingOfHunger = hungerController.isDyingOfHunger(); // Extreme case for prey to prioritise food over fleeing from predators.
 
-    if (isHungry) eat(nearbyEntities);
+    if (isHungry) hungerController.eat(nearbyEntities);
 
     if (!isDyingOfHunger) { // If not dying of hunger, attempt to flee from predators.
       // Find the nearest predator:
-      Predicate<Entity> condition = entity -> entity instanceof Predator predator && predator.canEat(this);
-      Predator nearestPredator = (Predator) this.getNearestEntity(nearbyEntities, condition);
+      Predicate<Entity> condition = entity -> entity instanceof Predator predator && predator.getHungerController().canEat(this);
+      Predator nearestPredator = (Predator) movementController.getNearestEntity(nearbyEntities, condition);
       
       if (nearestPredator != null) { // If a predator is found, flee!
-        flee(nearestPredator, deltaTime); // Prioritise fleeing from predators
+        movementController.fleeFromEntity(nearestPredator, deltaTime); // Prioritise fleeing from predators
         return; // Stop other behaviours from occurring
       }
     }
 
     boolean movingToFood = false;
     if (isHungry && !this.isMovingToMate) { // If is hungry and not currently attempting to mate
-      movingToFood = moveToNearestFood(nearbyEntities, deltaTime);
+      movingToFood = movementController.moveToNearestFood(nearbyEntities, deltaTime);
     }
 
     if (!movingToFood) { // If not moving to food and not hungry, look for mate
-      this.isMovingToMate = moveToNearestMate(nearbyEntities, deltaTime);
-      if (!this.isMovingToMate) wander(field, deltaTime); // If cant find mate, wander.
+      this.isMovingToMate = movementController.moveToNearestMate(nearbyEntities, deltaTime);
+      if (!this.isMovingToMate) movementController.wander(field, deltaTime); // If cant find mate, wander.
     }
   }
 

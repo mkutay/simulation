@@ -82,19 +82,10 @@ public abstract class Entity {
     }
   }
 
-  /**
-   * Used for breeding and overcrowding.
-   * @param entities The entities that will be searched through.
-   * @return All entities of the same species as this entity.
-   */
   protected List<Entity> getSameSpecies(List<Entity> entities) {
-    List<Entity> sameSpecies = new ArrayList<>();
-    for (Entity entity : entities) {
-      if (entity.isAlive && entity.getName().equals(this.getName())) {
-        sameSpecies.add(entity);
-      }
-    }
-    return sameSpecies;
+    return entities.stream()
+            .filter(e -> e.getName().equals(getName()))
+            .toList();
   }
 
   /**

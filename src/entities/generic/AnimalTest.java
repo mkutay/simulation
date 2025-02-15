@@ -32,30 +32,30 @@ class AnimalTest {
   void testEat_CanEatAndColliding() {
     // First update, so that the food level is not at max.
     animal.update(field, 1);
-    double initialFoodLevel = animal.getFoodLevel();
+    double initialFoodLevel = animal.hungerController.getFoodLevel();
     Prey prey = new Prey(Data.getPreysData()[0].generateRandomGenetics(), animal.getPosition());
     List<Entity> nearbyEntities = new ArrayList<>();
     nearbyEntities.add(prey);
   
-    animal.eat(nearbyEntities);
+    animal.hungerController.eat(nearbyEntities);
   
     assertFalse(prey.isAlive());
-    assertTrue(animal.getFoodLevel() > initialFoodLevel);
+    assertTrue(animal.hungerController.getFoodLevel() > initialFoodLevel);
   }
 
   @Test
   void testEat_CanEatAndCollidingSecond() {
     // First update, so that the food level is not at max.
     animal.update(field, 1);
-    double initialFoodLevel = animal.getFoodLevel();
+    double initialFoodLevel = animal.hungerController.getFoodLevel();
     Prey prey = new Prey(Data.getPreysData()[0].generateRandomGenetics(), animal.getPosition().add(new Vector(genetics.getSize(), 0)));
     List<Entity> nearbyEntities = new ArrayList<>();
     nearbyEntities.add(prey);
   
-    animal.eat(nearbyEntities);
+    animal.hungerController.eat(nearbyEntities);
   
     assertFalse(prey.isAlive());
-    assertTrue(animal.getFoodLevel() > initialFoodLevel);
+    assertTrue(animal.hungerController.getFoodLevel() > initialFoodLevel);
   }
   
   @Test
@@ -64,7 +64,7 @@ class AnimalTest {
     List<Entity> nearbyEntities = new ArrayList<>();
     nearbyEntities.add(plant);
   
-    animal.eat(nearbyEntities);
+    animal.hungerController.eat(nearbyEntities);
   
     assertTrue(plant.isAlive());
   }
@@ -75,39 +75,39 @@ class AnimalTest {
     List<Entity> nearbyEntities = new ArrayList<>();
     nearbyEntities.add(prey);
   
-    animal.eat(nearbyEntities);
+    animal.hungerController.eat(nearbyEntities);
   
     assertTrue(prey.isAlive());
   }
   
   @Test
   void testEat_EntityAlreadyDead() {
-    double initialFoodLevel = animal.getFoodLevel();
+    double initialFoodLevel = animal.hungerController.getFoodLevel();
     Prey prey = new Prey(Data.getPreysData()[0].generateRandomGenetics(), animal.getPosition());
     prey.setDead();
     List<Entity> nearbyEntities = new ArrayList<>();
     nearbyEntities.add(prey);
   
-    animal.eat(nearbyEntities);
+    animal.hungerController.eat(nearbyEntities);
   
     assertFalse(prey.isAlive());
-    assertTrue(animal.getFoodLevel() == initialFoodLevel);
+    assertEquals(animal.hungerController.getFoodLevel(), initialFoodLevel);
   }
   
   @Test
   void testEat_NullList() {
-    double initialFoodLevel = animal.getFoodLevel();
-    animal.eat(null);
+    double initialFoodLevel = animal.hungerController.getFoodLevel();
+    animal.hungerController.eat(null);
     assertTrue(animal.isAlive());
-    assertTrue(animal.getFoodLevel() == initialFoodLevel);
+    assertEquals(animal.hungerController.getFoodLevel(), initialFoodLevel);
   }
 
   @Test
   void testMoveToNearestFood_NoNearbyEntities() {
-    double initialFoodLevel = animal.getFoodLevel();
-    boolean movedToFood = animal.moveToNearestFood(new ArrayList<>(), 1);
+    double initialFoodLevel = animal.hungerController.getFoodLevel();
+    boolean movedToFood = animal.movementController.moveToNearestFood(new ArrayList<>(), 1);
     assertFalse(movedToFood);
-    assertEquals(initialFoodLevel, animal.getFoodLevel());
+    assertEquals(initialFoodLevel, animal.hungerController.getFoodLevel());
   }
 
   @Test
@@ -118,7 +118,7 @@ class AnimalTest {
     List<Entity> entities = new ArrayList<>();
     entities.add(prey);
 
-    boolean movedToFood = animal.moveToNearestFood(entities, 1);
+    boolean movedToFood = animal.movementController.moveToNearestFood(entities, 1);
     assertTrue(movedToFood);
     assertNotEquals(initialPosition, animal.getPosition()); // Position should change
   }
@@ -134,7 +134,7 @@ class AnimalTest {
     entities.add(nearPrey);
     entities.add(farPrey);
 
-    animal.moveToNearestFood(entities, 1);
+    animal.movementController.moveToNearestFood(entities, 1);
     // The predator should have moved closer to nearPrey
     assertTrue(animal.getPosition().subtract(firstVector).getMagnitude() < animal.getPosition().subtract(secondVector).getMagnitude());
     assertTrue(animal.getPosition().subtract(initialPosition).getMagnitude() > 1);
@@ -143,7 +143,7 @@ class AnimalTest {
   @Test
   void testMoveToNearestMate_NoMateNearby() {
     Vector initialPosition = animal.getPosition();
-    boolean movedToMate = animal.moveToNearestMate(new ArrayList<>(), 1.0);
+    boolean movedToMate = animal.movementController.moveToNearestMate(new ArrayList<>(), 1.0);
     assertFalse(movedToMate);
     assertEquals(initialPosition, animal.getPosition());
   }
@@ -178,17 +178,17 @@ class AnimalTest {
     List<Entity> preys = new ArrayList<>();
     preys.add(new Prey(Data.getPreysData()[0].generateRandomGenetics(), initialPosition));
     preys.add(new Prey(Data.getPreysData()[0].generateRandomGenetics(), initialPosition));
-    animal.eat(preys);
+    animal.hungerController.eat(preys);
     preys.remove(0);
     preys.remove(0);
     preys.add(new Prey(Data.getPreysData()[0].generateRandomGenetics(), potentialMate.getPosition()));
     preys.add(new Prey(Data.getPreysData()[0].generateRandomGenetics(), potentialMate.getPosition()));
-    potentialMate.eat(preys);
+    potentialMate.hungerController.eat(preys);
 
     List<Entity> nearbyEntities = new ArrayList<>();
     nearbyEntities.add(potentialMate);
   
-    boolean movedToMate = animal.moveToNearestMate(nearbyEntities, 1.0);
+    boolean movedToMate = animal.movementController.moveToNearestMate(nearbyEntities, 1.0);
     assertTrue(movedToMate);
     assertNotEquals(animal.getPosition(), initialPosition);
     assertTrue(animal.getPosition().subtract(potentialMate.getPosition()).getMagnitude()
