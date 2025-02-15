@@ -48,11 +48,9 @@ public class AnimalBreedingController {
      * @return A random mate from the list of entities, null if no mate found.
      */
     private Animal getRandomMate(List<Entity> nearbyEntities) {
-        // Since nearbyEntities is already filtered by sight, it contains quite a few entities,
-        // which doesn't affect performance as much.
-        double searchRadius = animal.genetics.getSight() * Data.getBreedingRadiusFactorToSight();
-        List<Entity> entities = animal.searchNearbyEntities(nearbyEntities, searchRadius);
-        List<Entity> potentialMates = entities.stream()
+//        double searchRadius = animal.genetics.getSight() * Data.getBreedingRadiusFactorToSight();
+//        List<Entity> entities = animal.searchNearbyEntities(field, searchRadius);
+        List<Entity> potentialMates = nearbyEntities.stream()
                 .filter(this::canMateWith)
                 .toList();
 

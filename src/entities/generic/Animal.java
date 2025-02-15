@@ -43,7 +43,7 @@ public abstract class Animal extends Entity {
     if (!isAlive()) return;
     super.update(field, deltaTime);
     
-    List<Entity> nearbyEntities = searchNearbyEntities(field.getEntities(), genetics.getSight());
+    List<Entity> nearbyEntities = searchNearbyEntities(field, genetics.getSight());
     
     List<Animal> newEntities = breedingController.breed(nearbyEntities);
     for (Animal entity : newEntities) {
@@ -51,7 +51,7 @@ public abstract class Animal extends Entity {
       field.addEntity(entity);
     }
 
-    handleOvercrowding(nearbyEntities);
+    handleOvercrowding(field);
 
     hungerController.handleHunger(deltaTime, newEntities.size());
 

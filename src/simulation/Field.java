@@ -18,6 +18,9 @@ public class Field {
   private final ArrayList<Entity> entities; // List of all entities in the field
   private final ArrayList<Entity> entitiesToSpawn = new ArrayList<>(); // Buffer list for entities to spawn
 
+  private final QuadTree quadtree;
+  private final int quadtreeCapacity = 2; //How many entities each quadtree can store before dividing
+
   /**
    * Constructor that is used with the JUnit tests.
    */
@@ -25,6 +28,7 @@ public class Field {
     this.width = width;
     this.height = height;
     entities = new ArrayList<>();
+    quadtree = new QuadTree(new Rectangle(0, 0, width, height), quadtreeCapacity);
   }
 
   /**
@@ -35,6 +39,7 @@ public class Field {
     this.width = fieldBuilder.getWidth();
     this.height = fieldBuilder.getHeight();
     entities = fieldBuilder.getEntities();
+    quadtree = new QuadTree(new Rectangle(0, 0, width, height), quadtreeCapacity);
   }
 
   /**
@@ -64,6 +69,28 @@ public class Field {
       || (pos.y() >= (double) height - padding);
   }
 
+  public void updateQuadtree(){
+    quadtree.clear(); //Reset the root quadtree
+    for (Entity e : entities) {
+      quadtree.insert(e);
+    }
+  }
+
+  public QuadTree getQuadtree(){
+    return quadtree;
+  }
+
+  /**
+   * Gets all the entities in a specified radius from a position in the field by querying the quadtree
+   * @param position the center coordinates of the query range
+   * @param queryRadius the radius of the query range
+   * @return a list of entities in the field in the specified query range
+   */
+  public ArrayList<Entity> queryQuadtree(Vector position, double queryRadius) {
+    Circle queryRange = new Circle(position.x(), position.y(), queryRadius);
+    return quadtree.query(queryRange);
+  }
+
   /**
   * Filter out the entities that are not alive.
   */
@@ -74,7 +101,7 @@ public class Field {
   /**
    * @return All entities currently in the field.
    */
-  public ArrayList<Entity> getEntities() {
+  public ArrayList<Entity> getAllEntities() {
     return entities;
   }
 

@@ -59,7 +59,7 @@ public class Plant extends Entity {
       field.addEntity(plant);
     }
 
-    handleOvercrowding(field.getEntities());
+    handleOvercrowding(field);
   }
 
   /**

@@ -7,7 +7,6 @@ import graphics.Display;
 import simulation.Field;
 import simulation.simulationData.Data;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -45,37 +44,22 @@ public abstract class Entity {
   }
 
   /**
-   * TODO: Optimise when necessary.
-   * Search for entities in the search radius.
-   * @param entities The entities that will be searched through.
+   * Search for entities in the search radius. Now optimised with a quadtree :)
+   * @param field the field that will be searched through
    * @param searchRadius The radius to search for entities.
    * @return Returns all entities in the field in the radius, except itself.
    */
-  public List<Entity> searchNearbyEntities(List<Entity> entities, double searchRadius) {
-    List<Entity> foundEntities = new ArrayList<>();
-    if (entities == null) return foundEntities;
-
-    for (Entity e : entities) {
-      double distanceSquared = e.getPosition().subtract(position).getMagnitudeSquared();
-      // Epsilon is used for floating point comparison.
-      if (e != this && distanceSquared - searchRadius * searchRadius <= Utility.EPSILON) {
-        foundEntities.add(e);
-      }
-    }
-
-    return foundEntities;
+  public List<Entity> searchNearbyEntities(Field field, double searchRadius) {
+    return field.queryQuadtree(position, searchRadius);
   }
 
   /**
    * Handles overcrowding of entities of the same species.
    * Looks at the genetics of the species to determine overcrowding.
-   * @param nearbyEntities The entities in the sight radius of this entity.
+   * @param field the field that will be searched through for nearby entities
    */
-  public void handleOvercrowding(List<Entity> nearbyEntities) {
-    // Since nearbyEntities was already filtered by sight radius, this method
-    // call doesn't affect performance as much.
-    // Additionally, overcrowdingRadius should be less than sight radius, so this is needed.
-    List<Entity> entities = searchNearbyEntities(nearbyEntities, genetics.getOvercrowdingRadius());
+  public void handleOvercrowding(Field field) {
+    List<Entity> entities = searchNearbyEntities(field, genetics.getOvercrowdingRadius());
     List<Entity> sameSpecies = getSameSpecies(entities);
     if (sameSpecies.size() >= genetics.getOvercrowdingThreshold()) {
       setDead();
@@ -164,6 +148,6 @@ public abstract class Entity {
   // Getters:
   public Vector getPosition() { return position; }
   public String getName() { return genetics.getName(); }
-  public int getSize() { return genetics.getSize(); } //This getter is for code simplicity }
+  public int getSize() { return genetics.getSize(); } //This getter is for code simplicity
   public boolean isAlive() { return isAlive; }
 }

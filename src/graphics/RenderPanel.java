@@ -56,10 +56,15 @@ public class RenderPanel extends JPanel {
 	 * @param width Width in pixels.
 	 * @param height Height in pixels.
 	 * @param color Colour to render rectangle.
+	 * @param filled To draw the rectangle filled or not
 	 */
-	public void drawRect(int x, int y, int width, int height, Color color) {
+	public void drawRect(int x, int y, int width, int height, Color color, boolean filled) {
 		g2.setColor(color);
-		g2.fillRect(x, y, width, height);
+		if (filled) {
+			g2.fillRect(x, y, width, height);
+		} else {
+			g2.drawRect(x, y, width, height);
+		}
 	}
 
 	/**

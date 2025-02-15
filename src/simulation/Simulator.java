@@ -1,7 +1,6 @@
 package simulation;
 
 import java.util.ArrayList;
-
 import entities.generic.Entity;
 
 /**
@@ -12,7 +11,6 @@ import entities.generic.Entity;
  * @version 1.0
  */
 public class Simulator {
-  private int step = 0; // The current step of the simulation.
   private final Field field; // The field of the simulation.
   
   /*
@@ -32,19 +30,10 @@ public class Simulator {
   }
 
   /**
-   * @return All entities currently alive in the field.
-   */
-  public ArrayList<Entity> getEntities() {
-    return field.getEntities();
-  }
-
-  /**
    * Simulate a single step.
    */
   public void step() {
-    step++;
-
-    ArrayList<Entity> entities = getEntities();
+    ArrayList<Entity> entities = field.getAllEntities();
     
     for (Entity e : entities) {
       e.update(field, FIXED_DELTA_TIME);
@@ -53,5 +42,10 @@ public class Simulator {
 
     field.spawnNewEntities();
     field.removeDeadEntities();
+    field.updateQuadtree();
+  }
+
+  public Field getField() {
+    return field;
   }
 }

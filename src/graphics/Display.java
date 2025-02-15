@@ -13,12 +13,13 @@ import java.awt.*;
  */
 public class Display {
   private final RenderPanel renderPanel; // The panel to render to
+  private final JFrame display;
 
   /**
    * Constructor -- Create a new display with the specified screen width and height.
    */
   public Display(int screenWidth, int screenHeight) {
-    JFrame display = new JFrame("Window");
+    display = new JFrame("Window");
     renderPanel = new RenderPanel(screenWidth, screenHeight);
 
     display.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -54,13 +55,21 @@ public class Display {
 
   /**
    * Draw a rectangle at the specified position with the specified width, height, and color.
+   * @param filled draw a filled rectangle if true, outline only if false
    */
-  public void drawRectangle(int x, int y, int width, int height, Color color) {
-    renderPanel.drawRect(x, y, width, height, color);
+  public void drawRectangle(int x, int y, int width, int height, Color color, boolean filled) {
+    renderPanel.drawRect(x, y, width, height, color, filled);
   }
 
   /**
-   * Draw a equilateral triangle at the specified centre position with the specified radius and color.
+   * Draw a filled rectangle at the specified position with the specified width, height, and color.
+   */
+  public void drawRectangle(int x, int y, int width, int height, Color color) {
+    renderPanel.drawRect(x, y, width, height, color, true);
+  }
+
+  /**
+   * Draw an equilateral triangle at the specified centre position with the specified radius and color.
    */
   public void drawEqualTriangle(int centerX, int centerY, int radius, Color color) {
     renderPanel.drawEqualTriangle(centerX, centerY, radius, color);
