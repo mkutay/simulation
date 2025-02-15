@@ -21,6 +21,9 @@ public class Field {
   private final QuadTree quadtree;
   private final int quadtreeCapacity = 2; //How many entities each quadtree can store before dividing
 
+  private double timeOfDay = 0; //loops from 0 to 1
+  private final static double NIGHT_TIME = 0.5; //Time after this number up to 1 is nighttime, daytime otherwise.
+
   /**
    * Constructor that is used with the JUnit tests.
    */
@@ -129,5 +132,22 @@ public class Field {
   public void spawnNewEntities() {
     entities.addAll(entitiesToSpawn);
     entitiesToSpawn.clear();
+  }
+
+  /**
+   * Increments the time of day
+   * @param dayNightCycleRate the amount of time to pass per update
+   */
+  public void incrementTime(double dayNightCycleRate) {
+    timeOfDay += dayNightCycleRate;
+    if (timeOfDay >= 1) {timeOfDay = 0;}
+  }
+
+  public boolean isNight(){
+    return timeOfDay > NIGHT_TIME;
+  }
+
+  public double getTimeOfDay() {
+    return timeOfDay;
   }
 }

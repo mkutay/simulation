@@ -12,13 +12,19 @@ import entities.generic.Entity;
  */
 public class Simulator {
   private final Field field; // The field of the simulation.
-  
-  /*
+
+  /**
   * Delta time controls simulation speed, affects things like speed of
   * entities, rate of aging, food consumption etc.
   * Not very accurate, just used to fine tune the simulation feel.
   */
   private final static double FIXED_DELTA_TIME = 0.2;
+
+  /**
+   * How much to affect the day/night cycle per frame. Independent of delta time
+   */
+  private final static double DAY_NIGHT_CYCLE_RATE = 0.001;
+
 
   /**
    * Constructor for the simulator.
@@ -43,6 +49,7 @@ public class Simulator {
     field.spawnNewEntities();
     field.removeDeadEntities();
     field.updateQuadtree();
+    field.incrementTime(DAY_NIGHT_CYCLE_RATE);
   }
 
   public Field getField() {

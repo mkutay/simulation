@@ -34,6 +34,8 @@ public class Prey extends Animal {
     boolean isHungry = hungerController.isHungry();
     boolean isDyingOfHunger = hungerController.isDyingOfHunger(); // Extreme case for prey to prioritise food over fleeing from predators.
 
+    //if (!isHungry && field.isNight()) {return;}
+
     if (isHungry) hungerController.eat(nearbyEntities);
 
     if (!isDyingOfHunger) { // If not dying of hunger, attempt to flee from predators.

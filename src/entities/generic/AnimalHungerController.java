@@ -15,7 +15,7 @@ public class AnimalHungerController {
 
     public AnimalHungerController(Animal animal) {
         this.animal = animal;
-        foodLevel = 0.5; //Spawn with 50% food
+        foodLevel = 0.4; //Spawn with 40% food
     }
 
     /**
