@@ -20,7 +20,7 @@ public class Engine {
   private final Clock clock; // Clock to keep track of time
   private boolean running = false;
 
-  private final static boolean DRAW_QUADTREE = false; //draw the quadtree visualisation
+  private final static boolean DRAW_QUADTREE = false; // Draw the quadtree visualisation
 
   /**
    * 0 < scaleFactor < 1 => field is zoomed in
@@ -56,14 +56,16 @@ public class Engine {
       display.fill(Color.BLACK);
 
       ArrayList<Entity> entities = simulator.getField().getAllEntities();
-      //We draw the entities in order of oldest to youngest to prevent annoying overlap
+      // We draw the entities in order of oldest to youngest to prevent annoying overlap.
       for (int i = entities.size() - 1; i >= 0; i--) {
         Entity entity = entities.get(i);
         entity.draw(display, fieldScaleFactor);
       }
 
 
-      if (DRAW_QUADTREE){simulator.getField().getQuadtree().draw(display, fieldScaleFactor);} //debug tool
+      if (DRAW_QUADTREE) { // Debug tool to show the quadtree.
+        simulator.getField().getQuadtree().draw(display, fieldScaleFactor);
+      }
 
       display.update();
 

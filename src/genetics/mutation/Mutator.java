@@ -2,6 +2,9 @@ package genetics.mutation;
 
 /**
  * Responsible for mutating genetics.
+ * 
+ * @author Mehmet Kutay Bozkurt and Anas Ahmed
+ * @version 1.0
  */
 public class Mutator {
   /**

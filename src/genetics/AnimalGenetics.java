@@ -41,7 +41,6 @@ public class AnimalGenetics extends Genetics {
 
   /**
    * Breed with another animal to create a new animal with genetics in between the two parents.
-   * TODO: THIS IS A CRUDE IMPLEMENTATION -- NEEDS TO BE IMPROVED.
    * @param mate The other animal to breed with.
    * @return The genetics of the new animal.
    */

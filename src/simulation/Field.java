@@ -19,10 +19,10 @@ public class Field {
   private final ArrayList<Entity> entitiesToSpawn = new ArrayList<>(); // Buffer list for entities to spawn
 
   private final QuadTree quadtree;
-  private final int quadtreeCapacity = 2; //How many entities each quadtree can store before dividing
+  private final int quadtreeCapacity = 2; // How many entities each quadtree can store before dividing.
 
-  private double timeOfDay = 0; //loops from 0 to 1
-  private final static double NIGHT_TIME = 0.5; //Time after this number up to 1 is nighttime, daytime otherwise.
+  private double timeOfDay = 0; // Loops from 0 to 1
+  private final static double NIGHT_TIME = 0.5; // Time after this number up to 1 is "Night time", "Day time" otherwise.
 
   /**
    * Constructor that is used with the JUnit tests.
@@ -72,22 +72,28 @@ public class Field {
       || (pos.y() >= (double) height - padding);
   }
 
-  public void updateQuadtree(){
-    quadtree.clear(); //Reset the root quadtree
+  /**
+   * Updates the quadtree with the current entities in the field.
+   */
+  public void updateQuadtree() {
+    quadtree.clear(); // Reset the root quadtree.
     for (Entity e : entities) {
       quadtree.insert(e);
     }
   }
 
-  public QuadTree getQuadtree(){
+  /**
+   * @return The quadtree of the field.
+   */
+  public QuadTree getQuadtree() {
     return quadtree;
   }
 
   /**
    * Gets all the entities in a specified radius from a position in the field by querying the quadtree
-   * @param position the center coordinates of the query range
-   * @param queryRadius the radius of the query range
-   * @return a list of entities in the field in the specified query range
+   * @param position The center coordinates of the query range.
+   * @param queryRadius The radius of the query range.
+   * @return A list of entities in the field in the specified query range.
    */
   public ArrayList<Entity> queryQuadtree(Vector position, double queryRadius) {
     Circle queryRange = new Circle(position.x(), position.y(), queryRadius);
@@ -135,18 +141,24 @@ public class Field {
   }
 
   /**
-   * Increments the time of day
-   * @param dayNightCycleRate the amount of time to pass per update
+   * Increments the time of day.
+   * @param dayNightCycleRate the amount of time to pass per update.
    */
   public void incrementTime(double dayNightCycleRate) {
     timeOfDay += dayNightCycleRate;
     if (timeOfDay >= 1) {timeOfDay = 0;}
   }
 
-  public boolean isNight(){
+  /**
+   * @return True if it is night time, false otherwise.
+   */
+  public boolean isNight() {
     return timeOfDay > NIGHT_TIME;
   }
 
+  /**
+   * @return The current time of day.
+   */
   public double getTimeOfDay() {
     return timeOfDay;
   }

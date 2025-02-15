@@ -44,8 +44,8 @@ public abstract class Entity {
   }
 
   /**
-   * Search for entities in the search radius. Now optimised with a quadtree :)
-   * @param field the field that will be searched through
+   * Search for entities in the search radius, using a quadtree for optimisation.
+   * @param field The field that will be searched through.
    * @param searchRadius The radius to search for entities.
    * @return Returns all entities in the field in the radius, except itself.
    */
@@ -66,10 +66,15 @@ public abstract class Entity {
     }
   }
 
+  /**
+   * Get all entities of the same species from a list of entities.
+   * @param entities The list of entities to search through.
+   * @return A list of entities that are of the same species as this entity.
+   */
   protected List<Entity> getSameSpecies(List<Entity> entities) {
     return entities.stream()
-            .filter(e -> e.getName().equals(getName()))
-            .toList();
+      .filter(e -> e.getName().equals(getName()))
+      .toList();
   }
 
   /**

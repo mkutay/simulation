@@ -14,6 +14,7 @@ import util.Vector;
 import genetics.AnimalGenetics;
 import genetics.Gender;
 
+// TODO: Divide this test into multiple test classes for all the different controllers.
 class AnimalTest {
   private Animal animal;
   private AnimalGenetics genetics;

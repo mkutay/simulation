@@ -32,7 +32,7 @@ public class Predator extends Animal {
   protected void updateBehaviour(Field field, List<Entity> nearbyEntities, double deltaTime) {
     boolean isHungry = hungerController.isHungry();
 
-    //if (!isHungry && field.isNight()) {return;}
+    // if (!isHungry && field.isNight()) { return; }
 
     if (isHungry) hungerController.eat(nearbyEntities);
 
