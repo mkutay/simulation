@@ -162,7 +162,6 @@ public abstract class Animal extends Entity {
 
     foodLevel -= hungerDrainPerTick;
     foodLevel -= numberOfOffsprings / (numberOfOffsprings + 1 / Data.getAnimalBreedingCost()); // Food cost for breeding
-
     if (foodLevel <= 0) setDead();
   }
 
@@ -175,18 +174,19 @@ public abstract class Animal extends Entity {
     super.update(field, deltaTime);
     
     List<Entity> nearbyEntities = searchNearbyEntities(field.getEntities(), genetics.getSight());
-    handleOvercrowding(nearbyEntities);
     
     List<Animal> newEntities = breed(nearbyEntities);
     for (Animal entity : newEntities) {
       field.putInBounds(entity, entity.getSize());
       field.addEntity(entity);
     }
-    
-    handleHunger(deltaTime, newEntities.size());
-    updateBehaviour(field, nearbyEntities, deltaTime);
 
-    this.lastPosition = this.position;
+    handleOvercrowding(nearbyEntities);
+
+    handleHunger(deltaTime, newEntities.size());
+
+    this.lastPosition = this.position; // Get last position before moving
+    updateBehaviour(field, nearbyEntities, deltaTime);
   }
 
   /**
@@ -195,7 +195,7 @@ public abstract class Animal extends Entity {
    */
   @Override
   protected boolean canMultiply() {
-    return super.canMultiply() && hasEaten;
+    return super.canMultiply() && hasEaten && foodLevel >= 0.1;
   }
 
   /**

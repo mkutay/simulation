@@ -82,6 +82,7 @@ public class Prey extends Animal {
   @Override
   public void draw(Display display, double scaleFactor) {
     int size = (int) (getCurrentVisualSize() / scaleFactor);
+    size = Math.max(1, size);
     int x = (int) (position.x() / scaleFactor);
     int y = (int) (position.y() / scaleFactor);
     display.drawCircle(x, y, size, genetics.getColour());

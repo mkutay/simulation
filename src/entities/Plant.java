@@ -51,7 +51,7 @@ public class Plant extends Entity {
   public void update(Field field, double deltaTime) {
     if (!isAlive()) return;
     super.update(field, deltaTime);
-    
+
     List<Plant> newPlants = multiply();
     
     for (Plant plant : newPlants) {
@@ -70,6 +70,7 @@ public class Plant extends Entity {
   @Override
   public void draw(Display display, double scaleFactor) {
     int size = (int) (getCurrentVisualSize() / scaleFactor);
+    size = Math.max(2, size);
     int x = (int) (position.x() / scaleFactor);
     int y = (int) (position.y() / scaleFactor);
     display.drawEqualTriangle(x, y, size, genetics.getColour());

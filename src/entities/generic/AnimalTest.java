@@ -179,8 +179,8 @@ class AnimalTest {
     preys.add(new Prey(Data.getPreysData()[0].generateRandomGenetics(), initialPosition));
     preys.add(new Prey(Data.getPreysData()[0].generateRandomGenetics(), initialPosition));
     animal.eat(preys);
-    preys.removeFirst();
-    preys.removeFirst();
+    preys.remove(0);
+    preys.remove(0);
     preys.add(new Prey(Data.getPreysData()[0].generateRandomGenetics(), potentialMate.getPosition()));
     preys.add(new Prey(Data.getPreysData()[0].generateRandomGenetics(), potentialMate.getPosition()));
     potentialMate.eat(preys);

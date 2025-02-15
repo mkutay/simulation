@@ -1,7 +1,7 @@
 {
   "foodValueForAnimals": 0.8,
   "foodValueForPlants": 0.1,
-  "animalHungerDrain": 0.003,
+  "animalHungerDrain": 0.01,
   "animalBreedingCost": 0.1,
   "mutationFactor": 0.2,
   "entityAgeRate": 1,
@@ -73,8 +73,8 @@
       "size": [3, 6],
       "colour": [40, 240, 30],
       "maxOffspringSpawnDistance": [9, 20],
-      "overcrowdingThreshold": [3, 8],
-      "overcrowdingRadius": [6, 12]
+      "overcrowdingThreshold": [3, 9],
+      "overcrowdingRadius": [6, 20]
     }
   ]
 }
