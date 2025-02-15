@@ -9,6 +9,7 @@ import util.Utility;
 
 /**
  * Responsible for mutating genetics.
+ * TODO make animal and plant mutator classes instead, extends mutator
  */
 public class Mutator {
   /**
@@ -18,9 +19,7 @@ public class Mutator {
    * @return The mutated genetics.
    */
   public static PlantGenetics mutatePlantGenetics(PlantGenetics genetics) {
-    PlantData plantData = Arrays
-      .asList(Data.getPlantsData())
-      .stream()
+    PlantData plantData = Arrays.stream(Data.getPlantsData())
       .filter(pd -> pd.name.equals(genetics.getName()))
       .findFirst()
       .orElse(null);
@@ -44,13 +43,8 @@ public class Mutator {
   }
 
   public static AnimalGenetics mutateAnimalGenetics(AnimalGenetics genetics) {
-    List<AnimalData> animalDatas = new ArrayList<>();
-    for (AnimalData ad : Data.getPredatorsData()) {
-      animalDatas.add(ad);
-    }
-    for (AnimalData ad : Data.getPreysData()) {
-      animalDatas.add(ad);
-    }
+    List<AnimalData> animalDatas = new ArrayList<>(Arrays.asList(Data.getPredatorsData()));
+    animalDatas.addAll(Arrays.asList(Data.getPreysData()));
     AnimalData animalData = animalDatas
       .stream()
       .filter(ad -> ad.name.equals(genetics.getName()))
