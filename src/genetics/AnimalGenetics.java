@@ -2,6 +2,7 @@ package genetics;
 
 import java.awt.*;
 
+import genetics.mutation.AnimalMutator;
 import util.Utility;
 
 /**
@@ -40,15 +41,13 @@ public class AnimalGenetics extends Genetics {
 
   /**
    * Breed with another animal to create a new animal with genetics in between the two parents.
-   * TODO: THIS IS A CRUDE IMPLEMENTATION -- NEEDS TO BE IMPROVED. (yes lol - needs a new class for this)
-   * TODO: ADD MUTATION.
-   * TODO: Add a way to get the middle of the colour of the parents.
+   * TODO: THIS IS A CRUDE IMPLEMENTATION -- NEEDS TO BE IMPROVED.
    * @param mate The other animal to breed with.
    * @return The genetics of the new animal.
    */
   public AnimalGenetics breed(AnimalGenetics mate) {
     Gender gender = Math.random() < 0.5 ? this.getGender() : mate.getGender();
-    return Mutator.mutateAnimalGenetics(new AnimalGenetics(
+    return AnimalMutator.mutateAnimalGenetics(new AnimalGenetics(
       singleBreed(this.getMultiplyingRate(), mate.getMultiplyingRate()),
       singleBreed(this.getMaxLitterSize(), mate.getMaxLitterSize()),
       singleBreed(this.getMaxAge(), mate.getMaxAge()),

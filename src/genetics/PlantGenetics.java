@@ -1,5 +1,6 @@
 package genetics;
 
+import genetics.mutation.PlantMutator;
 import java.awt.Color;
 
 /**
@@ -25,7 +26,7 @@ public class PlantGenetics extends Genetics {
    * @return The genetics of the offspring.
    */
   public PlantGenetics getOffspringGenetics() {
-    return Mutator.mutatePlantGenetics(this);
+    return PlantMutator.mutatePlantGenetics(this);
   }
 
   // Getters:
