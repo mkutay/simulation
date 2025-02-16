@@ -18,9 +18,9 @@ public class Engine {
   private final Display display; // The GUI display
   private final Simulator simulator; // The simulation
   private final Clock clock; // Clock to keep track of time
-  private boolean running = false;
+  private boolean running = false; // Whether the simulation is running
 
-  private final static boolean DRAW_QUADTREE = false; // Draw the quadtree visualisation
+  private final static boolean DRAW_QUADTREE = false; // Should the quadtree visualisation be drawn
 
   /**
    * 0 < scaleFactor < 1 => field is zoomed in

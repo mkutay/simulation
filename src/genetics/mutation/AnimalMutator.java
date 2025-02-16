@@ -15,7 +15,7 @@ import java.util.List;
  * @author Mehmet Kutay Bozkurt and Anas Ahmed
  * @version 1.0
  */
-public class AnimalMutator extends Mutator{
+public class AnimalMutator extends Mutator {
   /**
    * Mutate the given animal genetics.
    * @implNote Creates a new object, instead of mutating the given one.

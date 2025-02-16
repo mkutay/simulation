@@ -1,5 +1,4 @@
 package util;
-import java.util.List;
 
 /**
  * A record that represents a 2D vector with two double values.
@@ -95,14 +94,5 @@ public record Vector(double x, double y) {
    */
   public static Vector getRandomVector() {
     return new Vector(Math.random() * 2 - 1, Math.random() * 2 - 1);
-  }
-
-  /**
-   * Add a list of vectors together.
-   */
-  public static Vector addVectors(List<Vector> vectors) {
-    Vector returnVector = new Vector(0, 0);
-    vectors.forEach(returnVector::add);
-    return returnVector;
   }
 }

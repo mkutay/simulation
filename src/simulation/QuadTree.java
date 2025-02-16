@@ -27,15 +27,20 @@ public class QuadTree {
   private QuadTree bottomLeftTree;
   private QuadTree bottomRightTree;
 
-  public QuadTree(Rectangle rect, int maxCapacity){
+  /**
+   * Constructor -- Create a new quadtree with the given rectangle and max capacity.
+   * @param rect The rectangle defining the area this quadtree occupies.
+   * @param maxCapacity The maximum allowed number of entities to store.
+   */
+  public QuadTree(Rectangle rect, int maxCapacity) {
     this.rect = rect;
     capacity = maxCapacity;
     entities = new Entity[capacity];
   }
 
   /**
-   * Clears all data stored in the quadtree
-   * Used to re-add entities every update
+   * Clears all data stored in the quadtree.
+   * Used to re-add entities every update.
    */
   public void clear() {
     for (int i = 0; i < currentCapacity; i++) {
@@ -53,10 +58,10 @@ public class QuadTree {
    * Subdivide this quadtree into 4 children quadtrees.
    */
   public void subdivide() {
-    Rectangle topLeft = new Rectangle(rect.x, rect.y, rect.w / 2, rect.h / 2);
-    Rectangle topRight = new Rectangle(rect.x + rect.w / 2, rect.y, rect.w / 2, rect.h / 2);
-    Rectangle bottomLeft = new Rectangle(rect.x, rect.y + rect.h / 2, rect.w / 2, rect.h / 2);
-    Rectangle bottomRight = new Rectangle(rect.x + rect.w / 2, rect.y + rect.h / 2, rect.w / 2, rect.h / 2);
+    Rectangle topLeft = new Rectangle(rect.x(), rect.y(), rect.w() / 2, rect.h() / 2);
+    Rectangle topRight = new Rectangle(rect.x() + rect.w() / 2, rect.y(), rect.w() / 2, rect.h() / 2);
+    Rectangle bottomLeft = new Rectangle(rect.x(), rect.y() + rect.h() / 2, rect.w() / 2, rect.h() / 2);
+    Rectangle bottomRight = new Rectangle(rect.x() + rect.w() / 2, rect.y() + rect.h() / 2, rect.w() / 2, rect.h() / 2);
 
     topLeftTree = new QuadTree(topLeft, capacity);
     topRightTree = new QuadTree(topRight, capacity);
@@ -66,10 +71,10 @@ public class QuadTree {
   }
 
   /**
-   * Add an entity to this quadtree, or a child quadtree if there exists any
-   * @param entity the entity to add to the quadtree/child quadtree
+   * Add an entity to this quadtree, or a child quadtree if there exists any.
+   * @param entity The entity to add to the quadtree or the child quadtree.
    */
-  public void insert(Entity entity){
+  public void insert(Entity entity) {
     if (rect.hasPoint(entity.getPosition())) {
       if (currentCapacity < capacity) {
         entities[currentCapacity] = entity;
@@ -90,7 +95,7 @@ public class QuadTree {
    * @param queryRange The range to query the quad tree.
    * @return A list of entities found in the given range.
    */
-  public ArrayList<Entity> query(Circle queryRange){
+  public ArrayList<Entity> query(Circle queryRange) {
     ArrayList<Entity> foundEntities = new ArrayList<>();
     queryInternal(queryRange, foundEntities);
     return foundEntities;
@@ -103,9 +108,7 @@ public class QuadTree {
    * @param foundEntities The list to add the found entities to.
    */
   private void queryInternal(Circle queryRange, ArrayList<Entity> foundEntities) {
-    if (!rect.intersects(queryRange)) {
-      return;
-    }
+    if (!rect.intersects(queryRange)) return;
 
     // Check entities stored in this node
     for (Entity entity : entities) {
@@ -115,25 +118,23 @@ public class QuadTree {
     }
 
     // Recursively query children
-    if (hasSubdivided) {
-      topLeftTree.queryInternal(queryRange, foundEntities);
-      topRightTree.queryInternal(queryRange, foundEntities);
-      bottomLeftTree.queryInternal(queryRange, foundEntities);
-      bottomRightTree.queryInternal(queryRange, foundEntities);
-    }
+    if (!hasSubdivided) return;
+    topLeftTree.queryInternal(queryRange, foundEntities);
+    topRightTree.queryInternal(queryRange, foundEntities);
+    bottomLeftTree.queryInternal(queryRange, foundEntities);
+    bottomRightTree.queryInternal(queryRange, foundEntities);
   }
 
   /**
    * Draws the quadtree.
-   * Used only for debug purposes, but it just looks really cool.
+   * Used only for debug purposes, but it also just looks really cool.
    */
   public void draw(Display display, double scale){
-    display.drawRectangle((int) (rect.x / scale), (int) (rect.y / scale), (int) (rect.w / scale), (int) (rect.h / scale), Color.GRAY, false);
-    if (hasSubdivided){
-      topLeftTree.draw(display, scale);
-      topRightTree.draw(display, scale);
-      bottomLeftTree.draw(display, scale);
-      bottomRightTree.draw(display, scale);
-    }
+    display.drawRectangle((int) (rect.x() / scale), (int) (rect.y() / scale), (int) (rect.w() / scale), (int) (rect.h() / scale), Color.GRAY, false);
+    if (!hasSubdivided) return;
+    topLeftTree.draw(display, scale);
+    topRightTree.draw(display, scale);
+    bottomLeftTree.draw(display, scale);
+    bottomRightTree.draw(display, scale);
   }
 }

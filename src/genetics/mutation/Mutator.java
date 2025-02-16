@@ -8,7 +8,7 @@ package genetics.mutation;
  */
 public class Mutator {
   /**
-   * Mutate a single value.
+   * Mutate a single value in double.
    * @param value The value to mutate.
    * @param interval The interval of the value (0th index is the minimum, 1st index is the maximum).
    * @param mutationRate The probability of mutation happening.
@@ -21,6 +21,14 @@ public class Mutator {
     return Math.max(interval[0], Math.min(interval[1], mutatedValue));
   }
 
+  /**
+   * Mutate a single value in int.
+   * @param value The value to mutate.
+   * @param interval The interval of the value (0th index is the minimum, 1st index is the maximum).
+   * @param mutationRate The probability of mutation happening.
+   * @param mutationFactor By how much the value can change in either direction.
+   * @return The mutated value.
+   */
   protected static int singleMutate(int value, int[] interval, double mutationRate, double mutationFactor) {
     if (Math.random() >= mutationRate) return value;
     int mutatedValue = (int) Math.round(value + value * mutationFactor * (Math.random() > 0.5 ? 1 : -1));

@@ -32,7 +32,7 @@ public abstract class Entity {
   /**
    * Check if the entity is colliding with another entity.
    * @param entity The entity to check collision with self.
-   * @return True if colliding with entity (uses circle hit box), false otherwise or if entitiy is this.
+   * @return True if colliding with entity (uses circle hit box), false otherwise or if entitiy is itself.
    */
   public boolean isColliding(Entity entity) {
     if (entity == null || entity == this) return false;

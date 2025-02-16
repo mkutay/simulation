@@ -32,13 +32,6 @@ public class AnimalGenetics extends Genetics {
     this.eats = eats;
   }
 
-  // Getters:
-  public int getMaxLitterSize() { return maxLitterSize; }
-  public double getMaxSpeed() { return maxSpeed; }
-  public double getSight() { return sight; }
-  public Gender getGender() { return gender; }
-  public String[] getEats() { return eats; }
-
   /**
    * Breed with another animal to create a new animal with genetics in between the two parents.
    * @param mate The other animal to breed with.
@@ -65,13 +58,34 @@ public class AnimalGenetics extends Genetics {
     ));
   }
 
+  /**
+   * Breeds a single genetic trait by combining two parent values using
+   * random interpolation (in double).
+   * @param value The genetic trait value from the first parent.
+   * @param mateValue The genetic trait value from the second parent.
+   * @return A new genetic trait value that is a random weighted average of the parents' values.
+   */
   private double singleBreed(double value, double mateValue) {
     double r = Math.random();
     return r * value + (1 - r) * mateValue;
   }
 
+  /**
+   * Breeds a single genetic trait by combining two parent values using
+   * random interpolation (in int).
+   * @param value The genetic trait value from the first parent.
+   * @param mateValue The genetic trait value from the second parent.
+   * @return A new genetic trait value that is a random weighted average of the parents' values.
+   */
   private int singleBreed(int value, int mateValue) {
     double r = Math.random();
     return (int) Math.round(r * value + (1 - r) * mateValue);
   }
+
+  // Getters:
+  public int getMaxLitterSize() { return maxLitterSize; }
+  public double getMaxSpeed() { return maxSpeed; }
+  public double getSight() { return sight; }
+  public Gender getGender() { return gender; }
+  public String[] getEats() { return eats; }
 }

@@ -13,6 +13,9 @@ public class Utility {
   public static final double EPSILON = 1e-4; // Epsilon value for floating point comparisons
   private static final Random rand = new Random();
 
+  /**
+   * Linear interpolation
+   */
   public static double lerp(double a, double b, double t) {
     return a + t * (b - a);
   }
@@ -43,12 +46,18 @@ public class Utility {
    */
   private static int mutateChannel(int value, double mutationRate, double mutationFactor) {
     if (Math.random() >= mutationRate) return value; // No mutation
-    // int range = (int) (mutationFactor * 255); // Max shift allowed
-    // int mutation = rand.nextInt(range * 2 + 1) - range; // Shift in both directions
     int mutation = (int) (value * mutationFactor * (rand.nextDouble() > 0.5 ? 1 : -1));
     return Math.max(0, Math.min(255, value + mutation)); // Clamp between 0 and 255
   }
 
+  /**
+   * Generates a new colour by breeding two parent colours.
+   * For each RGB component, randomly takes a weighted average
+   * between the corresponding components of the parent colours.
+   * @param animal The first parent colour.
+   * @param mate The second parent colour.
+   * @return A new Color object representing the offspring colour.
+   */
   public static Color breedColor(Color animal, Color mate) {
     double r = Math.random();
     int red = (int) Math.round(r * animal.getRed() + (1 - r) * mate.getRed());

@@ -76,7 +76,8 @@ public class Prey extends Animal {
 
   /**
    * Create a new prey entity with the given genetics and location.
-   * Used for reproduction in the Animal class.
+   * Used for reproduction in the Animal class. Used to avoid code 
+   * duplication.
    */
   @Override
   protected Animal createOffspring(AnimalGenetics genetics, Vector position) {

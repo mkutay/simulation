@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import util.Vector;
 import entities.generic.Entity;
+import simulation.simulationData.Data;
 
 /**
  * The field class is used to store all entities in the simulation.
@@ -18,11 +19,10 @@ public class Field {
   private final ArrayList<Entity> entities; // List of all entities in the field
   private final ArrayList<Entity> entitiesToSpawn = new ArrayList<>(); // Buffer list for entities to spawn
 
-  private final QuadTree quadtree;
-  private final int quadtreeCapacity = 2; // How many entities each quadtree can store before dividing.
+  private final QuadTree quadtree; // Quadtree for optimising entity search
+  private final int quadtreeCapacity = 2; // How many entities each quadtree can store before dividing
 
   private double timeOfDay = 0; // Loops from 0 to 1
-  private final static double NIGHT_TIME = 0.5; // Time after this number up to 1 is "Night time", "Day time" otherwise.
 
   /**
    * Constructor that is used with the JUnit tests.
@@ -96,7 +96,7 @@ public class Field {
    * @return A list of entities in the field in the specified query range.
    */
   public ArrayList<Entity> queryQuadtree(Vector position, double queryRadius) {
-    Circle queryRange = new Circle(position.x(), position.y(), queryRadius);
+    Circle queryRange = new Circle(position, queryRadius);
     return quadtree.query(queryRange);
   }
 
@@ -146,14 +146,14 @@ public class Field {
    */
   public void incrementTime(double dayNightCycleRate) {
     timeOfDay += dayNightCycleRate;
-    if (timeOfDay >= 1) {timeOfDay = 0;}
+    if (timeOfDay >= 1) timeOfDay = 0;
   }
 
   /**
    * @return True if it is night time, false otherwise.
    */
   public boolean isNight() {
-    return timeOfDay > NIGHT_TIME;
+    return timeOfDay > Data.getNightTime();
   }
 
   /**

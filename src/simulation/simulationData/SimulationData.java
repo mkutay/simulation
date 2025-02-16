@@ -13,4 +13,6 @@ public class SimulationData {
   public double mutationFactor; // The ratio that the genetics will mutate by
   public double entityAgeRate; // Controls how fast the entities age
   public double breedingRadiusFactorToSight; // Factor to sight that creates the radius for breeding
+
+  public double nightTime; // Time after this number up to 1 is "Night time", "Day time" otherwise.
 }

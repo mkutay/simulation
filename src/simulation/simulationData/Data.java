@@ -25,4 +25,5 @@ public class Data {
   public static double getMutationFactor() { return simulationData.mutationFactor; }
   public static double getEntityAgeRate() { return simulationData.entityAgeRate; }
   public static double getBreedingRadiusFactorToSight() { return simulationData.breedingRadiusFactorToSight; }
+  public static double getNightTime() { return simulationData.nightTime; }
 }

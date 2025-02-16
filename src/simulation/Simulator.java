@@ -21,7 +21,7 @@ public class Simulator {
   private final static double FIXED_DELTA_TIME = 0.2;
 
   /**
-   * How much to affect the day/night cycle per frame. Independent of delta time
+   * How much to affect the day/night cycle per frame. Independent of delta time.
    */
   private final static double DAY_NIGHT_CYCLE_RATE = 0.001;
 
@@ -52,6 +52,10 @@ public class Simulator {
     field.incrementTime(DAY_NIGHT_CYCLE_RATE);
   }
 
+  /**
+   * Get the field of the simulator.
+   * @return The field of the simulator.
+   */
   public Field getField() {
     return field;
   }
