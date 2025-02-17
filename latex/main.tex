@@ -4,6 +4,7 @@
 \usepackage{changepage}
 \usepackage{multicol}
 \usepackage{paralist}
+\usepackage{listings}
 \usepackage[lmargin=0.9in, rmargin=0.9in, tmargin=1in, bmargin=1.3in]{geometry}
 
 \setkomafont{disposition}{\normalfont\bfseries}
@@ -63,10 +64,11 @@ The simulation is designed to simulate without any grid-based restrictions, allo
 continuous space. Specifically, the coordinates of the entities are stored as doubles from zero to the width and height
 of the field.
 
-\noindent The simulation smoothly runs at 60 frames per second by utilising a \verb|QuadTree| for entity searching and
-collision detection. In each simulation "step," every entity is "updated" by calling its \verb|update()| method, which
-handles movement, reproduction, and hunger. Entities make decisions based on other entities in their vicinity
-(that is, located inside their \verb|sightRadius|) and the current state of the environment. Additionally, there is a
+\noindent The simulation smoothly runs at 60 frames per second by utilising a \verb|QuadTree| for storing entities, which
+allows the entity searching and collision detection to be highly optimised. Additionally, in each simulation "step,"
+every entity is "updated" by calling its \verb|update()| method, which handles movement, reproduction, and hunger.
+Entities make decisions based on other entities in their vicinity (that is, entities that are located inside their
+\verb|sight| radius) and the current state of the environment. Additionally, there is a
 method to handle overcrowding in the simulation, for limiting the exponentioal growth of entities.
 
 \section{Tasks Lists and Implementation Details}
@@ -75,7 +77,33 @@ method to handle overcrowding in the simulation, for limiting the exponentioal g
 
   \noindent \textbf{Diverse Species:} With how the simulation is implemented, adding new species is as easy as adding 
   the species' behavioural data into a JSON file. Each entity species can be of type \verb|Prey|, \verb|Predator|,
-  or \verb|Plant|.
+  or \verb|Plant|, and the data is added accordingly. For example, for the predator \verb|Fox|, the following definitions
+  is used:
+  \begin{verbatim}
+{
+  "name": "Fox",
+  "multiplyingRate": [0.05, 0.15],
+  "maxLitterSize": [1, 4],
+  "maxAge": [80, 120],
+  "matureAge": [40, 40],
+  "mutationRate": [0.01, 0.05],
+  "maxSpeed": [4, 6.5],
+  "sight": [30, 50],
+  "numberOfEntitiesAtStart": 12,
+  "eats": ["Rabbit"],
+  "size": [3, 6],
+  "colour": [230, 20, 40],
+  "overcrowdingThreshold": [8, 25],
+  "overcrowdingRadius": [10, 15],
+  "maxOffspringSpawnDistance": [3, 5]
+}
+  \end{verbatim}
+  \noindent The values that are arrays that contain two values (such as \verb|sight|, \verb|size|, or \verb|maxSpeed|)
+  are the minimum and the maximum values that the entity can have for that genetic trait. The values that are not
+  arrays are the fixed values for that genetic trait. In addition, these values can mutate when the entity breeds
+  (for animals) or multiplies (for plants). 
+
+
   
   \noindent \textbf{Two Predators Competes for the Same Food Source:}
   Since it is easy to add multiple species of predators, currently there are two predators, \verb|Wolf| and \verb|Fox|,

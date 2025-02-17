@@ -5,6 +5,8 @@ import java.util.List;
 import util.Vector;
 import genetics.AnimalGenetics;
 import simulation.Field;
+import simulation.Weather;
+import simulation.simulationData.Data;
 
 /**
  * Abstract class for all animals in the simulation.
@@ -58,9 +60,23 @@ public abstract class Animal extends Entity {
 
     hungerController.handleHunger(deltaTime, newEntities.size());
 
-    movementController.setLastPosition(position); // Update last position before moving.
+    if (field.environment.getWeather() == Weather.WINDY || field.environment.getWeather() == Weather.STORM) {
+      Vector windVector = field.environment.getWindVector().multiply(Data.getWindStrength());
+      setPosition(position.add(windVector));
+    }
+
+    Vector lastPosition = position;
+    movementController.setLastPosition(lastPosition); // Update last position before moving.
     behaviourController.updateBehaviour(field, nearbyEntities, deltaTime);
+
+    if (field.environment.getWeather() == Weather.STORM) {
+      Vector differenceVector = position.subtract(lastPosition);
+      double speed = differenceVector.getMagnitude();
+      speed *= Data.getStormMovementSpeedFactor();
+      setPosition(lastPosition.add(differenceVector.multiply(speed)));
+    }
   }
+
   /**
    * Used to generate an offspring of the animal after breeding.
    * @return A new Animal with the specified genetics and spawn position.

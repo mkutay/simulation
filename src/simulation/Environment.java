@@ -14,7 +14,7 @@ import util.Vector;
  * STORM - Animals move slower + Windy effects
  */
 public class Environment {
-    //Daytime is 8am to 8pm
+    // Daytime is 8 AM to 8 PM.
     private int lastUpdateDay = 1;
     private int day = 1;
     private double timeOfDay = 0.3333; // Loops from 0 to 1. 1/3 is 8am (day time start)
@@ -29,10 +29,15 @@ public class Environment {
      * Sets the current weather to be a random weather (that isn't the same as the previous weather)
      */
     private void setRandomWeather() {
-        List<Weather> weathers = new ArrayList<>(Arrays.asList(Weather.values()));
-        weathers.remove(weather); //Ensure that the new weather won't be the same one
-        int randomIndex = (int) (Math.random() * weathers.size());
-        weather = weathers.get(randomIndex);
+        // List<Weather> weathers = new ArrayList<>(Arrays.asList(Weather.values()));
+        // weathers.remove(weather); //Ensure that the new weather won't be the same one
+        // int randomIndex = (int) (Math.random() * weathers.size());
+        // weather = weathers.get(randomIndex);
+        if (weather == null) {
+            weather = Weather.CLEAR;
+        } else {
+            weather = Weather.STORM;
+        }
     }
 
     /**
@@ -93,5 +98,4 @@ public class Environment {
     public Vector getWindVector() {
         return Vector.getVectorFromAngle(windDirection);
     }
-
 }

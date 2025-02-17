@@ -9,6 +9,8 @@
   "doDayNightCycle" : true,
   "doWeatherCycle" : true,
   "weatherChangeProbability" : 1,
+  "windStrength": 0.15,
+  "stormMovementSpeedFactor": 0.4,
   "predatorsData": [
     {
       "name": "Fox",

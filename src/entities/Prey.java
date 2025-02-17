@@ -3,11 +3,7 @@ package entities;
 import entities.generic.*;
 import genetics.AnimalGenetics;
 import graphics.Display;
-import simulation.Field;
 import util.Vector;
-
-import java.util.List;
-import java.util.function.Predicate;
 
 /**
  * An arbitrary prey entity that moves around randomly and can reproduce.

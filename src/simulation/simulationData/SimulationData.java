@@ -16,4 +16,6 @@ public class SimulationData {
   public boolean doDayNightCycle;
   public boolean doWeatherCycle;
   public double weatherChangeProbability;
+  public double windStrength;
+  public double stormMovementSpeedFactor;
 }

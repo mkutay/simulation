@@ -28,4 +28,6 @@ public class Data {
   public static boolean getDoDayNightCycle() { return simulationData.doDayNightCycle; }
   public static boolean getDoWeatherCycle() { return simulationData.doWeatherCycle; }
   public static double getWeatherChangeProbability() { return simulationData.weatherChangeProbability; }
+  public static double getWindStrength() { return simulationData.windStrength; }
+  public static double getStormMovementSpeedFactor() { return simulationData.stormMovementSpeedFactor; }
 }
