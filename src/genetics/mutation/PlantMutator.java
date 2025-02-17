@@ -29,20 +29,20 @@ public class PlantMutator extends Mutator {
     if (plantData == null) return null;
     
     double mutationRate = genetics.getMutationRate();
-    double mutationFactor = Data.getMutationFactor();
 
     return new PlantGenetics(
-      singleMutate(genetics.getMaxAge(), plantData.maxAge, mutationRate, mutationFactor),
-      singleMutate(genetics.getMatureAge(), plantData.matureAge, mutationRate, mutationFactor),
-      singleMutate(genetics.getMultiplyingRate(), plantData.multiplyingRate, mutationRate, mutationFactor),
-      singleMutate(genetics.getSize(), plantData.size, mutationRate, mutationFactor),
+      singleMutate(genetics.getMaxAge(), plantData.maxAge, mutationRate),
+      singleMutate(genetics.getMatureAge(), plantData.matureAge, mutationRate),
+      singleMutate(genetics.getMultiplyingRate(), plantData.multiplyingRate, mutationRate),
+      singleMutate(genetics.getSize(), plantData.size, mutationRate),
       genetics.getName(),
-      Utility.mutateColor(genetics.getColour(), mutationRate, mutationFactor),
-      singleMutate(genetics.getNumberOfSeeds(), plantData.numberOfSeeds, mutationRate, mutationFactor),
-      singleMutate(genetics.getMaxOffspringSpawnDistance(), plantData.maxOffspringSpawnDistance, mutationRate, mutationFactor),
-      singleMutate(genetics.getOvercrowdingThreshold(), plantData.overcrowdingThreshold, mutationRate, mutationFactor),
-      singleMutate(genetics.getOvercrowdingRadius(), plantData.overcrowdingRadius, mutationRate, mutationFactor),
-      singleMutate(genetics.getMutationRate(), plantData.mutationRate, mutationRate, mutationFactor)
+      Utility.mutateColor(genetics.getColour(), mutationRate),
+      singleMutate(genetics.getNumberOfSeeds(), plantData.numberOfSeeds, mutationRate),
+      singleMutate(genetics.getMaxOffspringSpawnDistance(), plantData.maxOffspringSpawnDistance, mutationRate),
+      singleMutate(genetics.getOvercrowdingThreshold(), plantData.overcrowdingThreshold, mutationRate),
+      singleMutate(genetics.getOvercrowdingRadius(), plantData.overcrowdingRadius, mutationRate),
+      singleMutate(genetics.getMutationRate(), plantData.mutationRate, mutationRate),
+      genetics.getRainingGrowthFactor()
     );
   }
 }

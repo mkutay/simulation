@@ -1,5 +1,7 @@
 package util;
 
+import simulation.simulationData.Data;
+
 import java.awt.*;
 import java.util.Random;
 
@@ -23,17 +25,16 @@ public class Utility {
   /**
    * Adds a random change in value to a colour
    * @param color the colour to mutate
-   * @param mutationFactor the amount to mutate the colour
    * @return the mutated colour
    */
-  public static Color mutateColor(Color color, double mutationRate, double mutationFactor) {
-    if (mutationFactor < 0 || mutationFactor > 1) {
+  public static Color mutateColor(Color color, double mutationRate) {
+    if (Data.getMutationFactor() < 0 || Data.getMutationFactor()> 1) {
       throw new IllegalArgumentException("mutationFactor must be between 0 and 1");
     }
 
-    int r = mutateChannel(color.getRed(), mutationRate, mutationFactor);
-    int g = mutateChannel(color.getGreen(), mutationRate, mutationFactor);
-    int b = mutateChannel(color.getBlue(), mutationRate, mutationFactor);
+    int r = mutateChannel(color.getRed(), mutationRate);
+    int g = mutateChannel(color.getGreen(), mutationRate);
+    int b = mutateChannel(color.getBlue(), mutationRate);
 
     return new Color(r, g, b);
   }
@@ -41,12 +42,11 @@ public class Utility {
   /**
    * Adjusts a single RGB value randomly
    * @param value the RGB value to mutate
-   * @param mutationFactor the amount to mutate the value by
    * @return the mutated value
    */
-  private static int mutateChannel(int value, double mutationRate, double mutationFactor) {
+  private static int mutateChannel(int value, double mutationRate) {
     if (Math.random() >= mutationRate) return value; // No mutation
-    int mutation = (int) (value * mutationFactor * (rand.nextDouble() > 0.5 ? 1 : -1));
+    int mutation = (int) (value * Data.getMutationFactor() * (rand.nextDouble() > 0.5 ? 1 : -1));
     return Math.max(0, Math.min(255, value + mutation)); // Clamp between 0 and 255
   }
 

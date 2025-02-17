@@ -14,4 +14,6 @@ public class SimulationData {
   public double entityAgeRate; // Controls how fast the entities age
   public double fieldScaleFactor;
   public boolean doDayNightCycle;
+  public boolean doWeatherCycle;
+  public double weatherChangeProbability;
 }

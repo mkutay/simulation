@@ -26,4 +26,6 @@ public class Data {
   public static double getEntityAgeRate() { return simulationData.entityAgeRate; }
   public static double getFieldScaleFactor() { return simulationData.fieldScaleFactor; }
   public static boolean getDoDayNightCycle() { return simulationData.doDayNightCycle; }
+  public static boolean getDoWeatherCycle() { return simulationData.doWeatherCycle; }
+  public static double getWeatherChangeProbability() { return simulationData.weatherChangeProbability; }
 }

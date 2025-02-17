@@ -7,6 +7,7 @@ import entities.generic.Entity;
 import genetics.PlantGenetics;
 import graphics.Display;
 import simulation.Field;
+import simulation.Weather;
 import util.Vector;
 
 /**
@@ -32,19 +33,24 @@ public class Plant extends Entity {
    * @return A list of new plants if the plant can multiply, empty list otherwise.
    */
   public List<Plant> multiply(Field field) {
-    if (!canMultiply() || Math.random() > genetics.getMultiplyingRate()) return Collections.emptyList();
+    //When raining, multiplication rate increases by a set factor in the genetics
+    double growthFactor = field.environment.getWeather() == Weather.RAINING ? genetics.getRainingGrowthFactor() : 1;
+    double multiplyingRate = Math.min(genetics.getMultiplyingRate() * growthFactor, 1);
 
-    if (!field.isDay()){  //If night, very low odds of multiplying
+    if (!(canMultiply() && Math.random() < multiplyingRate)) return Collections.emptyList();
+
+    if (!field.environment.isDay()){  //If night, very low odds of multiplying
       if (Math.random() > 0.3) {
         return Collections.emptyList();
       }
     }
 
-    int seeds = genetics.getNumberOfSeeds();
+    //Growth factor affects no. seeds and range of growth
+    int seeds = (int) (genetics.getNumberOfSeeds() * growthFactor);
 
     Plant[] newPlants = new Plant[seeds];
     for (int i = 0; i < seeds; i++) {
-      Vector seedPos = position.getRandomPointInRadius(genetics.getMaxOffspringSpawnDistance());
+      Vector seedPos = position.getRandomPointInRadius(genetics.getMaxOffspringSpawnDistance() + growthFactor - 1);
       newPlants[i] = new Plant(genetics.getOffspringGenetics(), seedPos);
     }
 

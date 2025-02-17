@@ -35,7 +35,7 @@ public class AnimalBehaviourController {
         }
 
         //If not hungry, its nighttime and no predator is nearby, sleep (do nothing)
-        if (!isHungry && !field.isDay()) { animal.isAsleep = true; return; }
+        if (!isHungry && !field.environment.isDay()) { animal.isAsleep = true; return; }
 
         boolean movingToFood = false;
         if (isHungry && !animal.isMovingToMate) { // If is hungry and not currently attempting to mate

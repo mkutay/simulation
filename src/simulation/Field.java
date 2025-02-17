@@ -21,8 +21,7 @@ public class Field {
   private final QuadTree quadtree; // Quadtree for optimising entity search
   private final int quadtreeCapacity = 2; // How many entities each quadtree can store before dividing
 
-  //Daytime is 8am to 8pm
-  private double timeOfDay = 0.3333; // Loops from 0 to 1. 1/3 is 8am (day time start)
+  public final Environment environment;
 
   /**
    * Constructor that is used with the JUnit tests.
@@ -30,6 +29,7 @@ public class Field {
   public Field(int width, int height) {
     this.width = width;
     this.height = height;
+    environment = new Environment();
     entities = new ArrayList<>();
     quadtree = new QuadTree(new Rectangle(0, 0, width, height), quadtreeCapacity);
   }
@@ -41,6 +41,7 @@ public class Field {
   public Field(FieldBuilder fieldBuilder) {
     this.width = fieldBuilder.getWidth();
     this.height = fieldBuilder.getHeight();
+    environment = new Environment();
     entities = fieldBuilder.getEntities();
     quadtree = new QuadTree(new Rectangle(0, 0, width, height), quadtreeCapacity);
   }
@@ -138,42 +139,5 @@ public class Field {
   public void spawnNewEntities() {
     entities.addAll(entitiesToSpawn);
     entitiesToSpawn.clear();
-  }
-
-  /**
-   * Increments the time of day.
-   * @param dayNightCycleRate the amount of time to pass per update.
-   */
-  public void incrementTime(double dayNightCycleRate) {
-    timeOfDay += dayNightCycleRate;
-    if (timeOfDay >= 1) timeOfDay = 0;
-  }
-
-  /**
-   * Daytime is any time from 8am to 8pm.
-   * @return true if the time is day
-   */
-  public boolean isDay(){
-    return timeOfDay <= 0.8333 && timeOfDay >= 0.3333;
-  }
-
-  /**
-   * Converts the time of day value from 0-1 to a 24-hour clock time
-   * @return the time of day in the 24-hour format HH:MM:SS
-   */
-  private String get24HourTime() {
-    double total_hours = timeOfDay * 24;
-    int hours = (int) total_hours;
-    int minutes = (int) ((total_hours - hours) * 60);
-    int seconds = (int) ((((total_hours - hours) * 60) - minutes) * 60);
-    return String.format("%02d:%02d:%02d", hours, minutes, seconds);
-  }
-
-  /**
-   * @return The time with some additional information to be displayed to the screen
-   */
-  public String getTimeFormatted(){
-    String isDay = isDay() ? "Day time" : "Night time";
-    return get24HourTime() + " | " + isDay;
   }
 }

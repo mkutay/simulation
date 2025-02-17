@@ -14,13 +14,13 @@ import util.Utility;
  */
 public class PlantData extends EntityData {
   public int[] numberOfSeeds; // Number of seeds produced by the plant -- when multiplied
-
+  public double rainingGrowthFactor;
   /**
    * @return A random set of genetics for a plant based on the data provided.
    */
   public PlantGenetics generateRandomGenetics() {
     Color convertedColour = new Color(this.colour[0], this.colour[1], this.colour[2]); // Convert rgRGB data to java.swing.Color
-    Color mutatedColour = Utility.mutateColor(convertedColour, 1, Data.getMutationFactor()); // Change the colour slightly
+    Color mutatedColour = Utility.mutateColor(convertedColour, 1); // Change the colour slightly
     
     return new PlantGenetics(
       generateRandomNumberBetween(maxAge[0], maxAge[1]),
@@ -33,7 +33,8 @@ public class PlantData extends EntityData {
       generateRandomNumberBetween(maxOffspringSpawnDistance[0], maxOffspringSpawnDistance[1]),
       generateRandomNumberBetween(overcrowdingThreshold[0], overcrowdingThreshold[1]),
       generateRandomNumberBetween(overcrowdingRadius[0], overcrowdingRadius[1]),
-      generateRandomNumberBetween(mutationRate[0], mutationRate[1])
+      generateRandomNumberBetween(mutationRate[0], mutationRate[1]),
+      rainingGrowthFactor
     );
   }
 }

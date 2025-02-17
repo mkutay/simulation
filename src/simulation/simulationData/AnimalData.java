@@ -25,7 +25,7 @@ public class AnimalData extends EntityData{
    */
   public AnimalGenetics generateRandomGenetics() {
     Color convertedColour = new Color(this.colour[0], this.colour[1], this.colour[2]); // Convert RGB data to java.swing.Color
-    Color mutatedColour = Utility.mutateColor(convertedColour, 1, 0.1); // Change the colour slightly
+    Color mutatedColour = Utility.mutateColor(convertedColour, 1); // Change the colour slightly
     
     return new AnimalGenetics(
       generateRandomNumberBetween(multiplyingRate[0], multiplyingRate[1]),

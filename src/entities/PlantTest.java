@@ -34,7 +34,8 @@ class PlantTest {
       genetics.getMaxOffspringSpawnDistance(),
       genetics.getOvercrowdingThreshold(),
       genetics.getOvercrowdingRadius(),
-      genetics.getMutationRate()
+      genetics.getMutationRate(),
+      genetics.getRainingGrowthFactor()
     );
     Plant plant = new Plant(maxSpawnRateGenetics, new Vector(50, 50));
     plant.setAge(maxSpawnRateGenetics.getMatureAge() + 1);
@@ -56,7 +57,8 @@ class PlantTest {
       genetics.getMaxOffspringSpawnDistance(),
       genetics.getOvercrowdingThreshold(),
       genetics.getOvercrowdingRadius(),
-      genetics.getMutationRate()
+      genetics.getMutationRate(),
+      genetics.getRainingGrowthFactor()
     );
     Plant plant = new Plant(minSpawnRateGenetics, new Vector(50, 50));
     plant.setAge(minSpawnRateGenetics.getMatureAge() + 1);
@@ -89,7 +91,8 @@ class PlantTest {
       genetics.getMaxOffspringSpawnDistance(),
       genetics.getOvercrowdingThreshold(),
       genetics.getOvercrowdingRadius(),
-      genetics.getMutationRate()
+      genetics.getMutationRate(),
+      genetics.getRainingGrowthFactor()
     );
     Plant plant = new Plant(zeroSeedGenetics, new Vector(50, 50));
     plant.setAge(zeroSeedGenetics.getMatureAge() + 1);
@@ -110,7 +113,8 @@ class PlantTest {
       genetics.getMaxOffspringSpawnDistance(),
       genetics.getOvercrowdingThreshold(),
       genetics.getOvercrowdingRadius(),
-      genetics.getMutationRate()
+      genetics.getMutationRate(),
+      genetics.getRainingGrowthFactor()
     );
     Plant plant = new Plant(maxSpawnRateGenetics, new Vector(50, 50));
     plant.setAge(genetics.getMaxAge() + 1);
@@ -131,7 +135,8 @@ class PlantTest {
       10.0d,
       genetics.getOvercrowdingThreshold(),
       genetics.getOvercrowdingRadius(),
-      genetics.getMutationRate()
+      genetics.getMutationRate(),
+      genetics.getRainingGrowthFactor()
     );
     Plant plant = new Plant(spawnDistGenetics, new Vector(50, 50));
     plant.setAge(spawnDistGenetics.getMatureAge() + 1);

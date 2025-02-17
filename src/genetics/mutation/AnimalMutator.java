@@ -37,21 +37,21 @@ public class AnimalMutator extends Mutator {
     double mutationFactor = Data.getMutationFactor();
 
     return new AnimalGenetics(
-      singleMutate(genetics.getMultiplyingRate(), animalData.multiplyingRate, mutationRate, mutationFactor),
-      singleMutate(genetics.getMaxLitterSize(), animalData.maxLitterSize, mutationRate, mutationFactor),
-      singleMutate(genetics.getMaxAge(), animalData.maxAge, mutationRate, mutationFactor),
-      singleMutate(genetics.getMatureAge(), animalData.matureAge, mutationRate, mutationFactor),
-      singleMutate(genetics.getMutationRate(), animalData.mutationRate, mutationRate, mutationFactor),
-      singleMutate(genetics.getMaxSpeed(), animalData.maxSpeed, mutationRate, mutationFactor),
-      singleMutate(genetics.getSight(), animalData.sight, mutationRate, mutationFactor),
+      singleMutate(genetics.getMultiplyingRate(), animalData.multiplyingRate, mutationRate),
+      singleMutate(genetics.getMaxLitterSize(), animalData.maxLitterSize, mutationRate),
+      singleMutate(genetics.getMaxAge(), animalData.maxAge, mutationRate),
+      singleMutate(genetics.getMatureAge(), animalData.matureAge, mutationRate),
+      singleMutate(genetics.getMutationRate(), animalData.mutationRate, mutationRate),
+      singleMutate(genetics.getMaxSpeed(), animalData.maxSpeed, mutationRate),
+      singleMutate(genetics.getSight(), animalData.sight, mutationRate),
       genetics.getGender(),
-      singleMutate(genetics.getSize(), animalData.size, mutationRate, mutationFactor),
+      singleMutate(genetics.getSize(), animalData.size, mutationRate),
       genetics.getEats(),
       genetics.getName(),
-      Utility.mutateColor(genetics.getColour(), mutationRate, mutationFactor),
-      singleMutate(genetics.getOvercrowdingThreshold(), animalData.overcrowdingThreshold, mutationRate, mutationFactor),
-      singleMutate(genetics.getOvercrowdingRadius(), animalData.overcrowdingRadius, mutationRate, mutationFactor),
-      singleMutate(genetics.getMaxOffspringSpawnDistance(), animalData.maxOffspringSpawnDistance, mutationRate, mutationFactor)
+      Utility.mutateColor(genetics.getColour(), mutationRate),
+      singleMutate(genetics.getOvercrowdingThreshold(), animalData.overcrowdingThreshold, mutationRate),
+      singleMutate(genetics.getOvercrowdingRadius(), animalData.overcrowdingRadius, mutationRate),
+      singleMutate(genetics.getMaxOffspringSpawnDistance(), animalData.maxOffspringSpawnDistance, mutationRate)
     );
   }
 }

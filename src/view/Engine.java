@@ -68,9 +68,17 @@ public class Engine {
       }
 
       drawTimeText();
+      drawWeatherText();
 
       display.update();
       clock.tick();
+    }
+  }
+
+  private void drawWeatherText() {
+    if (Data.getDoWeatherCycle()) {
+      String weather = simulator.getField().environment.getWeather().toString();
+      display.drawText(weather, 20, 5, 40, Color.WHITE);
     }
   }
 
@@ -79,7 +87,7 @@ public class Engine {
    */
   private void drawTimeText() {
     if (Data.getDoDayNightCycle()) {
-      String time = simulator.getField().getTimeFormatted();
+      String time = simulator.getField().environment.getTimeFormatted();
       display.drawText(time, 20, 5, 20, Color.WHITE);
     }
   }

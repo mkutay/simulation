@@ -11,13 +11,15 @@ import java.awt.Color;
  */
 public class PlantGenetics extends Genetics {
   private final int numberOfSeeds; // Number of seeds produced by the plant, when multiplying.
+  private final double rainingGrowthFactor;
 
   /**
    * Constructor -- Creates a new set of genetics for a plant.
    */
-  public PlantGenetics(int maxAge, int matureAge, double multiplyingRate, int size, String name, Color colour, int numberOfSeeds, double maxOffspringSpawnDistance, int overcrowdingThreshold, double overcrowdingRadius, double mutationRate) {
+  public PlantGenetics(int maxAge, int matureAge, double multiplyingRate, int size, String name, Color colour, int numberOfSeeds, double maxOffspringSpawnDistance, int overcrowdingThreshold, double overcrowdingRadius, double mutationRate, double rainingGrowthFactor) {
     super(maxAge, matureAge, multiplyingRate, size, name, colour, overcrowdingThreshold, overcrowdingRadius, maxOffspringSpawnDistance, mutationRate);
     this.numberOfSeeds = numberOfSeeds;
+    this.rainingGrowthFactor = rainingGrowthFactor;
   }
 
   /**
@@ -31,4 +33,5 @@ public class PlantGenetics extends Genetics {
 
   // Getters:
   public int getNumberOfSeeds() { return numberOfSeeds; }
+  public double getRainingGrowthFactor() {return rainingGrowthFactor; }
 }

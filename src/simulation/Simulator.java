@@ -52,7 +52,11 @@ public class Simulator {
     field.updateQuadtree();
 
     if (Data.getDoDayNightCycle()){
-      field.incrementTime(DAY_NIGHT_CYCLE_RATE);
+      field.environment.incrementTime(DAY_NIGHT_CYCLE_RATE);
+    }
+
+    if (Data.getDoWeatherCycle()){
+      field.environment.updateWeather();
     }
 
   }
