@@ -2,6 +2,7 @@ package simulation;
 
 import java.util.ArrayList;
 import entities.generic.Entity;
+import simulation.simulationData.Data;
 
 /**
  * Holds all the simulation information and is used to step through the simulation.
@@ -49,7 +50,11 @@ public class Simulator {
     field.spawnNewEntities();
     field.removeDeadEntities();
     field.updateQuadtree();
-    field.incrementTime(DAY_NIGHT_CYCLE_RATE);
+
+    if (Data.getDoDayNightCycle()){
+      field.incrementTime(DAY_NIGHT_CYCLE_RATE);
+    }
+
   }
 
   /**

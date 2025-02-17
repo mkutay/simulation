@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 import util.Vector;
 import entities.generic.Entity;
-import simulation.simulationData.Data;
 
 /**
  * The field class is used to store all entities in the simulation.
@@ -22,7 +21,8 @@ public class Field {
   private final QuadTree quadtree; // Quadtree for optimising entity search
   private final int quadtreeCapacity = 2; // How many entities each quadtree can store before dividing
 
-  private double timeOfDay = 0; // Loops from 0 to 1
+  //Daytime is 8am to 8pm
+  private double timeOfDay = 0.3333; // Loops from 0 to 1. 1/3 is 8am (day time start)
 
   /**
    * Constructor that is used with the JUnit tests.

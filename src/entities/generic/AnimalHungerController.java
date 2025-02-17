@@ -56,7 +56,7 @@ public class AnimalHungerController {
     double distanceTraveled = animal.movementController.getDistanceTravelled();
     double hungerDrainPerTick = Data.getAnimalHungerDrain() * distanceTraveled * deltaTime; // * genetics.getSight(); // TODO: Sight affects hunger drain as balancing system
 
-    foodLevel -= hungerDrainPerTick;
+    foodLevel -= hungerDrainPerTick * (animal.isAsleep ? 0.5 : 1); //If sleeping, consume 50% less food
     foodLevel -= numberOfOffsprings / (numberOfOffsprings + 1 / Data.getAnimalBreedingCost()); // Food cost for breeding
     if (foodLevel <= 0) animal.setDead();
   }

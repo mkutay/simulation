@@ -33,8 +33,7 @@ public class Prey extends Animal {
   protected void updateBehaviour(Field field, List<Entity> nearbyEntities, double deltaTime) {
     boolean isHungry = hungerController.isHungry();
     boolean isDyingOfHunger = hungerController.isDyingOfHunger(); // Extreme case for prey to prioritise food over fleeing from predators.
-
-    // if (!isHungry && field.isNight()) { return; }
+    isAsleep = false;
 
     if (isHungry) hungerController.eat(nearbyEntities);
 
@@ -48,6 +47,9 @@ public class Prey extends Animal {
         return; // Stop other behaviours from occurring
       }
     }
+
+    if (!isHungry && !field.isDay()) { isAsleep = true; return; } //If not hungry and its nighttime and no predator is nearby, sleep (do nothing)
+
 
     boolean movingToFood = false;
     if (isHungry && !this.isMovingToMate) { // If is hungry and not currently attempting to mate

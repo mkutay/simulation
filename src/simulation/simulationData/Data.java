@@ -24,4 +24,6 @@ public class Data {
   public static double getAnimalBreedingCost() { return simulationData.animalBreedingCost; }
   public static double getMutationFactor() { return simulationData.mutationFactor; }
   public static double getEntityAgeRate() { return simulationData.entityAgeRate; }
+  public static double getFieldScaleFactor() { return simulationData.fieldScaleFactor; }
+  public static boolean getDoDayNightCycle() { return simulationData.doDayNightCycle; }
 }

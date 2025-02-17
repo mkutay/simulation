@@ -31,8 +31,15 @@ public class Plant extends Entity {
    * genetics as the parent plant (may be mutated).
    * @return A list of new plants if the plant can multiply, empty list otherwise.
    */
-  public List<Plant> multiply() {
+  public List<Plant> multiply(Field field) {
     if (!canMultiply() || Math.random() > genetics.getMultiplyingRate()) return Collections.emptyList();
+
+    if (!field.isDay()){  //If night, very low odds of multiplying
+      if (Math.random() > 0.3) {
+        return Collections.emptyList();
+      }
+    }
+
     int seeds = genetics.getNumberOfSeeds();
 
     Plant[] newPlants = new Plant[seeds];
@@ -52,7 +59,7 @@ public class Plant extends Entity {
     if (!isAlive()) return;
     super.update(field, deltaTime);
 
-    List<Plant> newPlants = multiply();
+    List<Plant> newPlants = multiply(field);
     
     for (Plant plant : newPlants) {
       field.putInBounds(plant, plant.getSize());

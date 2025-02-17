@@ -3,6 +3,7 @@ package view;
 import entities.generic.Entity;
 import graphics.Display;
 import simulation.Simulator;
+import simulation.simulationData.Data;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -34,10 +35,9 @@ public class Engine {
    * @param displayWidth The width of the GUI display.
    * @param displayHeight The height of the GUI display.
    * @param fps FPS to run the simulation at.
-   * @param fieldScaleFactor The scale factor of the field.
    */
-  public Engine(int displayWidth, int displayHeight, int fps, double fieldScaleFactor) {
-    this.fieldScaleFactor = fieldScaleFactor;
+  public Engine(int displayWidth, int displayHeight, int fps) {
+    fieldScaleFactor = Data.getFieldScaleFactor();
     int fieldWidth = (int) (displayWidth * fieldScaleFactor);
     int fieldHeight = (int) (displayHeight * fieldScaleFactor);
 
@@ -67,11 +67,20 @@ public class Engine {
         simulator.getField().getQuadtree().draw(display, fieldScaleFactor);
       }
 
-      String time = simulator.getField().getTimeFormatted();
-      display.drawText(time, 20, 5, 20, Color.WHITE);
+      drawTimeText();
 
       display.update();
       clock.tick();
+    }
+  }
+
+  /**
+   * Renders text of the current time of day if the day/night cycle mode is enabled
+   */
+  private void drawTimeText() {
+    if (Data.getDoDayNightCycle()) {
+      String time = simulator.getField().getTimeFormatted();
+      display.drawText(time, 20, 5, 20, Color.WHITE);
     }
   }
 

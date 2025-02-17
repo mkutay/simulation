@@ -4,7 +4,9 @@
   "animalHungerDrain": 0.0035,
   "animalBreedingCost": 0.5,
   "mutationFactor": 0.2,
-  "entityAgeRate": 1,
+  "entityAgeRate": 0.5,
+  "fieldScaleFactor" : 0.5,
+  "doDayNightCycle" : true,
   "predatorsData": [
     {
       "name": "Fox",
@@ -66,8 +68,8 @@
       "mutationRate": [0.1, 0.12],
       "multiplyingRate": [0.3, 0.5],
       "numberOfSeeds": [2, 3],
-      "maxAge": [80, 120],
-      "matureAge": [20, 60],
+      "maxAge": [40, 60],
+      "matureAge": [30, 40],
       "numberOfEntitiesAtStart": 200,
       "size": [3, 6],
       "colour": [40, 240, 30],

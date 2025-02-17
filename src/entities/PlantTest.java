@@ -38,7 +38,7 @@ class PlantTest {
     );
     Plant plant = new Plant(maxSpawnRateGenetics, new Vector(50, 50));
     plant.setAge(maxSpawnRateGenetics.getMatureAge() + 1);
-    List<Plant> offspring = plant.multiply();
+    List<Plant> offspring = plant.multiply(field);
     assertFalse(offspring.isEmpty(), "Expected non-empty offspring list when plant can multiply.");
     assertEquals(genetics.getNumberOfSeeds(), offspring.size(), "Offspring should match genetics seed count.");
   }
@@ -60,7 +60,7 @@ class PlantTest {
     );
     Plant plant = new Plant(minSpawnRateGenetics, new Vector(50, 50));
     plant.setAge(minSpawnRateGenetics.getMatureAge() + 1);
-    List<Plant> offspring = plant.multiply();
+    List<Plant> offspring = plant.multiply(field);
     assertTrue(offspring.isEmpty(), "Expected empty offspring list when random chance fails.");
   }
 
@@ -72,7 +72,7 @@ class PlantTest {
         return false;
       }
     };
-    List<Plant> offspring = plant.multiply();
+    List<Plant> offspring = plant.multiply(field);
     assertTrue(offspring.isEmpty(), "Expected empty list when canMultiply() is false.");
   }
 
@@ -93,7 +93,7 @@ class PlantTest {
     );
     Plant plant = new Plant(zeroSeedGenetics, new Vector(50, 50));
     plant.setAge(zeroSeedGenetics.getMatureAge() + 1);
-    List<Plant> offspring = plant.multiply();
+    List<Plant> offspring = plant.multiply(field);
     assertTrue(offspring.isEmpty(), "Expected empty offspring list when number of seeds is zero.");
   }
 
@@ -114,7 +114,7 @@ class PlantTest {
     );
     Plant plant = new Plant(maxSpawnRateGenetics, new Vector(50, 50));
     plant.setAge(genetics.getMaxAge() + 1);
-    List<Plant> offspring = plant.multiply();
+    List<Plant> offspring = plant.multiply(field);
     assertTrue(offspring.isEmpty(), "Expected empty list when plant is beyond max age.");
   }
 
@@ -135,7 +135,7 @@ class PlantTest {
     );
     Plant plant = new Plant(spawnDistGenetics, new Vector(50, 50));
     plant.setAge(spawnDistGenetics.getMatureAge() + 1);
-    List<Plant> offspring = plant.multiply();
+    List<Plant> offspring = plant.multiply(field);
     assertEquals(3, offspring.size(), "Should create 3 offspring when allowed.");
     for (Plant child : offspring) {
       double distance = plant.getPosition().subtract(child.getPosition()).getMagnitude();

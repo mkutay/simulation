@@ -17,6 +17,7 @@ public abstract class Animal extends Entity {
   protected AnimalGenetics genetics; // Re-cast to AnimalGenetics
 
   protected boolean isMovingToMate = false; // Stores if the animal is currently attempting to mate
+  protected boolean isAsleep = false;
 
   protected final AnimalMovementController movementController; // Controller for moving the animal
   protected final AnimalBreedingController breedingController; // Controller for breeding the animal
@@ -42,7 +43,7 @@ public abstract class Animal extends Entity {
   public void update(Field field, double deltaTime) {
     if (!isAlive()) return;
     super.update(field, deltaTime);
-    
+
     List<Entity> nearbyEntities = searchNearbyEntities(field, genetics.getSight());
     
     List<Animal> newEntities = breedingController.breed(nearbyEntities);

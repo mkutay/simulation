@@ -32,14 +32,14 @@ public class Predator extends Animal {
   protected void updateBehaviour(Field field, List<Entity> nearbyEntities, double deltaTime) {
     boolean isHungry = hungerController.isHungry();
 
-    // if (!isHungry && field.isNight()) { return; }
-
     if (isHungry) hungerController.eat(nearbyEntities);
 
     boolean movingToFood = false;
     if (isHungry && !isMovingToMate) { // If is hungry and not currently attempting to mate.
       movingToFood = movementController.moveToNearestFood(nearbyEntities, deltaTime);
     }
+
+    if (!isHungry && !field.isDay()) { isAsleep = true; return; } //If not hungry and its nighttime, sleep (do nothing)
 
     if (!movingToFood) { // If not moving to food and not hungry, look for mate.
       isMovingToMate = movementController.moveToNearestMate(nearbyEntities, deltaTime);
