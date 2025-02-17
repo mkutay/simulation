@@ -103,6 +103,15 @@ public class RenderPanel extends JPanel {
 	}
 
 	/**
+	 * Draws a line segment from (x1,y1) to (x2,y2)
+	 * @param color the colour of the line
+	 */
+	public void drawLine(int x1, int y1, int x2, int y2, Color color) {
+		g2.setColor(color);
+		g2.drawLine(x1, y1, x2, y2);
+	}
+
+	/**
 	 * Called with every draw call, draws everything stored on the bufferedImage to the display.
 	 */
 	@Override

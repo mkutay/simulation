@@ -3,6 +3,7 @@ package view;
 import entities.generic.Entity;
 import graphics.Display;
 import simulation.Simulator;
+import simulation.Weather;
 import simulation.simulationData.Data;
 
 import java.awt.*;
@@ -67,18 +68,27 @@ public class Engine {
         simulator.getField().getQuadtree().draw(display, fieldScaleFactor);
       }
 
-      drawTimeText();
-      drawWeatherText();
+      if (Data.getDoDayNightCycle()) {
+        drawTimeText();
+      }
+
+      if (Data.getDoWeatherCycle()) {
+        drawWeatherText();
+      }
 
       display.update();
       clock.tick();
     }
   }
 
+
   private void drawWeatherText() {
-    if (Data.getDoWeatherCycle()) {
-      String weather = simulator.getField().environment.getWeather().toString();
-      display.drawText(weather, 20, 5, 40, Color.WHITE);
+    Weather weather = simulator.getField().environment.getWeather();
+    display.drawText(weather.toString(), 20, 5, 40, Color.WHITE);
+    if (weather == Weather.WINDY || weather == Weather.STORM) {
+      double windDirection = simulator.getField().environment.getWindDirection();
+      display.drawCircle(25, 70, 20, Color.BLACK);
+      display.drawArrow(25, 70, windDirection, 20, Color.WHITE);
     }
   }
 
@@ -86,10 +96,8 @@ public class Engine {
    * Renders text of the current time of day if the day/night cycle mode is enabled
    */
   private void drawTimeText() {
-    if (Data.getDoDayNightCycle()) {
-      String time = simulator.getField().environment.getTimeFormatted();
-      display.drawText(time, 20, 5, 20, Color.WHITE);
-    }
+    String time = simulator.getField().environment.getTimeFormatted();
+    display.drawText(time, 20, 5, 20, Color.WHITE);
   }
 
   /**

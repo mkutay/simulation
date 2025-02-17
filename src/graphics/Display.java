@@ -1,5 +1,7 @@
 package graphics;
 
+import util.Vector;
+
 import javax.swing.JFrame;
 import java.awt.*;
 
@@ -13,13 +15,12 @@ import java.awt.*;
  */
 public class Display {
   private final RenderPanel renderPanel; // The panel to render to
-  private final JFrame display;
 
-  /**
+    /**
    * Constructor -- Create a new display with the specified screen width and height.
    */
   public Display(int screenWidth, int screenHeight) {
-    display = new JFrame("Window");
+      JFrame display = new JFrame("Window");
     renderPanel = new RenderPanel(screenWidth, screenHeight);
 
     display.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -80,5 +81,31 @@ public class Display {
    */
   public void drawText(String text, int fontSize, int x, int y, Color color) {
     renderPanel.drawText(text, fontSize, x, y, color);
+  }
+
+
+  /**
+   * Draws a line segment from (x1,y1) in a direction by some distance
+   * @param color the colour of the line
+   */
+  public void drawLine(int x1, int y1, double direction, double length, Color color) {
+    Vector line = Vector.getVectorFromAngle(direction).multiply(length);
+    line = line.add(new Vector(x1, y1));
+    renderPanel.drawLine(x1, y1, (int) line.x(), (int) line.y(), color);
+  }
+
+  /**
+   * Draws an arrow from (x1,y1) in a direction by some distance
+   * @param color the colour of the line
+   */
+  public void drawArrow(int x1, int y1, double direction, double length, Color color) {
+    Vector tip = Vector.getVectorFromAngle(direction).multiply(length);
+    int tipX = (int) (tip.x() + x1);
+    int tipY = (int) (tip.y() + y1);
+
+    double angleOffset = 1.5 * Math.PI / 2;
+    drawLine(x1, y1, direction, length, color); //Main line
+    drawLine(tipX, tipY, direction + angleOffset, length / 3, color);
+    drawLine(tipX, tipY, direction - angleOffset, length / 3, color);
   }
 }

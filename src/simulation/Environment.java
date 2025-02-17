@@ -55,7 +55,7 @@ public class Environment {
      */
     public void incrementTime(double dayNightCycleRate) {
         timeOfDay += dayNightCycleRate;
-        if (timeOfDay >= 1) {timeOfDay = 0; day++;};
+        if (timeOfDay >= 1) {timeOfDay = 0; day++;}
     }
 
     /**
@@ -93,4 +93,6 @@ public class Environment {
     public Vector getWindVector() {
         return Vector.getVectorFromAngle(windDirection);
     }
+
+    public double getWindDirection() {return windDirection;}
 }
