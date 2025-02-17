@@ -29,15 +29,10 @@ public class Environment {
      * Sets the current weather to be a random weather (that isn't the same as the previous weather)
      */
     private void setRandomWeather() {
-        // List<Weather> weathers = new ArrayList<>(Arrays.asList(Weather.values()));
-        // weathers.remove(weather); //Ensure that the new weather won't be the same one
-        // int randomIndex = (int) (Math.random() * weathers.size());
-        // weather = weathers.get(randomIndex);
-        if (weather == null) {
-            weather = Weather.CLEAR;
-        } else {
-            weather = Weather.STORM;
-        }
+        List<Weather> weathers = new ArrayList<>(Arrays.asList(Weather.values()));
+        weathers.remove(weather); //Ensure that the new weather won't be the same one
+        int randomIndex = (int) (Math.random() * weathers.size());
+        weather = weathers.get(randomIndex);
     }
 
     /**
