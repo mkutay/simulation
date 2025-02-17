@@ -56,39 +56,61 @@
 
 \section{Introduction}
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum eget molestie nibh. Etiam faucibus leo in orci faucibus iaculis. Duis vehicula nibh commodo sapien auctor porta. Sed vel erat ut dui posuere aliquam. Vivamus interdum est erat, vel faucibus lacus pellentesque sed. Donec eu auctor erat. Cras quis massa tortor. Phasellus non posuere justo. Mauris elementum massa vel mi tincidunt, sit amet maximus nisi consequat. Donec vestibulum rutrum commodo.
+\noindent This simulation project integrates multiple components to create a dynamic ecosystem that a researcher can use to
+study predator-prey-plant interactions, with the ability to add or remove any species or environmental factors easily
+by editing the given JSON file.
+The simulation is designed to simulate without any grid-based restrictions, allowing entities to move freely in a
+continuous space. Specifically, the coordinates of the entities are stored as doubles from zero to the width and height
+of the field.
+
+\noindent The simulation smoothly runs at 60 frames per second by utilising a \verb|QuadTree| for entity searching and
+collision detection. In each simulation "step," every entity is "updated" by calling its \verb|update()| method, which
+handles movement, reproduction, and hunger. Entities make decisions based on other entities in their vicinity
+(that is, located inside their \verb|sightRadius|) and the current state of the environment. Additionally, there is a
+method to handle overcrowding in the simulation, for limiting the exponentioal growth of entities.
 
 \section{Tasks Lists and Implementation Details}
 
 \subsection{Base Tasks}
 
-  \noindent \textbf{At least five different kinds of acting species:} Something something.
+  \noindent \textbf{Diverse Species:} With how the simulation is implemented, adding new species is as easy as adding 
+  the species' behavioural data into a JSON file. Each entity species can be of type \verb|Prey|, \verb|Predator|,
+  or \verb|Plant|.
   
-  \noindent \textbf{At least two predators should compete for the same food source:} Something somethimg.
+  \noindent \textbf{Two Predators Competes for the Same Food Source:}
+  Since it is easy to add multiple species of predators, currently there are two predators, \verb|Wolf| and \verb|Fox|,
+  that compete for the same food source, \verb|Rabbit|.
   
-  \noindent \textbf{Species should distinguish male and female individuals:}
+  \noindent \textbf{Distinguishing Gender:} Each entity has their own gender, represented in their genetics,
+  which affects reproduction mechanics. Only entities of opposite genders can reproduce.
   
-  \noindent \textbf{Time of day should be kept track of:}
+  \noindent \textbf{Tracking Time of Day:} A simulation clock governs the day/night cycle impacting entity behaviour.
 
 \subsection{Challenge Tasks}
 
-  \noindent \textbf{Add plants:}
+  \noindent \textbf{Adding Plants:} Plants have been added, featuring growth and reproduction dynamics.
   
-  \noindent \textbf{Add weather:}
+  \noindent \textbf{Adding Weather:} Weather conditions and time of day influence behavior and visibility,
+  creating a \textit{realistic} simulation environment.
   
-  \noindent \textbf{Add diseases:}
+  \noindent \textbf{Disease Dynamics:} 
 
 \section{Code Quality Considerations}
 
 \subsection{Coupling}
 
+
 \subsection{Cohesion}
+
 
 \subsection{Responsibility-Driven Design}
 
+
 \subsection{Maintainability}
 
+
 \section{Final Remarks}
+
 
 \end{multicols}
 

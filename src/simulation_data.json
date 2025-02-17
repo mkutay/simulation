@@ -24,6 +24,23 @@
       "overcrowdingThreshold": [8, 25],
       "overcrowdingRadius": [10, 15],
       "maxOffspringSpawnDistance": [3, 5]
+    },
+    {
+      "name": "Wolf",
+      "multiplyingRate": [0.05, 0.15],
+      "maxLitterSize": [2, 3],
+      "maxAge": [90, 120],
+      "matureAge": [50, 55],
+      "mutationRate": [0.01, 0.05],
+      "maxSpeed": [6, 7],
+      "sight": [35, 50],
+      "numberOfEntitiesAtStart": 8,
+      "eats": ["Rabbit"],
+      "size": [4, 7],
+      "colour": [70, 10, 90],
+      "overcrowdingThreshold": [8, 25],
+      "overcrowdingRadius": [10, 15],
+      "maxOffspringSpawnDistance": [3, 4]
     }
   ],
   "preysData": [
@@ -34,15 +51,15 @@
       "maxAge": [65, 100],
       "matureAge": [30, 50],
       "mutationRate": [0.01, 0.05],
-      "maxSpeed": [3, 5],
+      "maxSpeed": [4, 6],
       "sight": [25, 35],
       "numberOfEntitiesAtStart": 25,
       "eats": ["Grass"],
-      "size": [3, 6],
+      "size": [3, 5],
       "colour": [40, 200, 240],
-      "overcrowdingThreshold": [10, 25],
-      "overcrowdingRadius": [10, 15],
-      "maxOffspringSpawnDistance": [3, 5]
+      "overcrowdingThreshold": [5, 15],
+      "overcrowdingRadius": [10, 12],
+      "maxOffspringSpawnDistance": [3, 4]
     },
     {
       "name": "Squirrel",
