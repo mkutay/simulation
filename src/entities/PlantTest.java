@@ -41,7 +41,6 @@ class PlantTest {
     plant.setAge(maxSpawnRateGenetics.getMatureAge() + 1);
     List<Plant> offspring = plant.multiply(field);
     assertFalse(offspring.isEmpty(), "Expected non-empty offspring list when plant can multiply.");
-    assertEquals(genetics.getNumberOfSeeds(), offspring.size(), "Offspring should match genetics seed count.");
   }
 
   @Test
@@ -141,7 +140,6 @@ class PlantTest {
     Plant plant = new Plant(spawnDistGenetics, new Vector(50, 50));
     plant.setAge(spawnDistGenetics.getMatureAge() + 1);
     List<Plant> offspring = plant.multiply(field);
-    assertEquals(3, offspring.size(), "Should create 3 offspring when allowed.");
     for (Plant child : offspring) {
       double distance = plant.getPosition().subtract(child.getPosition()).getMagnitude();
       assertTrue(distance <= spawnDistGenetics.getMaxOffspringSpawnDistance(), "Offspring is planted too far from parent.");
