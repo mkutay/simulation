@@ -22,6 +22,7 @@ public abstract class Animal extends Entity {
   protected final AnimalMovementController movementController; // Controller for moving the animal
   protected final AnimalBreedingController breedingController; // Controller for breeding the animal
   protected final AnimalHungerController hungerController; // Controller for handling hunger
+  protected final AnimalBehaviourController behaviourController; // Controller for handling decision logic of animals
 
   /**
    * Constructor -- Create a new Animal.
@@ -34,6 +35,7 @@ public abstract class Animal extends Entity {
     movementController = new AnimalMovementController(this, position);
     breedingController = new AnimalBreedingController(this);
     hungerController = new AnimalHungerController(this);
+    behaviourController = new AnimalBehaviourController(this);
   }
 
   /**
@@ -57,17 +59,8 @@ public abstract class Animal extends Entity {
     hungerController.handleHunger(deltaTime, newEntities.size());
 
     movementController.setLastPosition(position); // Update last position before moving.
-    updateBehaviour(field, nearbyEntities, deltaTime);
+    behaviourController.updateBehaviour(field, nearbyEntities, deltaTime);
   }
-
-  /**
-   * Updates the behaviour of the animal, specifically for movement.
-   * @param field The field the animal is in.
-   * @param nearbyEntities The entities in the sight radius of the animal.
-   * @param deltaTime The delta time.
-   */
-  protected abstract void updateBehaviour(Field field, List<Entity> nearbyEntities, double deltaTime);
-
   /**
    * Used to generate an offspring of the animal after breeding.
    * @return A new Animal with the specified genetics and spawn position.

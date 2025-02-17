@@ -7,6 +7,7 @@ import simulation.Field;
 import util.Vector;
 
 import java.util.List;
+import java.util.function.Predicate;
 
 /**
  * An arbitrary predator entity. Predators move around randomly and can reproduce.
@@ -20,31 +21,6 @@ public class Predator extends Animal {
    */
   public Predator(AnimalGenetics genetics, Vector location) {
     super(genetics, location);
-  }
-
-  /**
-   * Updates the behaviour of the animal, specifically for movement.
-   * @param field The field the animal is in.
-   * @param nearbyEntities The entities in the sight radius of the animal.
-   * @param deltaTime The delta time.
-   */
-  @Override
-  protected void updateBehaviour(Field field, List<Entity> nearbyEntities, double deltaTime) {
-    boolean isHungry = hungerController.isHungry();
-
-    if (isHungry) hungerController.eat(nearbyEntities);
-
-    boolean movingToFood = false;
-    if (isHungry && !isMovingToMate) { // If is hungry and not currently attempting to mate.
-      movingToFood = movementController.moveToNearestFood(nearbyEntities, deltaTime);
-    }
-
-    if (!isHungry && !field.isDay()) { isAsleep = true; return; } //If not hungry and its nighttime, sleep (do nothing)
-
-    if (!movingToFood) { // If not moving to food and not hungry, look for mate.
-      isMovingToMate = movementController.moveToNearestMate(nearbyEntities, deltaTime);
-      if (!isMovingToMate) movementController.wander(field, deltaTime); // If can't find mate, wander.
-    }
   }
 
   /**
