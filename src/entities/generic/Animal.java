@@ -5,7 +5,7 @@ import java.util.List;
 import util.Vector;
 import genetics.AnimalGenetics;
 import simulation.Field;
-import simulation.Weather;
+import simulation.environment.Weather;
 import simulation.simulationData.Data;
 
 /**
@@ -72,7 +72,7 @@ public abstract class Animal extends Entity {
     if (field.environment.getWeather() == Weather.STORM) {
       Vector differenceVector = position.subtract(lastPosition);
       double speed = differenceVector.getMagnitude();
-      speed *= Data.getStormMovementSpeedFactor();
+      speed *= Data.getStormMovementSpeedFactor() / ((double) getSize() / 4);
       setPosition(lastPosition.add(differenceVector.multiply(speed)));
     }
   }

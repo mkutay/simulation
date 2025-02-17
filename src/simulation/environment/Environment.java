@@ -1,4 +1,4 @@
-package simulation;
+package simulation.environment;
 
 import graphics.Display;
 import simulation.simulationData.Data;
@@ -25,10 +25,14 @@ public class Environment {
     private final static int PARTICLE_SPAWN_RATE = 4;
     private final List<RainParticle> rainParticles;
 
+    private static final double LIGHTNING_SPAWN_PROBABILITY = 0.03;
+    private final List<Lightning> lightnings;
+
     public Environment() {
         setRandomWeather();
         windDirection = Math.random() * Math.PI * 2;
         rainParticles = new ArrayList<>();
+        lightnings = new ArrayList<>();
     }
 
     /**
@@ -45,7 +49,8 @@ public class Environment {
      * Updates the wind direction and the current weather when the day changes
      */
     public void updateWeather() {
-        windDirection += (Math.random() - 0.5) * Math.PI * 0.01;
+        double turbulence = weather == Weather.STORM ? 0.1 : 0.05;
+        windDirection += (Math.random() - 0.5) * Math.PI * turbulence;
 
         if (lastUpdateDay != day){
             lastUpdateDay = day;
@@ -102,10 +107,16 @@ public class Environment {
 
     public double getWindDirection() {return windDirection;}
 
-    public void updateRain(Display display){
+    public void updateWeatherEffects(Display display){
         rainParticles.removeIf(p -> p.isOutOfBounds(display));
         for (RainParticle particle : rainParticles) {
             particle.update(display, getWindVector());
+        }
+
+        lightnings.removeIf(Lightning::isDead);
+        for (Lightning lightning : lightnings) {
+            lightning.draw(display);
+            lightning.incrementAge();
         }
     }
 
@@ -116,6 +127,14 @@ public class Environment {
             Vector spawnPosition = new Vector((Math.random() - 0.5) * display.getWidth() * 4, 1);
             RainParticle particle = new RainParticle(spawnPosition);
             rainParticles.add(particle);
+        }
+    }
+
+    public void spawnLightning(Display display){
+        if (weather != Weather.STORM) {return;}
+
+        if (Math.random() < LIGHTNING_SPAWN_PROBABILITY) {
+            lightnings.add(new Lightning(display));
         }
     }
 }

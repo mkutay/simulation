@@ -1,4 +1,4 @@
-package simulation;
+package simulation.quadTree;
 
 import java.awt.Color;
 import java.util.ArrayList;

@@ -2,9 +2,9 @@ package view;
 
 import entities.generic.Entity;
 import graphics.Display;
-import simulation.Environment;
+import simulation.environment.Environment;
 import simulation.Simulator;
-import simulation.Weather;
+import simulation.environment.Weather;
 import simulation.simulationData.Data;
 
 import java.awt.*;
@@ -73,7 +73,7 @@ public class Engine {
 
       if (Data.getDoWeatherCycle()) {
         drawWeatherText();
-        drawRain(display);
+        updateWeatherEffects(display);
       }
 
       display.update();
@@ -81,20 +81,24 @@ public class Engine {
     }
   }
 
-  private void drawRain(Display display) {
+  private void updateWeatherEffects(Display display) {
     Environment environment = simulator.getField().environment;
-    environment.updateRain(display);
     environment.spawnRain(display);
+    environment.spawnLightning(display);
+
+    environment.updateWeatherEffects(display);
   }
+
 
 
   private void drawWeatherText() {
     Weather weather = simulator.getField().environment.getWeather();
     display.drawText(weather.toString(), 20, 5, 40, Color.WHITE);
     if (weather == Weather.WINDY || weather == Weather.STORM) {
+      display.drawText("Wind Direction :", 20, 5, 60, Color.WHITE);
       double windDirection = simulator.getField().environment.getWindDirection();
-      display.drawCircle(25, 70, 20, Color.BLACK);
-      display.drawArrow(25, 70, windDirection, 20, Color.WHITE);
+      display.drawCircle(210, 55, 20, Color.BLACK);
+      display.drawArrow(210, 55, windDirection, 20, Color.WHITE);
     }
   }
 

@@ -2,6 +2,10 @@ package simulation;
 
 import java.util.ArrayList;
 
+import simulation.environment.Environment;
+import simulation.quadTree.Circle;
+import simulation.quadTree.QuadTree;
+import simulation.quadTree.Rectangle;
 import util.Vector;
 import entities.generic.Entity;
 

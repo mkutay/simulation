@@ -1,4 +1,4 @@
-package simulation;
+package simulation.environment;
 
 import graphics.Display;
 import util.Utility;
@@ -31,7 +31,7 @@ public class RainParticle {
 
     private void updatePosition(Vector windVector) {
         Vector gravityVector = new Vector(0, GRAVITY);
-        Vector moveVector = windVector.add(gravityVector);
+        Vector moveVector = windVector.multiply(1.5).add(gravityVector);
         position = position.add(moveVector);
     }
 

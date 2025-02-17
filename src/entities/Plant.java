@@ -7,7 +7,7 @@ import entities.generic.Entity;
 import genetics.PlantGenetics;
 import graphics.Display;
 import simulation.Field;
-import simulation.Weather;
+import simulation.environment.Weather;
 import util.Vector;
 
 /**
