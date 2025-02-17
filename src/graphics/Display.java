@@ -69,6 +69,10 @@ public class Display {
     renderPanel.drawRect(x, y, width, height, color, true);
   }
 
+  public void drawTransparentRectangle(int x, int y, int width, int height, double alpha, Color color) {
+    renderPanel.drawTransparentRect(x, y, width, height, color, alpha);
+  }
+
   /**
    * Draw an equilateral triangle at the specified centre position with the specified radius and color.
    */
@@ -116,11 +120,11 @@ public class Display {
     drawLine(tipX, tipY, direction - angleOffset, length / 3, color);
   }
 
-  public double getWidth() {
+  public int getWidth() {
     return renderPanel.getWidth();
   }
 
-  public double getHeight() {
+  public int getHeight() {
     return renderPanel.getHeight();
   }
 }

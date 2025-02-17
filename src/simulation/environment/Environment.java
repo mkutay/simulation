@@ -2,6 +2,8 @@ package simulation.environment;
 
 import graphics.Display;
 import simulation.simulationData.Data;
+
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -18,7 +20,7 @@ public class Environment {
     // Daytime is 8 AM to 8 PM.
     private int lastUpdateDay = 1;
     private int day = 1;
-    private double timeOfDay = 0.3333; // Loops from 0 to 1. 1/3 is 8am (day time start)
+    private double timeOfDay = DAY_START; // Loops from 0 to 1. 1/3 is 8am (day time start)
     private double windDirection;
     private Weather weather;
 
@@ -27,6 +29,10 @@ public class Environment {
 
     private static final double LIGHTNING_SPAWN_PROBABILITY = 0.03;
     private final List<Lightning> lightnings;
+
+    private final static double DAY_START = (double) 1/3; //Corresponds to 8am
+    private final static double DAY_END =  0.8 + ((double) 1/30); //Corresponds to 8am
+
 
     public Environment() {
         setRandomWeather();
@@ -74,7 +80,7 @@ public class Environment {
      * @return true if the time is day
      */
     public boolean isDay(){
-        return timeOfDay <= 0.8333 && timeOfDay >= 0.3333;
+        return timeOfDay <= DAY_END && timeOfDay >= DAY_START;
     }
 
     /**
@@ -136,5 +142,26 @@ public class Environment {
         if (Math.random() < LIGHTNING_SPAWN_PROBABILITY) {
             lightnings.add(new Lightning(display));
         }
+    }
+
+    public void drawScreenEffects(Display display) {
+        drawDarknessEffects(display);
+    }
+
+    /**
+     * Draws a transparent black rect, opacity depending on time of night
+     * @param display the display to draw the effect onto
+     */
+    private void drawDarknessEffects(Display display) {
+        double lightLevel = timeOfDay;
+        if (timeOfDay > 0.5){
+            lightLevel = 1 - timeOfDay;
+        }
+
+        lightLevel *= 2;
+        lightLevel = Math.min(lightLevel, 0.8) + 0.2; //small period of time of full light
+
+        double alpha = 0.8 * (1 - lightLevel);
+        display.drawTransparentRectangle(0, 0, display.getWidth(), display.getHeight(), alpha, Color.black);
     }
 }

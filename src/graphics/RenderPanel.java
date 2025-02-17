@@ -24,7 +24,7 @@ public class RenderPanel extends JPanel {
 	 */
 	public RenderPanel(int screenWidth, int screenHeight) {
 		setPreferredSize(new Dimension(screenWidth, screenHeight));
-		surface = new BufferedImage(screenWidth, screenHeight, BufferedImage.TYPE_INT_RGB);
+		surface = new BufferedImage(screenWidth, screenHeight, BufferedImage.TYPE_INT_ARGB);
 
 		g2 = (Graphics2D) surface.getGraphics(); // Get graphics context.
 	}
@@ -109,6 +109,25 @@ public class RenderPanel extends JPanel {
 	public void drawLine(int x1, int y1, int x2, int y2, Color color) {
 		g2.setColor(color);
 		g2.drawLine(x1, y1, x2, y2);
+	}
+
+	/**
+	 * Draw a transparent rectangle
+	 * @param x X position of top left
+	 * @param y Y position of top left
+	 * @param width Width in pixels
+	 * @param height Height in pixels
+	 * @param color Colour to render rectangle
+	 * @param alpha Transparency level (0 transparent, 1 opaque)
+	 */
+	public void drawTransparentRect(int x, int y, int width, int height, Color color, double alpha) {
+		Composite originalComposite = g2.getComposite();
+
+		g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, (float) alpha));
+		g2.setColor(color);
+		g2.fillRect(x, y, width, height);
+
+		g2.setComposite(originalComposite);
 	}
 
 	/**

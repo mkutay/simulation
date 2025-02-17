@@ -68,16 +68,19 @@ public class Engine {
         simulator.getField().getQuadtree().draw(display, fieldScaleFactor);
       }
 
+      //Draw and update weather effects
+      if (Data.getDoWeatherCycle()) {
+        updateWeatherEffects(display);
+        drawWeatherText();
+      }
+
+
       drawFieldDataText();
 
       if (Data.getDoDayNightCycle()) {
         drawTimeText();
       }
 
-      if (Data.getDoWeatherCycle()) {
-        drawWeatherText();
-        updateWeatherEffects(display);
-      }
 
       display.update();
       clock.tick();
@@ -87,8 +90,8 @@ public class Engine {
   private void updateWeatherEffects(Display display) {
     Environment environment = simulator.getField().environment;
     environment.spawnRain(display);
+    environment.drawScreenEffects(display);
     environment.spawnLightning(display);
-
     environment.updateWeatherEffects(display);
   }
 
@@ -119,7 +122,7 @@ public class Engine {
   private void drawFieldDataText(){
     HashMap<String, Integer> fieldData = simulator.getFieldData();
     int fontSize = 15;
-    int startY = (int) (display.getHeight() - fieldData.size() * fontSize);
+    int startY = (display.getHeight() - fieldData.size() * fontSize);
     int i = 0;
     for (String entityName : fieldData.keySet()) {
       String data = entityName + ": " + fieldData.get(entityName);
