@@ -1,6 +1,8 @@
 package simulation;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+
 import entities.generic.Entity;
 import simulation.simulationData.Data;
 
@@ -67,5 +69,17 @@ public class Simulator {
    */
   public Field getField() {
     return field;
+  }
+
+  /**
+   * @return A hash map of entity names to the number of existing entities in the field
+   */
+  public HashMap<String, Integer> getFieldData(){
+    HashMap<String, Integer> fieldData = new HashMap<>();
+    for (Entity e : field.getAllEntities()) { //Count all the entities in the field
+      fieldData.put(e.getName(), fieldData.getOrDefault(e.getName(), 0) + 1);
+    }
+
+    return fieldData;
   }
 }

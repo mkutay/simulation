@@ -9,6 +9,7 @@ import simulation.simulationData.Data;
 
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * Combines the Simulator and Display to visualise the simulation.
@@ -67,6 +68,8 @@ public class Engine {
         simulator.getField().getQuadtree().draw(display, fieldScaleFactor);
       }
 
+      drawFieldDataText();
+
       if (Data.getDoDayNightCycle()) {
         drawTimeText();
       }
@@ -108,6 +111,21 @@ public class Engine {
   private void drawTimeText() {
     String time = simulator.getField().environment.getTimeFormatted();
     display.drawText(time, 20, 5, 20, Color.WHITE);
+  }
+
+  /**
+   * Lists all alive entities and the number of existing entities in the bottom left corner
+   */
+  private void drawFieldDataText(){
+    HashMap<String, Integer> fieldData = simulator.getFieldData();
+    int fontSize = 15;
+    int startY = (int) (display.getHeight() - fieldData.size() * fontSize);
+    int i = 0;
+    for (String entityName : fieldData.keySet()) {
+      String data = entityName + ": " + fieldData.get(entityName);
+      display.drawText(data, fontSize, 5, startY + i*fontSize, Color.WHITE);
+      i++;
+    }
   }
 
   /**
