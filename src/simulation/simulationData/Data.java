@@ -30,4 +30,5 @@ public class Data {
   public static double getWeatherChangeProbability() { return simulationData.weatherChangeProbability; }
   public static double getWindStrength() { return simulationData.windStrength; }
   public static double getStormMovementSpeedFactor() { return simulationData.stormMovementSpeedFactor; }
+  public static boolean getShowQuadTrees() { return simulationData.showQuadTrees; }
 }

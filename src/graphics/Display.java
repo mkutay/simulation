@@ -83,6 +83,13 @@ public class Display {
     renderPanel.drawText(text, fontSize, x, y, color);
   }
 
+  /**
+   * Draws a line segment from (x1,y1) to (x2,y2)
+   * @param color the colour of the line
+   */
+  public void drawLine(int x1, int y1, int x2, int y2, Color color) {
+    renderPanel.drawLine(x1, y1, x2, y2, color);
+  }
 
   /**
    * Draws a line segment from (x1,y1) in a direction by some distance
@@ -107,5 +114,13 @@ public class Display {
     drawLine(x1, y1, direction, length, color); //Main line
     drawLine(tipX, tipY, direction + angleOffset, length / 3, color);
     drawLine(tipX, tipY, direction - angleOffset, length / 3, color);
+  }
+
+  public double getWidth() {
+    return renderPanel.getWidth();
+  }
+
+  public double getHeight() {
+    return renderPanel.getHeight();
   }
 }

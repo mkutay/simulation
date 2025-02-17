@@ -18,4 +18,5 @@ public class SimulationData {
   public double weatherChangeProbability;
   public double windStrength;
   public double stormMovementSpeedFactor;
+  public boolean showQuadTrees;
 }

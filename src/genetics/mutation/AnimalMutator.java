@@ -34,7 +34,6 @@ public class AnimalMutator extends Mutator {
     if (animalData == null) return null;
 
     double mutationRate = genetics.getMutationRate();
-    double mutationFactor = Data.getMutationFactor();
 
     return new AnimalGenetics(
       singleMutate(genetics.getMultiplyingRate(), animalData.multiplyingRate, mutationRate),

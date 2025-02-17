@@ -1,5 +1,6 @@
 package simulation;
 
+import graphics.Display;
 import simulation.simulationData.Data;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -21,8 +22,13 @@ public class Environment {
     private double windDirection;
     private Weather weather;
 
+    private final static int PARTICLE_SPAWN_RATE = 4;
+    private final List<RainParticle> rainParticles;
+
     public Environment() {
         setRandomWeather();
+        windDirection = Math.random() * Math.PI * 2;
+        rainParticles = new ArrayList<>();
     }
 
     /**
@@ -95,4 +101,21 @@ public class Environment {
     }
 
     public double getWindDirection() {return windDirection;}
+
+    public void updateRain(Display display){
+        rainParticles.removeIf(p -> p.isOutOfBounds(display));
+        for (RainParticle particle : rainParticles) {
+            particle.update(display, getWindVector());
+        }
+    }
+
+    public void spawnRain(Display display){
+        if (weather == Weather.CLEAR || weather == Weather.WINDY) {return;}
+
+        for (int i = 0; i < PARTICLE_SPAWN_RATE; i++) { //Spawn on the top section of the screen
+            Vector spawnPosition = new Vector((Math.random() - 0.5) * display.getWidth() * 4, 1);
+            RainParticle particle = new RainParticle(spawnPosition);
+            rainParticles.add(particle);
+        }
+    }
 }

@@ -2,6 +2,7 @@ package view;
 
 import entities.generic.Entity;
 import graphics.Display;
+import simulation.Environment;
 import simulation.Simulator;
 import simulation.Weather;
 import simulation.simulationData.Data;
@@ -21,8 +22,6 @@ public class Engine {
   private final Simulator simulator; // The simulation
   private final Clock clock; // Clock to keep track of time
   private boolean running = false; // Whether the simulation is running
-
-  private final static boolean DRAW_QUADTREE = false; // Should the quadtree visualisation be drawn
 
   /**
    * 0 < scaleFactor < 1 => field is zoomed in
@@ -64,7 +63,7 @@ public class Engine {
       }
 
 
-      if (DRAW_QUADTREE) { // Debug tool to show the quadtree.
+      if (Data.getShowQuadTrees()) { // Debug tool to show the quadtree.
         simulator.getField().getQuadtree().draw(display, fieldScaleFactor);
       }
 
@@ -74,11 +73,18 @@ public class Engine {
 
       if (Data.getDoWeatherCycle()) {
         drawWeatherText();
+        drawRain(display);
       }
 
       display.update();
       clock.tick();
     }
+  }
+
+  private void drawRain(Display display) {
+    Environment environment = simulator.getField().environment;
+    environment.updateRain(display);
+    environment.spawnRain(display);
   }
 
 
