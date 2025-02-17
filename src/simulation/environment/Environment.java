@@ -161,7 +161,7 @@ public class Environment {
         lightLevel *= 2;
         lightLevel = Math.min(lightLevel, 0.8) + 0.2; //small period of time of full light
 
-        double alpha = 0.8 * (1 - lightLevel);
+        double alpha = 0.6 * (1 - lightLevel);
         display.drawTransparentRectangle(0, 0, display.getWidth(), display.getHeight(), alpha, Color.black);
     }
 }
