@@ -74,4 +74,11 @@ public class Display {
   public void drawEqualTriangle(int centerX, int centerY, int radius, Color color) {
     renderPanel.drawEqualTriangle(centerX, centerY, radius, color);
   }
+
+  /**
+   * Draws the given text with the first character at the given x,y
+   */
+  public void drawText(String text, int fontSize, int x, int y, Color color) {
+    renderPanel.drawText(text, fontSize, x, y, color);
+  }
 }

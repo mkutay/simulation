@@ -87,7 +87,21 @@ public class RenderPanel extends JPanel {
 
 		g2.fillPolygon(xPoints, yPoints, 3);
 	}
-	
+
+	/**
+	 * Renders text - the baseline of the first character is at position (x, y)
+	 * @param text the text to draw onto the screen
+	 * @param fontSize the size of the text to draw
+	 * @param x the x pos of the first character
+	 * @param y the y pos of the first character
+	 * @param color the colour of the text to render
+	 */
+	public void drawText(String text, int fontSize, int x, int y, Color color) {
+		g2.setColor(color);
+		g2.setFont(new Font("Consolas", Font.PLAIN, fontSize));
+		g2.drawString(text, x, y);
+	}
+
 	/**
 	 * Called with every draw call, draws everything stored on the bufferedImage to the display.
 	 */

@@ -5,8 +5,6 @@
   "animalBreedingCost": 0.5,
   "mutationFactor": 0.2,
   "entityAgeRate": 1,
-  "breedingRadiusFactorToSight": 0.5,
-  "nightTime": 0.5,
   "predatorsData": [
     {
       "name": "Fox",
