@@ -67,8 +67,10 @@ public class Engine {
         simulator.getField().getQuadtree().draw(display, fieldScaleFactor);
       }
 
-      display.update();
+      String time = simulator.getField().getTimeFormatted();
+      display.drawText(time, 20, 5, 20, Color.WHITE);
 
+      display.update();
       clock.tick();
     }
   }

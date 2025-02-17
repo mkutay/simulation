@@ -150,16 +150,30 @@ public class Field {
   }
 
   /**
-   * @return True if it is night time, false otherwise.
+   * Daytime is any time from 8am to 8pm.
+   * @return true if the time is day
    */
-  public boolean isNight() {
-    return timeOfDay > Data.getNightTime();
+  public boolean isDay(){
+    return timeOfDay <= 0.8333 && timeOfDay >= 0.3333;
   }
 
   /**
-   * @return The current time of day.
+   * Converts the time of day value from 0-1 to a 24-hour clock time
+   * @return the time of day in the 24-hour format HH:MM:SS
    */
-  public double getTimeOfDay() {
-    return timeOfDay;
+  private String get24HourTime() {
+    double total_hours = timeOfDay * 24;
+    int hours = (int) total_hours;
+    int minutes = (int) ((total_hours - hours) * 60);
+    int seconds = (int) ((((total_hours - hours) * 60) - minutes) * 60);
+    return String.format("%02d:%02d:%02d", hours, minutes, seconds);
+  }
+
+  /**
+   * @return The time with some additional information to be displayed to the screen
+   */
+  public String getTimeFormatted(){
+    String isDay = isDay() ? "Day time" : "Night time";
+    return get24HourTime() + " | " + isDay;
   }
 }
