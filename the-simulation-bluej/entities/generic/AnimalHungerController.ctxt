@@ -1,0 +1,25 @@
+#BlueJ class context
+comment0.target=AnimalHungerController
+comment0.text=\n\ Handles\ the\ hunger\ and\ food\ level\ logic\ for\ animals.\n\ \n\ @author\ Mehmet\ Kutay\ Bozkurt\ and\ Anas\ Ahmed\n\ @version\ 1.0\n
+comment1.params=animal
+comment1.target=AnimalHungerController(Animal)
+comment2.params=nearbyEntities
+comment2.target=void\ eat(java.util.List)
+comment2.text=\n\ Attempts\ to\ eat\ any\ colliding\ entities.\n\ @param\ nearbyEntities\ The\ entities\ in\ the\ sight\ radius\ of\ this\ animal.\n
+comment3.params=deltaTime\ numberOfOffsprings
+comment3.target=void\ handleHunger(double,\ int)
+comment3.text=\n\ Sets\ animal\ as\ dead\ if\ it\ has\ no\ food,\ decrements\ food\ level\ proportion\ to\ deltaTime.\n\ @param\ numberOfOffsprings\ The\ number\ of\ offsprings\ the\ animal\ had\ in\ the\ current\ simulation\ step.\n\ @param\ deltaTime\ Delta\ time.\n
+comment4.params=entity
+comment4.target=boolean\ canEat(Entity)
+comment4.text=\n\ Checks\ if\ this\ animal\ can\ eat\ a\ specified\ entity.\n\ @param\ entity\ The\ entity\ to\ check\ if\ this\ animal\ can\ eat.\n\ @return\ True\ if\ this\ animal\ can\ eat\ the\ entity,\ false\ otherwise.\n
+comment5.params=
+comment5.target=boolean\ isHungry()
+comment5.text=\n\ @return\ True\ if\ the\ animal\ is\ hungry,\ false\ otherwise.\n
+comment6.params=
+comment6.target=boolean\ isDyingOfHunger()
+comment6.text=\n\ @return\ True\ if\ the\ animal\ is\ dying\ of\ hunger,\ false\ otherwise.\n
+comment7.params=
+comment7.target=boolean\ hasEaten()
+comment8.params=
+comment8.target=double\ getFoodLevel()
+numComments=9

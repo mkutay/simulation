@@ -1,0 +1,13 @@
+#BlueJ class context
+comment0.target=AnimalBehaviourController
+comment0.text=\n\ Handles\ animal\ behaviour.\ All\ animal\ behaviour,\ predator\ or\ prey,\ is\ identical.\n\ They\ move\ to\ food\ and\ away\ from\ things\ that\ eat\ them.\n\ \n\ @author\ Anas\ Ahmed\ and\ Mehmet\ Kutay\ Bozkurt\n\ @version\ 1.0\n
+comment1.params=animal
+comment1.target=AnimalBehaviourController(Animal)
+comment1.text=\n\ Constructor.\n\ @param\ animal\ The\ animal\ to\ control\ the\ behaviour\ for.\n
+comment2.params=field\ nearbyEntities\ deltaTime
+comment2.target=void\ updateBehaviour(simulation.Field,\ java.util.List,\ double)
+comment2.text=\n\ Updates\ the\ behaviour\ of\ the\ animal,\ specifically\ for\ movement.\n\ @param\ field\ The\ field\ the\ animal\ is\ in.\n\ @param\ nearbyEntities\ The\ entities\ in\ the\ sight\ radius\ of\ the\ animal.\n\ @param\ deltaTime\ The\ delta\ time.\n
+comment3.params=nearbyEntities\ deltaTime
+comment3.target=boolean\ fleeFromPredators(java.util.List,\ double)
+comment3.text=\n\ Searches\ for\ nearby\ predators\ and\ flees\ if\ found.\n\ @return\ True\ if\ it\ flees,\ false\ otherwise.\n
+numComments=4

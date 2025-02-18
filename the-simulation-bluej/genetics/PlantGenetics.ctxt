@@ -1,0 +1,14 @@
+#BlueJ class context
+comment0.target=PlantGenetics
+comment0.text=\n\ PlantGenetics\ class.\ Contains\ the\ genetics\ of\ a\ plant\ entity.\n\ \n\ @author\ Mehmet\ Kutay\ Bozkurt\ and\ Anas\ Ahmed\n\ @version\ 1.0\n
+comment1.params=maxAge\ matureAge\ multiplyingRate\ size\ name\ colour\ numberOfSeeds\ maxOffspringSpawnDistance\ overcrowdingThreshold\ overcrowdingRadius\ mutationRate\ rainingGrowthFactor
+comment1.target=PlantGenetics(int,\ int,\ double,\ int,\ java.lang.String,\ java.awt.Color,\ int,\ double,\ int,\ double,\ double,\ double)
+comment1.text=\n\ Constructor\ --\ Creates\ a\ new\ set\ of\ genetics\ for\ a\ plant.\n
+comment2.params=
+comment2.target=PlantGenetics\ getOffspringGenetics()
+comment2.text=\n\ Get\ the\ genetics\ of\ the\ offspring,\ created\ from\ this\ genetics.\n\ Can\ be\ mutated.\n\ @return\ The\ genetics\ of\ the\ offspring.\n
+comment3.params=
+comment3.target=int\ getNumberOfSeeds()
+comment4.params=
+comment4.target=double\ getRainingGrowthFactor()
+numComments=5

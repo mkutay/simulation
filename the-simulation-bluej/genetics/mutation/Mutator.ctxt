@@ -1,0 +1,10 @@
+#BlueJ class context
+comment0.target=Mutator
+comment0.text=\n\ Responsible\ for\ mutating\ genetics.\n\ \n\ @author\ Mehmet\ Kutay\ Bozkurt\ and\ Anas\ Ahmed\n\ @version\ 1.0\n
+comment1.params=value\ interval\ mutationRate
+comment1.target=double\ singleMutate(double,\ double[],\ double)
+comment1.text=\n\ Mutate\ a\ single\ value\ in\ double.\n\ @param\ value\ The\ value\ to\ mutate.\n\ @param\ interval\ The\ interval\ of\ the\ value\ (0th\ index\ is\ the\ minimum,\ 1st\ index\ is\ the\ maximum).\n\ @param\ mutationRate\ The\ probability\ of\ mutation\ happening.\n\ @return\ The\ mutated\ value.\n
+comment2.params=value\ interval\ mutationRate
+comment2.target=int\ singleMutate(int,\ int[],\ double)
+comment2.text=\n\ Mutate\ a\ single\ value\ in\ int.\n\ @param\ value\ The\ value\ to\ mutate.\n\ @param\ interval\ The\ interval\ of\ the\ value\ (0th\ index\ is\ the\ minimum,\ 1st\ index\ is\ the\ maximum).\n\ @param\ mutationRate\ The\ probability\ of\ mutation\ happening.\n\ @return\ The\ mutated\ value.\n
+numComments=3
