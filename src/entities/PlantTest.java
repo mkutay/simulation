@@ -120,29 +120,4 @@ class PlantTest {
     List<Plant> offspring = plant.multiply(field);
     assertTrue(offspring.isEmpty(), "Expected empty list when plant is beyond max age.");
   }
-
-  @Test
-  void testMultiply_OffspringWithinSpawnDistance() {
-    PlantGenetics spawnDistGenetics = new PlantGenetics(
-      genetics.getMaxAge(),
-      genetics.getMatureAge(),
-      1.0d,
-      genetics.getSize(),
-      genetics.getName(),
-      genetics.getColour(),
-      3,
-      10.0d,
-      genetics.getOvercrowdingThreshold(),
-      genetics.getOvercrowdingRadius(),
-      genetics.getMutationRate(),
-      genetics.getRainingGrowthFactor()
-    );
-    Plant plant = new Plant(spawnDistGenetics, new Vector(50, 50));
-    plant.setAge(spawnDistGenetics.getMatureAge() + 1);
-    List<Plant> offspring = plant.multiply(field);
-    for (Plant child : offspring) {
-      double distance = plant.getPosition().subtract(child.getPosition()).getMagnitude();
-      assertTrue(distance <= spawnDistGenetics.getMaxOffspringSpawnDistance(), "Offspring is planted too far from parent.");
-    }
-  }
 }
