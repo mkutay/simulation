@@ -13,6 +13,8 @@
   "windStrength": 0.15,
   "stormMovementSpeedFactor": 0.4,
   "showQuadTrees" : false,
+  "animalHungerThreshold": 0.5,
+  "animalDyingOfHungerThreshold": 0.2,
   "predatorsData": [
     {
       "name": "Fox",

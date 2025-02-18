@@ -18,6 +18,11 @@ public class AnimalMovementController {
   private Vector lastPosition; // The last position of the animal -- used to calculate speed
   private double direction; // The direction the animal is moving in (in radians)
 
+  /**
+   * Constructor
+   * @param animal The animal to control movement for.
+   * @param position The initial position of the animal.
+   */
   public AnimalMovementController(Animal animal, Vector position) {
     this.animal = animal;
     this.direction = Math.random() * Math.PI * 2;
@@ -26,11 +31,13 @@ public class AnimalMovementController {
 
   /**
    * Move the entity around randomly, bouncing off of the edges.
-   * TODO: Revamp and document.
+   * @param field The field to move the entity in.
+   * @param deltaTime The delta time.
    */
   public void wander(Field field, double deltaTime) {
     Vector currentPos = animal.getPosition();
 
+    // Randomly change direction:
     direction += (Math.random() - 0.5) * Math.PI * 0.1;
     if (field.isOutOfBounds(currentPos, animal.getSize())) {
       Vector centerOffset = field.getSize().multiply(0.5).subtract(currentPos);
@@ -79,8 +86,8 @@ public class AnimalMovementController {
   }
 
   /**
-   * Flee from an entity.
-   * @param entity The entity to move to.
+   * Flee from an entity. Move in the other direction from the entity.
+   * @param entity The entity to flee from.
    * @param deltaTime Delta time.
    */
   public void fleeFromEntity(Entity entity, double deltaTime) {
@@ -92,38 +99,35 @@ public class AnimalMovementController {
    * Moves to the nearest entity that this animal can eat, returns false if there are none nearby.
    * @param entities The list of entities to search for food from.
    * @param deltaTime The delta time.
-   * @return True if the entity is moving successfully, false if it is not moving
+   * @return True if the entity is moving successfully, false if it is not moving.
    */
   public boolean moveToNearestFood(List<Entity> entities, double deltaTime) {
     Predicate<Entity> condition = animal.hungerController::canEat;
     Entity nearestEntity = getNearestEntity(entities, condition);
+    if (nearestEntity == null) return false;
 
-    if (nearestEntity != null) {
-      moveToEntity(nearestEntity, deltaTime);
-      return true;
-    }
-    return false;
+    moveToEntity(nearestEntity, deltaTime);
+    return true;
   }
 
   /**
    * Moves to the nearest entity that this animal can breed with, returns false if there are none nearby.
    * @param entities The list of entities to search for mates from.
    * @param deltaTime The delta time.
-   * @return True if the entity is moving successfully, false if it is not moving
+   * @return True if the entity is moving successfully, false if it is not moving.
    */
   public boolean moveToNearestMate(List<Entity> entities, double deltaTime) {
     Predicate<Entity> condition = animal.breedingController::canMateWith;
     Entity nearestEntity = getNearestEntity(entities, condition);
+    if (nearestEntity == null) return false;
 
-    if (nearestEntity != null) {
-      moveToEntity(nearestEntity, deltaTime);
-      return true;
-    }
-    return false;
+    moveToEntity(nearestEntity, deltaTime);
+    return true;
   }
 
   /**
    * Search a list of nearby entities and return the nearest entity satisfying the condition, or null.
+   * @implNote If there are multiple entities at the same distance, the first one in the list is returned.
    * @param entities The list of nearby entities to search.
    * @param condition The condition to determine what entities to move towards.
    * @return The nearest entity satisfying the condition, null if none found.
@@ -146,13 +150,17 @@ public class AnimalMovementController {
   }
 
   /**
+   * Set the last position of the animal.
+   * @param lastPosition The last position of the animal.
+   */
+  public void setLastPosition(Vector lastPosition) {
+    this.lastPosition = lastPosition;
+  }
+
+  /**
    * @return The distance travelled in the current frame relative to the last
    */
   public double getDistanceTravelled() {
     return animal.getPosition().subtract(lastPosition).getMagnitude();
-  }
-
-  public void setLastPosition(Vector lastPosition) {
-    this.lastPosition = lastPosition;
   }
 }

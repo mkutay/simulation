@@ -33,21 +33,20 @@ public class Plant extends Entity {
    * @return A list of new plants if the plant can multiply, empty list otherwise.
    */
   public List<Plant> multiply(Field field) {
-    //When raining, multiplication rate increases by a set factor in the genetics
+    // When raining, multiplication rate increases by a set factor in the genetics:
     double growthFactor = field.environment.getWeather() == Weather.RAINING ? genetics.getRainingGrowthFactor() : 1;
     double multiplyingRate = Math.min(genetics.getMultiplyingRate() * growthFactor, 1);
 
     if (!(canMultiply() && Math.random() < multiplyingRate)) return Collections.emptyList();
 
-    if (!field.environment.isDay()){  //If night, very low odds of multiplying
+    if (!field.environment.isDay()){ // If it's night, very low odds of multiplying
       if (Math.random() > 0.3) {
         return Collections.emptyList();
       }
     }
 
-    //Growth factor affects no. seeds and range of growth
+    // Growth factor affects number of seeds and range of growth
     int seeds = (int) (genetics.getNumberOfSeeds() * growthFactor);
-
     Plant[] newPlants = new Plant[seeds];
     for (int i = 0; i < seeds; i++) {
       Vector seedPos = position.getRandomPointInRadius(genetics.getMaxOffspringSpawnDistance() + growthFactor - 1);
@@ -66,7 +65,6 @@ public class Plant extends Entity {
     super.update(field, deltaTime);
 
     List<Plant> newPlants = multiply(field);
-    
     for (Plant plant : newPlants) {
       field.putInBounds(plant, plant.getSize());
       field.addEntity(plant);

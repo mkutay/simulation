@@ -14,13 +14,13 @@ import java.awt.*;
  * @version 1.0
  */
 public class Display {
-  private final RenderPanel renderPanel; // The panel to render to
+  private final RenderPanel renderPanel; // The panel to render to.
 
-    /**
+  /**
    * Constructor -- Create a new display with the specified screen width and height.
    */
   public Display(int screenWidth, int screenHeight) {
-      JFrame display = new JFrame("Window");
+    JFrame display = new JFrame("Window");
     renderPanel = new RenderPanel(screenWidth, screenHeight);
 
     display.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -56,7 +56,7 @@ public class Display {
 
   /**
    * Draw a rectangle at the specified position with the specified width, height, and color.
-   * @param filled draw a filled rectangle if true, outline only if false
+   * @param filled Draw a filled rectangle if true, outline only if false.
    */
   public void drawRectangle(int x, int y, int width, int height, Color color, boolean filled) {
     renderPanel.drawRect(x, y, width, height, color, filled);
@@ -69,6 +69,9 @@ public class Display {
     renderPanel.drawRect(x, y, width, height, color, true);
   }
 
+  /**
+   * Draw a transparent rectangle at the specified position with the specified width, height, and color.
+   */
   public void drawTransparentRectangle(int x, int y, int width, int height, double alpha, Color color) {
     renderPanel.drawTransparentRect(x, y, width, height, color, alpha);
   }
@@ -81,23 +84,23 @@ public class Display {
   }
 
   /**
-   * Draws the given text with the first character at the given x,y
+   * Draws the given text with the first character at the given x, y.
    */
   public void drawText(String text, int fontSize, int x, int y, Color color) {
     renderPanel.drawText(text, fontSize, x, y, color);
   }
 
   /**
-   * Draws a line segment from (x1,y1) to (x2,y2)
-   * @param color the colour of the line
+   * Draws a line segment from (x1, y1) to (x2, y2).
+   * @param color The colour of the line.
    */
   public void drawLine(int x1, int y1, int x2, int y2, Color color) {
     renderPanel.drawLine(x1, y1, x2, y2, color);
   }
 
   /**
-   * Draws a line segment from (x1,y1) in a direction by some distance
-   * @param color the colour of the line
+   * Draws a line segment from (x1, y1) in a direction by some distance.
+   * @param color The colour of the line.
    */
   public void drawLine(int x1, int y1, double direction, double length, Color color) {
     Vector line = Vector.getVectorFromAngle(direction).multiply(length);
@@ -106,8 +109,8 @@ public class Display {
   }
 
   /**
-   * Draws an arrow from (x1,y1) in a direction by some distance
-   * @param color the colour of the line
+   * Draws an arrow from (x1, y1) in a direction by some distance.
+   * @param color The colour of the line.
    */
   public void drawArrow(int x1, int y1, double direction, double length, Color color) {
     Vector tip = Vector.getVectorFromAngle(direction).multiply(length);
@@ -115,16 +118,12 @@ public class Display {
     int tipY = (int) (tip.y() + y1);
 
     double angleOffset = 1.5 * Math.PI / 2;
-    drawLine(x1, y1, direction, length, color); //Main line
+    drawLine(x1, y1, direction, length, color); // Main line
     drawLine(tipX, tipY, direction + angleOffset, length / 3, color);
     drawLine(tipX, tipY, direction - angleOffset, length / 3, color);
   }
 
-  public int getWidth() {
-    return renderPanel.getWidth();
-  }
-
-  public int getHeight() {
-    return renderPanel.getHeight();
-  }
+  // Getters:
+  public int getWidth() { return renderPanel.getWidth(); }
+  public int getHeight() { return renderPanel.getHeight(); }
 }

@@ -16,9 +16,6 @@ public class AnimalHungerController {
   private boolean hasEaten = false; // Stores if the animal has eaten at least once or not -- used for breeding
   protected double foodLevel; // The current food level of the animal (as a ratio between 0 and 1)
 
-  public final static double HUNGRY_THRESHOLD = 0.5; // Will look for food at 50% hunger
-  public final static double DYING_OF_HUNGER_THRESHOLD = 0.2; // Will prioritise looking for food at 20% hunger
-
   public AnimalHungerController(Animal animal) {
     this.animal = animal;
     foodLevel = 0.4; // Spawn with 40% food
@@ -38,7 +35,7 @@ public class AnimalHungerController {
       double foodValue = (entity instanceof Animal ? Data.getFoodValueForAnimals() : Data.getFoodValueForPlants());
       double foodQuantity = entitySizeRatio * foodValue;
       foodLevel += foodQuantity;
-      this.hasEaten = true; // Mark this animal as having eaten at least once, for breeding.
+      this.hasEaten = true; // Mark this animal as having eaten at least once -- to control breeding.
       entity.setDead();
     }
 
@@ -56,7 +53,7 @@ public class AnimalHungerController {
     double distanceTraveled = animal.movementController.getDistanceTravelled();
     double hungerDrainPerTick = Data.getAnimalHungerDrain() * distanceTraveled * deltaTime; // * genetics.getSight(); // TODO: Sight affects hunger drain as balancing system
 
-    foodLevel -= hungerDrainPerTick * (animal.isAsleep ? 0.5 : 1); //If sleeping, consume 50% less food
+    foodLevel -= hungerDrainPerTick * (animal.isAsleep ? 0.5 : 1); // If sleeping, consume 50% less food
     foodLevel -= numberOfOffsprings / (numberOfOffsprings + 1 / Data.getAnimalBreedingCost()); // Food cost for breeding
     if (foodLevel <= 0) animal.setDead();
   }
@@ -74,14 +71,14 @@ public class AnimalHungerController {
    * @return True if the animal is hungry, false otherwise.
    */
   public boolean isHungry() {
-    return foodLevel <= HUNGRY_THRESHOLD;
+    return foodLevel <= Data.getAnimalHungerThreshold();
   }
 
   /**
    * @return True if the animal is dying of hunger, false otherwise.
    */
   public boolean isDyingOfHunger() {
-    return foodLevel <= DYING_OF_HUNGER_THRESHOLD;
+    return foodLevel <= Data.getAnimalDyingOfHungerThreshold();
   }
 
   // Getters:

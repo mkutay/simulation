@@ -1,10 +1,9 @@
 package simulation;
 
-import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import entities.generic.Entity;
-import simulation.simulationData.Data;
 
 /**
  * Holds all the simulation information and is used to step through the simulation.
@@ -36,7 +35,7 @@ public class Simulator {
    * Simulate a single step.
    */
   public void step() {
-    ArrayList<Entity> entities = field.getAllEntities();
+    List<Entity> entities = field.getAllEntities();
     
     for (Entity e : entities) {
       e.update(field, FIXED_DELTA_TIME);
@@ -47,18 +46,10 @@ public class Simulator {
     field.removeDeadEntities();
     field.updateQuadtree();
 
-    if (Data.getDoDayNightCycle()){
-      field.environment.incrementTime(Data.getDayNightCycleSpeed() * 0.01);
-    }
-
-    if (Data.getDoWeatherCycle()){
-      field.environment.updateWeather();
-    }
-
+    field.updateEnvironment();
   }
 
   /**
-   * Get the field of the simulator.
    * @return The field of the simulator.
    */
   public Field getField() {
@@ -66,14 +57,13 @@ public class Simulator {
   }
 
   /**
-   * @return A hash map of entity names to the number of existing entities in the field
+   * @return A hash map of entity names to the number of existing entities in the field.
    */
-  public HashMap<String, Integer> getFieldData(){
+  public HashMap<String, Integer> getFieldData() {
     HashMap<String, Integer> fieldData = new HashMap<>();
-    for (Entity e : field.getAllEntities()) { //Count all the entities in the field
+    for (Entity e : field.getAllEntities()) { // Count all the entities in the field.
       fieldData.put(e.getName(), fieldData.getOrDefault(e.getName(), 0) + 1);
     }
-
     return fieldData;
   }
 }

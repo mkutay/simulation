@@ -10,7 +10,8 @@ import simulation.simulationData.Data;
 
 /**
  * Abstract class for all animals in the simulation.
- * Contains controllers for moving, breeding, and handling hunger.
+ * Contains controllers for moving, breeding, handling hunger, and the behaviour
+ * of the animal.
  * 
  * @author Mehmet Kutay Bozkurt and Anas Ahmed
  * @version 1.0
@@ -19,7 +20,7 @@ public abstract class Animal extends Entity {
   protected AnimalGenetics genetics; // Re-cast to AnimalGenetics
 
   protected boolean isMovingToMate = false; // Stores if the animal is currently attempting to mate
-  protected boolean isAsleep = false;
+  protected boolean isAsleep = false; // Stores if the animal is currently asleep
 
   protected final AnimalMovementController movementController; // Controller for moving the animal
   protected final AnimalBreedingController breedingController; // Controller for breeding the animal
@@ -69,6 +70,7 @@ public abstract class Animal extends Entity {
     movementController.setLastPosition(lastPosition); // Update last position before moving.
     behaviourController.updateBehaviour(field, nearbyEntities, deltaTime);
 
+    // Hinder the speed of the animal if it is stormy:
     if (field.environment.getWeather() == Weather.STORM) {
       Vector differenceVector = position.subtract(lastPosition);
       double speed = differenceVector.getMagnitude();

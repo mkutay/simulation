@@ -1,13 +1,13 @@
 package simulation;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import simulation.environment.Environment;
-import simulation.quadTree.Circle;
-import simulation.quadTree.QuadTree;
-import simulation.quadTree.Rectangle;
-import util.Vector;
+import simulation.simulationData.Data;
 import entities.generic.Entity;
+import simulation.quadTree.*;
+import util.Vector;
 
 /**
  * The field class is used to store all entities in the simulation.
@@ -19,13 +19,13 @@ import entities.generic.Entity;
 public class Field {
   private final int width; // Width of the field
   private final int height; // Height of the field
-  private final ArrayList<Entity> entities; // List of all entities in the field
-  private final ArrayList<Entity> entitiesToSpawn = new ArrayList<>(); // Buffer list for entities to spawn
+  private final List<Entity> entities; // List of all entities in the field
+  private final List<Entity> entitiesToSpawn = new ArrayList<>(); // Buffer list for entities to spawn
 
   private final QuadTree quadtree; // Quadtree for optimising entity search
   private final int quadtreeCapacity = 2; // How many entities each quadtree can store before dividing
 
-  public final Environment environment;
+  public final Environment environment; // The environment of the field
 
   /**
    * Constructor that is used with the JUnit tests.
@@ -100,7 +100,7 @@ public class Field {
    * @param queryRadius The radius of the query range.
    * @return A list of entities in the field in the specified query range.
    */
-  public ArrayList<Entity> queryQuadtree(Vector position, double queryRadius) {
+  public List<Entity> queryQuadtree(Vector position, double queryRadius) {
     Circle queryRange = new Circle(position, queryRadius);
     return quadtree.query(queryRange);
   }
@@ -115,7 +115,7 @@ public class Field {
   /**
    * @return All entities currently in the field.
    */
-  public ArrayList<Entity> getAllEntities() {
+  public List<Entity> getAllEntities() {
     return entities;
   }
 
@@ -143,5 +143,18 @@ public class Field {
   public void spawnNewEntities() {
     entities.addAll(entitiesToSpawn);
     entitiesToSpawn.clear();
+  }
+
+  /**
+   * Updates the environment of the field; that is, updates the time and weather.
+   */
+  public void updateEnvironment() {
+    if (Data.getDoDayNightCycle()) {
+      environment.incrementTime(Data.getDayNightCycleSpeed() * 0.01);
+    }
+
+    if (Data.getDoWeatherCycle()) {
+      environment.updateWeather();
+    }
   }
 }

@@ -8,7 +8,7 @@ import simulation.environment.Weather;
 import simulation.simulationData.Data;
 
 import java.awt.*;
-import java.util.ArrayList;
+import java.util.List;
 import java.util.HashMap;
 
 /**
@@ -56,7 +56,7 @@ public class Engine {
 
       display.fill(Color.BLACK);
 
-      ArrayList<Entity> entities = simulator.getField().getAllEntities();
+      List<Entity> entities = simulator.getField().getAllEntities();
       // We draw the entities in order of oldest to youngest to prevent annoying overlap.
       for (int i = entities.size() - 1; i >= 0; i--) {
         Entity entity = entities.get(i);
@@ -64,16 +64,16 @@ public class Engine {
       }
 
 
-      if (Data.getShowQuadTrees()) { // Debug tool to show the quadtree.
+      // Debug tool to show the quadtree. It also looks really cool!
+      if (Data.getShowQuadTrees()) {
         simulator.getField().getQuadtree().draw(display, fieldScaleFactor);
       }
 
-      //Draw and update weather effects
+      // Draw and update weather effects.
       if (Data.getDoWeatherCycle()) {
         updateWeatherEffects(display);
         drawWeatherText();
       }
-
 
       drawFieldDataText();
 
@@ -81,12 +81,15 @@ public class Engine {
         drawTimeText();
       }
 
-
       display.update();
       clock.tick();
     }
   }
 
+  /**
+   * Update the weather effects on the display.
+   * @param display The display to update the weather effects on.
+   */
   private void updateWeatherEffects(Display display) {
     Environment environment = simulator.getField().environment;
     environment.spawnRain(display);
@@ -95,21 +98,22 @@ public class Engine {
     environment.updateWeatherEffects(display);
   }
 
-
-
+  /**
+   * Draws the weather text, specifying the current weather and wind direction.
+   */
   private void drawWeatherText() {
     Weather weather = simulator.getField().environment.getWeather();
     display.drawText(weather.toString(), 20, 5, 40, Color.WHITE);
     if (weather == Weather.WINDY || weather == Weather.STORM) {
-      display.drawText("Wind Direction :", 20, 5, 60, Color.WHITE);
+      display.drawText("Wind Direction:", 20, 5, 60, Color.WHITE);
       double windDirection = simulator.getField().environment.getWindDirection();
-      display.drawCircle(210, 55, 20, Color.BLACK);
-      display.drawArrow(210, 55, windDirection, 20, Color.WHITE);
+      display.drawCircle(180, 55, 20, Color.BLACK);
+      display.drawArrow(180, 55, windDirection, 20, Color.WHITE);
     }
   }
 
   /**
-   * Renders text of the current time of day if the day/night cycle mode is enabled
+   * Renders text of the current time of day.
    */
   private void drawTimeText() {
     String time = simulator.getField().environment.getTimeFormatted();
@@ -117,16 +121,17 @@ public class Engine {
   }
 
   /**
-   * Lists all alive entities and the number of existing entities in the bottom left corner
+   * Lists all alive entities and the number of existing entities for each species
+   * in the bottom left corner.
    */
-  private void drawFieldDataText(){
+  private void drawFieldDataText() {
     HashMap<String, Integer> fieldData = simulator.getFieldData();
     int fontSize = 15;
     int startY = (display.getHeight() - fieldData.size() * fontSize);
     int i = 0;
     for (String entityName : fieldData.keySet()) {
       String data = entityName + ": " + fieldData.get(entityName);
-      display.drawText(data, fontSize, 5, startY + i*fontSize, Color.WHITE);
+      display.drawText(data, fontSize, 5, startY + i * fontSize, Color.WHITE);
       i++;
     }
   }

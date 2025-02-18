@@ -14,7 +14,8 @@ import util.Utility;
  */
 public class PlantData extends EntityData {
   public int[] numberOfSeeds; // Number of seeds produced by the plant -- when multiplied
-  public double rainingGrowthFactor;
+  public double rainingGrowthFactor; // Growth factor when raining (affects number of seeds and range of growth)
+
   /**
    * @return A random set of genetics for a plant based on the data provided.
    */

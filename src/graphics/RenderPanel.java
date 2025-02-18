@@ -2,12 +2,11 @@ package graphics;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
-
 import javax.swing.JPanel;
 
 /**
- * A modified JPanel to allow easy graphics rendering.
- * All graphics are drawn onto the BufferedImage "surface" through the Graphics2D attribute.
+ * A modified JPanel to allow easy graphics rendering. All graphics are drawn
+ * onto the BufferedImage "surface" through the Graphics2D attribute.
  * Updates are shown when repaint() is called.
  * 
  * @author Anas Ahmed and Mehmet Kutay Bozkurt

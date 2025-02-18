@@ -11,7 +11,7 @@ import java.awt.Color;
  */
 public class PlantGenetics extends Genetics {
   private final int numberOfSeeds; // Number of seeds produced by the plant, when multiplying.
-  private final double rainingGrowthFactor;
+  private final double rainingGrowthFactor; // The factor by which the plant grows when it is raining.
 
   /**
    * Constructor -- Creates a new set of genetics for a plant.
@@ -33,5 +33,5 @@ public class PlantGenetics extends Genetics {
 
   // Getters:
   public int getNumberOfSeeds() { return numberOfSeeds; }
-  public double getRainingGrowthFactor() {return rainingGrowthFactor; }
+  public double getRainingGrowthFactor() { return rainingGrowthFactor; }
 }

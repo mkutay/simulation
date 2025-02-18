@@ -28,17 +28,19 @@ public class AnimalBreedingController {
   /**
    * Breeds with a random mate (opposite gender) from the list of entities in sight.
    * @param nearbyEntities The list of entities in sight of this animal.
-   * @return A list of offspring from the breeding, empty if no breeding occurred.
+   * @return A list of offspring from the breeding, empty if no breeding occures.
    */
   public List<Animal> breed(List<Entity> nearbyEntities) {
-    if (!canBreed() || Math.random() > animal.genetics.getMultiplyingRate()){
+    if (!canBreed() || Math.random() > animal.genetics.getMultiplyingRate()) {
       return Collections.emptyList();
     }
 
     Animal mateEntity = getRandomMate(nearbyEntities);
     if (mateEntity == null) return Collections.emptyList(); // If there is no valid mate entity, finish.
 
-    int litterSize = (int) (Math.random() * Math.min(animal.genetics.getMaxLitterSize(), mateEntity.genetics.getMaxLitterSize())) + 1;
+    double mateLitterSize = mateEntity.genetics.getMaxLitterSize();
+    double animalLitterSize = animal.genetics.getMaxLitterSize();
+    int litterSize = (int) (Math.random() * Math.min(animalLitterSize, mateLitterSize)) + 1;
 
     List<Animal> offsprings = new ArrayList<>();
     for (int i = 0; i < litterSize; i++) {
@@ -55,8 +57,6 @@ public class AnimalBreedingController {
    * @return A random mate from the list of entities, null if no mate found.
    */
   private Animal getRandomMate(List<Entity> nearbyEntities) {
-    // double searchRadius = animal.genetics.getSight() * Data.getBreedingRadiusFactorToSight();
-    // List<Entity> entities = animal.searchNearbyEntities(field, searchRadius);
     List<Entity> potentialMates = nearbyEntities.stream()
       .filter(this::canMateWith)
       .toList();
@@ -69,12 +69,12 @@ public class AnimalBreedingController {
    * @return True if this animal can mate with the specified entity, false otherwise.
    */
   protected boolean canMateWith(Entity entity) {
-    if (entity instanceof Animal other_animal) {
-      boolean isSameSpecies = other_animal.getName().equals(animal.getName());
-      boolean isOppositeGender = other_animal.genetics.getGender() != animal.genetics.getGender();
+    if (entity instanceof Animal otherAnimal) {
+      boolean isSameSpecies = otherAnimal.getName().equals(animal.getName());
+      boolean isOppositeGender = otherAnimal.genetics.getGender() != animal.genetics.getGender();
       return isOppositeGender
         && isSameSpecies
-        && other_animal.breedingController.canBreed()
+        && otherAnimal.breedingController.canBreed()
         && canBreed();
     }
     return false;
@@ -86,6 +86,8 @@ public class AnimalBreedingController {
    * @return True if this animal can breed/multiply, false otherwise.
    */
   private boolean canBreed() {
-    return animal.canMultiply() && animal.hungerController.hasEaten() && animal.hungerController.getFoodLevel() >= Data.getAnimalBreedingCost();
+    return animal.canMultiply()
+      && animal.hungerController.hasEaten()
+      && animal.hungerController.getFoodLevel() >= Data.getAnimalBreedingCost();
   }
 }

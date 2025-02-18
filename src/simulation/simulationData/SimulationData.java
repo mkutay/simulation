@@ -20,4 +20,7 @@ public class SimulationData {
   public double stormMovementSpeedFactor;
   public boolean showQuadTrees;
   public double dayNightCycleSpeed;
+
+  public double animalHungerThreshold; // Animals will look for food at this threshold.
+  public double animalDyingOfHungerThreshold; // Animals will prioritise looking for food at this threshold.
 }

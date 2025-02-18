@@ -32,4 +32,6 @@ public class Data {
   public static double getStormMovementSpeedFactor() { return simulationData.stormMovementSpeedFactor; }
   public static boolean getShowQuadTrees() { return simulationData.showQuadTrees; }
   public static double getDayNightCycleSpeed() { return simulationData.dayNightCycleSpeed; }
+  public static double getAnimalDyingOfHungerThreshold() { return simulationData.animalDyingOfHungerThreshold; }
+  public static double getAnimalHungerThreshold() { return simulationData.animalHungerThreshold; }
 }
