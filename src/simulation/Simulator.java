@@ -24,12 +24,6 @@ public class Simulator {
   private final static double FIXED_DELTA_TIME = 0.2;
 
   /**
-   * How much to affect the day/night cycle per frame. Independent of delta time.
-   */
-  private final static double DAY_NIGHT_CYCLE_RATE = 0.001;
-
-
-  /**
    * Constructor for the simulator.
    * @param width The width of the field.
    * @param height The height of the field.
@@ -54,7 +48,7 @@ public class Simulator {
     field.updateQuadtree();
 
     if (Data.getDoDayNightCycle()){
-      field.environment.incrementTime(DAY_NIGHT_CYCLE_RATE);
+      field.environment.incrementTime(Data.getDayNightCycleSpeed() * 0.01);
     }
 
     if (Data.getDoWeatherCycle()){

@@ -1,5 +1,5 @@
 {
-  "foodValueForAnimals": 1,
+  "foodValueForAnimals": 0.8,
   "foodValueForPlants": 0.1,
   "animalHungerDrain": 0.0035,
   "animalBreedingCost": 0.5,
@@ -7,6 +7,7 @@
   "entityAgeRate": 0.5,
   "fieldScaleFactor" : 0.5,
   "doDayNightCycle" : true,
+  "dayNightCycleSpeed" : 0.1,
   "doWeatherCycle" : true,
   "weatherChangeProbability" : 1,
   "windStrength": 0.15,
