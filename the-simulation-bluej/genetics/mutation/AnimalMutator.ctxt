@@ -1,7 +1,0 @@
-#BlueJ class context
-comment0.target=AnimalMutator
-comment0.text=\n\ Responsible\ for\ mutating\ animal\ genetics.\n\ \n\ @author\ Mehmet\ Kutay\ Bozkurt\ and\ Anas\ Ahmed\n\ @version\ 1.0\n
-comment1.params=genetics
-comment1.target=genetics.AnimalGenetics\ mutateAnimalGenetics(genetics.AnimalGenetics)
-comment1.text=\n\ Mutate\ the\ given\ animal\ genetics.\n\ @implNote\ Creates\ a\ new\ object,\ instead\ of\ mutating\ the\ given\ one.\n\ @param\ genetics\ The\ genetics\ to\ mutate.\n\ @return\ The\ mutated\ genetics.\n
-numComments=2
