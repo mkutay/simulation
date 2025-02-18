@@ -39,15 +39,15 @@ public class AnimalBehaviourController {
 
     if (isHungry) animal.hungerController.eat(nearbyEntities);
 
-    if (!isDyingOfHunger) { // If not dying of hunger, attempt to flee from predators.
+    if (!isDyingOfHunger && !animal.isMovingToMate) { // If not dying of hunger, attempt to flee from predators.
        // If fleeing, stop other behaviour:
       if (fleeFromPredators(nearbyEntities, deltaTime)) return;
     }
 
-    // If not hungry, its nighttime and no predator is nearby, sleep (do nothing):
-    if (!isHungry && !field.environment.isDay()) {
+    // If not hungry, its nighttime, isn't truing to mate and no predator is nearby, sleep (do nothing):
+    if (!isHungry && !field.environment.isDay() && !animal.isMovingToMate) {
       animal.isAsleep = true;
-      return; // Stop other behaviour from occuring
+      return; // Stop other behaviour from occurring
     }
 
     boolean movingToFood = false;
