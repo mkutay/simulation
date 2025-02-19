@@ -118,8 +118,8 @@ public class QuadTree {
       }
     }
 
-    // Recursively query children
     if (!hasSubdivided) return;
+    // Recursively query children:
     topLeftTree.queryInternal(queryRange, foundEntities);
     topRightTree.queryInternal(queryRange, foundEntities);
     bottomLeftTree.queryInternal(queryRange, foundEntities);

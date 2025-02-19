@@ -23,7 +23,7 @@ public class Environment {
   }
 
   /**
-   * Update the weather effects on the display.
+   * Draws the weather effects on the display.
    * @param display The display to update the weather effects on.
    */
   public void drawWeatherEffects(Display display) {
@@ -31,18 +31,22 @@ public class Environment {
   }
 
   /**
-   * Update the weather that affects the simulation.
+   * Draws the weather that affects the simulation.
    */
   public void updateWeather() {
     weatherController.updateWeather();
   }
 
+  /**
+   * Draws the weather text onto the display.
+   * @param display The display to draw.
+   */
   public void drawWeatherText(Display display) {
     weatherController.drawWeatherText(display);
   }
 
   /**
-   * Update the time of day, and if the day has changed, change the weather.
+   * Updates the time of day, and if the day has changed, change the weather.
    * @param dayNightCycleRate The amount of time to pass per update.
    */
   public void updateTime(double dayNightCycleRate) {
@@ -53,7 +57,7 @@ public class Environment {
   }
 
   /**
-   * Draw the darkness effect onto the display.
+   * Draws the darkness effect onto the display.
    * @param display The display to draw the effects on.
    */
   public void drawDarknessEffect(Display display) {
@@ -61,7 +65,7 @@ public class Environment {
   }
 
   /**
-   * Update the time effects on the display; mainly time text.
+   * Draws the time effects on the display; mainly time text.
    * @param display The display to update the time effects on.
    */
   public void drawTimeText(Display display) {

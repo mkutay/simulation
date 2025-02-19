@@ -11,7 +11,8 @@ import java.util.HashMap;
 
 /**
  * Combines the Simulator and Display to visualise the simulation.
- * This is the "engine" that runs the entire simulation.
+ * This is the "engine" that runs the entire simulation. Holds the Clock
+ * object to keep track of time.
  * 
  * @author Anas Ahmed and Mehmet Kutay Bozkurt
  * @version 1.0
@@ -23,11 +24,11 @@ public class Engine {
   private boolean running = false; // Whether the simulation is running.
 
   /**
-   * 0 < scaleFactor < 1 => field is zoomed in
-   * scaleFactor = 1 => field is screen size (1 field unit = 1px)
-   * scale factor > 1 => field is zoomed out
+   * 0 < scaleFactor < 1 => field is zoomed in.
+   * scaleFactor = 1 => field is screen size (1 field unit = 1px).
+   * scale factor > 1 => field is zoomed out.
    */
-  private final double fieldScaleFactor; // Scales the field size up/down, so field size doesn't have to be screen size
+  private final double fieldScaleFactor; // Scales the field size up/down, so field size doesn't have to be screen size.
 
     /**
    * Constructor - Create an engine to run the simulation.
@@ -51,7 +52,6 @@ public class Engine {
   private void run() {
     while (running) {
       simulator.step();
-
       display.fill(Color.BLACK);
 
       List<Entity> entities = simulator.getField().getAllEntities();
@@ -61,7 +61,7 @@ public class Engine {
         entity.draw(display, fieldScaleFactor);
       }
 
-      // Update weather effects.
+      // Draw the weather effects.
       if (Data.getDoWeatherCycle()) {
         simulator.getField().environment.drawWeatherEffects(display);
       }
@@ -76,12 +76,12 @@ public class Engine {
         simulator.getField().getQuadtree().draw(display, fieldScaleFactor);
       }
 
-      // Update weather text.
+      // Draw the weather text.
       if (Data.getDoWeatherCycle()) {
         simulator.getField().environment.drawWeatherText(display);
       }
 
-      // Update time text.
+      // Draw the time text.
       if (Data.getDoDayNightCycle()) {
         simulator.getField().environment.drawTimeText(display);
       }

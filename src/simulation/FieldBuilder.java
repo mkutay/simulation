@@ -20,9 +20,9 @@ public class FieldBuilder {
   private ArrayList<Entity> entities; // The list of entities.
 
   /**
-   * Constructor.
+   * Constructor -- Create a FieldBuilder with the given width and height and create all entities.
    * @param width The width of the field.
-   * @param height The height of the field
+   * @param height The height of the field.
    */
   public FieldBuilder(int width, int height) {
     this.width = width;
