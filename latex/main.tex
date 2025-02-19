@@ -127,7 +127,8 @@
     \noindent \textbf{Tracking Time of Day:} An \verb|Environment| class is used to track the time of day and the weather,
     which governs how both cycles impact entity behaviour. During the night, entities will not move unless they are hungry
     or there is a predator nearby. Additionally, when sleeping, food consumption is reduced. The day-night cycle can be controlled
-    by the JSON file, and the time of day is displayed on the screen.
+    by the JSON file, and the time of day is displayed on the screen. Additionally, as the day progresses into the night,
+    the screen darkens to represent the time of day, without affecting the text on the screen.
 
     \subsection{Challenge Tasks}
 
@@ -158,7 +159,7 @@
     value, the mutation factor is applied to the new trait as follows:
     \begin{equation}
       \label{mutation-equation}
-      \text{newTrait} = \text{value} + \text{value} * \text{mutationFactor} * s,
+      \text{newTrait} = \text{value} + \text{value} \times \text{mutationFactor} \times s,
     \end{equation}
     where the mutation factor is a value, in the range \( [0, 1] \), that determines how drastic the mutation is.
     This system allows for a wide range of genetic diversity in the simulation, which is easily observable when
