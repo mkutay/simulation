@@ -22,8 +22,7 @@ public class FieldBuilder {
   /**
    * Constructor.
    * @param width The width of the field.
-   * @param height The height of the field.
-   * @param data The simulation data.
+   * @param height The height of the field
    */
   public FieldBuilder(int width, int height) {
     this.width = width;

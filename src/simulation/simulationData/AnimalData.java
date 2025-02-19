@@ -18,8 +18,6 @@ public class AnimalData extends EntityData{
   public double[] maxSpeed; // Speed of the entity
   public double[] sight; // Range at which the entity can see other entities
   public String[] eats; // List of entities that this entity can eat
-  public double[] maxFoodLevel; // Maximum food level of the entity
-
   /**
    * @return A random set of genetics for an animal based on the data provided.
    */
