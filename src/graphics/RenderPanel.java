@@ -1,139 +1,74 @@
 package graphics;
 
-import java.awt.*;
-import java.awt.image.BufferedImage;
-import javax.swing.JPanel;
+import java.awt.Color;
+import java.net.URI;
+
+import com.google.gson.Gson;
+import io.github.cdimascio.dotenv.Dotenv;
+import redis.clients.jedis.JedisPooled;
+
+import graphics.methods.*;
 
 /**
- * A modified JPanel to allow easy graphics rendering. All graphics are drawn
- * onto the BufferedImage "surface" through the Graphics2D attribute.
- * Updates are shown when repaint() is called.
+ * Send the simulation data to the Redis database to update the web app.
  * 
  * @author Anas Ahmed and Mehmet Kutay Bozkurt
  * @version 1.0
  */
-public class RenderPanel extends JPanel {
-	private final Graphics2D g2; // Graphics context
-	private final BufferedImage surface; // The buffered image to draw to.
+public class RenderPanel {
+	private DisplayData data;
+	private JedisPooled client;
 
-	/**
-	 * Constructor -- Create the render panel.
-	 * @param screenWidth the screen width of the display (px).
-	 * @param screenHeight the screen height of the display (px).
-	 */
-	public RenderPanel(int screenWidth, int screenHeight) {
-		setPreferredSize(new Dimension(screenWidth, screenHeight));
-		surface = new BufferedImage(screenWidth, screenHeight, BufferedImage.TYPE_INT_ARGB);
-
-		g2 = (Graphics2D) surface.getGraphics(); // Get graphics context.
+	public RenderPanel(int width, int height) {
+		data = new DisplayData(width, height);
+		Dotenv dotenv = Dotenv.load();
+		String redisUri = dotenv.get("REDIS_URI");
+		URI uri = URI.create(redisUri);
+		client = new JedisPooled(uri);
 	}
 
-	/**
-	 * Fills the screen with a single colour.
-	 */
 	public void fill(Color color) {
-		g2.setColor(color);
-		g2.fillRect(0, 0, getWidth(), getHeight());
+		data.add(new Fill("fill", getArrayFromColor(color)));
 	}
 
-	/**
-	 * Draw a filled circle.
-	 * @param x X position of the circle's center.
-	 * @param y Y position of the circle's center.
-	 * @param radius Radius in pixels.
-	 * @param color Colour to render circle.
-	 */
 	public void drawCircle(int x, int y, int radius, Color color) {
-		g2.setColor(color);
-		g2.fillOval(x - radius, y - radius, radius*2, radius*2);
+		data.add(new DrawCircle("drawCircle", x, y, radius, getArrayFromColor(color)));
 	}
 
-	/**
-	 * Draw a filled rectangle.
-	 * @param x X position of top left.
-	 * @param y Y position of top left.
-	 * @param width Width in pixels.
-	 * @param height Height in pixels.
-	 * @param color Colour to render rectangle.
-	 * @param filled To draw the rectangle filled or not
-	 */
 	public void drawRect(int x, int y, int width, int height, Color color, boolean filled) {
-		g2.setColor(color);
-		if (filled) {
-			g2.fillRect(x, y, width, height);
-		} else {
-			g2.drawRect(x, y, width, height);
-		}
+		data.add(new DrawRect("drawRect", x, y, width, height, getArrayFromColor(color), filled));
 	}
 
-	/**
-	 * Draw a filled equilateral triangle.
-	 * @param centerX X position of the triangle's center.
-	 * @param centerY Y position of the triangle's center.
-	 * @param radius Radius in pixels.
-	 * @param color Colour to render triangle.
-	 */
 	public void drawEqualTriangle(int centerX, int centerY, int radius, Color color) {
-		g2.setColor(color);
-		int[] xPoints = new int[3];
-		int[] yPoints = new int[3];
-
-		for (int i = 0; i < 3; i++) {
-			double angle = Math.PI / 2 + i * 2 * Math.PI / 3;
-			xPoints[i] = (int) (centerX + (radius * Math.cos(angle)));
-			yPoints[i] = (int) (centerY - (radius * Math.sin(angle)));
-		}
-
-		g2.fillPolygon(xPoints, yPoints, 3);
+		data.add(new DrawEqualTriangle("drawEqualTriangle", centerX, centerY, radius, getArrayFromColor(color)));
 	}
 
-	/**
-	 * Renders text - the baseline of the first character is at position (x, y)
-	 * @param text the text to draw onto the screen
-	 * @param fontSize the size of the text to draw
-	 * @param x the x pos of the first character
-	 * @param y the y pos of the first character
-	 * @param color the colour of the text to render
-	 */
 	public void drawText(String text, int fontSize, int x, int y, Color color) {
-		g2.setColor(color);
-		g2.setFont(new Font("Consolas", Font.PLAIN, fontSize));
-		g2.drawString(text, x, y);
+		data.add(new DrawText("drawText", text, fontSize, x, y, getArrayFromColor(color)));
 	}
 
-	/**
-	 * Draws a line segment from (x1,y1) to (x2,y2)
-	 * @param color the colour of the line
-	 */
 	public void drawLine(int x1, int y1, int x2, int y2, Color color) {
-		g2.setColor(color);
-		g2.drawLine(x1, y1, x2, y2);
+		data.add(new DrawLine("drawLine", x1, y1, x2, y2, getArrayFromColor(color)));
 	}
 
-	/**
-	 * Draw a transparent rectangle
-	 * @param x X position of top left
-	 * @param y Y position of top left
-	 * @param width Width in pixels
-	 * @param height Height in pixels
-	 * @param color Colour to render rectangle
-	 * @param alpha Transparency level (0 transparent, 1 opaque)
-	 */
 	public void drawTransparentRect(int x, int y, int width, int height, Color color, double alpha) {
-		Composite originalComposite = g2.getComposite();
-
-		g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, (float) alpha));
-		g2.setColor(color);
-		g2.fillRect(x, y, width, height);
-
-		g2.setComposite(originalComposite);
+		data.add(new DrawTransparentRect("drawTransparentRect", x, y, width, height, getArrayFromColor(color), alpha));
 	}
 
-	/**
-	 * Called with every draw call, draws everything stored on the bufferedImage to the display.
-	 */
-	@Override
-	public void paintComponent(Graphics g) {
-		g.drawImage(surface, 0, 0, null);
+	// Send all the stored data to the redis database.
+	public void update() {
+		Gson g = new Gson();
+		String j = g.toJson(data);
+
+		client.jsonSet("display", j);
+
+		data.d.clear();
 	}
+
+	private int[] getArrayFromColor(Color c) {
+		return new int[] { c.getRed(), c.getGreen(), c.getBlue() };
+	}
+
+	public int getWidth() { return data.w; }
+	public int getHeight() { return data.h; }
 }

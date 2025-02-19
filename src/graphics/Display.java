@@ -2,7 +2,6 @@ package graphics;
 
 import util.Vector;
 
-import javax.swing.JFrame;
 import java.awt.*;
 
 /**
@@ -20,24 +19,14 @@ public class Display {
    * Constructor -- Create a new display with the specified screen width and height.
    */
   public Display(int screenWidth, int screenHeight) {
-    JFrame display = new JFrame("Window");
-    renderPanel = new RenderPanel(screenWidth, screenHeight);
-
-    display.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-    display.setResizable(false);
-
-    display.add(renderPanel);
-    display.pack(); // Force correct sizing
-
-    display.setVisible(true);
-    display.createBufferStrategy(2);
+    this.renderPanel = new RenderPanel(screenWidth, screenHeight);
   }
 
   /**
    * Update the display to show the rendered graphics.
    */
   public void update() {
-    renderPanel.repaint();
+    renderPanel.update();
   }
 
   /**
