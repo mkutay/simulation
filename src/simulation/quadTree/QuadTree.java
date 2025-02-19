@@ -2,6 +2,7 @@ package simulation.quadTree;
 
 import java.awt.Color;
 import java.util.ArrayList;
+import java.util.List;
 
 import entities.generic.Entity;
 import graphics.Display;
@@ -95,8 +96,8 @@ public class QuadTree {
    * @param queryRange The range to query the quad tree.
    * @return A list of entities found in the given range.
    */
-  public ArrayList<Entity> query(Circle queryRange) {
-    ArrayList<Entity> foundEntities = new ArrayList<>();
+  public List<Entity> query(Circle queryRange) {
+    List<Entity> foundEntities = new ArrayList<>();
     queryInternal(queryRange, foundEntities);
     return foundEntities;
   }
@@ -107,7 +108,7 @@ public class QuadTree {
    * @param queryRange The range to query the quad tree.
    * @param foundEntities The list to add the found entities to.
    */
-  private void queryInternal(Circle queryRange, ArrayList<Entity> foundEntities) {
+  private void queryInternal(Circle queryRange, List<Entity> foundEntities) {
     if (!rect.intersects(queryRange)) return;
 
     // Check entities stored in this node

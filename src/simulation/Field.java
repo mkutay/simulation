@@ -150,7 +150,7 @@ public class Field {
    */
   public void updateEnvironment() {
     if (Data.getDoDayNightCycle()) {
-      environment.incrementTime(Data.getDayNightCycleSpeed() * 0.01);
+      environment.updateTime(Data.getDayNightCycleSpeed() * 0.01);
     }
 
     if (Data.getDoWeatherCycle()) {

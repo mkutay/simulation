@@ -1,5 +1,6 @@
 package entities;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -11,7 +12,8 @@ import simulation.environment.Weather;
 import util.Vector;
 
 /**
- * A class that holds the properties of a plant entity.
+ * A class that holds the properties of a plant entity. Plants can multiply and
+ * spread their seeds (basically new plants).
  * 
  * @author Anas Ahmed and Mehmet Kutay Bozkurt
  * @version 1.0
@@ -28,8 +30,8 @@ public class Plant extends Entity {
   }
 
   /**
-   * Spawn new plants around this plant. The new plants have the same
-   * genetics as the parent plant (may be mutated).
+   * Spawn new plants around this plant. The new plants have the same genetics
+   * as the parent plant, though it may be mutated.
    * @return A list of new plants if the plant can multiply, empty list otherwise.
    */
   public List<Plant> multiply(Field field) {
@@ -39,30 +41,32 @@ public class Plant extends Entity {
 
     if (!(canMultiply() && Math.random() < multiplyingRate)) return Collections.emptyList();
 
-    if (!field.environment.isDay()){ // If it's night, very low odds of multiplying
+    if (!field.environment.isDay()) { // If it's night, very low odds of multiplying.
       if (Math.random() > 0.3) {
         return Collections.emptyList();
       }
     }
 
-    // Growth factor affects number of seeds and range of growth
+    // Growth factor affects number of seeds and range of growth:
     int seeds = (int) (genetics.getNumberOfSeeds() * growthFactor);
-    Plant[] newPlants = new Plant[seeds];
+    List<Plant> newPlants = new ArrayList<>();
     for (int i = 0; i < seeds; i++) {
       Vector seedPos = position.getRandomPointInRadius(genetics.getMaxOffspringSpawnDistance() + growthFactor - 1);
-      newPlants[i] = new Plant(genetics.getOffspringGenetics(), seedPos);
+      newPlants.add(new Plant(genetics.getOffspringGenetics(), seedPos));
     }
 
-    return List.of(newPlants);
+    return newPlants;
   }
 
   /**
-   * Update this plant entity.
+   * Update this plant entity. This includes multiplying and handling overcrowding.
    */
   @Override
   public void update(Field field, double deltaTime) {
     if (!isAlive()) return;
     super.update(field, deltaTime);
+
+    List<Entity> nearbyEntities = searchNearbyEntities(field, genetics.getOvercrowdingRadius());
 
     List<Plant> newPlants = multiply(field);
     for (Plant plant : newPlants) {
@@ -70,7 +74,7 @@ public class Plant extends Entity {
       field.addEntity(plant);
     }
 
-    handleOvercrowding(field);
+    handleOvercrowding(nearbyEntities);
   }
 
   /**

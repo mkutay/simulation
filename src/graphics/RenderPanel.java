@@ -13,7 +13,7 @@ import javax.swing.JPanel;
  * @version 1.0
  */
 public class RenderPanel extends JPanel {
-	private final Graphics2D g2; // Graphics context
+	private final Graphics2D g2; // Graphics context.
 	private final BufferedImage surface; // The buffered image to draw to.
 
 	/**
@@ -88,12 +88,12 @@ public class RenderPanel extends JPanel {
 	}
 
 	/**
-	 * Renders text - the baseline of the first character is at position (x, y)
-	 * @param text the text to draw onto the screen
-	 * @param fontSize the size of the text to draw
-	 * @param x the x pos of the first character
-	 * @param y the y pos of the first character
-	 * @param color the colour of the text to render
+	 * Renders text - the baseline of the first character is at position (x, y).
+	 * @param text The text to draw onto the screen.
+	 * @param fontSize The size of the text to draw.
+	 * @param x The x pos of the first character.
+	 * @param y The y pos of the first character.
+	 * @param color The colour of the text to render.
 	 */
 	public void drawText(String text, int fontSize, int x, int y, Color color) {
 		g2.setColor(color);
@@ -102,8 +102,8 @@ public class RenderPanel extends JPanel {
 	}
 
 	/**
-	 * Draws a line segment from (x1,y1) to (x2,y2)
-	 * @param color the colour of the line
+	 * Draws a line segment from (x1, y1) to (x2, y2).
+	 * @param color The colour of the line.
 	 */
 	public void drawLine(int x1, int y1, int x2, int y2, Color color) {
 		g2.setColor(color);
@@ -111,13 +111,13 @@ public class RenderPanel extends JPanel {
 	}
 
 	/**
-	 * Draw a transparent rectangle
-	 * @param x X position of top left
-	 * @param y Y position of top left
-	 * @param width Width in pixels
-	 * @param height Height in pixels
-	 * @param color Colour to render rectangle
-	 * @param alpha Transparency level (0 transparent, 1 opaque)
+	 * Draw a transparent rectangle.
+	 * @param x X position of top left.
+	 * @param y Y position of top left.
+	 * @param width Width in pixels.
+	 * @param height Height in pixels.
+	 * @param color Colour to render rectangle.
+	 * @param alpha Transparency level (0 transparent, 1 opaque).
 	 */
 	public void drawTransparentRect(int x, int y, int width, int height, Color color, double alpha) {
 		Composite originalComposite = g2.getComposite();

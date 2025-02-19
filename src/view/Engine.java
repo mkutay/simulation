@@ -2,9 +2,7 @@ package view;
 
 import entities.generic.Entity;
 import graphics.Display;
-import simulation.environment.Environment;
 import simulation.Simulator;
-import simulation.environment.Weather;
 import simulation.simulationData.Data;
 
 import java.awt.*;
@@ -19,10 +17,10 @@ import java.util.HashMap;
  * @version 1.0
  */
 public class Engine {
-  private final Display display; // The GUI display
-  private final Simulator simulator; // The simulation
-  private final Clock clock; // Clock to keep track of time
-  private boolean running = false; // Whether the simulation is running
+  private final Display display; // The GUI display.
+  private final Simulator simulator; // The simulation.
+  private final Clock clock; // Clock to keep track of time.
+  private boolean running = false; // Whether the simulation is running.
 
   /**
    * 0 < scaleFactor < 1 => field is zoomed in
@@ -63,61 +61,36 @@ public class Engine {
         entity.draw(display, fieldScaleFactor);
       }
 
+      // Update weather effects.
+      if (Data.getDoWeatherCycle()) {
+        simulator.getField().environment.drawWeatherEffects(display);
+      }
+
+      // Draw the darkning screen effect before any text to not obscure them:
+      if (Data.getDoDayNightCycle()) {
+        simulator.getField().environment.drawDarknessEffect(display);
+      }
 
       // Debug tool to show the quadtree. It also looks really cool!
       if (Data.getShowQuadTrees()) {
         simulator.getField().getQuadtree().draw(display, fieldScaleFactor);
       }
 
-      // Draw and update weather effects.
+      // Update weather text.
       if (Data.getDoWeatherCycle()) {
-        updateWeatherEffects(display);
-        drawWeatherText();
+        simulator.getField().environment.drawWeatherText(display);
+      }
+
+      // Update time text.
+      if (Data.getDoDayNightCycle()) {
+        simulator.getField().environment.drawTimeText(display);
       }
 
       drawFieldDataText();
 
-      if (Data.getDoDayNightCycle()) {
-        drawTimeText();
-      }
-
       display.update();
       clock.tick();
     }
-  }
-
-  /**
-   * Update the weather effects on the display.
-   * @param display The display to update the weather effects on.
-   */
-  private void updateWeatherEffects(Display display) {
-    Environment environment = simulator.getField().environment;
-    environment.spawnRain(display);
-    environment.drawScreenEffects(display);
-    environment.spawnLightning(display);
-    environment.updateWeatherEffects(display);
-  }
-
-  /**
-   * Draws the weather text, specifying the current weather and wind direction.
-   */
-  private void drawWeatherText() {
-    Weather weather = simulator.getField().environment.getWeather();
-    display.drawText(weather.toString(), 20, 5, 40, Color.WHITE);
-    if (weather == Weather.WINDY || weather == Weather.STORM) {
-      display.drawText("Wind Direction:", 20, 5, 60, Color.WHITE);
-      double windDirection = simulator.getField().environment.getWindDirection();
-      display.drawCircle(180, 55, 20, Color.BLACK);
-      display.drawArrow(180, 55, windDirection, 20, Color.WHITE);
-    }
-  }
-
-  /**
-   * Renders text of the current time of day.
-   */
-  private void drawTimeText() {
-    String time = simulator.getField().environment.getTimeFormatted();
-    display.drawText(time, 20, 5, 20, Color.WHITE);
   }
 
   /**

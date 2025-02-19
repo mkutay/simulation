@@ -65,7 +65,7 @@ public class RainParticle {
   /**
    * @implNote Only the bottom side of the display is checked if the rain particle is out of bounds.
    * This is because the rain particles can be drawn from the sides of the display.
-   * @see Environment.spawnRain
+   * @see WeatherController#spawnRain()
    * @param display The display to check if the rain particle is out of bounds of.
    * @return True if the rain particle is out of bounds of the display, false otherwise.
    */

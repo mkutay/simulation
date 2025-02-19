@@ -118,7 +118,7 @@ public class Display {
     int tipY = (int) (tip.y() + y1);
 
     double angleOffset = 1.5 * Math.PI / 2;
-    drawLine(x1, y1, direction, length, color); // Main line
+    drawLine(x1, y1, direction, length, color); // Main line.
     drawLine(tipX, tipY, direction + angleOffset, length / 3, color);
     drawLine(tipX, tipY, direction - angleOffset, length / 3, color);
   }

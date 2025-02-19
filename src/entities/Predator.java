@@ -6,7 +6,7 @@ import graphics.Display;
 import util.Vector;
 
 /**
- * An arbitrary predator entity. Predators move around randomly and can reproduce.
+ * A class for representing an arbitrary predator entity.
  * 
  * @author Mehmet Kutay Bozkurt and Anas Ahmed
  * @version 1.0
