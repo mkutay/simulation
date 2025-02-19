@@ -5,6 +5,7 @@
 \usepackage{multicol}
 \usepackage{paralist}
 \usepackage{listings}
+\usepackage{amsmath}
 \usepackage[lmargin=0.9in, rmargin=0.9in, tmargin=1in, bmargin=1.3in]{geometry}
 
 \setkomafont{disposition}{\normalfont\bfseries}
@@ -98,38 +99,41 @@
   "maxOffspringSpawnDistance": [3, 5]
 }
     \end{verbatim}
-    \noindent The values that are arrays that contain two values (such as \verb|sight|, \verb|size|, or \verb|maxSpeed|) represent
-    the minimum and the maximum values that the entity can have for that genetic trait. The values that are not arrays are the fixed
-    values for that trait. In addition, these values can mutate when the entity breeds/multiplies. \verb|numberOfEntitiesAtStart| and
-    \verb|eats| are fixed values that are not subject to mutation, as they are not genetic traits and they defined what the entity
-    is in the context of the simulation. Finally, we have the following entities in the simulation:
+    \vspace{-0.7cm}
+    \noindent The values that are arrays and contain two values (such as \verb|sight|, \verb|size|, or \verb|maxSpeed|) represent
+    the minimum and the maximum values that the entity can have for that genetic trait. In addition, these values can mutate when
+    the entity breeds/multiplies. However, \verb|numberOfEntitiesAtStart| and \verb|eats| are fixed values that are not subject
+    to mutation, as they are not genetic traits and they define what the entity is in the context of the simulation.
+    Finally, the following entities are considered in the simulation:
     \begin{itemize}
+      \item \verb|Grass| — Plant.
       \item \verb|Rabbit| — Prey, eats grass.
       \item \verb|Squirrel| — Prey, eats grass.
       \item \verb|Wolf| — Predator, eats rabbit and squirrel.
       \item \verb|Fox| — Predator, eats rabbit.
       \item \verb|Bear| — Predator, eats wolf and fox.
-      \item \verb|Grass| — Plant.
     \end{itemize}
 
     \noindent \textbf{Two Predators Competes for the Same Food Source:}
-    Since it is easy to add multiple species of predators, currently there are two predators, \verb|Wolf| and \verb|Fox|,
-    that compete for the same food source, \verb|Rabbit|, as well as a \verb|Bear| that eats both wolves and foxes.
+    With the JSON configuration file, it is quite easy to add multiple species for any type of entity. In this case, only two
+    predators (\verb|Wolf| and \verb|Fox|) compete for the same food source (\verb|Rabbit|), which is a prey species.
+    The \verb|Bear| is also added as a predator that eats both wolves and foxes.
 
-    \noindent \textbf{Distinguishing Gender:} Each entity has their own gender, represented in their genetics,
-    which affects reproduction mechanics. Only entities of opposite genders can reproduce. Specifically, gender is
-    implemented as an Enum with two values, \verb|MALE| and \verb|FEMALE|.
+    \noindent \textbf{Distinguishing Gender:} Each animal has their own gender, represented in their genetics,
+    which affects reproduction mechanics. Only animals of opposite genders can reproduce. Specifically, the gender genetic trait
+    is implemented as an Enum with two values: \verb|MALE| and \verb|FEMALE|. Plants do not have gender in the genetics system,
+    meaning that they reproduce asexually.
 
     \noindent \textbf{Tracking Time of Day:} An \verb|Environment| class is used to track the time of day and the weather,
-    which governs how the cycle impacts entity behaviour. During the night, entities will not move unless they are hungry
-    or there is a predator nearby. Additionally, when sleeping, food consumption is reduced.
+    which governs how both cycles impact entity behaviour. During the night, entities will not move unless they are hungry
+    or there is a predator nearby. Additionally, when sleeping, food consumption is reduced. The day-night cycle can be controlled
+    by the JSON file, and the time of day is displayed on the screen.
 
     \subsection{Challenge Tasks}
 
     \noindent \textbf{Adding Plants:} Plants have been added, featuring growth and reproduction dynamics.
     Plants die when they detect too many plants of the same species nearby (as determined by their overcrowding genetics:
-    \verb|overcrowdingThreshold| and \verb|overcrowdingRadius|),
-    which results in natural looking patches of grass.
+    \verb|overcrowdingThreshold| and \verb|overcrowdingRadius|), which results in natural looking patches of grass.
 
     \noindent \textbf{Adding Weather:} As mentioned, weather is added under the \verb|Environment| class, wherein
     weather conditions influence behavior and visibility, increasing the realism in the simulation environment.
@@ -138,46 +142,71 @@
       \item \verb|Clear| — No effect on entities.
       \item \verb|Raining| — Plants grow faster (by a defined factor in the plant genetics).
       \item \verb|Windy| — Pushes entities in the wind direction, even when they are sleeping.
-      Wind direction visualized for the ease of the user.
+      Wind direction is visualised for the ease of the user.
       \item \verb|Stormy| — Slows down entities by some factor and has the effect of windy. Different to
       windy condition, stormy condition is more severe, in the sense that the wind changes directions much more rapidly.
     \end{itemize}
 
-    \noindent \textbf{Genetics system:} As one of our self-admitted challenges, we wanted to implement a genetics system for our entities. As mentioned earlier in the first base task, when reproducing, animals combine their parents genetics to form their own, with a chance to mutate certain attributes. Plants reproduce asexually, so they inherit their parent genetics, but these can also mutate.
+    \noindent \textbf{Genetics System:} As one of the self-admitted challenges, a genetics system for all of the entities
+    was implemented. As mentioned earlier in the first base task, when reproducing, animals combine their parents' genetics
+    to form their own, with a chance to mutate certain attributes by some mutation factor. Specifically, if \( r \in [0, 1] \)
+    is a random number, then the new genetic trait is calculated as:
+    \begin{equation}
+      \text{value} = \text{fatherTrait} \times r + \text{motherTrait} \times (1 - r), \nonumber
+    \end{equation}
+    allowing for a smooth transition between the parents' traits. Then, if we define \( s \in \{-1, 1\} \) to be a random
+    value, the mutation factor is applied to the new trait as follows:
+    \begin{equation}
+      \label{mutation-equation}
+      \text{newTrait} = \text{value} + \text{value} * \text{mutationFactor} * s,
+    \end{equation}
+    where the mutation factor is a value, in the range \( [0, 1] \), that determines how drastic the mutation is.
+    This system allows for a wide range of genetic diversity in the simulation, which is easily observable when
+    the \verb|mutationFactor| is increased. Lastly, plants reproduce asexually, so they inherit their parent's genetics
+    directly, but these can also mutate according to Equation \ref{mutation-equation}.
 
-    \noindent \textbf{JSON configuration file: } Almost every single aspect of the simulation is controlled from this file.
+    \noindent \textbf{JSON Configuration File: } Almost every single aspect of the simulation is controlled from this file,
+    including the entities' genetics, the environment, and the simulation parameters. The JSON file is loaded at the start
+    of the simulation, and the simulation is run according to the parameters defined in the file. As well as the entity
+    genetic intervals mentioned above, the following are the parameters that can be controlled in the JSON file:
     \begin{itemize}
-      \item \verb|foodValueForAnimals| - Controls food value when entity eats an animal
-      \item \verb|foodValueForPlants| - Controls food value when entity eats a plant
-      \item \verb|animalHungerDrain| - Rate of hunger drain
-      \item \verb|animalBreedingCost| - Food required to breed (note food is a value in the range 0 to 1)
-      \item \verb|mutationFactor| - How drastic mutations are
-      \item \verb|entityAgeRate| - How fast entities age
-      \item \verb|fieldScaleFactor|  - The size of the field, smaller value = more zoomed in.
-      \item \verb|doDayNightCycleSpeed| - How fast the day goes
-      \item \verb|weatherChangeProbability| - The probability of the weather changing each day
-      \item \verb|windStrength| - How strong the wind pushes entities
-      \item \verb|stormMovementSpeedFactor| - How much to slow entities during a storm
-      \item \verb|animalHungerThreshold| -  The level of hunger when an animal is "hungry"
-      \item \verb|animalDyingOfHungerThreshold| - The level when an animal is "dying of hunger"
+      \item \verb|foodValueForAnimals| — Scales the food value when an entity eats an animal.
+      \item \verb|foodValueForPlants| — Scales the food value when entity eats a plant.
+      \item \verb|animalHungerDrain| — Controls the rate of hunger drain over time.
+      \item \verb|animalBreedingCost| — Scales how much food is consumed during breeding (note that food is a value
+      in the range 0 to 1).
+      \item \verb|mutationFactor| — How drastic the mutation changes are.
+      \item \verb|entityAgeRate| — How fast entities age.
+      \item \verb|fieldScaleFactor| — The size of the field, smaller value means more zoomed in.
+      \item \verb|weatherChangeProbability| — The probability of the weather changing at the end of the day.
+      \item \verb|windStrength| — How strong the wind pushes entities.
+      \item \verb|stormMovementSpeedFactor| — How much to slow entities during a storm.
+      \item \verb|dayNightCycleSpeed| — How fast the time passes in the simulation.
+      \item \verb|doDayNightCycle| — Whether the day-night cycle is enabled.
+      \item \verb|doWeatherCycle| — Whether the weather is enabled.
+      \item \verb|showQuadTrees| — Whether to show the debug effect of quadtrees. It just looks really cool.
+      \item \verb|animalHungerThreshold| — The level of hunger when an animal is considered as "hungry."
+      \item \verb|animalDyingOfHungerThreshold| — The level when an animal is considered to be "dying of hunger."
     \end{itemize}
 
     \section{Code Quality Considerations}
 
     \subsection{Coupling}
-
+    Engine, Clock, Simulator classes don't rely on each others implementations. Or how Simulator only needs to know about 
+    the update() method. Graphics is also decoupled from the rest of the code. And how it is possible to change it 
+    to make this simulation a web application (which I will do :D ).
 
     \subsection{Cohesion}
-
+    Controller classes for animals. The inheritence model of Entity, Plant, Animal, Prey, Predator. The genetics system.
+    The Mutator class. The Environment class. The Field
 
     \subsection{Responsibility-Driven Design}
-
+    adding QuadTree for optimisation. No need for having really slow code.
 
     \subsection{Maintainability}
-
+    How it's easy to add or change the json file.
 
     \section{Final Remarks}
-
 
   \end{multicols}
 
