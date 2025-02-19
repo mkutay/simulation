@@ -60,7 +60,7 @@
       "maxSpeed": [3,4.5],
       "sight": [55, 80],
       "numberOfEntitiesAtStart": 4,
-      "eats": ["Wolf"],
+      "eats": ["Wolf", "Fox"],
       "size": [6, 9],
       "colour": [74, 25, 25],
       "overcrowdingThreshold": [8, 25],

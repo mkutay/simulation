@@ -1,4 +1,4 @@
-\documentclass[12pt, a4paper]{scrartcl}
+\documentclass[10pt, a4paper]{scrartcl}
 \renewcommand{\baselinestretch}{1.15}
 
 \usepackage{changepage}
@@ -12,11 +12,11 @@
 
 \begin{document}
 
-\pagenumbering{gobble}
+  \pagenumbering{gobble}
 
-\begin{titlepage}
-  \begin{center}
-    \LARGE
+  \begin{titlepage}
+    \begin{center}
+      \LARGE
       \textbf{KING'S COLLEGE LONDON}
 
       \vspace{2cm}
@@ -26,7 +26,7 @@
         \Large
         \textbf{4CCS1PPA PROGRAMMING PRACTICE AND APPLICATIONS}
       \end{adjustwidth}
-      
+
       \vspace{0.5cm}
 
       \Large
@@ -35,7 +35,7 @@
       \vspace{2cm}
 
       \Large
-      Project Name: The Simulation 
+      Project Name: The Simulation
 
       \vspace{1cm}
 
@@ -45,41 +45,40 @@
         Student ID: & 23162628 \\
         \vspace{0.5cm} & \\
         Student Name: & Anas Ahmed \\
-        Student ID: & xxxxxxxx
-      \end{tabular}
-  \end{center}
-  % \tableofcontents
-\end{titlepage}
+        Student ID: & 23171444\end{tabular}
+    \end{center}
+    % \tableofcontents
+  \end{titlepage}
 
-\begin{multicols}{2}
+  \begin{multicols}{2}
 
-\pagenumbering{arabic}
+    \pagenumbering{arabic}
 
-\section{Introduction}
+    \section{Introduction}
 
-\noindent This simulation project integrates multiple components to create a dynamic ecosystem that a researcher can use to
-study predator-prey-plant interactions, with the ability to add or remove any species or environmental factors easily
-by editing the given JSON file.
-The simulation is designed to simulate without any grid-based restrictions, allowing entities to move freely in a
-continuous space. Specifically, the coordinates of the entities are stored as doubles from zero to the width and height
-of the field.
+    \noindent This simulation project integrates multiple components to create a dynamic ecosystem that a researcher can use to
+    study predator-prey-plant interactions, with the ability to add or remove any species or environmental factors easily
+    by editing the given JSON file. Infact, almost every aspect of the simulation can be controlled in the JSON file.
+    The simulation is designed to simulate without any grid-based restrictions, allowing entities to move freely in a
+    continuous space. Specifically, the coordinates of the entities are stored as doubles from zero to the width and height
+    of the field.
+    The entities also now have their own genetics, which are inherited from parent(s) and may mutate, all of which are initialized in the JSON file.
 
-\noindent The simulation smoothly runs at 60 frames per second by utilising a \verb|QuadTree| for storing entities, which
-allows the entity searching and collision detection to be highly optimised. Additionally, in each simulation "step,"
-every entity is "updated" by calling its \verb|update()| method, which handles movement, reproduction, and hunger.
-Entities make decisions based on other entities in their vicinity (that is, entities that are located inside their
-\verb|sight| radius) and the current state of the environment. Additionally, there is a
-method to handle overcrowding in the simulation, for limiting the exponentioal growth of entities.
+    \noindent The simulation smoothly runs at 60 frames per second by utilising a \verb|QuadTree| to store entities, which allows the entity searching and collision detection to be highly optimised.
+    In each simulation "step," every entity is updated by calling its \verb|update()| method, which handles movement, reproduction, and hunger.
+    Entities make decisions based on other entities in their vicinity (that is, entities that are located inside their
+    \verb|sight| radius) and the current state of the environment (weather and time of day). Additionally, there is a
+    method to handle overcrowding in the simulation, for limiting the growth of entities from being unnaturally rapid.
 
-\section{Tasks Lists and Implementation Details}
+    \section{Tasks Lists and Implementation Details}
 
-\subsection{Base Tasks}
+    \subsection{Base Tasks}
 
-  \noindent \textbf{Diverse Species:} With how the simulation is implemented, adding new species is as easy as adding 
-  the species' behavioural data into a JSON file. Each entity species can be of type \verb|Prey|, \verb|Predator|,
-  or \verb|Plant|, and the data is added accordingly. For example, for the predator \verb|Fox|, the following definitions
-  is used:
-  \begin{verbatim}
+    \noindent \textbf{Diverse Species:} With how the simulation is implemented, adding new species is as easy as adding
+    the species' behavioural data into a JSON file. Each entity species can be of type \verb|Prey|, \verb|Predator|,
+    or \verb|Plant|, and the data is added accordingly. For example, for the predator \verb|Fox|, the following definitions
+    is used:
+    \begin{verbatim}
 {
   "name": "Fox",
   "multiplyingRate": [0.05, 0.15],
@@ -97,49 +96,69 @@ method to handle overcrowding in the simulation, for limiting the exponentioal g
   "overcrowdingRadius": [10, 15],
   "maxOffspringSpawnDistance": [3, 5]
 }
-  \end{verbatim}
-  \noindent The values that are arrays that contain two values (such as \verb|sight|, \verb|size|, or \verb|maxSpeed|)
-  are the minimum and the maximum values that the entity can have for that genetic trait. The values that are not
-  arrays are the fixed values for that genetic trait. In addition, these values can mutate when the entity breeds
-  (for animals) or multiplies (for plants). 
+    \end{verbatim}
+    \noindent The values that are arrays that contain two values (such as \verb|sight|, \verb|size|, or \verb|maxSpeed|)
+    are the minimum and the maximum values that the entity can have for that genetic trait. The values that are not arrays are the fixed values for that trait. In addition, these values can mutate when the entity breeds/multiplies.
+
+    \noindent \textbf{Two Predators Competes for the Same Food Source:}
+    Since it is easy to add multiple species of predators, currently there are two predators, \verb|Wolf| and \verb|Fox|,
+    that compete for the same food source, \verb|Rabbit|, as well as a \verb|Bear| that eats both wolves and foxes.
+
+    \noindent \textbf{Distinguishing Gender:} Each entity has their own gender, represented in their genetics,
+    which affects reproduction mechanics. Only entities of opposite genders can reproduce.
+
+    \noindent \textbf{Tracking Time of Day:} A simulation clock governs the day/night cycle impacting entity behavior.
+    During the night, entities will not move unless they are hungry, or there is a predator nearby. Additionally, when sleeping, food consumption is reduced.
+
+    \subsection{Challenge Tasks}
+
+    \noindent \textbf{Adding Plants:} Plants have been added, featuring growth and reproduction dynamics. Plants die when they detect too many plants of the same species nearby (as determined by their overcrowding genetics) which results in natural looking patches of grass.
+
+    \noindent \textbf{Adding Weather:} Weather conditions and time of day influence behavior and visibility,
+    creating a \textit{more realistic} simulation environment. There are 4 weather conditions:
+    \begin{itemize}
+      \item Clear - No effect on entities
+      \item Raining - Plants grow faster (by a defined factor in the plant genetics)
+      \item Windy - Pushes entities in the wind direction. Wind direction visualized.
+      \item Cloudy - Slows entities down by some factor and has the effect of windy
+    \end{itemize}
+
+    \noindent \textbf{Genetics system:} As one of our self-admitted challenges, we wanted to implement a genetics system for our entities. As mentioned earlier in the first base task, when reproducing, animals combine their parents genetics to form their own, with a chance to mutate certain attributes. Plants reproduce asexually, so they inherit their parent genetics, but these can also mutate.
+
+    \noindent \textbf{JSON configuration file: } Almost every single aspect of the simulation is controlled from this file.
+    \begin{itemize}
+      \item foodValueForAnimals - Controls food value when entity eats an animal
+      \item foodValueForPlants - Controls food value when entity eats a plant
+      \item animalHungerDrain - Rate of hunger drain
+      \item animalBreedingCost - Food required to breed (note food is a value in the range 0 to 1)
+      \item mutationFactor - How drastic mutations are
+      \item entityAgeRate - How fast entities age
+      \item fieldScaleFactor  - The size of the field, smaller value = more zoomed in.
+      \item doDayNightCycleSpeed - How fast the day goes
+      \item weatherChangeProbability - The probability of the weather changing each day
+      \item windStrength - How strong the wind pushes entities
+      \item stormMovementSpeedFactor - How much to slow entities during a storm
+      \item animalHungerThreshold -  The level of hunger when an animal is "hungry"
+      \item animalDyingOfHungerThreshold - The level when an animal is "dying of hunger"
+    \end{itemize}
+
+    \section{Code Quality Considerations}
+
+    \subsection{Coupling}
 
 
-  
-  \noindent \textbf{Two Predators Competes for the Same Food Source:}
-  Since it is easy to add multiple species of predators, currently there are two predators, \verb|Wolf| and \verb|Fox|,
-  that compete for the same food source, \verb|Rabbit|.
-  
-  \noindent \textbf{Distinguishing Gender:} Each entity has their own gender, represented in their genetics,
-  which affects reproduction mechanics. Only entities of opposite genders can reproduce.
-  
-  \noindent \textbf{Tracking Time of Day:} A simulation clock governs the day/night cycle impacting entity behaviour.
-
-\subsection{Challenge Tasks}
-
-  \noindent \textbf{Adding Plants:} Plants have been added, featuring growth and reproduction dynamics.
-  
-  \noindent \textbf{Adding Weather:} Weather conditions and time of day influence behavior and visibility,
-  creating a \textit{realistic} simulation environment.
-  
-  \noindent \textbf{Disease Dynamics:} 
-
-\section{Code Quality Considerations}
-
-\subsection{Coupling}
+    \subsection{Cohesion}
 
 
-\subsection{Cohesion}
+    \subsection{Responsibility-Driven Design}
 
 
-\subsection{Responsibility-Driven Design}
+    \subsection{Maintainability}
 
 
-\subsection{Maintainability}
+    \section{Final Remarks}
 
 
-\section{Final Remarks}
-
-
-\end{multicols}
+  \end{multicols}
 
 \end{document}
