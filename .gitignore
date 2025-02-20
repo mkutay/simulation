@@ -5,3 +5,4 @@ latex/main.aux
 latex/main.log
 .DS_Store
 main.out
+.env
