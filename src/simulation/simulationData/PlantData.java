@@ -13,15 +13,15 @@ import util.Utility;
  * @version 1.0
  */
 public class PlantData extends EntityData {
-  public int[] numberOfSeeds; // Number of seeds produced by the plant -- when multiplied
-  public double rainingGrowthFactor; // Growth factor when raining (affects number of seeds and range of growth)
+  public int[] numberOfSeeds; // Number of seeds produced by the plant -- when multiplied.
+  public double rainingGrowthFactor; // Growth factor when raining (affects number of seeds and range of growth).
 
   /**
    * @return A random set of genetics for a plant based on the data provided.
    */
   public PlantGenetics generateRandomGenetics() {
-    Color convertedColour = new Color(this.colour[0], this.colour[1], this.colour[2]); // Convert rgRGB data to java.swing.Color
-    Color mutatedColour = Utility.mutateColor(convertedColour, 1); // Change the colour slightly
+    Color convertedColour = new Color(this.colour[0], this.colour[1], this.colour[2]); // Convert array RGB data to java.awt.Color.
+    Color mutatedColour = Utility.mutateColor(convertedColour, 1); // Change the colour slightly.
     
     return new PlantGenetics(
       generateRandomNumberBetween(maxAge[0], maxAge[1]),

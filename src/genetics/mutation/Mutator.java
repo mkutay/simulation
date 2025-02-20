@@ -3,7 +3,8 @@ package genetics.mutation;
 import simulation.simulationData.Data;
 
 /**
- * Responsible for mutating genetics.
+ * Responsible for mutating genetics. Contains methods for mutating a single value
+ * in double and int.
  * 
  * @author Mehmet Kutay Bozkurt and Anas Ahmed
  * @version 1.0
@@ -18,7 +19,8 @@ public class Mutator {
    */
   protected static double singleMutate(double value, double[] interval, double mutationRate) {
     if (Math.random() >= mutationRate) return value;
-    double mutatedValue = value + value * Data.getMutationFactor() * (Math.random() > 0.5 ? 1 : -1); // Randomly increase or decrease the value.
+    // Randomly increase or decrease the value:
+    double mutatedValue = value + value * Data.getMutationFactor() * (Math.random() > 0.5 ? 1 : -1);
     return Math.max(interval[0], Math.min(interval[1], mutatedValue));
   }
 

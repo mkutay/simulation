@@ -10,8 +10,8 @@ import util.Vector;
  */
 public record Rectangle(double x, double y, double w, double h) {
   /**
-   * @param point The point to check inside the rectangle
-   * @return True if the point is in the rectangle, false otherwise
+   * @param point The point to check inside the rectangle.
+   * @return True if the point is in the rectangle, false otherwise.
    */
   public boolean hasPoint(Vector point) {
     double px = point.x();

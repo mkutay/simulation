@@ -4,4 +4,5 @@ we-get-these-100s.iml
 latex/main.aux
 latex/main.log
 .DS_Store
+main.out
 .env

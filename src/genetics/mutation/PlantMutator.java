@@ -21,13 +21,13 @@ public class PlantMutator extends Mutator {
    * @return The mutated genetics.
    */
   public static PlantGenetics mutatePlantGenetics(PlantGenetics genetics) {
+    // Get the specific plant data for this species:
     PlantData plantData = Arrays.stream(Data.getPlantsData())
       .filter(pd -> pd.name.equals(genetics.getName()))
       .findFirst()
       .orElse(null);
 
     if (plantData == null) return null;
-    
     double mutationRate = genetics.getMutationRate();
 
     return new PlantGenetics(

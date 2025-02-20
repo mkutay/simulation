@@ -2,8 +2,7 @@ package util;
 
 import simulation.simulationData.Data;
 
-import java.awt.*;
-import java.util.Random;
+import java.awt.Color;
 
 /**
  * Utility class for various mathematical operations, constants, and helpers.
@@ -13,30 +12,29 @@ import java.util.Random;
  */
 public class Utility {
   public static final double EPSILON = 1e-4; // Epsilon value for floating point comparisons
-  private static final Random rand = new Random();
 
   /**
-   * Linear interpolation
+   * Linear interpolation.
    */
   public static double lerp(double a, double b, double t) {
     return a + t * (b - a);
   }
 
   /**
-   * Adds a random change in value to a colour
-   * Uses pre-defined mutation factor from data
-   * @param color the colour to mutate
-   * @return the mutated colour
+   * Adds a random change in value to a colour.
+   * Uses pre-defined mutation factor from the simulation data.
+   * @param color The colour to mutate.
+   * @return The mutated colour.
    */
   public static Color mutateColor(Color color, double mutationRate) {
     return Utility.mutateColor(color, mutationRate, Data.getMutationFactor());
   }
 
   /**
-   * Adds a random change in value to a colour
-   * @param color the colour to mutate
-   * @param mutationFactor how drastic the mutation is
-   * @return the mutated colour
+   * Adds a random change in value to a colour.
+   * @param color The colour to mutate.
+   * @param mutationFactor How drastic the mutation is.
+   * @return The mutated colour.
    */
   public static Color mutateColor(Color color, double mutationRate, double mutationFactor) {
     if (mutationFactor < 0 || mutationFactor > 1) {
@@ -51,15 +49,15 @@ public class Utility {
   }
 
   /**
-   * Adjusts a single RGB value randomly
-   * @param value the RGB value to mutate
-   * @param mutationFactor how drastic the mutation is
-   * @return the mutated value
+   * Adjusts a single RGB value randomly.
+   * @param value The RGB value to mutate.
+   * @param mutationFactor How drastic the mutation is.
+   * @return The mutated value.
    */
   private static int mutateChannel(int value, double mutationRate, double mutationFactor) {
-    if (Math.random() >= mutationRate) return value; // No mutation
-    int mutation = (int) (value * mutationFactor * (rand.nextDouble() > 0.5 ? 1 : -1));
-    return Math.max(0, Math.min(255, value + mutation)); // Clamp between 0 and 255
+    if (Math.random() >= mutationRate) return value; // No mutation.
+    int mutation = (int) (value * mutationFactor * (Math.random() > 0.5 ? 1 : -1));
+    return Math.max(0, Math.min(255, value + mutation)); // Clamp between 0 and 255.
   }
 
   /**

@@ -23,8 +23,12 @@ public class AnimalMutator extends Mutator {
    * @return The mutated genetics.
    */
   public static AnimalGenetics mutateAnimalGenetics(AnimalGenetics genetics) {
-    List<AnimalData> animalDatas = new ArrayList<>(Arrays.asList(Data.getPredatorsData()));
+    List<AnimalData> animalDatas = new ArrayList<>();
+    // Add all of the animal data to the list, without differentiating between predators and preys:
+    animalDatas.addAll(Arrays.asList(Data.getPredatorsData()));
     animalDatas.addAll(Arrays.asList(Data.getPreysData()));
+
+    // Get the specific animal data for this species:
     AnimalData animalData = animalDatas
       .stream()
       .filter(ad -> ad.name.equals(genetics.getName()))
@@ -32,7 +36,6 @@ public class AnimalMutator extends Mutator {
       .orElse(null);
 
     if (animalData == null) return null;
-
     double mutationRate = genetics.getMutationRate();
 
     return new AnimalGenetics(

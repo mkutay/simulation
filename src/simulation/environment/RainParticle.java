@@ -15,9 +15,9 @@ import java.awt.*;
  * @version 1.0
  */
 public class RainParticle {
-  private Vector position; // The current position of the rain particle
+  private Vector position; // The current position of the rain particle.
   private Vector lastPosition; // The last position of the rain partcile.
-  private final Color color; // The color of the rain particle
+  private final Color color; // The color of the rain particle.
 
   private static final Vector GRAVITY_VECTOR = new Vector(0, 5); // The gravity that affects a rain particle.
 
@@ -65,7 +65,7 @@ public class RainParticle {
   /**
    * @implNote Only the bottom side of the display is checked if the rain particle is out of bounds.
    * This is because the rain particles can be drawn from the sides of the display.
-   * @see Environment.spawnRain
+   * @see WeatherController#spawnRain()
    * @param display The display to check if the rain particle is out of bounds of.
    * @return True if the rain particle is out of bounds of the display, false otherwise.
    */

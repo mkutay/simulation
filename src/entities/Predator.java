@@ -6,7 +6,7 @@ import graphics.Display;
 import util.Vector;
 
 /**
- * An arbitrary predator entity. Predators move around randomly and can reproduce.
+ * A class for representing an arbitrary predator entity.
  * 
  * @author Mehmet Kutay Bozkurt and Anas Ahmed
  * @version 1.0
@@ -31,7 +31,6 @@ public class Predator extends Animal {
     int x = (int) ((position.x() - (double) size / 2) / scaleFactor); // Draw rectangle centered around x, y of predator.
     int y = (int) ((position.y() - (double) size / 2) / scaleFactor);
 
-    // drawSightRadius(display, scaleFactor);
     display.drawRectangle(x, y, size * 2, size * 2, genetics.getColour());
   }
 

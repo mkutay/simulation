@@ -1,20 +1,21 @@
 package entities.generic;
 
-import entities.Predator;
 import simulation.Field;
 
 import java.util.List;
-import java.util.function.Predicate;
 
 /**
  * Handles animal behaviour. All animal behaviour, predator or prey, is identical.
- * They move to food and away from things that eat them.
+ * They move to food and away from things that eat them. They try to move to
+ * mates when they are not hungry. They sleep at night if they are not hungry.
  * 
  * @author Anas Ahmed and Mehmet Kutay Bozkurt
  * @version 1.0
  */
 public class AnimalBehaviourController {
-  private final Animal animal; // The animal this controller is controlling
+  private final Animal animal; // The animal this controller is controlling.
+
+  private boolean isMovingToMate = false; // Stores if the animal is currently attempting to mate.
 
   /**
    * Constructor.
@@ -34,48 +35,36 @@ public class AnimalBehaviourController {
     animal.isAsleep = false;
 
     boolean isHungry = animal.hungerController.isHungry();
+
     // Extreme case for prey to prioritise food over fleeing from predators:
     boolean isDyingOfHunger = animal.hungerController.isDyingOfHunger();
 
     if (isHungry) animal.hungerController.eat(nearbyEntities);
 
-    if (!isDyingOfHunger) { // If not dying of hunger, attempt to flee from predators.
+    // If not dying of hunger and not moving to mate, attempt to flee from predators.
+    if (!isDyingOfHunger && !isMovingToMate) {
        // If fleeing, stop other behaviour:
-      if (fleeFromPredators(nearbyEntities, deltaTime)) return;
+      if (animal.movementController.fleeFromPredators(nearbyEntities, deltaTime)) return;
     }
 
-    // If not hungry, its nighttime and no predator is nearby, sleep (do nothing):
-    if (!isHungry && !field.environment.isDay()) {
+    // If not hungry, its nighttime, isn't moving to mate and no predator is nearby, sleep (do nothing):
+    if (!isHungry && !field.environment.isDay() && !isMovingToMate) {
       animal.isAsleep = true;
-      return; // Stop other behaviour from occuring
+      return; // Stop other behaviour from occurring.
     }
 
     boolean movingToFood = false;
-    if (isHungry && !animal.isMovingToMate) { // If is hungry and not currently attempting to mate
+    // If is hungry and not currently attempting to mate, move to food:
+    if (isHungry && !isMovingToMate) {
       movingToFood = animal.movementController.moveToNearestFood(nearbyEntities, deltaTime);
     }
 
-    if (!movingToFood) { // If not moving to food and not hungry, look for mate
-      animal.isMovingToMate = animal.movementController.moveToNearestMate(nearbyEntities, deltaTime);
-      if (!animal.isMovingToMate) { // If can't find mate, wander.
+    // If not moving to food and not hungry, look for mate:
+    if (!movingToFood) {
+      isMovingToMate = animal.movementController.moveToNearestMate(nearbyEntities, deltaTime);
+      if (!isMovingToMate) { // If can't find mate, just wander.
         animal.movementController.wander(field, deltaTime);
       }
     }
-  }
-
-  /**
-   * Searches for nearby predators and flees if found.
-   * @return True if it flees, false otherwise.
-   */
-  private boolean fleeFromPredators(List<Entity> nearbyEntities, double deltaTime) {
-    // Find the nearest predator:
-    Predicate<Entity> condition = e -> e instanceof Predator p && p.getHungerController().canEat(animal);
-    Predator nearestPredator = (Predator) animal.movementController.getNearestEntity(nearbyEntities, condition);
-
-    if (nearestPredator == null) return false;
-
-    // If a predator is found, flee!
-    animal.movementController.fleeFromEntity(nearestPredator, deltaTime);
-    return true;
   }
 }

@@ -6,7 +6,7 @@ import graphics.Display;
 import util.Vector;
 
 /**
- * An arbitrary prey entity that moves around randomly and can reproduce.
+ * A class for representing an arbitrary prey entity.
  * 
  * @author Anas Ahmed and Mehmet Kutay Bozkurt
  * @version 1.0
@@ -30,6 +30,7 @@ public class Prey extends Animal {
     size = Math.max(1, size);
     int x = (int) (position.x() / scaleFactor);
     int y = (int) (position.y() / scaleFactor);
+    
     display.drawCircle(x, y, size, genetics.getColour());
   }
 

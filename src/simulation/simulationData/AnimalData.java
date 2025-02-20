@@ -14,18 +14,16 @@ import util.Utility;
  * @version 1.0
  */
 public class AnimalData extends EntityData{
-  public int[] maxLitterSize; // Maximum number of offspring per breeding
-  public double[] maxSpeed; // Speed of the entity
-  public double[] sight; // Range at which the entity can see other entities
-  public String[] eats; // List of entities that this entity can eat
-  public double[] maxFoodLevel; // Maximum food level of the entity
-
+  public int[] maxLitterSize; // Maximum number of offspring per breeding.
+  public double[] maxSpeed; // Speed of the entity.
+  public double[] sight; // Range at which the entity can see other entities.
+  public String[] eats; // List of entities that this entity can eat.
   /**
    * @return A random set of genetics for an animal based on the data provided.
    */
   public AnimalGenetics generateRandomGenetics() {
-    Color convertedColour = new Color(this.colour[0], this.colour[1], this.colour[2]); // Convert RGB data to java.swing.Color
-    Color mutatedColour = Utility.mutateColor(convertedColour, 1); // Change the colour slightly
+    Color convertedColour = new Color(this.colour[0], this.colour[1], this.colour[2]); // Convert RGB data to java.awt.Color.
+    Color mutatedColour = Utility.mutateColor(convertedColour, 1); // Change the colour slightly.
     
     return new AnimalGenetics(
       generateRandomNumberBetween(multiplyingRate[0], multiplyingRate[1]),

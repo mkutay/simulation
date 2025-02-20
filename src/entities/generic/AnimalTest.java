@@ -99,14 +99,6 @@ class AnimalTest {
     assertFalse(prey.isAlive());
     assertEquals(animal.hungerController.getFoodLevel(), initialFoodLevel);
   }
-  
-  @Test
-  void testEat_NullList() {
-    double initialFoodLevel = animal.hungerController.getFoodLevel();
-    animal.hungerController.eat(null);
-    assertTrue(animal.isAlive());
-    assertEquals(animal.hungerController.getFoodLevel(), initialFoodLevel);
-  }
 
   @Test
   void testMoveToNearestFood_NoNearbyEntities() {

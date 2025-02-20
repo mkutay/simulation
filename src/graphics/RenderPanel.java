@@ -42,11 +42,11 @@ public class RenderPanel {
 	public void drawEqualTriangle(int centerX, int centerY, int radius, Color color) {
 		data.add(new DrawEqualTriangle("drawEqualTriangle", centerX, centerY, radius, getArrayFromColor(color)));
 	}
-
+  
 	public void drawText(String text, int fontSize, int x, int y, Color color) {
 		data.add(new DrawText("drawText", text, fontSize, x, y, getArrayFromColor(color)));
 	}
-
+  
 	public void drawLine(int x1, int y1, int x2, int y2, Color color) {
 		data.add(new DrawLine("drawLine", x1, y1, x2, y2, getArrayFromColor(color)));
 	}

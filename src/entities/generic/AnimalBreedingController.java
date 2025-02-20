@@ -9,7 +9,8 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * Handles the breeding logic for animals.
+ * Handles the breeding logic for animals. This class is responsible for breeding animals
+ * with other animals of the same species and opposite genders.
  * 
  * @author Mehmet Kutay Bozkurt and Anas Ahmed
  * @version 1.0
@@ -40,11 +41,13 @@ public class AnimalBreedingController {
 
     double mateLitterSize = mateEntity.genetics.getMaxLitterSize();
     double animalLitterSize = animal.genetics.getMaxLitterSize();
+    // Randomly select a litter size, capped by one of the parents' litter size.
     int litterSize = (int) (Math.random() * Math.min(animalLitterSize, mateLitterSize)) + 1;
 
     List<Animal> offsprings = new ArrayList<>();
     for (int i = 0; i < litterSize; i++) {
       AnimalGenetics childGenetics = animal.genetics.breed(mateEntity.genetics);
+      // Get a random position in a radius around the parent animal:
       Vector newPos = animal.position.getRandomPointInRadius(animal.genetics.getMaxOffspringSpawnDistance());
       offsprings.add(animal.createOffspring(childGenetics, newPos));
     }
@@ -52,20 +55,21 @@ public class AnimalBreedingController {
   }
 
   /**
-   * Checks if they have different genders and if the potential mate is alive and can multiply.
    * @param nearbyEntities The list of entities to search for a mate from.
    * @return A random mate from the list of entities, null if no mate found.
    */
   private Animal getRandomMate(List<Entity> nearbyEntities) {
     List<Entity> potentialMates = nearbyEntities.stream()
-      .filter(this::canMateWith)
+      .filter(this::canMateWith) // Filter out entities that can't mate with this animal.
       .toList();
 
     if (potentialMates.isEmpty()) return null;
+    // Return a random mate from the list of potential mates:
     return (Animal) potentialMates.get((int) (Math.random() * potentialMates.size()));
   }
 
   /**
+   * Checks if the animals have different genders, are of the same species, and can breed.
    * @return True if this animal can mate with the specified entity, false otherwise.
    */
   protected boolean canMateWith(Entity entity) {
@@ -81,13 +85,15 @@ public class AnimalBreedingController {
   }
 
   /**
-   * Animals can only breed if they have eaten food once in their life.
-   * TODO: Minimum food requirement to control insane population growth.
+   * Animals can only breed if they have eaten food once in their life, have enough food to breed,
+   * are not asleep and can multiply.
+   * @see Entity#canMultiply()
    * @return True if this animal can breed/multiply, false otherwise.
    */
   private boolean canBreed() {
     return animal.canMultiply()
       && animal.hungerController.hasEaten()
-      && animal.hungerController.getFoodLevel() >= Data.getAnimalBreedingCost();
+      && animal.hungerController.getFoodLevel() >= Data.getAnimalBreedingCost()
+      && !animal.isAsleep;
   }
 }

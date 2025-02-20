@@ -14,11 +14,11 @@ import util.Utility;
  * @version 1.0
  */
 public class AnimalGenetics extends Genetics {
-  private final int maxLitterSize; // Maximum number of offspring per breeding
-  private final double maxSpeed; // Max speed of the entity
-  private final double sight; // Range at which the entity can see other entities
-  private final Gender gender; // The gender of the animal
-  private final String[] eats; // The names of the entities the animal eats
+  private final int maxLitterSize; // Maximum number of offspring per breeding.
+  private final double maxSpeed; // Max speed of the entity.
+  private final double sight; // Range at which the entity can see other entities.
+  private final Gender gender; // The gender of the animal.
+  private final String[] eats; // The names of the entities the animal eats.
 
   /**
    * Constructor -- Creates a new set of genetics for an animal.

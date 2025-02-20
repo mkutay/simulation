@@ -34,7 +34,7 @@ public abstract class Entity {
    * @param entity The entity to check collision with self.
    * @return True if colliding with entity (uses circle hit box), false otherwise or if entitiy is itself.
    */
-  public boolean isColliding(Entity entity) {
+  protected boolean isColliding(Entity entity) {
     if (entity == null || entity == this) return false;
     double distanceSquared = this.position.subtract(entity.position).getMagnitudeSquared();
 
@@ -56,10 +56,12 @@ public abstract class Entity {
   /**
    * Handles overcrowding of entities of the same species.
    * Looks at the genetics of the species to determine overcrowding.
-   * @param field the field that will be searched through for nearby entities
+   * @param nearbyEntities The entities that are nearby to search through.
    */
-  public void handleOvercrowding(Field field) {
-    List<Entity> entities = searchNearbyEntities(field, genetics.getOvercrowdingRadius());
+  public void handleOvercrowding(List<Entity> nearbyEntities) {
+    List<Entity> entities = nearbyEntities.stream()
+      .filter(e -> position.subtract(e.getPosition()).getMagnitude() <= genetics.getOvercrowdingRadius())
+      .toList();
     List<Entity> sameSpecies = getSameSpecies(entities);
     if (sameSpecies.size() >= genetics.getOvercrowdingThreshold()) {
       setDead();
@@ -153,6 +155,6 @@ public abstract class Entity {
   // Getters:
   public Vector getPosition() { return position; }
   public String getName() { return genetics.getName(); }
-  public int getSize() { return genetics.getSize(); } //This getter is for code simplicity
+  public int getSize() { return genetics.getSize(); } // This getter is for code simplicity.
   public boolean isAlive() { return isAlive; }
 }
