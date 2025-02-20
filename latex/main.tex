@@ -91,7 +91,9 @@ Engine engine
         \noindent Additionally, these have been already set up in the \verb|Main| class, so the simulation can be run by simply running
         the \verb|main()| method under it. Since the parameters of the simulation is read from the JSON file, it is necessary
         to have the \verb|simulation_data.json| file in the root directory of the project (the place where the \verb|Main.java|
-        file can be found).
+        file can be found), but this is already provided in the Jar file in the submission. Finally, the simulation uses an
+        external package called \href{https://github.com/google/gson/}{Gson} to read the
+        JSON file, and which is why the package is bundled in the Jar file in the submission.
 
         \section{Tasks Lists and Implementation Details}
 
@@ -218,7 +220,7 @@ Engine engine
 
         \noindent \textbf{Quadtree Optimisation: } While not a visible feature, due to its complexity, it is worth discussing.
         A quadtree is utilised to store entities, instead of a list. This is done to efficiently handle entity proximity checks. Each frame,
-        entities are added to the quadtree, and when they need to find nearby entities they query the tree. This is is a major upgrade
+        entities are added to the quadtree, and when they need to find nearby entities, they query the tree. This is is a major upgrade
         to the naïve approach of $O(n^2)$ time-complexity, where every entity checks its distance to every other entity (1000 entities means
         1,000,000 calls, 60 times a second). Using the quadtree for every entity has an average complexity of $O(n \log n)$, since the
         quadtree organises entities by proximity. Overall, this greatly improves performance, making the experience of the simulation
@@ -232,7 +234,7 @@ Engine engine
         \section{Code Quality Considerations}
 
         \subsection{Coupling and Responsibility-Driven Design}
-        \noindent Coupling is minimized by separating all major functions into different classes. The class structure of the
+        \noindent Coupling is minimised by separating all major functions into different classes. The class structure of the
         program starts with the \verb|Engine| class. The \verb|Engine| controls the main loop of the simulation, combining the actual
         simulation and the graphics together.
 
@@ -241,7 +243,7 @@ Engine engine
         internal logic, meaning it has minimal coupling.
 
         \noindent Graphics are handled by the \verb|Display| and the \verb|RenderPanel| classes. The \verb|RenderPanel| class 
-        extends the \verb|JPanel| class and is responsible for rendering the simulation, and since it has low coupling it is 
+        extends the \verb|JPanel| class and is responsible for rendering the simulation, and since it has low coupling, it is 
         easy to change the \verb|RenderPanel| class to render the simulation on different mediums — a web browser, for example.
         Furthermore, the simulation is controlled by the
         \verb|Simulator| class. All entities are stored in a \verb|Field| class, which is created by a \verb|FieldBuilder| class to
@@ -277,10 +279,10 @@ Engine engine
         for the \verb|Environment| class are also created, the \verb|WeatherController| and the \verb|TimeController|.
         This massively increases cohesion as the different operations
         are split into different relevant sections, making the code much easier to understand. This also has the added benefit of making
-        the \verb|Animal| and \verb|Environment| classes quite small, and improves responsibility driven design.
+        the \verb|Animal| and \verb|Environment| classes quite small, and improves responsibility driven design and code readability.
 
         \noindent The structure of \verb|Entity| and its subclasses also lends itself to high cohesion — its extremely clear what an
-        \verb|Animal| should do, and what a \verb|Predator| and \verb|Prey| does differently while also inhreintly being subclasses of
+        \verb|Animal| should do, and what a \verb|Predator| and \verb|Prey| does differently while also inherintly being subclasses of
         \verb|Animal|. This once again decreases code duplication and increases the cohesion of the code base.
 
         \noindent 
