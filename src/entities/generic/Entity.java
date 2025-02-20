@@ -155,6 +155,6 @@ public abstract class Entity {
   // Getters:
   public Vector getPosition() { return position; }
   public String getName() { return genetics.getName(); }
-  public int getSize() { return genetics.getSize(); } //This getter is for code simplicity
+  public int getSize() { return genetics.getSize(); } // This getter is for code simplicity.
   public boolean isAlive() { return isAlive; }
 }

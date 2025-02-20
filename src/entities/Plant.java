@@ -88,6 +88,7 @@ public class Plant extends Entity {
     size = Math.max(2, size);
     int x = (int) (position.x() / scaleFactor);
     int y = (int) (position.y() / scaleFactor);
+    
     display.drawEqualTriangle(x, y, size, genetics.getColour());
   }
 }

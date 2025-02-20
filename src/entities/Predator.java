@@ -31,7 +31,6 @@ public class Predator extends Animal {
     int x = (int) ((position.x() - (double) size / 2) / scaleFactor); // Draw rectangle centered around x, y of predator.
     int y = (int) ((position.y() - (double) size / 2) / scaleFactor);
 
-    // drawSightRadius(display, scaleFactor);
     display.drawRectangle(x, y, size * 2, size * 2, genetics.getColour());
   }
 

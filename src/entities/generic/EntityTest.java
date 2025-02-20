@@ -13,6 +13,12 @@ import genetics.AnimalGenetics;
 import simulation.simulationData.Data;
 import util.Vector;
 
+/**
+ * Test class for the Entity class. Tests methods under the Entity class.
+ * 
+ * @author Mehmet Kutay Bozkurt and Anas Ahmed
+ * @version 1.0
+ */
 class EntityTest {
   private Animal animal;
   private AnimalGenetics genetics;

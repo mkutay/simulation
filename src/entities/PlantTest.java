@@ -11,6 +11,12 @@ import simulation.simulationData.*;
 import util.Vector;
 import genetics.PlantGenetics;
 
+/**
+ * Test class for the Plant entity. Tests methods underneath it.
+ * 
+ * @author Mehmet Kutay Bozkurt and Anas Ahmed
+ * @version 1.0
+ */
 class PlantTest {
   private PlantGenetics genetics;
   private Field field;

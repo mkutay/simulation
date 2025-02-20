@@ -30,6 +30,7 @@ public class Prey extends Animal {
     size = Math.max(1, size);
     int x = (int) (position.x() / scaleFactor);
     int y = (int) (position.y() / scaleFactor);
+    
     display.drawCircle(x, y, size, genetics.getColour());
   }
 

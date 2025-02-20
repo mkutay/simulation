@@ -95,7 +95,7 @@
       "mutationRate": [0.01, 0.05],
       "maxSpeed": [3.5, 5],
       "sight": [20, 40],
-      "numberOfEntitiesAtStart": 12,
+      "numberOfEntitiesAtStart": 16,
       "eats": ["Grass"],
       "size": [3, 6],
       "colour": [40, 20, 200],

@@ -10,16 +10,16 @@ import java.awt.Color;
  * @version 1.0
  */
 public abstract class Genetics {
-  private final String name; // Name of entity, acts as identifying key
-  private final int maxAge; // Maximum age of the entity
-  private final int matureAge; // Age at which the entity can start breeding
-  private final double multiplyingRate; // Rate at which the entity multiplies -- breads (animal) or spreads (plant)
-  private final int size; // Size of the entity (the radius of the circle representing the entity)
-  private final Color colour; // RGB colour of the entity
-  private final int overcrowdingThreshold; // Number of entities at which the entity will die
-  private final double overcrowdingRadius; // Radius inside of which the threshold is checked
-  private final double maxOffspringSpawnDistance; // Maximum distance from the parent entity that the offspring can spawn
-  private final double mutationRate; // Rate at which the entity's genetics can mutate
+  private final String name; // Name of entity, acts as identifying key.
+  private final int maxAge; // Maximum age of the entity.
+  private final int matureAge; // Age at which the entity can start breeding.
+  private final double multiplyingRate; // Rate at which the entity multiplies -- breads (animal) or spreads (plant).
+  private final int size; // Size of the entity (the radius of the circle representing the entity).
+  private final Color colour; // RGB colour of the entity.
+  private final int overcrowdingThreshold; // Number of entities at which the entity will die.
+  private final double overcrowdingRadius; // Radius inside of which the threshold is checked.
+  private final double maxOffspringSpawnDistance; // Maximum distance from the parent entity that the offspring can spawn.
+  private final double mutationRate; // Rate at which the entity's genetics can mutate.
 
   /**
    * Constructor.

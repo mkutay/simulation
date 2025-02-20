@@ -15,7 +15,7 @@ import util.Vector;
  * CLEAR - No effect.
  * RAINING - Plants multiply faster.
  * WINDY - Random vector pushes animals around.
- * STORM - Animals move slower + windy effects.
+ * STORM - Animals move slower, plus windy effects.
  * 
  * @author Mehmet Kutay Bozkurt and Anas Ahmed
  * @version 1.0
