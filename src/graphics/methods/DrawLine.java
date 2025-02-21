@@ -6,8 +6,8 @@ public class DrawLine extends Method {
   public int x2;
   public int y2;
 
-  public DrawLine(String name, int x1, int y1, int x2, int y2, int[] color) {
-    super(name, color);
+  public DrawLine(int i, int x1, int y1, int x2, int y2, int[] color) {
+    super(i, color);
     this.x1 = x1;
     this.y1 = y1;
     this.x2 = x2;

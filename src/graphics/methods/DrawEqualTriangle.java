@@ -5,8 +5,8 @@ public class DrawEqualTriangle extends Method {
   public int y;
   public int r;
 
-  public DrawEqualTriangle(String name, int x, int y, int r, int[] color) {
-    super(name, color);
+  public DrawEqualTriangle(int i, int x, int y, int r, int[] color) {
+    super(i, color);
     this.x = x;
     this.y = y;
     this.r = r;

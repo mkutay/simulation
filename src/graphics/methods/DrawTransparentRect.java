@@ -7,8 +7,8 @@ public class DrawTransparentRect extends Method {
   public int h;
   public double a; // alpha
 
-  public DrawTransparentRect(String name, int x, int y, int w, int h, int[] color, double a) {
-    super(name, color);
+  public DrawTransparentRect(int i, int x, int y, int w, int h, int[] color, double a) {
+    super(i, color);
     this.x = x;
     this.y = y;
     this.w = w;

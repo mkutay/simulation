@@ -6,8 +6,8 @@ public class DrawText extends Method {
   public String t; // text
   public int s; // size
 
-  public DrawText(String name, String text, int size, int x, int y, int[] color) {
-    super(name, color);
+  public DrawText(int i, String text, int size, int x, int y, int[] color) {
+    super(i, color);
     this.x = x;
     this.y = y;
     this.t = text;

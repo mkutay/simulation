@@ -5,8 +5,8 @@ public class DrawCircle extends Method {
   public int y;
   public int r;
 
-  public DrawCircle(String name, int x, int y, int r, int[] color) {
-    super(name, color);
+  public DrawCircle(int i, int x, int y, int r, int[] color) {
+    super(i, color);
     this.x = x;
     this.y = y;
     this.r = r;

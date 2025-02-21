@@ -1,11 +1,11 @@
 package graphics.methods;
 
 public abstract class Method {
-  public String n;
+  public int i;
   public int[] c;
 
-  public Method(String name, int[] colour) {
-    this.n = name;
+  public Method(int id, int[] colour) {
+    this.i = id;
     this.c = colour;
   }
 }
