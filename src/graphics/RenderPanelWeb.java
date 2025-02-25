@@ -73,6 +73,7 @@ public class RenderPanelWeb implements RenderPanel {
 
 		client.jsonSet("display", j);
 		data.d.clear();
+		index = 0;
 	}
 
 	private int[] getArrayFromColor(Color c) {
