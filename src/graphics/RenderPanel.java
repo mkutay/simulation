@@ -63,14 +63,12 @@ public class RenderPanel {
 		for (String key : data.d.keySet()) {
 			d.put(key, data.d.get(key).reversed());
 		}
-		data.d = d;
+		data.d.clear();
 
 		Gson g = new Gson();
-		String j = g.toJson(data);
+		String j = g.toJson(d);
 
 		client.jsonSet("display", j);
-
-		data.d.clear();
 	}
 
 	private int[] getArrayFromColor(Color c) {
