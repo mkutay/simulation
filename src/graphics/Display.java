@@ -21,7 +21,7 @@ public class Display {
    * Constructor -- Create a new display with the specified screen width and height.
    */
   public Display(int screenWidth, int screenHeight) {
-    this.renderPanel = new RenderPanelGUI(screenWidth, screenHeight);
+    this.renderPanel = new RenderPanelWeb(screenWidth, screenHeight);
     this.width = screenWidth;
     this.height = screenHeight;
   }
