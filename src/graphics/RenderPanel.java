@@ -30,31 +30,31 @@ public class RenderPanel {
 	}
 
 	public void fill(Color color) {
-		data.add("fill", new Fill(data.getId("fill"), getArrayFromColor(color)));
+		data.add("f", new Fill(data.getId("f") + 1, getArrayFromColor(color)));
 	}
 
 	public void drawCircle(int x, int y, int radius, Color color) {
-		data.add("drawCircle", new DrawCircle(data.getId("drawCircle"), x, y, radius, getArrayFromColor(color)));
+		data.add("c", new DrawCircle(data.getId("c") + 1, x, y, radius, getArrayFromColor(color)));
 	}
 
 	public void drawRect(int x, int y, int width, int height, Color color, boolean filled) {
-		data.add("drawRect", new DrawRect(data.getId("drawRect"), x, y, width, height, getArrayFromColor(color), filled));
+		data.add("r", new DrawRect(data.getId("r") + 1, x, y, width, height, getArrayFromColor(color), filled));
 	}
 
 	public void drawEqualTriangle(int centerX, int centerY, int radius, Color color) {
-		data.add("drawEqualTriangle", new DrawEqualTriangle(data.getId("drawEqualTriangle"), centerX, centerY, radius, getArrayFromColor(color)));
+		data.add("e", new DrawEqualTriangle(data.getId("e") + 1, centerX, centerY, radius, getArrayFromColor(color)));
 	}
   
 	public void drawText(String text, int fontSize, int x, int y, Color color) {
-		data.add("drawText", new DrawText(data.getId("drawText"), text, fontSize, x, y, getArrayFromColor(color)));
+		data.add("t", new DrawText(data.getId("t") + 1, text, fontSize, x, y, getArrayFromColor(color)));
 	}
   
 	public void drawLine(int x1, int y1, int x2, int y2, Color color) {
-		data.add("drawLine", new DrawLine(data.getId("drawLine"), x1, y1, x2, y2, getArrayFromColor(color)));
+		data.add("l", new DrawLine(data.getId("l") + 1, x1, y1, x2, y2, getArrayFromColor(color)));
 	}
 
 	public void drawTransparentRect(int x, int y, int width, int height, Color color, double alpha) {
-		data.add("drawTransparentRect", new DrawTransparentRect(data.getId("drawTransparentRect"), x, y, width, height, getArrayFromColor(color), alpha));
+		data.add("a", new DrawTransparentRect(data.getId("a") + 1, x, y, width, height, getArrayFromColor(color), alpha));
 	}
 
 	// Send all the stored data to the redis database.

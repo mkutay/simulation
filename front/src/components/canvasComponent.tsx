@@ -10,14 +10,13 @@ export function CanvasComponent() {
   const canvasCtxRef = React.useRef<CanvasRenderingContext2D | null>(null);
 
   const [data, setData] = useState(null as DisplayData);
+  console.log(data);
 
   useEffect(() => {
-    if (data === null || !canvasRef.current) return;
+    if (data === null || !canvasRef.current || data == undefined || !data.d) return;
     canvasCtxRef.current = canvasRef.current.getContext('2d');
     const context = canvasCtxRef.current;
     if (!context) return;
-
-    console.log("a");
 
     let minId = 9999999;
     let minKey = "";
@@ -30,22 +29,19 @@ export function CanvasComponent() {
       }
     }
 
-    console.log(minKey);
-
-    if (minKey === "fill") {
-      fill(context, data.w, data.h, data.d.fill[data.d.fill.length - 1]);
-      data.d.fill.pop();
-    } else if (minKey === "drawCircle") {
-      console.log(data.d.drawCircle[data.d.drawCircle.length - 1]);
-      drawCircle(context, data.d.drawCircle[data.d.drawCircle.length - 1]);
-      data.d.drawCircle.pop();
-    } else if (minKey === "drawEqualTriangle") {
-      drawEqualTriangle(context, data.d.drawEqualTriangle[data.d.drawEqualTriangle.length - 1]);
-      data.d.drawEqualTriangle.pop();
-    } else if (minKey === "drawLine") {
-    } else if (minKey === "drawRect") {
-    } else if (minKey === "drawText") {
-    } else if (minKey === "drawTransparentRect") {
+    if (minKey === "f") {
+      fill(context, data.w, data.h, data.d.f[data.d.f.length - 1]);
+      data.d.f.pop();
+    } else if (minKey === "c") {
+      drawCircle(context, data.d.c[data.d.c.length - 1]);
+      data.d.c.pop();
+    } else if (minKey === "e") {
+      drawEqualTriangle(context, data.d.e[data.d.e.length - 1]);
+      data.d.e.pop();
+    } else if (minKey === "l") {
+    } else if (minKey === "r") {
+    } else if (minKey === "t") {
+    } else if (minKey === "a") {
     } else {
       console.error("unknown key: ", minKey);
     }

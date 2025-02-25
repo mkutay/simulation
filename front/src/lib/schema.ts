@@ -2,13 +2,13 @@ export type DisplayData = {
   w: number,
   h: number,
   d: {
-    "fill": FillData[],
-    "drawCircle": DrawCircleData[],
-    "drawEqualTriangle": DrawEqualTriangleData[],
-    "drawLine": DrawLineData[],
-    "drawRect": DrawRectData[],
-    "drawText": DrawTextData[],
-    "drawTransparentRect": DrawTransparentRectData[],
+    "f": FillData[],
+    "c": DrawCircleData[],
+    "e": DrawEqualTriangleData[],
+    "l": DrawLineData[],
+    "r": DrawRectData[],
+    "t": DrawTextData[],
+    "a": DrawTransparentRectData[],
   },
 } | null;
 
