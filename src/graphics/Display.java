@@ -13,13 +13,17 @@ import java.awt.*;
  * @version 1.0
  */
 public class Display {
-  private final RenderPanel renderPanel; // The panel to render to.
+  private final RenderPanel renderPanel;
+  private final int width;
+  private final int height;
 
   /**
    * Constructor -- Create a new display with the specified screen width and height.
    */
   public Display(int screenWidth, int screenHeight) {
-    this.renderPanel = new RenderPanel(screenWidth, screenHeight);
+    this.renderPanel = new RenderPanelGUI(screenWidth, screenHeight);
+    this.width = screenWidth;
+    this.height = screenHeight;
   }
 
   /**
@@ -113,6 +117,6 @@ public class Display {
   }
 
   // Getters:
-  public int getWidth() { return renderPanel.getWidth(); }
-  public int getHeight() { return renderPanel.getHeight(); }
+  public int getWidth() { return width; }
+  public int getHeight() { return height; }
 }

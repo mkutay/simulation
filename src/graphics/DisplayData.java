@@ -6,6 +6,13 @@ import java.util.List;
 
 import graphics.methods.Method;
 
+/**
+ * Store the display data for the web app that will be hold in the
+ * Redis database.
+ * 
+ * @author Mehmet Kutay Bozkurt
+ * @version 1.0
+ */
 public class DisplayData {
   public int w;
 	public int h;
