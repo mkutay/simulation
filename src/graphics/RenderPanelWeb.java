@@ -20,6 +20,7 @@ import graphics.methods.*;
 public class RenderPanelWeb implements RenderPanel {
 	private DisplayData data;
 	private JedisPooled client;
+	private int index = 0;
 
 	public RenderPanelWeb(int width, int height) {
 		data = new DisplayData(width, height);
@@ -30,34 +31,36 @@ public class RenderPanelWeb implements RenderPanel {
 	}
 
 	public void fill(Color color) {
-		data.add("f", new Fill(data.getId("f") + 1, getArrayFromColor(color)));
+		data.add("f", new Fill(index++, getArrayFromColor(color)));
 	}
 
 	public void drawCircle(int x, int y, int radius, Color color) {
-		data.add("c", new DrawCircle(data.getId("c") + 1, x, y, radius, getArrayFromColor(color)));
+		data.add("c", new DrawCircle(index++, x, y, radius, getArrayFromColor(color)));
 	}
 
 	public void drawRect(int x, int y, int width, int height, Color color, boolean filled) {
-		data.add("r", new DrawRect(data.getId("r") + 1, x, y, width, height, getArrayFromColor(color), filled));
+		data.add("r", new DrawRect(index++, x, y, width, height, getArrayFromColor(color), filled));
 	}
 
 	public void drawEqualTriangle(int centerX, int centerY, int radius, Color color) {
-		data.add("e", new DrawEqualTriangle(data.getId("e") + 1, centerX, centerY, radius, getArrayFromColor(color)));
+		data.add("e", new DrawEqualTriangle(index++, centerX, centerY, radius, getArrayFromColor(color)));
 	}
   
 	public void drawText(String text, int fontSize, int x, int y, Color color) {
-		data.add("t", new DrawText(data.getId("t") + 1, text, fontSize, x, y, getArrayFromColor(color)));
+		data.add("t", new DrawText(index++, text, fontSize, x, y, getArrayFromColor(color)));
 	}
   
 	public void drawLine(int x1, int y1, int x2, int y2, Color color) {
-		data.add("l", new DrawLine(data.getId("l") + 1, x1, y1, x2, y2, getArrayFromColor(color)));
+		data.add("l", new DrawLine(index++, x1, y1, x2, y2, getArrayFromColor(color)));
 	}
 
 	public void drawTransparentRect(int x, int y, int width, int height, Color color, double alpha) {
-		data.add("a", new DrawTransparentRect(data.getId("a") + 1, x, y, width, height, getArrayFromColor(color), alpha));
+		data.add("a", new DrawTransparentRect(index++, x, y, width, height, getArrayFromColor(color), alpha));
 	}
 
-	// Send all the stored data to the redis database.
+	/**
+	 * Send all the stored data to the redis database.
+	 */
 	public void update() {
 		HashMap<String, List<Method>> d = new HashMap<>();
 		for (String key : data.d.keySet()) {
