@@ -1,20 +1,20 @@
 'use client';
 
-import React, { useRef, useEffect, useState, useCallback } from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 
 import { getData } from '@/lib/database';
 import { DisplayData, DrawCircleData, DrawEqualTriangleData, FillData } from '@/lib/schema';
 
 export function CanvasComponent() {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
-  let canvasCtxRef = React.useRef<CanvasRenderingContext2D | null>(null);
+  const canvasCtxRef = React.useRef<CanvasRenderingContext2D | null>(null);
 
   const [data, setData] = useState(null as DisplayData);
 
   useEffect(() => {
     if (data === null || !canvasRef.current) return;
     canvasCtxRef.current = canvasRef.current.getContext('2d');
-    let context = canvasCtxRef.current;
+    const context = canvasCtxRef.current;
     if (!context) return;
 
     console.log("a");
@@ -49,7 +49,7 @@ export function CanvasComponent() {
     } else {
       console.error("unknown key: ", minKey);
     }
-  }, []);
+  }, [data]);
 
   useEffect(() => {
     getData()
