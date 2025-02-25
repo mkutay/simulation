@@ -2,7 +2,7 @@
 
 import React, { useRef, useEffect, useState } from 'react';
 
-import { DisplayData, DrawCircleData, DrawEqualTriangleData, FillData } from '@/lib/schema';
+import { DisplayData, DrawCircleData, DrawEqualTriangleData, DrawLineData, DrawRectData, DrawTextData, DrawTransparentRectData, FillData } from '@/lib/schema';
 import { getData } from '@/lib/database';
 
 export function CanvasComponent() {
@@ -41,7 +41,7 @@ export function CanvasComponent() {
         }
       }
 
-      if (minId === 9999999) break;
+      if (minKey === "") break;
 
       if (minKey === "f") {
         fill(context, data.w, data.h, data.d.f[data.d.f.length - 1]);
@@ -53,12 +53,16 @@ export function CanvasComponent() {
         drawEqualTriangle(context, data.d.e[data.d.e.length - 1]);
         data.d.e.pop();
       } else if (minKey === "l") {
+        drawLine(context, data.d.l[data.d.l.length - 1]);
         data.d.l.pop();
       } else if (minKey === "r") {
+        drawRectangle(context, data.d.r[data.d.r.length - 1]);
         data.d.r.pop();
       } else if (minKey === "t") {
+        drawText(context, data.d.t[data.d.t.length - 1]);
         data.d.t.pop();
       } else if (minKey === "a") {
+        drawTransparentRectangle(context, data.d.a[data.d.a.length - 1]);
         data.d.a.pop();
       } else {
         console.error("unknown key: ", minKey);
@@ -104,4 +108,35 @@ function drawEqualTriangle(context: CanvasRenderingContext2D, d: DrawEqualTriang
   context.lineTo(xPoints[2], yPoints[2]);
   context.closePath();
   context.fill();
+}
+
+function drawRectangle(context: CanvasRenderingContext2D, d: DrawRectData) {
+  context.fillStyle = `rgb(${d.c[0]}, ${d.c[1]}, ${d.c[2]})`;
+  context.strokeStyle = `rgb(${d.c[0]}, ${d.c[1]}, ${d.c[2]})`;
+
+  if (d.f) {
+    context.fillRect(d.x, d.y, d.w, d.h);
+  } else {
+    context.strokeRect(d.x, d.y, d.w, d.h);
+  }
+}
+
+function drawTransparentRectangle(context: CanvasRenderingContext2D, d: DrawTransparentRectData) {
+  context.fillStyle = `rgba(${d.c[0]}, ${d.c[1]}, ${d.c[2]}, ${d.a})`;
+  context.fillRect(d.x, d.y, d.w, d.h);
+}
+
+function drawLine(context: CanvasRenderingContext2D, d: DrawLineData) {
+  context.strokeStyle = `rgb(${d.c[0]}, ${d.c[1]}, ${d.c[2]})`;
+  context.beginPath();
+  context.moveTo(d.x1, d.y1);
+  context.lineTo(d.x2, d.y2);
+  context.closePath();
+  context.stroke();
+}
+
+function drawText(context: CanvasRenderingContext2D, d: DrawTextData) {
+  context.fillStyle = `rgb(${d.c[0]}, ${d.c[1]}, ${d.c[2]})`;
+  context.font = `${d.s}px sans-serif`;
+  context.fillText(d.t, d.x, d.y);
 }
