@@ -2,71 +2,33 @@ export type DisplayData = {
   w: number,
   h: number,
   d: {
-    "f": FillData[],
-    "c": DrawCircleData[],
-    "e": DrawEqualTriangleData[],
-    "l": DrawLineData[],
-    "r": DrawRectData[],
-    "t": DrawTextData[],
-    "a": DrawTransparentRectData[],
+    f: { d: FillData[] },
+    c: { d: DrawCircleData[] },
+    e: { d: DrawEqualTriangleData[] },
+    l: { d: DrawLineData[] },
+    r: { d: DrawRectData[] },
+    t: { d: DrawTextData[] },
+    a: { d: DrawTransparentRectData[] },
   },
 } | null;
 
-export type FillData = {
-  i: number,
-  c: number[],
-};
+// Index, Red, Green, Blue
+export type FillData = [number, number, number, number];
 
-export type DrawCircleData = {
-  i: number,
-  c: number[],
-  x: number,
-  y: number,
-  r: number,
-};
+// Index, Red, Green, Blue, X, Y, Radius
+export type DrawCircleData = [number, number, number, number, number, number, number];
 
-export type DrawEqualTriangleData = {
-  i: number,
-  c: number[],
-  x: number,
-  y: number,
-  r: number,
-};
+// Index, Red, Green, Blue, X, Y, Radius
+export type DrawEqualTriangleData = [number, number, number, number, number, number, number];
 
-export type DrawLineData = {
-  i: number,
-  c: number[],
-  x1: number,
-  y1: number,
-  x2: number,
-  y2: number,
-}
+// Index, Red, Green, Blue, X1, Y1, X2, Y2
+export type DrawLineData = [number, number, number, number, number, number, number, number];
 
-export type DrawRectData = {
-  i: number,
-  c: number[],
-  x: number,
-  y: number,
-  w: number,
-  h: number,
-  f: boolean, // filled?
-}
+// Index, Red, Green, Blue, X, Y, Width, Height, Filled
+export type DrawRectData = [number, number, number, number, number, number, number, number, boolean];
 
-export type DrawTextData = {
-  i: number,
-  c: number[],
-  t: string, // text
-  s: number, // font size
-  x: number,
-  y: number,
-};
+// Index, Red, Green, Blue, Text, Font Size, X, Y
+export type DrawTextData = [number, number, number, number, string, number, number, number];
 
-export type DrawTransparentRectData = {
-  i: number,
-  c: number[],
-  x: number,
-  y: number,
-  w: number,
-  h: number,
-  a: number, // alpha
-};
+// Index, Red, Green, Blue, X, Y, Width, Height, Alpha
+export type DrawTransparentRectData = [number, number, number, number, number, number, number, number, number];

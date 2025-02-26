@@ -33,10 +33,11 @@ export function CanvasComponent() {
       let minKey = "";
       const keys = Object.keys(data.d) as (keyof typeof data.d)[];
       for (const key of keys) {
-        if (data.d[key].length === 0) continue;
-        const item = data.d[key][data.d[key].length - 1];
-        if (item.i < minId) {
-          minId = item.i;
+        const len = data.d[key].d.length;
+        if (len === 0) continue;
+        const item = data.d[key].d[len - 1];
+        if (item[0] < minId) {
+          minId = item[0];
           minKey = key;
         }
       }
@@ -44,26 +45,26 @@ export function CanvasComponent() {
       if (minKey === "") break;
 
       if (minKey === "f") {
-        fill(context, data.w, data.h, data.d.f[data.d.f.length - 1]);
-        data.d.f.pop();
+        fill(context, data.w, data.h, data.d.f.d[data.d.f.d.length - 1]);
+        data.d.f.d.pop();
       } else if (minKey === "c") {
-        drawCircle(context, data.d.c[data.d.c.length - 1]);
-        data.d.c.pop();
+        drawCircle(context, data.d.c.d[data.d.c.d.length - 1]);
+        data.d.c.d.pop();
       } else if (minKey === "e") {
-        drawEqualTriangle(context, data.d.e[data.d.e.length - 1]);
-        data.d.e.pop();
+        drawEqualTriangle(context, data.d.e.d[data.d.e.d.length - 1]);
+        data.d.e.d.pop();
       } else if (minKey === "l") {
-        drawLine(context, data.d.l[data.d.l.length - 1]);
-        data.d.l.pop();
+        drawLine(context, data.d.l.d[data.d.l.d.length - 1]);
+        data.d.l.d.pop();
       } else if (minKey === "r") {
-        drawRectangle(context, data.d.r[data.d.r.length - 1]);
-        data.d.r.pop();
+        drawRectangle(context, data.d.r.d[data.d.r.d.length - 1]);
+        data.d.r.d.pop();
       } else if (minKey === "t") {
-        drawText(context, data.d.t[data.d.t.length - 1]);
-        data.d.t.pop();
+        drawText(context, data.d.t.d[data.d.t.d.length - 1]);
+        data.d.t.d.pop();
       } else if (minKey === "a") {
-        drawTransparentRectangle(context, data.d.a[data.d.a.length - 1]);
-        data.d.a.pop();
+        drawTransparentRectangle(context, data.d.a.d[data.d.a.d.length - 1]);
+        data.d.a.d.pop();
       } else {
         console.error("unknown key: ", minKey);
       }
@@ -78,28 +79,28 @@ export function CanvasComponent() {
 }
 
 function fill(context: CanvasRenderingContext2D, width: number, height: number, d: FillData) {
-  context.fillStyle = `rgb(${d.c[0]}, ${d.c[1]}, ${d.c[2]})`;
+  context.fillStyle = `rgb(${d[1]}, ${d[2]}, ${d[3]})`;
   context.fillRect(0, 0, width, height);
 }
 
 function drawCircle(context: CanvasRenderingContext2D, d: DrawCircleData) {
-  context.fillStyle = `rgb(${d.c[0]}, ${d.c[1]}, ${d.c[2]})`;
+  context.fillStyle = `rgb(${d[1]}, ${d[2]}, ${d[3]})`;
   context.beginPath();
-  context.arc(d.x, d.y, d.r, 0, 2 * Math.PI);
+  context.arc(d[4], d[5], d[6], 0, 2 * Math.PI);
   context.closePath();
   context.fill();
 }
 
 function drawEqualTriangle(context: CanvasRenderingContext2D, d: DrawEqualTriangleData) {
-  context.fillStyle = `rgb(${d.c[0]}, ${d.c[1]}, ${d.c[2]})`;
+  context.fillStyle = `rgb(${d[1]}, ${d[2]}, ${d[3]})`;
 
   const xPoints: number[] = [];
   const yPoints: number[] = [];
 
   for (let i = 0; i < 3; i++) {
     const angle = Math.PI / 2 + i * 2 * Math.PI / 3;
-    xPoints[i] = d.x + (d.r * Math.cos(angle));
-    yPoints[i] = d.y - (d.r * Math.sin(angle));
+    xPoints[i] = d[4] + (d[6] * Math.cos(angle));
+    yPoints[i] = d[5] - (d[6] * Math.sin(angle));
   }
 
   context.beginPath();
@@ -111,32 +112,32 @@ function drawEqualTriangle(context: CanvasRenderingContext2D, d: DrawEqualTriang
 }
 
 function drawRectangle(context: CanvasRenderingContext2D, d: DrawRectData) {
-  context.fillStyle = `rgb(${d.c[0]}, ${d.c[1]}, ${d.c[2]})`;
-  context.strokeStyle = `rgb(${d.c[0]}, ${d.c[1]}, ${d.c[2]})`;
+  context.fillStyle = `rgb(${d[1]}, ${d[2]}, ${d[3]})`;
+  context.strokeStyle = `rgb(${d[1]}, ${d[2]}, ${d[3]})`;
 
-  if (d.f) {
-    context.fillRect(d.x, d.y, d.w, d.h);
+  if (d[8]) {
+    context.fillRect(d[4], d[5], d[6], d[7]);
   } else {
-    context.strokeRect(d.x, d.y, d.w, d.h);
+    context.strokeRect(d[4], d[5], d[6], d[7]);
   }
 }
 
 function drawTransparentRectangle(context: CanvasRenderingContext2D, d: DrawTransparentRectData) {
-  context.fillStyle = `rgba(${d.c[0]}, ${d.c[1]}, ${d.c[2]}, ${d.a})`;
-  context.fillRect(d.x, d.y, d.w, d.h);
+  context.fillStyle = `rgba(${d[1]}, ${d[2]}, ${d[3]}, ${d[8]})`;
+  context.fillRect(d[4], d[5], d[6], d[7]);
 }
 
 function drawLine(context: CanvasRenderingContext2D, d: DrawLineData) {
-  context.strokeStyle = `rgb(${d.c[0]}, ${d.c[1]}, ${d.c[2]})`;
+  context.strokeStyle = `rgb(${d[1]}, ${d[2]}, ${d[3]})`;
   context.beginPath();
-  context.moveTo(d.x1, d.y1);
-  context.lineTo(d.x2, d.y2);
+  context.moveTo(d[4], d[5]);
+  context.lineTo(d[6], d[7]);
   context.closePath();
   context.stroke();
 }
 
 function drawText(context: CanvasRenderingContext2D, d: DrawTextData) {
-  context.fillStyle = `rgb(${d.c[0]}, ${d.c[1]}, ${d.c[2]})`;
-  context.font = `${d.s}px sans-serif`;
-  context.fillText(d.t, d.x, d.y);
+  context.fillStyle = `rgb(${d[1]}, ${d[2]}, ${d[3]})`;
+  context.font = `${d[5]}px sans-serif`;
+  context.fillText(d[4], d[6], d[7]);
 }

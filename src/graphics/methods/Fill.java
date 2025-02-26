@@ -7,10 +7,7 @@ package graphics.methods;
  * @version 1.0
  */
 public class Fill extends Method {
-  /**
-   * Constructor.
-   */
-  public Fill(int i, int[] colour) {
-    super(i, colour);
+  public void add(int i, int[] colour) {
+    super.add(i, colour, 4);
   }
 }

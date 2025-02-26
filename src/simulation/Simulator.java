@@ -20,7 +20,7 @@ public class Simulator {
   * entities, rate of aging, food consumption etc.
   * Not very accurate, just used to fine tune the simulation feel.
   */
-  private final static double FIXED_DELTA_TIME = 0.2;
+  private final static double FIXED_DELTA_TIME = 0.35;
 
   /**
    * Constructor for the simulator.

@@ -7,19 +7,11 @@ package graphics.methods;
  * @version 1.0
  */
 public class DrawLine extends Method {
-  public int x1; // X-coordinate of the first point.
-  public int y1; // Y-coordinate of the first point.
-  public int x2; // X-coordinate of the second point.
-  public int y2; // Y-coordinate of the second point.
-
-  /**
-   * Constructor.
-   */
-  public DrawLine(int i, int x1, int y1, int x2, int y2, int[] color) {
-    super(i, color);
-    this.x1 = x1;
-    this.y1 = y1;
-    this.x2 = x2;
-    this.y2 = y2;
+  public void add(int i, int x1, int y1, int x2, int y2, int[] color) {
+    super.add(i, color, 8);
+    d.getLast()[4] = x1;
+    d.getLast()[5] = y1;
+    d.getLast()[6] = x2;
+    d.getLast()[7] = y2;
   }
 }

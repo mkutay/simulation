@@ -2,8 +2,6 @@ package graphics;
 
 import java.awt.Color;
 import java.net.URI;
-import java.util.HashMap;
-import java.util.List;
 
 import com.google.gson.Gson;
 import io.github.cdimascio.dotenv.Dotenv;
@@ -31,42 +29,47 @@ public class RenderPanelWeb implements RenderPanel {
 	}
 
 	public void fill(Color color) {
-		data.add("f", new Fill(index++, getArrayFromColor(color)));
+		Method m = data.get("f", new Fill());
+		((Fill) m).add(index++, getArrayFromColor(color));
 	}
 
 	public void drawCircle(int x, int y, int radius, Color color) {
-		data.add("c", new DrawCircle(index++, x, y, radius, getArrayFromColor(color)));
+		Method m = data.get("c", new DrawCircle());
+		((DrawCircle) m).add(index++, x, y, radius, getArrayFromColor(color));
 	}
 
 	public void drawRect(int x, int y, int width, int height, Color color, boolean filled) {
-		data.add("r", new DrawRect(index++, x, y, width, height, getArrayFromColor(color), filled));
+		Method m = data.get("r", new DrawRect());
+		((DrawRect) m).add(index++, x, y, width, height, getArrayFromColor(color), filled);
 	}
 
 	public void drawEqualTriangle(int centerX, int centerY, int radius, Color color) {
-		data.add("e", new DrawEqualTriangle(index++, centerX, centerY, radius, getArrayFromColor(color)));
+		Method m = data.get("e", new DrawEqualTriangle());
+		((DrawEqualTriangle) m).add(index++, centerX, centerY, radius, getArrayFromColor(color));
 	}
   
 	public void drawText(String text, int fontSize, int x, int y, Color color) {
-		data.add("t", new DrawText(index++, text, fontSize, x, y, getArrayFromColor(color)));
+		Method m = data.get("t", new DrawText());
+		((DrawText) m).add(index++, text, fontSize, x, y, getArrayFromColor(color));
 	}
   
 	public void drawLine(int x1, int y1, int x2, int y2, Color color) {
-		data.add("l", new DrawLine(index++, x1, y1, x2, y2, getArrayFromColor(color)));
+		Method m = data.get("l", new DrawLine());
+		((DrawLine) m).add(index++, x1, y1, x2, y2, getArrayFromColor(color));
 	}
 
 	public void drawTransparentRect(int x, int y, int width, int height, Color color, double alpha) {
-		data.add("a", new DrawTransparentRect(index++, x, y, width, height, getArrayFromColor(color), alpha));
+		Method m = data.get("a", new DrawTransparentRect());
+		((DrawTransparentRect) m).add(index++, x, y, width, height, getArrayFromColor(color), alpha);
 	}
 
 	/**
 	 * Send all the stored data to the redis database.
 	 */
 	public void update() {
-		HashMap<String, List<Method>> d = new HashMap<>();
 		for (String key : data.d.keySet()) {
-			d.put(key, data.d.get(key).reversed());
+			data.d.get(key).reverse();
 		}
-		data.d = d;
 
 		Gson g = new Gson();
 		String j = g.toJson(data);

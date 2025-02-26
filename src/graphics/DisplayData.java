@@ -1,8 +1,6 @@
 package graphics;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 import graphics.methods.Method;
 
@@ -16,7 +14,7 @@ import graphics.methods.Method;
 public class DisplayData {
   public int w; // Width of the display.
 	public int h; // Height of the display.
-	public HashMap<String, List<Method>> d; // Data of all of the function calls.
+	public HashMap<String, Method> d; // Data of all of the function calls.
 
   /**
    * Constructor.
@@ -28,14 +26,15 @@ public class DisplayData {
   }
 
   /**
-   * Add a method call to the data.
-   * @param name Name of the method.
-   * @param m Method to add.
+   * Get the method from the data.
+   * @param name The name of the method.
+   * @param method Used as a fail safe if the method is not found.
+   * @return The method.
    */
-  public void add(String name, Method m) {
-    if (!d.containsKey(name)) {
-      d.put(name, new ArrayList<>());
+  public Method get(String name, Method method) {
+    if (d.get(name) == null) {
+      d.put(name, method);
     }
-    d.get(name).add(m);
+    return d.get(name);
   }
 }
