@@ -11,8 +11,14 @@ import java.util.List;
  * @version 1.0
  */
 public abstract class Method {
-  public List<Object[]> d = new ArrayList<>();
+  public List<Object[]> d = new ArrayList<>(); // Data of the method.
 
+  /**
+   * Add a new entity to the data.
+   * @param id The index of the entity.
+   * @param colour The colour of the entity.
+   * @param length The length of the data object.
+   */
   protected void add(int id, int[] colour, int length) {
     d.add(new Object[length]);
     d.getLast()[0] = id;
@@ -21,6 +27,9 @@ public abstract class Method {
     d.getLast()[3] = colour[2];
   }
 
+  /**
+   * Reverse the data.
+   */
   public void reverse() {
     d = d.reversed();
   }

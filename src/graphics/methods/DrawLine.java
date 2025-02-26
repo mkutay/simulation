@@ -7,6 +7,9 @@ package graphics.methods;
  * @version 1.0
  */
 public class DrawLine extends Method {
+  /**
+   * Add a draw line method call to the data.
+   */
   public void add(int i, int x1, int y1, int x2, int y2, int[] color) {
     super.add(i, color, 8);
     d.getLast()[4] = x1;

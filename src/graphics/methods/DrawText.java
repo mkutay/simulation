@@ -7,6 +7,9 @@ package graphics.methods;
  * @version 1.0
  */
 public class DrawText extends Method {
+  /**
+   * Add a draw text method call to the data.
+   */
   public void add(int i, String text, int size, int x, int y, int[] color) {
     super.add(i, color, 8);
     d.getLast()[4] = text;

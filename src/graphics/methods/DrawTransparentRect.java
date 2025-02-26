@@ -7,6 +7,9 @@ package graphics.methods;
  * @version 1.0
  */
 public class DrawTransparentRect extends Method {
+  /**
+   * Add a draw transparent rectangle method call to the data.
+   */
   public void add(int i, int x, int y, int w, int h, int[] color, double a) {
     super.add(i, color, 9);
     d.getLast()[4] = x;

@@ -7,6 +7,9 @@ package graphics.methods;
  * @version 1.0
  */
 public class Fill extends Method {
+  /**
+   * Add a fill method call to the data.
+   */
   public void add(int i, int[] colour) {
     super.add(i, colour, 4);
   }

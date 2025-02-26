@@ -16,10 +16,15 @@ import graphics.methods.*;
  * @version 1.0
  */
 public class RenderPanelWeb implements RenderPanel {
-	private DisplayData data;
-	private JedisPooled client;
-	private int index = 0;
+	private DisplayData data; // The data to be sent to the Redis database.
+	private JedisPooled client; // The Redis client.
+	private int index = 0; // The global index of the data.
 
+	/**
+	 * Constructor -- Create a new RenderPanelWeb object.
+	 * @param width The width of the display.
+	 * @param height The height of the display.
+	 */
 	public RenderPanelWeb(int width, int height) {
 		data = new DisplayData(width, height);
 		Dotenv dotenv = Dotenv.load();
@@ -79,6 +84,9 @@ public class RenderPanelWeb implements RenderPanel {
 		index = 0;
 	}
 
+	/**
+	 * Get the three-wide array from a Color object.
+	 */
 	private int[] getArrayFromColor(Color c) {
 		return new int[] { c.getRed(), c.getGreen(), c.getBlue() };
 	}

@@ -7,6 +7,9 @@ package graphics.methods;
  * @version 1.0
  */
 public class DrawCircle extends Method {
+  /**
+   * Add a draw circle method call to the data.
+   */
   public void add(int i, int x, int y, int r, int[] color) {
     super.add(i, color, 7);
     d.getLast()[4] = x;
