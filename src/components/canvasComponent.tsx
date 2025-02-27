@@ -35,8 +35,7 @@ export function CanvasComponent() {
       for (const key of keys) {
         const len = data.d[key].d.length;
         if (len === 0) continue;
-        const itemLen = getLengthFromKey(key);
-        const itemId = data.d[key].d[len - itemLen] as number;
+        const itemId = data.d[key].d[0] as number;
         if (itemId < minId) {
           minId = itemId;
           minKey = key;
@@ -46,25 +45,25 @@ export function CanvasComponent() {
       if (minKey === "") break;
 
       if (minKey === "f") {
-        const fillData: FillData[] = data.d.f.d.splice(data.d.f.d.length - 1, getLengthFromKey("f"));
+        const fillData: FillData[] = data.d.f.d.splice(0, getLengthFromKey("f"));
         fill(context, data.w, data.h, fillData);
       } else if (minKey === "c") {
-        const circleData: DrawCircleData[] = data.d.c.d.splice(data.d.c.d.length - 1, getLengthFromKey("c"));
+        const circleData: DrawCircleData[] = data.d.c.d.splice(0, getLengthFromKey("c"));
         drawCircle(context, circleData);
       } else if (minKey === "e") {
-        const equalTriangleData: DrawEqualTriangleData[] = data.d.e.d.splice(data.d.e.d.length - 1, getLengthFromKey("e"));
+        const equalTriangleData: DrawEqualTriangleData[] = data.d.e.d.splice(0, getLengthFromKey("e"));
         drawEqualTriangle(context, equalTriangleData);
       } else if (minKey === "l") {
-        const lineData: DrawLineData[] = data.d.l.d.splice(data.d.l.d.length - 1, getLengthFromKey("l"));
+        const lineData: DrawLineData[] = data.d.l.d.splice(0, getLengthFromKey("l"));
         drawLine(context, lineData);
       } else if (minKey === "r") {
-        const rectData: DrawRectData[] = data.d.r.d.splice(data.d.r.d.length - 1, getLengthFromKey("r"));
+        const rectData: DrawRectData[] = data.d.r.d.splice(0, getLengthFromKey("r"));
         drawRectangle(context, rectData);
       } else if (minKey === "t") {
-        const textData: DrawTextData[] = data.d.t.d.splice(data.d.t.d.length - 1, getLengthFromKey("t"));
+        const textData: DrawTextData[] = data.d.t.d.splice(0, getLengthFromKey("t"));
         drawText(context, textData);
       } else if (minKey === "a") {
-        const transparentRectData: DrawTransparentRectData[] = data.d.a.d.splice(data.d.a.d.length - 1, getLengthFromKey("a"));
+        const transparentRectData: DrawTransparentRectData[] = data.d.a.d.splice(0, getLengthFromKey("a"));
         drawTransparentRectangle(context, transparentRectData);
       } else {
         console.error("unknown key: ", minKey);
