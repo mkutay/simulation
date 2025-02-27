@@ -20,6 +20,8 @@ public class RenderPanelWeb implements RenderPanel {
 	private JedisPooled client; // The Redis client.
 	private int index = 0; // The global index of the data.
 
+	private double lastTick = 0; // To calculate the delta time.
+
 	/**
 	 * Constructor -- Create a new RenderPanelWeb object.
 	 * @param width The width of the display.
@@ -72,6 +74,10 @@ public class RenderPanelWeb implements RenderPanel {
 	 * Send all the stored data to the redis database.
 	 */
 	public void update() {
+		double nowTime = System.nanoTime();
+		System.out.println((nowTime - lastTick) * 1e-6 + " ms");
+		lastTick = nowTime;
+
 		for (String key : data.d.keySet()) {
 			data.d.get(key).reverse();
 		}
