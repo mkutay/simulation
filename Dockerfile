@@ -2,9 +2,12 @@
 FROM openjdk:21-jdk-slim AS builder
 WORKDIR /app
 
-# Copy project source, libraries, and env files
+# Create lib directory first to avoid errors if it doesn't exist
+RUN mkdir -p lib
+
+# Copy project source and dependencies
 COPY src/ ./src/
-COPY lib/ ./lib/
+COPY lib/*.jar ./lib/
 COPY .env .env
 
 # Compile the Java sources. 
@@ -22,10 +25,10 @@ COPY --from=builder /app/.env .env
 
 # Run in headless mode with server optimizations
 CMD ["java", \
-     "-Djava.awt.headless=true", \
-     "-server", \
-     "-XX:+UseContainerSupport", \
-     "-XX:MinRAMPercentage=50", \
-     "-XX:MaxRAMPercentage=80", \
-     "-cp", "./out:./lib/*", \
-     "Main"]
+  "-Djava.awt.headless=true", \
+  "-server", \
+  "-XX:+UseContainerSupport", \
+  "-XX:MinRAMPercentage=50", \
+  "-XX:MaxRAMPercentage=80", \
+  "-cp", "./out:./lib/*", \
+  "Main"]
