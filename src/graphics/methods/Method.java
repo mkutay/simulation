@@ -12,7 +12,7 @@ import java.util.List;
  */
 public abstract class Method {
   public List<Object> d = new ArrayList<>(); // Data of the method.
-  private int length;
+  private transient int length;
 
   /**
    * Add a new entity to the data.
