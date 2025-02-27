@@ -78,9 +78,9 @@ public class RenderPanelWeb implements RenderPanel {
 		System.out.println((nowTime - lastTick) * 1e-6 + " ms");
 		lastTick = nowTime;
 
-		for (String key : data.d.keySet()) {
-			data.d.get(key).reverse();
-		}
+		// for (String key : data.d.keySet()) {
+		// 	data.d.get(key).reverse();
+		// }
 
 		Gson g = new Gson();
 		String j = g.toJson(data);
