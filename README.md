@@ -1,43 +1,36 @@
-# WE GET THESE 100S
+This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
-This simulation project integrates multiple components to create a dynamic ecosystem that a researcher can use to
-study predator-prey-plant interactions, with the ability to add or remove any species or environmental factors easily
-by editing the given JSON file. Infact, almost every aspect of the simulation can be controlled in the JSON file.
-The simulation is designed to simulate without any grid-based restrictions, allowing entities to move freely in a
-continuous space. Specifically, the coordinates of the entities are stored as doubles from zero to the width and height
-of the field. The entities also have their own genetics, which are inherited from parent(s) and may mutate,
-all of which are initialised in the JSON file, where it is intended for all users of the program to modify it
-to play with the simulation parameters.
+## Getting Started
 
-Authors: Mehmet Kutay Bozkurt and Anas Ahmed
-Version: 1.0
+First, run the development server:
 
----
+```bash
+npm run dev
+# or
+yarn dev
+# or
+pnpm dev
+# or
+bun dev
+```
 
-[Google Docs](https://docs.google.com/document/d/14-HuoK5tUVpEVj2pL6A5acK-5UiRciUfZDvJvdfa1uY/edit)
+Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-To open the GUI, add port 6080 under the "Ports" section and open it in the browser.
+You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 
-## Core task
-- Your simulation should have at least five different kinds of acting species. At least two of these should be predators (they eat another species), and at least two of them should not be predators (they may eat plants). Plants can either be assumed to always be available (as in the original project), or they can be simulated (see below).
-- At least two predators should compete for the same food source.
-- Some or all of the species should distinguish male and female individuals. For these, the creatures can only propagate when a male and female individual meet. (“Meet” means they need to be within a specified distance to each other, for example in a neighbouring cell.) You will need to experiment with the parameters for breeding probability to create a stable population.
-- You should keep track of the time of day. At least some creatures should exhibit different behaviour at some time of the day (for example: they may sleep at night and not move during that time).
+This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
-## Challenge tasks
-- Add plants. Plants grow at a given rate, but they do not move. Some creatures eat plants. They will die if they do not find their food plant.
-- Add weather. Weather can change, and it influences the behaviour of some simulated aspects. For example, grass may not grow without rain, or predators cannot see well in fog.
-- Add disease. Some animals are occasionally infected. Infection can spread to other animals when they meet.
+## Learn More
 
-## Extra work -- just for fun
-- You can extend the GUI (the graphical user interface) itself if you like, but no marks will be awarded for this work. If you do this – that’s good, but it is purely for fun and for your own practice.
+To learn more about Next.js, take a look at the following resources:
 
-## The report
+- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
+- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
 
-The report should be no more than four pages long, and should include:
-- The names of both students who worked on the submission.
-- A description of your simulation, including the types of species that you are simulating, their behaviour and interactions.
-- A list and description of all extension tasks you have implemented.
-- Known bugs or problems (Note: for a bug in your code that you document yourself, you may not lose many marks – maybe none, if it is in a challenge task. For bugs that we find that you did not document you will probably lose marks.)
+You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
 
-P.S. We can write our report in LaTeX, which I can create another repo for (I already kinda have a template from the last coursework) -- or we could just use Google Docs.
+## Deploy on Vercel
+
+The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+
+Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
