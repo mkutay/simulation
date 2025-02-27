@@ -4,6 +4,7 @@ import React, { useRef, useEffect, useState } from 'react';
 
 import { DisplayData, DrawCircleData, DrawEqualTriangleData, DrawLineData, DrawRectData, DrawTextData, DrawTransparentRectData, FillData } from '@/lib/schema';
 import { getData } from '@/lib/database';
+import { error } from 'console';
 
 export function CanvasComponent() {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
@@ -35,9 +36,10 @@ export function CanvasComponent() {
       for (const key of keys) {
         const len = data.d[key].d.length;
         if (len === 0) continue;
-        const item = data.d[key].d[len - 1];
-        if (item[0] < minId) {
-          minId = item[0];
+        const itemLen = getLengthFromKey(key);
+        const itemId = data.d[key].d[len - itemLen] as number;
+        if (itemId < minId) {
+          minId = itemId;
           minKey = key;
         }
       }
@@ -45,26 +47,26 @@ export function CanvasComponent() {
       if (minKey === "") break;
 
       if (minKey === "f") {
-        fill(context, data.w, data.h, data.d.f.d[data.d.f.d.length - 1]);
-        data.d.f.d.pop();
+        const fillData: FillData[] = data.d.f.d.splice(data.d.f.d.length - 1, getLengthFromKey("f"));
+        fill(context, data.w, data.h, fillData);
       } else if (minKey === "c") {
-        drawCircle(context, data.d.c.d[data.d.c.d.length - 1]);
-        data.d.c.d.pop();
+        const circleData: DrawCircleData[] = data.d.c.d.splice(data.d.c.d.length - 1, getLengthFromKey("c"));
+        drawCircle(context, circleData);
       } else if (minKey === "e") {
-        drawEqualTriangle(context, data.d.e.d[data.d.e.d.length - 1]);
-        data.d.e.d.pop();
+        const equalTriangleData: DrawEqualTriangleData[] = data.d.e.d.splice(data.d.e.d.length - 1, getLengthFromKey("e"));
+        drawEqualTriangle(context, equalTriangleData);
       } else if (minKey === "l") {
-        drawLine(context, data.d.l.d[data.d.l.d.length - 1]);
-        data.d.l.d.pop();
+        const lineData: DrawLineData[] = data.d.l.d.splice(data.d.l.d.length - 1, getLengthFromKey("l"));
+        drawLine(context, lineData);
       } else if (minKey === "r") {
-        drawRectangle(context, data.d.r.d[data.d.r.d.length - 1]);
-        data.d.r.d.pop();
+        const rectData: DrawRectData[] = data.d.r.d.splice(data.d.r.d.length - 1, getLengthFromKey("r"));
+        drawRectangle(context, rectData);
       } else if (minKey === "t") {
-        drawText(context, data.d.t.d[data.d.t.d.length - 1]);
-        data.d.t.d.pop();
+        const textData: DrawTextData[] = data.d.t.d.splice(data.d.t.d.length - 1, getLengthFromKey("t"));
+        drawText(context, textData);
       } else if (minKey === "a") {
-        drawTransparentRectangle(context, data.d.a.d[data.d.a.d.length - 1]);
-        data.d.a.d.pop();
+        const transparentRectData: DrawTransparentRectData[] = data.d.a.d.splice(data.d.a.d.length - 1, getLengthFromKey("a"));
+        drawTransparentRectangle(context, transparentRectData);
       } else {
         console.error("unknown key: ", minKey);
       }
@@ -78,12 +80,23 @@ export function CanvasComponent() {
   )
 }
 
-function fill(context: CanvasRenderingContext2D, width: number, height: number, d: FillData) {
+function getLengthFromKey(key: string) {
+  if (key === "f") return 4;
+  if (key === "c") return 7;
+  if (key === "e") return 7;
+  if (key === "l") return 8;
+  if (key === "r") return 9;
+  if (key === "t") return 8;
+  if (key === "a") return 9;
+  throw error("unknown key: " + key);
+}
+
+function fill(context: CanvasRenderingContext2D, width: number, height: number, d: FillData[]) {
   context.fillStyle = `rgb(${d[1]}, ${d[2]}, ${d[3]})`;
   context.fillRect(0, 0, width, height);
 }
 
-function drawCircle(context: CanvasRenderingContext2D, d: DrawCircleData) {
+function drawCircle(context: CanvasRenderingContext2D, d: DrawCircleData[]) {
   context.fillStyle = `rgb(${d[1]}, ${d[2]}, ${d[3]})`;
   context.beginPath();
   context.arc(d[4], d[5], d[6], 0, 2 * Math.PI);
@@ -91,7 +104,7 @@ function drawCircle(context: CanvasRenderingContext2D, d: DrawCircleData) {
   context.fill();
 }
 
-function drawEqualTriangle(context: CanvasRenderingContext2D, d: DrawEqualTriangleData) {
+function drawEqualTriangle(context: CanvasRenderingContext2D, d: DrawEqualTriangleData[]) {
   context.fillStyle = `rgb(${d[1]}, ${d[2]}, ${d[3]})`;
 
   const xPoints: number[] = [];
@@ -111,23 +124,23 @@ function drawEqualTriangle(context: CanvasRenderingContext2D, d: DrawEqualTriang
   context.fill();
 }
 
-function drawRectangle(context: CanvasRenderingContext2D, d: DrawRectData) {
+function drawRectangle(context: CanvasRenderingContext2D, d: DrawRectData[]) {
   context.fillStyle = `rgb(${d[1]}, ${d[2]}, ${d[3]})`;
   context.strokeStyle = `rgb(${d[1]}, ${d[2]}, ${d[3]})`;
 
   if (d[8]) {
-    context.fillRect(d[4], d[5], d[6], d[7]);
+    context.fillRect(d[4] as number, d[5] as number, d[6] as number, d[7] as number);
   } else {
-    context.strokeRect(d[4], d[5], d[6], d[7]);
+    context.strokeRect(d[4] as number, d[5] as number, d[6] as number, d[7] as number);
   }
 }
 
-function drawTransparentRectangle(context: CanvasRenderingContext2D, d: DrawTransparentRectData) {
+function drawTransparentRectangle(context: CanvasRenderingContext2D, d: DrawTransparentRectData[]) {
   context.fillStyle = `rgba(${d[1]}, ${d[2]}, ${d[3]}, ${d[8]})`;
   context.fillRect(d[4], d[5], d[6], d[7]);
 }
 
-function drawLine(context: CanvasRenderingContext2D, d: DrawLineData) {
+function drawLine(context: CanvasRenderingContext2D, d: DrawLineData[]) {
   context.strokeStyle = `rgb(${d[1]}, ${d[2]}, ${d[3]})`;
   context.beginPath();
   context.moveTo(d[4], d[5]);
@@ -136,8 +149,8 @@ function drawLine(context: CanvasRenderingContext2D, d: DrawLineData) {
   context.stroke();
 }
 
-function drawText(context: CanvasRenderingContext2D, d: DrawTextData) {
+function drawText(context: CanvasRenderingContext2D, d: DrawTextData[]) {
   context.fillStyle = `rgb(${d[1]}, ${d[2]}, ${d[3]})`;
   context.font = `${d[5]}px sans-serif`;
-  context.fillText(d[4], d[6], d[7]);
+  context.fillText(d[4] as string, d[6] as number, d[7] as number);
 }
