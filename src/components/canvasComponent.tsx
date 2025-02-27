@@ -4,7 +4,6 @@ import React, { useRef, useEffect, useState } from 'react';
 
 import { DisplayData, DrawCircleData, DrawEqualTriangleData, DrawLineData, DrawRectData, DrawTextData, DrawTransparentRectData, FillData } from '@/lib/schema';
 import { getData } from '@/lib/database';
-import { error } from 'console';
 
 export function CanvasComponent() {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
@@ -88,7 +87,7 @@ function getLengthFromKey(key: string) {
   if (key === "r") return 9;
   if (key === "t") return 8;
   if (key === "a") return 9;
-  throw error("unknown key: " + key);
+  return 0;
 }
 
 function fill(context: CanvasRenderingContext2D, width: number, height: number, d: FillData[]) {
