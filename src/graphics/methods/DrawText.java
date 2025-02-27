@@ -12,9 +12,9 @@ public class DrawText extends Method {
    */
   public void add(int i, String text, int size, int x, int y, int[] color) {
     super.add(i, color, 8);
-    d.getLast()[4] = text;
-    d.getLast()[5] = size;
-    d.getLast()[6] = x;
-    d.getLast()[7] = y;
+    d.add(text);
+    d.add(size);
+    d.add(x);
+    d.add(y);
   }
 }

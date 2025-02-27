@@ -12,10 +12,10 @@ public class DrawRect extends Method {
    */
   public void add(int i, int x, int y, int w, int h, int[] color, boolean filled) {
     super.add(i, color, 9);
-    d.getLast()[4] = x;
-    d.getLast()[5] = y;
-    d.getLast()[6] = w;
-    d.getLast()[7] = h;
-    d.getLast()[8] = filled;
+    d.add(x);
+    d.add(y);
+    d.add(w);
+    d.add(h);
+    d.add(filled);
   }
 }

@@ -12,9 +12,9 @@ public class DrawLine extends Method {
    */
   public void add(int i, int x1, int y1, int x2, int y2, int[] color) {
     super.add(i, color, 8);
-    d.getLast()[4] = x1;
-    d.getLast()[5] = y1;
-    d.getLast()[6] = x2;
-    d.getLast()[7] = y2;
+    d.add(x1);
+    d.add(y1);
+    d.add(x2);
+    d.add(y2);
   }
 }
