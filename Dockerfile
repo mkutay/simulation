@@ -9,6 +9,7 @@ RUN mkdir -p lib
 COPY src/ ./src/
 COPY lib/*.jar ./lib/
 COPY .env .env
+COPY src/simulation_data.json ./simulation_data.json
 
 # Compile the Java sources. 
 # Adjust the classpath, output directory, and source files as needed.
@@ -22,6 +23,7 @@ WORKDIR /app
 COPY --from=builder /app/out/ ./out/
 COPY --from=builder /app/lib/ ./lib/
 COPY --from=builder /app/.env .env
+COPY --from=builder /app/simulation_data.json ./simulation_data.json
 
 # Run in headless mode with server optimizations
 CMD ["java", \
