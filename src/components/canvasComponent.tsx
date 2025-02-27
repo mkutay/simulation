@@ -16,7 +16,7 @@ export function CanvasComponent() {
       getData().then((apiData) => {
         setData(apiData);
       });
-    }, 16);
+    }, 0);
 
     return () => clearInterval(intervalId);
   }, []);
