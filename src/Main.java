@@ -1,4 +1,4 @@
-import view.Engine;
+import api.Connector;
 
 /**
  * Main class to start the simulation through the Engine class.
@@ -8,10 +8,6 @@ import view.Engine;
  */
 public class Main {
   public static void main(String[] args) {
-    int fps = 60;
-    int width = 600;
-    int height = 600;
-    Engine engine = new Engine(width, height, fps);
-    engine.start();
+    new Connector().start();
   }
 }

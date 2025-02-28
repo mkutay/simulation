@@ -9,10 +9,18 @@ import util.Parser;
  * @version 1.0
  */
 public class Data {
-  public static final String PATH = System.getProperty("user.dir"); // The main directory of the project.
+  // public static final String PATH = System.getProperty("user.dir"); // The main directory of the project.
 
   // The data of the simulation:
-  private static final SimulationData simulationData = Parser.parseSimulationData(Parser.getContentsOfFile(PATH + "/simulation_data.json"));
+  private static SimulationData simulationData = null;
+  // private static SimulationData simulationData = Parser.parseSimulationData(Parser.getContentsOfFile(PATH + "/simulation_data.json"));
+
+  /**
+   * Setter to be used by the API to set the simulation data.
+   */
+  public static void setSimulationData(SimulationData data) {
+    simulationData = data;
+  }
 
   // Getters:
   public static AnimalData[] getPreysData() { return simulationData.preysData; }

@@ -118,4 +118,11 @@ public class Engine {
     Thread t = new Thread(this::run);
     t.start();
   }
+
+  /**
+   * Stop the simulation.
+   */
+  public void stop() {
+    running = false;
+  }
 }

@@ -3,6 +3,9 @@ package graphics;
 import java.awt.Color;
 import java.net.URI;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.google.gson.Gson;
 import io.github.cdimascio.dotenv.Dotenv;
 import redis.clients.jedis.JedisPooled;
@@ -16,6 +19,8 @@ import graphics.methods.*;
  * @version 1.0
  */
 public class RenderPanelWeb implements RenderPanel {
+	private static Logger logger = LoggerFactory.getLogger(RenderPanelWeb.class);
+
 	private DisplayData data; // The data to be sent to the Redis database.
 	private JedisPooled client; // The Redis client.
 	private int index = 0; // The global index of the data.
@@ -75,12 +80,8 @@ public class RenderPanelWeb implements RenderPanel {
 	 */
 	public void update() {
 		double nowTime = System.nanoTime();
-		System.out.println((nowTime - lastTick) * 1e-6 + " ms");
+		logger.info("Time since last tick: " + (nowTime - lastTick) * 1e-6 + " ms");
 		lastTick = nowTime;
-
-		// for (String key : data.d.keySet()) {
-		// 	data.d.get(key).reverse();
-		// }
 
 		Gson g = new Gson();
 		String j = g.toJson(data);
