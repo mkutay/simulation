@@ -5,24 +5,24 @@ import React, { useRef, useEffect, useState } from 'react';
 import { DisplayData, DrawCircleData, DrawEqualTriangleData, DrawLineData, DrawRectData, DrawTextData, DrawTransparentRectData, FillData } from '@/lib/schema';
 import { getData } from '@/lib/database';
 
-export function CanvasComponent() {
+export function CanvasComponent({ started }: { started: boolean }) {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const canvasCtxRef = React.useRef<CanvasRenderingContext2D | null>(null);
-
   const [data, setData] = useState(null as DisplayData);
-
+  
   useEffect(() => {
+    if (!started) return;
     const intervalId = setInterval(() => {
       getData().then((apiData) => {
         setData(apiData);
       });
-    }, 0);
+    }, 30);
 
     return () => clearInterval(intervalId);
-  }, []);
+  }, [started]);
 
   useEffect(() => {
-    if (data === null || !canvasRef.current || data == undefined || !data.d) return;
+    if (!started || data === null || !canvasRef.current || data == undefined || !data.d) return;
     canvasCtxRef.current = canvasRef.current.getContext('2d');
     const context = canvasCtxRef.current;
     if (!context) return;
@@ -69,11 +69,11 @@ export function CanvasComponent() {
         console.error("unknown key: ", minKey);
       }
     }
-  }, [data]);
+  }, [data, started]);
 
   return (
     <>
-      {data !== null && <canvas ref={canvasRef} width={data.w} height={data.h} />}
+      {data !== null && started && <canvas ref={canvasRef} width={data.w} height={data.h} />}
     </>
   )
 }
