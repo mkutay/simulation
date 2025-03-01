@@ -24,8 +24,18 @@ public class Subscriber extends JedisPubSub {
       return;
     }
 
+    if (engine != null) {
+      engine.stop();
+    }
+
     // Get and set the simulation data:
-    SimulationData data = Parser.parseSimulationData(message);
+    SimulationData data = null;
+    try {
+      data = Parser.parseSimulationData(message);
+    } catch (Exception e) {
+      logger.error("Failed to parse the simulation data.", e);
+      return;
+    }
     Data.setSimulationData(data);
 
     // Start the simulation:

@@ -11,6 +11,7 @@ import org.junit.jupiter.api.Test;
 import entities.*;
 import genetics.AnimalGenetics;
 import simulation.simulationData.Data;
+import simulation.simulationData.SimulationData;
 import util.Parser;
 import util.Vector;
 
@@ -25,9 +26,17 @@ class EntityTest {
   private AnimalGenetics genetics;
 
   @BeforeEach
-  void setUp() {
+  void setUp() throws Exception {
     final String PATH = System.getProperty("user.dir");
-    Data.setSimulationData(Parser.parseSimulationData(Parser.getContentsOfFile(PATH + "/src/simulation_data.json")));
+    SimulationData simulationData = null;
+    try {
+      simulationData = Parser.parseSimulationDataFromFile(PATH + "/src/simulation_data.json");
+    } catch (Exception e) {
+      System.out.println("Error reading simulation data.");
+      e.printStackTrace();
+      throw e;
+    }
+    Data.setSimulationData(simulationData);
     this.genetics = Data.getPredatorsData()[0].generateRandomGenetics();
     this.animal = new Predator(genetics, new Vector(50, 50));
   }
