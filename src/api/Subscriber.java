@@ -8,25 +8,34 @@ import simulation.simulationData.SimulationData;
 import util.Parser;
 import view.Engine;
 
+/**
+ * A class to subscribe to the Redis channel and start the simulation when a message is received.
+ * 
+ * @author Mehmet Kutay Bozkurt
+ * @version 1.0
+ */
 public class Subscriber extends JedisPubSub {
-  private static Logger logger = LoggerFactory.getLogger(Subscriber.class);
-  private Engine engine;
+  private static Logger logger = LoggerFactory.getLogger(Subscriber.class); // The logger to log messages.
 
+  private Engine engine; // The engine that is running the simulation.
+
+  /**
+   * Called when a message is received on the channel. Start the simulation with the received data.
+   * If the message is empty, stop the simulation.
+   * @param channel The channel the message was received on.
+   * @param message The message that was received.
+   */
   @Override
   public void onMessage(String channel, String message) {
     String formattedMessage = message.length() > 10 ? message.substring(0, 10) : message;
     logger.info("Message received. Channel: {}, Message: {}...", channel, formattedMessage);
 
     if (message.equals("")) { // Stop the simulation
-      if (engine != null) {
-        engine.stop();
-      }
+      stopEngine();
       return;
     }
 
-    if (engine != null) {
-      engine.stop();
-    }
+    stopEngine();
 
     // Get and set the simulation data:
     SimulationData data = null;
@@ -61,4 +70,10 @@ public class Subscriber extends JedisPubSub {
 
   @Override
   public void onPSubscribe(String pattern, int subscribedChannels) { }
+
+  private void stopEngine() {
+    if (engine != null) {
+      engine.stop();
+    }
+  }
 }
