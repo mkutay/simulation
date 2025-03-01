@@ -10,6 +10,7 @@ import java.util.List;
 import entities.*;
 import simulation.Field;
 import simulation.simulationData.*;
+import util.Parser;
 import util.Vector;
 import genetics.AnimalGenetics;
 import genetics.Gender;
@@ -27,6 +28,8 @@ class AnimalTest {
 
   @BeforeEach
   void setUp() {
+    final String PATH = System.getProperty("user.dir");
+    Data.setSimulationData(Parser.parseSimulationData(Parser.getContentsOfFile(PATH + "/src/simulation_data.json")));
     this.genetics = Data.getPredatorsData()[0].generateRandomGenetics();
     this.animal = new Predator(genetics, new Vector(50, 50));
     this.field = new Field(100, 100);

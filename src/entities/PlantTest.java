@@ -8,6 +8,7 @@ import java.util.List;
 
 import simulation.Field;
 import simulation.simulationData.*;
+import util.Parser;
 import util.Vector;
 import genetics.PlantGenetics;
 
@@ -23,6 +24,8 @@ class PlantTest {
 
   @BeforeEach
   void setUp() {
+    final String PATH = System.getProperty("user.dir");
+    Data.setSimulationData(Parser.parseSimulationData(Parser.getContentsOfFile(PATH + "/src/simulation_data.json")));
     this.genetics = Data.getPlantsData()[0].generateRandomGenetics();
     this.field = new Field(100, 100);
   }

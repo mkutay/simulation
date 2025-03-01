@@ -14,7 +14,8 @@ public class Subscriber extends JedisPubSub {
 
   @Override
   public void onMessage(String channel, String message) {
-    logger.info("Message received. Channel: {}, Message: {}...", channel, message.length() > 10 ? message.substring(0, 10) : message);
+    String formattedMessage = message.length() > 10 ? message.substring(0, 10) : message;
+    logger.info("Message received. Channel: {}, Message: {}...", channel, formattedMessage);
 
     if (message.equals("")) { // Stop the simulation
       if (engine != null) {

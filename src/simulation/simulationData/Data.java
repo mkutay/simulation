@@ -1,22 +1,17 @@
 package simulation.simulationData;
 
-import util.Parser;
-
 /**
- * A class to store all the data of the simulation.
+ * A class to store all and only the data of the simulation.
  * 
  * @author Mehmet Kutay Bozkurt and Anas Ahmed
  * @version 1.0
  */
 public class Data {
-  // public static final String PATH = System.getProperty("user.dir"); // The main directory of the project.
-
-  // The data of the simulation:
-  private static SimulationData simulationData = null;
-  // private static SimulationData simulationData = Parser.parseSimulationData(Parser.getContentsOfFile(PATH + "/simulation_data.json"));
+  private static SimulationData simulationData = null; // The data of the simulation.
 
   /**
-   * Setter to be used by the API to set the simulation data.
+   * Setter to be used to parse and set the simulation data.
+   * @param data The data of the simulation to store.
    */
   public static void setSimulationData(SimulationData data) {
     simulationData = data;

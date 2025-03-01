@@ -11,6 +11,7 @@ import org.junit.jupiter.api.Test;
 import entities.*;
 import genetics.AnimalGenetics;
 import simulation.simulationData.Data;
+import util.Parser;
 import util.Vector;
 
 /**
@@ -25,6 +26,8 @@ class EntityTest {
 
   @BeforeEach
   void setUp() {
+    final String PATH = System.getProperty("user.dir");
+    Data.setSimulationData(Parser.parseSimulationData(Parser.getContentsOfFile(PATH + "/src/simulation_data.json")));
     this.genetics = Data.getPredatorsData()[0].generateRandomGenetics();
     this.animal = new Predator(genetics, new Vector(50, 50));
   }
