@@ -36,6 +36,10 @@ USER appuser
 # Expose the WebSocket port
 EXPOSE 8080
 
+# Add a simple healthcheck
+HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 \
+  CMD exit 0
+
 # Run in headless mode with server optimizations
 CMD ["java", \
   "-Djava.awt.headless=true", \
