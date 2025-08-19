@@ -12,7 +12,6 @@ export function CanvasComponent({
   const [data, setData] = useState<DisplayData | null>(null);
   
   ws.onmessage = (event) => {
-    console.log(event.data)
     try {
       const apiData = JSON.parse(event.data);
       setData(apiData);
