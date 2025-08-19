@@ -1,28 +1,28 @@
-'use client';
-
 import React, { useRef, useEffect, useState } from 'react';
 
 import { DisplayData, DrawCircleData, DrawEqualTriangleData, DrawLineData, DrawRectData, DrawTextData, DrawTransparentRectData, FillData } from '@/lib/schema';
-import { getData } from '@/lib/database';
 
-export function CanvasComponent({ started }: { started: boolean }) {
+export function CanvasComponent({
+  ws,
+}: {
+  ws: WebSocket;
+}) {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const canvasCtxRef = React.useRef<CanvasRenderingContext2D | null>(null);
-  const [data, setData] = useState(null as DisplayData);
+  const [data, setData] = useState<DisplayData | null>(null);
   
-  useEffect(() => {
-    if (!started) return;
-    const intervalId = setInterval(() => {
-      getData().then((apiData) => {
-        setData(apiData);
-      });
-    }, 30);
+  ws.onmessage = (event) => {
+    console.log(event.data)
+    try {
+      const apiData = JSON.parse(event.data);
+      setData(apiData);
+    } catch (e) {
+      console.error('Failed to parse ws message', e);
+    }
+  };
 
-    return () => clearInterval(intervalId);
-  }, [started]);
-
   useEffect(() => {
-    if (!started || data === null || !canvasRef.current || data == undefined || !data.d) return;
+    if (data === null || !canvasRef.current || data == undefined || !data.d) return;
     canvasCtxRef.current = canvasRef.current.getContext('2d');
     const context = canvasCtxRef.current;
     if (!context) return;
@@ -69,11 +69,11 @@ export function CanvasComponent({ started }: { started: boolean }) {
         console.error("unknown key: ", minKey);
       }
     }
-  }, [data, started]);
+  }, [data]);
 
   return (
     <>
-      {data !== null && started && <canvas ref={canvasRef} width={data.w} height={data.h} />}
+      {data !== null && <canvas ref={canvasRef} width={data.w} height={data.h} />}
     </>
   )
 }

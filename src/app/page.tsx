@@ -7,13 +7,13 @@ import { StartSimulationButton } from '@/components/startSimulationButton';
 import { StopSimulationButton } from '@/components/stopSimulationButton';
 
 export default function Home() {
-  const [started, setStarted] = useState(false);
+  const [ws, setWs] = useState<WebSocket | null>(null);
   
   return (
     <div className="w-fit mx-auto px-4 py-6 flex flex-col gap-2">
-      {started && <CanvasComponent started={started} />}
-      {!started && <StartSimulationButton started={started} setStarted={setStarted} />}
-      {started && <StopSimulationButton started={started} setStarted={setStarted} />}
+      {ws && <CanvasComponent ws={ws} />}
+      {!ws && <StartSimulationButton setWs={setWs} />}
+      {ws && <StopSimulationButton ws={ws} setWs={setWs} />}
     </div>
   );
 }
