@@ -74,7 +74,9 @@ public class RenderPanelWeb implements RenderPanel {
 	 */
 	public void update() {
 		double nowTime = System.nanoTime();
-		logger.info("Time since last tick: " + (nowTime - lastTick) * 1e-6 + " ms");
+		if ((nowTime - lastTick) * 1e-6 > 50) {
+			logger.info("Time since last tick: " + (nowTime - lastTick) * 1e-6 + " ms");
+		}
 		lastTick = nowTime;
 
 		Gson g = new Gson();

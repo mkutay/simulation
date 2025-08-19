@@ -42,6 +42,11 @@ public class WebSocketMessageHandler {
       return;
     }
 
+    if (engine != null) {
+      logger.warn("Simulation is already running. Stopping the current simulation before starting a new one.");
+      stopEngine();
+    }
+
     // Get and set the simulation data:
     SimulationData data = null;
     try {
@@ -57,7 +62,7 @@ public class WebSocketMessageHandler {
     engine.start();
   }
   
-  private void stopEngine() {
+  public void stopEngine() {
     if (engine != null) {
       engine.stop();
     }

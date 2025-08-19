@@ -179,7 +179,7 @@ public class WebSocketServer {
         }
       }
       
-    } catch (IOException e) {
+    } catch (Exception e) {
       logger.warn("Error reading from client", e);
       clients.remove(clientChannel);
       try {
@@ -188,6 +188,11 @@ public class WebSocketServer {
         // Ignore
       }
       key.cancel();
+    } finally {
+      if (clients.isEmpty()) {
+        logger.info("No clients connected, stopping");
+        messageHandler.stopEngine();
+      }
     }
   }
   
