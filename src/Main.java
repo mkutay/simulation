@@ -13,7 +13,7 @@ public class Main {
   private static final String PATH = System.getProperty("user.dir"); // The main directory of the project.
 
   public static void main(String[] args) {
-    new Connector().start(); // For use with the web API.
+    Connector.getInstance().start(); // For use with the web API.
 
     // If you want to run the simulation without the web API, uncomment the following lines:
     // Data.setSimulationData(Parser.parseSimulationData(Parser.getContentsOfFile(PATH + "/src/simulation_data.json")));

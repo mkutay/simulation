@@ -1,19 +1,17 @@
 package graphics;
 
 import java.awt.Color;
-import java.net.URI;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.google.gson.Gson;
-import io.github.cdimascio.dotenv.Dotenv;
-import redis.clients.jedis.JedisPooled;
+import api.Connector;
 
 import graphics.methods.*;
 
 /**
- * Send the simulation data to the Redis database to update the web app.
+ * Send the simulation data to WebSocket clients to update the web app.
  * 
  * @author Mehmet Kutay Bozkurt
  * @version 1.0
@@ -21,8 +19,7 @@ import graphics.methods.*;
 public class RenderPanelWeb implements RenderPanel {
 	private static Logger logger = LoggerFactory.getLogger(RenderPanelWeb.class);
 
-	private DisplayData data; // The data to be sent to the Redis database.
-	private JedisPooled client; // The Redis client.
+	private DisplayData data; // The data to be sent to WebSocket clients.
 	private int index = 0; // The global index of the data.
 
 	private double lastTick = 0; // To calculate the delta time.
@@ -34,10 +31,7 @@ public class RenderPanelWeb implements RenderPanel {
 	 */
 	public RenderPanelWeb(int width, int height) {
 		data = new DisplayData(width, height);
-		Dotenv dotenv = Dotenv.load();
-		String redisUri = dotenv.get("REDIS_URI");
-		URI uri = URI.create(redisUri);
-		client = new JedisPooled(uri);
+		// WebSocket server is handled by the Connector singleton
 	}
 
 	public void fill(Color color) {
@@ -76,7 +70,7 @@ public class RenderPanelWeb implements RenderPanel {
 	}
 
 	/**
-	 * Send all the stored data to the redis database.
+	 * Send all the stored data to WebSocket clients.
 	 */
 	public void update() {
 		double nowTime = System.nanoTime();
@@ -86,7 +80,7 @@ public class RenderPanelWeb implements RenderPanel {
 		Gson g = new Gson();
 		String j = g.toJson(data);
 
-		client.jsonSet("display", j);
+		Connector.getInstance().getWebSocketServer().broadcast(j);
 		data.d.clear();
 		index = 0;
 	}

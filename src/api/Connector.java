@@ -1,54 +1,51 @@
 package api;
 
-import java.net.URI;
-
-import io.github.cdimascio.dotenv.Dotenv;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import redis.clients.jedis.Jedis;
-import redis.clients.jedis.JedisPool;
-import redis.clients.jedis.JedisPoolConfig;
 
 /**
- * A class to connect to the Redis database and listen for messages.
+ * A class to manage WebSocket connections and handle simulation control.
  * 
  * @author Mehmet Kutay Bozkurt
  * @version 1.0
  */
 public class Connector {
-  // The name of the channel to listen to -- where the simulation data will be sent.
-  public static final String CHANNEL_NAME = "simulation_data";
+  // The port for the WebSocket server
+  public static final int WEBSOCKET_PORT = 8080;
 
   // The logger to log messages.
   private static Logger logger = LoggerFactory.getLogger(Connector.class);
 
-  private final JedisPool jedisPool; // The pool of Jedis connections.
-  private final Jedis subscriberJedis; // The Jedis connection to subscribe to the channel.
-  private final Subscriber subscriber; // The subscriber to listen for messages.
+  private static Connector instance; // Singleton instance
+  private final WebSocketServer webSocketServer; // The unified WebSocket server.
 
   /**
-   * Constructor.
+   * Private constructor for singleton pattern.
    */
-  public Connector() {
-    Dotenv dotenv = Dotenv.load();
-		String redisUri = dotenv.get("REDIS_URI");
-		URI uri = URI.create(redisUri);
-
-    jedisPool = new JedisPool(new JedisPoolConfig(), uri, 0);
-    subscriberJedis = jedisPool.getResource();
-    subscriber = new Subscriber();
+  private Connector() {
+    webSocketServer = new WebSocketServer(WEBSOCKET_PORT);
+  }
+  
+  /**
+   * Get the singleton instance.
+   */
+  public static synchronized Connector getInstance() {
+    if (instance == null) {
+      instance = new Connector();
+    }
+    return instance;
   }
 
   /**
-   * Start listening for messages on the channel.
+   * Start listening for WebSocket connections and messages.
    */
   public void listen() {
     try {
-      logger.info("Subscribing to \"{}\". This thread will be blocked.", CHANNEL_NAME);
-      subscriberJedis.subscribe(subscriber, CHANNEL_NAME);
-      logger.info("Subscription ended.");
+      logger.info("Starting WebSocket server on port {}.", WEBSOCKET_PORT);
+      webSocketServer.start();
+      logger.info("WebSocket server started.");
     } catch (Exception e) {
-      logger.error("Subscribing failed.", e);
+      logger.error("WebSocket server failed.", e);
     }
   }
 
@@ -61,12 +58,16 @@ public class Connector {
   }
 
   /**
-   * Close the connection to the Redis database.
+   * Close the WebSocket server.
    */
   public void close() {
-    subscriber.unsubscribe();
-    jedisPool.returnResource(subscriberJedis);
-
-    jedisPool.close();
+    webSocketServer.stop();
+  }
+  
+  /**
+   * Get the WebSocket server instance.
+   */
+  public WebSocketServer getWebSocketServer() {
+    return webSocketServer;
   }
 }
