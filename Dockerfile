@@ -18,9 +18,6 @@ RUN mkdir out && javac -d out -cp "./lib/*" $(find src -name "*.java")
 FROM eclipse-temurin:21-jre-alpine
 WORKDIR /app
 
-# Install curl for health checks
-RUN apk add --no-cache curl
-
 # Create a non-root user for security
 RUN addgroup -g 1001 -S appgroup && \
     adduser -S appuser -u 1001 -G appgroup
@@ -38,10 +35,6 @@ USER appuser
 
 # Expose the WebSocket port
 EXPOSE 8080
-
-# Add health check for the WebSocket server
-HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 \
-  CMD curl -f http://localhost:8080/ || exit 1
 
 # Run in headless mode with server optimizations
 CMD ["java", \
