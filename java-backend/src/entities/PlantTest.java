@@ -8,6 +8,7 @@ import java.util.List;
 
 import simulation.Field;
 import simulation.simulationData.*;
+import util.Parser;
 import util.Vector;
 import genetics.PlantGenetics;
 
@@ -22,7 +23,17 @@ class PlantTest {
   private Field field;
 
   @BeforeEach
-  void setUp() {
+  void setUp() throws Exception{
+    final String PATH = System.getProperty("user.dir");
+    SimulationData simulationData = null;
+    try {
+      simulationData = Parser.parseSimulationDataFromFile(PATH + "/java-backend/src/simulation_data.json");
+    } catch (Exception e) {
+      System.out.println("Error reading simulation data.");
+      e.printStackTrace();
+      throw e;
+    }
+    Data.setSimulationData(simulationData);
     this.genetics = Data.getPlantsData()[0].generateRandomGenetics();
     this.field = new Field(100, 100);
   }

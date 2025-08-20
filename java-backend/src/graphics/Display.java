@@ -2,7 +2,6 @@ package graphics;
 
 import util.Vector;
 
-import javax.swing.JFrame;
 import java.awt.*;
 
 /**
@@ -14,30 +13,26 @@ import java.awt.*;
  * @version 1.0
  */
 public class Display {
-  private final RenderPanel renderPanel; // The panel to render to.
+  private final RenderPanel renderPanel;
+  private final int width;
+  private final int height;
+  private final String id; // Unique ID for this display instance
 
   /**
    * Constructor -- Create a new display with the specified screen width and height.
    */
-  public Display(int screenWidth, int screenHeight) {
-    JFrame display = new JFrame("Window");
-    renderPanel = new RenderPanel(screenWidth, screenHeight);
-
-    display.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-    display.setResizable(false);
-
-    display.add(renderPanel);
-    display.pack(); // Force correct sizing
-
-    display.setVisible(true);
-    display.createBufferStrategy(2);
+  public Display(int screenWidth, int screenHeight, String id) {
+    this.id = id;
+    this.renderPanel = new RenderPanelWeb(screenWidth, screenHeight, id);
+    this.width = screenWidth;
+    this.height = screenHeight;
   }
 
   /**
    * Update the display to show the rendered graphics.
    */
   public void update() {
-    renderPanel.repaint();
+    renderPanel.update();
   }
 
   /**
@@ -124,6 +119,7 @@ public class Display {
   }
 
   // Getters:
-  public int getWidth() { return renderPanel.getWidth(); }
-  public int getHeight() { return renderPanel.getHeight(); }
+  public int getWidth() { return width; }
+  public int getHeight() { return height; }
+  public String getId() { return id; }
 }

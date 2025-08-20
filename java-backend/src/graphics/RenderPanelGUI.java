@@ -2,6 +2,8 @@ package graphics;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
+
+import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 /**
@@ -12,7 +14,7 @@ import javax.swing.JPanel;
  * @author Anas Ahmed and Mehmet Kutay Bozkurt
  * @version 1.0
  */
-public class RenderPanel extends JPanel {
+public class RenderPanelGUI extends JPanel implements RenderPanel {
 	private final Graphics2D g2; // Graphics context.
 	private final BufferedImage surface; // The buffered image to draw to.
 
@@ -21,11 +23,22 @@ public class RenderPanel extends JPanel {
 	 * @param screenWidth the screen width of the display (px).
 	 * @param screenHeight the screen height of the display (px).
 	 */
-	public RenderPanel(int screenWidth, int screenHeight) {
+	public RenderPanelGUI(int screenWidth, int screenHeight) {
 		setPreferredSize(new Dimension(screenWidth, screenHeight));
 		surface = new BufferedImage(screenWidth, screenHeight, BufferedImage.TYPE_INT_ARGB);
 
 		g2 = (Graphics2D) surface.getGraphics(); // Get graphics context.
+
+		JFrame display = new JFrame("Window");
+
+    display.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+    display.setResizable(false);
+
+    display.add(this);
+    display.pack(); // Force correct sizing
+
+    display.setVisible(true);
+    display.createBufferStrategy(2);
 	}
 
 	/**
@@ -127,6 +140,10 @@ public class RenderPanel extends JPanel {
 		g2.fillRect(x, y, width, height);
 
 		g2.setComposite(originalComposite);
+	}
+
+	public void update() {
+		repaint();
 	}
 
 	/**

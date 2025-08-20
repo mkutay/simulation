@@ -10,6 +10,7 @@ import java.util.List;
 import entities.*;
 import simulation.Field;
 import simulation.simulationData.*;
+import util.Parser;
 import util.Vector;
 import genetics.AnimalGenetics;
 import genetics.Gender;
@@ -26,7 +27,17 @@ class AnimalTest {
   private Field field;
 
   @BeforeEach
-  void setUp() {
+  void setUp() throws Exception {
+    final String PATH = System.getProperty("user.dir");
+    SimulationData simulationData = null;
+    try {
+      simulationData = Parser.parseSimulationDataFromFile(PATH + "/java-backend/src/simulation_data.json");
+    } catch (Exception e) {
+      System.out.println("Error reading simulation data.");
+      e.printStackTrace();
+      throw e;
+    }
+    Data.setSimulationData(simulationData);
     this.genetics = Data.getPredatorsData()[0].generateRandomGenetics();
     this.animal = new Predator(genetics, new Vector(50, 50));
     this.field = new Field(100, 100);
