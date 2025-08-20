@@ -17,13 +17,13 @@ public class Connector {
   private static Logger logger = LoggerFactory.getLogger(Connector.class);
 
   private static Connector instance; // Singleton instance
-  private final WebSocketServer webSocketServer; // The unified WebSocket server.
+  private final WebSocketHandler webSocketServer; // The unified WebSocket server.
 
   /**
    * Private constructor for singleton pattern.
    */
   private Connector() {
-    webSocketServer = new WebSocketServer(WEBSOCKET_PORT);
+    webSocketServer = new WebSocketHandler(WEBSOCKET_PORT);
   }
   
   /**
@@ -41,9 +41,7 @@ public class Connector {
    */
   public void listen() {
     try {
-      logger.info("Starting WebSocket server on port {}.", WEBSOCKET_PORT);
       webSocketServer.start();
-      logger.info("WebSocket server started.");
     } catch (Exception e) {
       logger.error("WebSocket server failed.", e);
     }

@@ -21,6 +21,7 @@ public class Engine {
   private final Display display; // The GUI display.
   private final Simulator simulator; // The simulation.
   private final Clock clock; // Clock to keep track of time.
+  private final String id; // Unique ID for this engine instance.
   private boolean running = false; // Whether the simulation is running.
 
   /**
@@ -30,19 +31,20 @@ public class Engine {
    */
   private final double fieldScaleFactor; // Scales the field size up/down, so field size doesn't have to be screen size.
 
-    /**
+  /**
    * Constructor - Create an engine to run the simulation.
    * @param displayWidth The width of the GUI display.
    * @param displayHeight The height of the GUI display.
    * @param fps FPS to run the simulation at.
    */
-  public Engine(int displayWidth, int displayHeight, int fps) {
+  public Engine(int displayWidth, int displayHeight, int fps, String id) {
     fieldScaleFactor = Data.getFieldScaleFactor();
     int fieldWidth = (int) (displayWidth * fieldScaleFactor);
     int fieldHeight = (int) (displayHeight * fieldScaleFactor);
+    this.id = id;
 
     simulator = new Simulator(fieldWidth, fieldHeight);
-    display = new Display(displayWidth, displayHeight);
+    display = new Display(displayWidth, displayHeight, id);
     clock = new Clock(fps);
   }
 
@@ -124,5 +126,12 @@ public class Engine {
    */
   public void stop() {
     running = false;
+  }
+
+  /**
+   * @return ID of this engine instance.
+   */
+  public String getId() {
+    return id;
   }
 }

@@ -21,17 +21,17 @@ public class RenderPanelWeb implements RenderPanel {
 
 	private DisplayData data; // The data to be sent to WebSocket clients.
 	private int index = 0; // The global index of the data.
-
 	private double lastTick = 0; // To calculate the delta time.
+	private final String id; // Unique ID for this render panel instance
 
 	/**
 	 * Constructor -- Create a new RenderPanelWeb object.
 	 * @param width The width of the display.
 	 * @param height The height of the display.
 	 */
-	public RenderPanelWeb(int width, int height) {
+	public RenderPanelWeb(int width, int height, String id) {
 		data = new DisplayData(width, height);
-		// WebSocket server is handled by the Connector singleton
+		this.id = id;
 	}
 
 	public void fill(Color color) {
@@ -82,7 +82,15 @@ public class RenderPanelWeb implements RenderPanel {
 		Gson g = new Gson();
 		String j = g.toJson(data);
 
-		Connector.getInstance().getWebSocketServer().broadcast(j);
+		Connector.getInstance().getWebSocketServer().getConnections().forEach(connection -> {
+			if (connection.getId().equals(id) && connection.isOpen()) {
+				try {
+					connection.sendText(j);
+				} catch (Exception e) {
+					logger.error("Failed to send data to WebSocket client: " + connection.getId(), e);
+				}
+			}
+		});
 		data.d.clear();
 		index = 0;
 	}

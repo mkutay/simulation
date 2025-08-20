@@ -16,12 +16,14 @@ public class Display {
   private final RenderPanel renderPanel;
   private final int width;
   private final int height;
+  private final String id; // Unique ID for this display instance
 
   /**
    * Constructor -- Create a new display with the specified screen width and height.
    */
-  public Display(int screenWidth, int screenHeight) {
-    this.renderPanel = new RenderPanelWeb(screenWidth, screenHeight);
+  public Display(int screenWidth, int screenHeight, String id) {
+    this.id = id;
+    this.renderPanel = new RenderPanelWeb(screenWidth, screenHeight, id);
     this.width = screenWidth;
     this.height = screenHeight;
   }
@@ -119,4 +121,5 @@ public class Display {
   // Getters:
   public int getWidth() { return width; }
   public int getHeight() { return height; }
+  public String getId() { return id; }
 }
