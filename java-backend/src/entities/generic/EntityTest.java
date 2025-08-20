@@ -30,7 +30,7 @@ class EntityTest {
     final String PATH = System.getProperty("user.dir");
     SimulationData simulationData = null;
     try {
-      simulationData = Parser.parseSimulationDataFromFile(PATH + "/src/simulation_data.json");
+      simulationData = Parser.parseSimulationDataFromFile(PATH + "/java-backend/src/simulation_data.json");
     } catch (Exception e) {
       System.out.println("Error reading simulation data.");
       e.printStackTrace();
