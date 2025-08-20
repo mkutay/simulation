@@ -12,7 +12,7 @@
   "weatherChangeProbability": 1,
   "windStrength": 0.1,
   "stormMovementSpeedFactor": 0.5,
-  "showQuadTrees": true,
+  "showQuadTrees": false,
   "animalHungerThreshold": 0.5,
   "animalDyingOfHungerThreshold": 0.1,
   "predatorsData": [

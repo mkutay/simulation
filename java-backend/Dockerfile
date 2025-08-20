@@ -1,3 +1,6 @@
+# This Dockerfile is only for the Java backend of the WebSocket server.
+# Do not use it with the normal GUI version of the code.
+
 # Use Eclipse Temurin as the builder (more secure and maintained)
 FROM eclipse-temurin:21-jdk-alpine AS builder
 WORKDIR /app
@@ -8,7 +11,6 @@ RUN mkdir -p lib
 # Copy project source and dependencies
 COPY src/ ./src/
 COPY lib/*.jar ./lib/
-COPY src/simulation_data.json ./simulation_data.json
 
 # Compile the Java sources. 
 # Adjust the classpath, output directory, and source files as needed.
@@ -25,7 +27,6 @@ RUN addgroup -g 1001 -S appgroup && \
 # Copy compiled classes and the lib folder from builder stage
 COPY --from=builder /app/out/ ./out/
 COPY --from=builder /app/lib/ ./lib/
-COPY --from=builder /app/simulation_data.json ./simulation_data.json
 
 # Change ownership to the non-root user
 RUN chown -R appuser:appgroup /app

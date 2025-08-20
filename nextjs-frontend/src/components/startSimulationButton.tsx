@@ -1,5 +1,5 @@
 import { Button } from '@/components/ui/button';
-import simulationData from '@/../simulation_data.json';
+import simulationData from '@/simulation_data';
 
 export function StartSimulationButton({
   setWs,

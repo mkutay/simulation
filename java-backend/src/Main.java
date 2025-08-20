@@ -16,7 +16,7 @@ public class Main {
     Connector.getInstance().start(); // For use with the web API.
 
     // If you want to run the simulation without the web API, uncomment the following lines:
-    // Data.setSimulationData(Parser.parseSimulationData(Parser.getContentsOfFile(PATH + "/java-backend/src/simulation_data.json")));
+    // Data.setSimulationData(Parser.parseSimulationData(Parser.getContentsOfFile(PATH + "/simulation_data.json")));
     // new Engine(800, 600, 60).start();
   }
 }
