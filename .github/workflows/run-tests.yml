@@ -20,7 +20,7 @@ jobs:
     - name: Compile Java code and tests
       run: |
         mkdir -p bin
-        find src -name "*.java" > sources.txt
+        find java-backend/src -name "*.java" > sources.txt
         javac -cp "java-backend/lib/*" -d bin @sources.txt
     - name: Run JUnit tests
       run: java -cp "bin:lib/*" org.junit.platform.console.ConsoleLauncher --scan-class-path
