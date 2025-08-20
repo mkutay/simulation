@@ -20,7 +20,7 @@
     ],
     "paths": {
       "@/*": ["./src/*"],
-      "@/simulation_data": ["../simulation_data.json"],
+      "@/simulation_data": ["./simulation_data.json"],
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "../simulation_data.json"],
