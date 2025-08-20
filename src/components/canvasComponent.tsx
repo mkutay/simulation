@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useState } from 'react';
+import { useRef, useEffect, useState } from 'react';
 
 import { DisplayData, DrawCircleData, DrawEqualTriangleData, DrawLineData, DrawRectData, DrawTextData, DrawTransparentRectData, FillData } from '@/lib/schema';
 
@@ -8,7 +8,7 @@ export function CanvasComponent({
   ws: WebSocket;
 }) {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
-  const canvasCtxRef = React.useRef<CanvasRenderingContext2D | null>(null);
+  const canvasCtxRef = useRef<CanvasRenderingContext2D | null>(null);
   const [data, setData] = useState<DisplayData | null>(null);
   
   ws.onmessage = (event) => {
