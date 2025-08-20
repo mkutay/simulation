@@ -23,4 +23,4 @@ jobs:
         find java-backend/src -name "*.java" > sources.txt
         javac -cp "java-backend/lib/*" -d bin @sources.txt
     - name: Run JUnit tests
-      run: java -cp "bin:lib/*" org.junit.platform.console.ConsoleLauncher --scan-class-path
+      run: java -cp "bin:java-backend/lib/*" org.junit.platform.console.ConsoleLauncher --scan-class-path
