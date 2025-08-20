@@ -11,3 +11,6 @@ to play with the simulation parameters.
 
 Authors: Mehmet Kutay Bozkurt and Anas Ahmed
 Version: 1.0
+
+Oh and, no, we did _not_ get a 100.
+(98... almost... _sigh_)
