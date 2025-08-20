@@ -1,0 +1,312 @@
+\documentclass[10pt, a4paper]{scrartcl}
+\renewcommand{\baselinestretch}{1.15}
+
+\usepackage{changepage}
+\usepackage{multicol}
+\usepackage{paralist}
+\usepackage{listings}
+\usepackage{amsmath}
+\usepackage{hyperref}
+\usepackage[lmargin=0.8in, rmargin=0.8in, tmargin=1in, bmargin=1.3in]{geometry}
+
+\setkomafont{disposition}{\normalfont\bfseries}
+\parskip=8pt
+
+\begin{document}
+
+    \pagenumbering{gobble}
+
+    \begin{titlepage}
+        \begin{center}
+            \LARGE
+            \textbf{KING'S COLLEGE LONDON}
+
+            \vspace{2cm}
+
+            \begin{adjustwidth}{-1cm}{-1cm}
+                \centering
+                \Large
+                \textbf{4CCS1PPA PROGRAMMING PRACTICE AND APPLICATIONS}
+            \end{adjustwidth}
+
+            \vspace{0.5cm}
+
+            \Large
+            \textbf{Third "Simulation" Coursework (Feb 2025)}
+
+            \vspace{2cm}
+
+            \Large
+            Project Name: The Simulation
+
+            \vspace{1cm}
+
+            \Large
+            \begin{tabular}{l l}
+                Student Name: & Mehmet Kutay Bozkurt \\
+                Student ID: & 23162628 \\
+                \vspace{0.5cm} & \\
+                Student Name: & Anas Ahmed \\
+                Student ID: & 23171444\end{tabular}
+        \end{center}
+        % \tableofcontents
+    \end{titlepage}
+
+    \begin{multicols}{2}
+
+        \pagenumbering{arabic}
+
+        \section{Introduction}
+        \noindent This simulation project integrates multiple components to create a dynamic ecosystem that a researcher can use to
+        study predator-prey-plant interactions, with the ability to add or remove any species or environmental factors easily
+        by editing the given JSON file. Infact, almost every aspect of the simulation can be controlled in the JSON file.
+        The simulation is designed to simulate without any grid-based restrictions, allowing entities to move freely in a
+        continuous space. Specifically, the coordinates of the entities are stored as doubles from zero to the width and height
+        of the field. The entities also have their own genetics, which are inherited from parent(s) and may mutate,
+        all of which are initialised in the JSON file, where it is intended for all users of the program to modify it
+        to play with the simulation parameters.
+
+        \noindent The simulation smoothly runs at 60 frames per second by utilising a \verb|QuadTree| to store entities, which allows
+        the entity searching and collision detection to be highly optimised. In each simulation "step," every entity is updated
+        by calling its \verb|update()| method, which handles movement, reproduction, and hunger.
+        Entities make decisions based on other entities in their vicinity (that is, entities that are located inside their
+        \verb|sight| radius) and the current state of the environment (the weather and the time of day). Additionally, there is a
+        method to handle overcrowding in the simulation, for limiting the growth of entities from being unnaturally rapid.
+
+        \section{Directions for Use}
+
+        Since the final code base is quite different from what was given as the base code for the project, it is necessary to 
+        provide a new set of instructions for running the simulation. Firstly, the \verb|Engine| class is responsible for 
+        starting and setting up the simulation. A new \verb|Engine| object can be created as
+        \vspace{-0.1cm}
+        \begin{verbatim}
+Engine engine
+    = new Engine(WIDTH, HEIGHT, FPS);
+        \end{verbatim}
+        \vspace{-0.7cm}
+        where \verb|WIDTH| and \verb|HEIGHT| are the dimensions of the
+        display window and \verb|FPS| is the frame rate of the simulation. The simulation can then be started by calling the
+        \verb|start()| method on the \verb|Engine| object.
+
+        \noindent Additionally, these have been already set up in the \verb|Main| class, so the simulation can be run by simply running
+        the \verb|main()| method under it. Since the parameters of the simulation is read from the JSON file, it is necessary
+        to have the \verb|simulation_data.json| file in the root directory of the project (the place where the \verb|Main.java|
+        file can be found), but this is already provided in the Jar file in the submission. Finally, the simulation uses an
+        external package called \href{https://github.com/google/gson/}{Gson} to read the
+        JSON file, and which is why the package is bundled in the Jar file in the submission.
+
+        \section{Tasks Lists and Implementation Details}
+
+        \subsection{Base Tasks}
+
+        \noindent \textbf{Diverse Species:} With how the simulation is implemented, adding new species is as easy as adding
+        the species' behavioural data into a JSON file. Each entity species can be of type \verb|Prey|, \verb|Predator|,
+        or \verb|Plant|, and the data is added accordingly. For example, for the predator \verb|Fox|, the following definitions
+        are used:
+        \vspace{-0.1cm}
+        \begin{verbatim}
+{
+  "name": "Fox",
+  "multiplyingRate": [0.05, 0.15],
+  "maxLitterSize": [1, 4],
+  "maxAge": [80, 120],
+  "matureAge": [40, 40],
+  "mutationRate": [0.01, 0.05],
+  "maxSpeed": [4, 6.5],
+  "sight": [30, 50],
+  "numberOfEntitiesAtStart": 12,
+  "eats": ["Rabbit"],
+  "size": [3, 6],
+  "colour": [230, 20, 40],
+  "overcrowdingThreshold": [8, 25],
+  "overcrowdingRadius": [10, 15],
+  "maxOffspringSpawnDistance": [3, 5]
+}
+        \end{verbatim}
+        \vspace{-0.6cm}
+        \noindent The values that are arrays and contain two values (such as \verb|sight|, \verb|size|, or \verb|maxSpeed|) represent
+        the minimum and the maximum values that the entity can have for that genetic trait. In addition, these values can mutate when
+        the entity breeds/multiplies. However, \verb|numberOfEntitiesAtStart| and \verb|eats| are fixed values that are not subject
+        to mutation, as they are not genetic traits and they define what the entity is in the context of the simulation.
+        Finally, the following entities are considered in the simulation:
+        \begin{itemize}
+            \setlength\itemsep{-0.25em}
+            \item \verb|Grass| — Plant.
+            \item \verb|Rabbit| — Prey, eats grass.
+            \item \verb|Squirrel| — Prey, eats grass.
+            \item \verb|Wolf| — Predator, eats rabbit and squirrel.
+            \item \verb|Fox| — Predator, eats rabbit.
+            \item \verb|Bear| — Predator, eats wolf and fox.
+        \end{itemize}
+
+        \noindent \textbf{Two Predators Competes for the Same Food Source:}
+        With the JSON configuration file, it is quite easy to add multiple species for any type of entity. In this case, only two
+        predators (\verb|Wolf| and \verb|Fox|) compete for the same food source (\verb|Rabbit|), which is a prey species.
+        The \verb|Bear| is also added as a predator that eats both wolves and foxes.
+
+        \noindent \textbf{Distinguishing Gender:} Each animal has their own gender, represented in their genetics,
+        which affects reproduction mechanics. Only animals of opposite genders can reproduce. Specifically, the gender genetic trait
+        is implemented as an Enum with two values: \verb|MALE| and \verb|FEMALE|. Plants do not have gender in the genetics system,
+        meaning that they reproduce asexually.
+
+        \noindent \textbf{Tracking Time of Day:} An \verb|Environment| class is used to track the time of day and the weather,
+        which governs how both cycles impact entity behaviour. During the night, entities will not move unless they are hungry
+        or there is a predator nearby. Additionally, when sleeping, food consumption is reduced. The day-night cycle can be controlled
+        by the JSON file, and the time of day is displayed on the screen. Additionally, as the day progresses into the night,
+        the screen darkens to represent the time of day, without affecting the text on the screen.
+
+        \subsection{Challenge Tasks}
+
+        \noindent \textbf{Adding Plants:} Plants have been added, featuring growth and reproduction dynamics.
+        Plants die when they detect too many plants of the same species nearby (as determined by their overcrowding genetics:
+        \verb|overcrowdingThreshold| and \verb|overcrowdingRadius|), which results in natural looking patches of grass.
+
+        \noindent \textbf{Adding Weather:} As mentioned, weather is added under the \verb|Environment| class, wherein
+        weather conditions influence behavior and visibility, increasing the realism in the simulation environment.
+        There are 4 weather conditions:
+        \begin{itemize}
+            \setlength\itemsep{-0.25em}
+            \item \verb|Clear| — No effect on entities.
+            \item \verb|Raining| — Plants grow faster (by a defined factor in the plants' genetics).
+            \item \verb|Windy| — Pushes entities in the wind direction, even when they are sleeping.
+            Wind direction is also visualised for the ease of the user.
+            \item \verb|Storm| — Slows down entities by some factor and has the effect of windy. Different to
+            windy condition, stormy condition is more severe, in the sense that the wind changes directions much more rapidly.
+        \end{itemize}
+
+        \noindent \textbf{Genetics System:} As one of the self-admitted challenges, a genetics system for all of the entities
+        was implemented. As mentioned earlier in the first base task, when reproducing, animals combine their parents' genetics
+        to form their own, with a chance to mutate certain attributes by some mutation factor. Specifically, if \( r \in [0, 1] \)
+        is a random number, then the new genetic trait is calculated as:
+        \begin{equation}
+            \text{value} = \text{fatherTrait} \times r + \text{motherTrait} \times (1 - r), \nonumber
+        \end{equation}
+        allowing for a smooth transition between the parents' traits. Then, if we define \( s \in \{-1, 1\} \) to be a random
+        value, the mutation factor is applied to the new trait as follows:
+        \begin{equation}
+            \label{mutation-equation}
+            \text{newTrait} = \text{value} + \text{value} \times \text{mutationFactor} \times s,
+        \end{equation}
+        where the mutation factor is a value, in the range \( [0, 1] \), that determines how drastic the mutation is.
+        This system allows for a wide range of genetic diversity in the simulation, which is easily observable when
+        the \verb|mutationFactor| is increased. Lastly, plants reproduce asexually, so they inherit their parent's genetics
+        directly, but these can also mutate according to Equation \ref{mutation-equation}.
+
+        \noindent \textbf{JSON Configuration File: } Almost every single aspect of the simulation is controlled from this file,
+        including the entities' genetics, the environment, and the simulation parameters. The JSON file is loaded at the start
+        of the simulation, by utilising the external package \href{https://github.com/google/gson/}{Gson}. Then, the simulation
+        is run according to the parameters defined in the file. As well as the entity
+        genetic intervals mentioned above, the following are the parameters that can be controlled in the JSON file:
+        \begin{itemize}
+            \setlength\itemsep{-0.25em}
+            \item \verb|foodValueForAnimals| — Scales the food value when an entity eats an animal.
+            \item \verb|foodValueForPlants| — Scales the food value when entity eats a plant.
+            \item \verb|animalHungerDrain| — Controls the rate of hunger drain over time.
+            \item \verb|animalBreedingCost| — Scales how much food is consumed during breeding (note that food is a value
+            in the range 0 to 1).
+            \item \verb|mutationFactor| — How drastic the mutation changes are.
+            \item \verb|entityAgeRate| — How fast entities age.
+            \item \verb|fieldScaleFactor| — The size of the field, smaller value means more zoomed in.
+            \item \verb|weatherChangeProbability| — The probability of the weather changing at the end of the day.
+            \item \verb|windStrength| — How strong the wind pushes entities.
+            \item \verb|stormMovementSpeedFactor| — How much to slow entities during a storm.
+            \item \verb|dayNightCycleSpeed| — How fast the time passes in the simulation.
+            \item \verb|doDayNightCycle| — Whether the day-night cycle is enabled.
+            \item \verb|doWeatherCycle| — Whether the weather is enabled.
+            \item \verb|showQuadTrees| — Whether to show the debug effect of quadtrees. It just looks really cool.
+            \item \verb|animalHungerThreshold| — The level of food level when an animal is considered "hungry."
+            \item \verb|animalDyingOfHungerThreshold| — The level of food level when an animal is considered to be "dying of hunger."
+        \end{itemize}
+
+        \noindent \textbf{Quadtree Optimisation: } While not a visible feature, due to its complexity, it is worth discussing.
+        A quadtree is utilised to store entities, instead of a list. This is done to efficiently handle entity proximity checks. Each frame,
+        entities are added to the quadtree, and when they need to find nearby entities, they query the tree. This is is a major upgrade
+        to the naïve approach of $O(n^2)$ time-complexity, where every entity checks its distance to every other entity (1000 entities means
+        1,000,000 calls, 60 times a second). Using the quadtree for every entity has an average complexity of $O(n \log n)$, since the
+        quadtree organises entities by proximity. Overall, this greatly improves performance, making the experience of the simulation
+        much smoother.
+
+        \noindent \textbf{Graphics: } Some additional visual effects were also included, such as different shapes for different entity types
+        (squares for predators, circles for preys, and triangles for plants), as well as rain and lightning, and a day-night darkening effect
+        (just to make the weather more visual). There is also some text describing the time, day, weather, wind direction (when windy or
+        stormy), and current entity count for each type of species.
+
+        \section{Code Quality Considerations}
+
+        \subsection{Coupling and Responsibility-Driven Design}
+        \noindent Coupling is minimised by separating all major functions into different classes. The class structure of the
+        program starts with the \verb|Engine| class. The \verb|Engine| controls the main loop of the simulation, combining the actual
+        simulation and the graphics together.
+
+        \noindent The \verb|Engine| only stores the \verb|Display| for graphics, the \verb|Simulator| for updating the simulation and a
+        \verb|Clock| class for maintaining the frame rate. The \verb|Engine| only coordinates these classes, it does not handle their
+        internal logic, meaning it has minimal coupling.
+
+        \noindent Graphics are handled by the \verb|Display| and the \verb|RenderPanel| classes. The \verb|RenderPanel| class 
+        extends the \verb|JPanel| class and is responsible for rendering the simulation, and since it has low coupling, it is 
+        easy to change the \verb|RenderPanel| class to render the simulation on different mediums — a web browser, for example.
+        Furthermore, the simulation is controlled by the
+        \verb|Simulator| class. All entities are stored in a \verb|Field| class, which is created by a \verb|FieldBuilder| class to
+        move the population of the \verb|Field| outside of the \verb|Field| class, improving Responsibility-Driven Design and
+        minimising coupling.
+
+        \noindent All of the animals and plants in the simulation originate from an \verb|Entity| class. This then has
+        \verb|Animal| and \verb|Plant| as subclasses, and \verb|Animal| has \verb|Predator| and \verb|Prey| as subclasses.
+        It is ensured that any method or attribute shared by any class is stored in their respective parent class to reduce
+        code duplication and enforce Responsibility-Driven Design for each subclass. The subclasses strictly only do things
+        that they do differently from other sibling classes.
+
+        \noindent Also, as mentioned above, the \verb|Entity| class has an \verb|update()| method which is called in the
+        \verb|Simulator| class. This minimises coupling as all entity specific behavior remains encapsulated, while remaining
+        easy to invoke. Additionally this \verb|update()| method is overridden in the subclasses to allow for different
+        behavior for each type of entity, while functionality that every entity shares is called from the parent class, such as
+        the \verb|incrementAge()| method.
+
+        \noindent Finally, only necessary dependencies are stored between classes, making the code base low in coupling.
+        Naturally, as Responsibility-Driven Design was strictly followed for every class, the coupling is further reduced.
+
+        \subsection{Cohesion}
+        \noindent To improve cohesion, the \verb|Animal| class has four main attributes:
+        \begin{itemize}
+            \setlength\itemsep{-0.25em}
+            \item \verb|AnimalMovementController|,
+            \item \verb|AnimalHungerController|,
+            \item \verb|AnimalBreedingController|, and
+            \item \verb|AnimalBehaviourController|.
+        \end{itemize}
+        Each of these controllers
+        control their respective function of the \verb|Animal| class. Similar to the controllers of the \verb|Animal| class, controllers
+        for the \verb|Environment| class are also created, the \verb|WeatherController| and the \verb|TimeController|.
+        This massively increases cohesion as the different operations
+        are split into different relevant sections, making the code much easier to understand. This also has the added benefit of making
+        the \verb|Animal| and \verb|Environment| classes quite small, and improves responsibility driven design and code readability.
+
+        \noindent The structure of \verb|Entity| and its subclasses also lends itself to high cohesion — its extremely clear what an
+        \verb|Animal| should do, and what a \verb|Predator| and \verb|Prey| does differently while also inherintly being subclasses of
+        \verb|Animal|. This once again decreases code duplication and increases the cohesion of the code base.
+
+        \noindent 
+
+        \subsection{Maintainability}
+        \noindent The JSON file and genetics system is highly modular, allowing easy modifications by updating only the JSON file and either the
+        \verb|SimulationData|, \verb|AnimalData|, or \verb|PlantData| classes accordingly.
+
+        \noindent Code is structured into packages, improving organisation and making it easier to locate, modify, and extend
+        functionality while maintaining encapsulation. The code base is written with low coupling and adheres to Responsibility-Driven Design,
+        resulting in high modularity. This means adding functionality is quite straightforward, without needing to change other parts 
+        of the code. Modular code also makes unit testing very simple, as demonstrated by the unit test classes in the code base, which 
+        were highly effective in testing the code and ensuring it was working as expected as the code was developed.
+
+        \noindent One aspect that may prove difficult is making the simulation deterministic. The simulation is not deterministic
+        and runs differently each time, as the random number generation system uses different instances of \verb|Math.random()| throughout
+        the code. This is one aspect that could be improved upon by utilising a single random number generator instance.
+
+        \section{Final Remarks}
+        \noindent This project implements a dynamic, modular and optimised simulation of an ecosystem. The system expands and goes
+        beyond the base tasks, completely reworking and improving the original code. It is hoped that the simulation is both
+        educational, and enjoyable to use and watch, while modifying the JSON file to see how different parameters affect which 
+        species thrive and which do not.
+
+    \end{multicols}
+
+\end{document}
