@@ -14,3 +14,7 @@ Version: 1.0
 
 Oh and, no, we did _not_ get a 100.
 (98... almost... _sigh_)
+
+## Just the Java GUI
+
+If you want to run the simulation without the web API and only the GUI, you need to uncomment some lines in `Main.java` and change the constructor of the `Display` class to use `RenderPanelGUI`.
